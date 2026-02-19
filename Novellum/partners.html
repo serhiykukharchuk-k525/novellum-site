@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nóvellum — партнерство</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="icon" href="assets/favicon/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+  <link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png">
+  <meta property="og:image" content="assets/og/og-image.png">
+  <meta property="og:title" content="Партнерство Nóvellum">
+  <meta property="og:description" content="Партнерство для практик, які працюють із рішеннями власника. Executive-аналітика як сервіс. Робота під NDA.">
+  <meta property="og:image" content="{OG_IMAGE}">
+  <meta property="og:type" content="website">
+
+  <style>
+    :root{
+      --bg:#0e1116;
+      --surface:#12161d;
+      --panel:#171c24;
+      --panel-inset:#1e2430;
+
+      --brand:#183828;
+      --brand-2:#1f4a36;
+      --brand-hi:#2b6b4f;
+      --brand-soft:rgba(24,56,40,.18);
+
+      --text:#e6e8eb;
+      --text-muted:#a8afb9;
+      --text-soft:#7b8390;
+
+      --accent:#cfd6df;
+      --accent-2:#b7bec8;
+      --brass:#b08d57;
+
+      --line:rgba(255,255,255,.08);
+      --line-strong:rgba(255,255,255,.12);
+
+      --shadow-card:0 20px 40px rgba(0,0,0,.45);
+      --shadow-hero:0 40px 80px rgba(0,0,0,.65);
+      --shadow-inset:inset 0 1px 0 rgba(255,255,255,.04);
+
+      --radius-lg:24px;
+      --radius-md:16px;
+      --radius-pill:999px;
+
+      --btn-pad-y:11px;
+      --btn-pad-x:18px;
+      --btn-font:14px;
+
+      --gap:20px;
+      --section-pad:72px;
+
+      --glass:rgba(23,28,36,.72);
+      --glass-2:rgba(18,22,29,.70);
+      --glass-glow:0 18px 55px rgba(0,0,0,.58);
+
+      --top-accent:linear-gradient(90deg, rgba(24,56,40,.0), rgba(24,56,40,.9), rgba(176,141,87,.55), rgba(24,56,40,.0));
+      --title-grad:linear-gradient(90deg, rgba(230,232,235,1), rgba(230,232,235,.86), rgba(24,56,40,.95));
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:"Manrope",system-ui,sans-serif;
+      color:var(--text);
+      line-height:1.65;
+      overflow-x:hidden;
+      background: var(--bg);
+      position:relative;
+    }
+    body::before{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      opacity:.22;
+      background:
+        linear-gradient(to bottom, rgba(255,255,255,.02), transparent 35%),
+        repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0, rgba(255,255,255,.03) 1px, transparent 1px, transparent 120px),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.02) 0, rgba(255,255,255,.02) 1px, transparent 1px, transparent 120px);
+      mix-blend-mode:overlay;
+    }
+
+    img{max-width:100%;display:block}
+    a{color:inherit;text-decoration:none}
+    .container{width:min(1160px,92vw);margin:0 auto}
+
+    body > header{
+      position:sticky;top:0;
+      background:rgba(14,17,22,.82);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+      z-index:50;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    body > header::after{
+      content:"";
+      position:absolute;left:0;right:0;bottom:-1px;height:1px;
+      background:linear-gradient(90deg, transparent, rgba(24,56,40,.35), rgba(176,141,87,.18), transparent);
+      pointer-events:none;
+    }
+
+    .nav{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:16px 0;gap:12px;
+      flex-wrap:nowrap;
+      min-width:0;
+    }
+    .logo{display:inline-flex;align-items:center;gap:8px;flex-shrink:0}
+    .logo img{height:40px;width:auto}
+    .footer .logo img{height:34px;width:auto}
+    .logo .logo-mark{display:none}
+
+    .nav-links{
+      display:flex;flex-wrap:nowrap;
+      gap:12px;
+      font-size:13px;
+      color:var(--text-muted);
+      align-items:center;
+      justify-content:center;
+      padding:0 6px;
+      min-width:0;
+      flex:1 1 auto;
+      overflow:hidden;
+      white-space:nowrap;
+    }
+    .nav-links a{
+      position:relative;
+      padding:6px 2px;
+      border-radius:10px;
+      flex:0 0 auto;
+      transition:color .2s ease, text-shadow .2s ease;
+    }
+    .nav-links a:hover{color:var(--text); text-shadow:0 0 18px rgba(24,56,40,.22)}
+    .nav-links a.active{color:var(--text)}
+    .nav-links a.active::after{
+      content:"";
+      position:absolute;left:2px;right:2px;bottom:-7px;height:3px;
+      border-radius:99px;
+      background:var(--top-accent);
+      box-shadow:0 0 18px rgba(24,56,40,.22);
+    }
+
+    .nav-cta{
+      display:flex;align-items:center;gap:10px;
+      flex-shrink:0;white-space:nowrap;flex-wrap:nowrap;min-width:0;
+    }
+
+    .button{
+      padding:var(--btn-pad-y) var(--btn-pad-x);
+      border-radius:var(--radius-pill);
+      border:1px solid transparent;
+      font-weight:700;font-size:var(--btn-font);line-height:1;
+      display:inline-flex;align-items:center;justify-content:center;gap:10px;
+      min-height:40px;white-space:nowrap;
+      transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease, opacity .25s ease, background .25s ease;
+      max-width:100%;
+      position:relative;
+    }
+    .button.primary{
+      background:linear-gradient(180deg, rgba(207,214,223,1), rgba(207,214,223,.90));
+      color:#0e1116;
+      box-shadow:0 16px 44px rgba(0,0,0,.50);
+    }
+    .button.primary::after{
+      content:"";
+      position:absolute;inset:-1px;
+      border-radius:999px;
+      padding:1px;
+      background:linear-gradient(90deg, rgba(24,56,40,.0), rgba(24,56,40,.35), rgba(176,141,87,.22), rgba(24,56,40,.0));
+      -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite:xor;
+      mask-composite:exclude;
+      pointer-events:none;
+      opacity:.9;
+    }
+    .button.primary:hover{
+      box-shadow:0 18px 58px rgba(0,0,0,.60), 0 0 0 1px rgba(24,56,40,.30);
+    }
+    .button.secondary{
+      border-color:rgba(255,255,255,.16);
+      color:var(--text);
+      background:rgba(0,0,0,.08);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+    }
+    .button.secondary:hover{
+      border-color:rgba(24,56,40,.55);
+      box-shadow:0 16px 44px rgba(0,0,0,.52), inset 0 1px 0 rgba(255,255,255,.05);
+    }
+    .button:hover{transform:translateY(-2px)}
+    .nav-cta .button{padding:var(--btn-pad-y) calc(var(--btn-pad-x) - 2px)}
+
+    .pill{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:6px 14px;border-radius:var(--radius-pill);
+      font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+      border:1px solid rgba(255,255,255,.12);
+      color:var(--accent-2);
+      background:rgba(23,28,36,.55);
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
+      box-shadow:var(--shadow-inset);
+    }
+    .pill .dot{
+      width:8px;height:8px;border-radius:50%;
+      background:rgba(24,56,40,.98);
+      box-shadow:0 0 0 6px rgba(24,56,40,.16), 0 0 28px rgba(24,56,40,.22);
+    }
+
+    .title-accent{
+      background:none;
+      -webkit-background-clip:initial;
+      background-clip:initial;
+      color:var(--text);
+      text-shadow:none;
+    }
+    .accent-word{
+      color:rgba(230,232,235,1);
+      position:relative;
+      text-shadow:0 0 22px rgba(24,56,40,.22);
+    }
+    .accent-word::after{
+      content:"";
+      position:absolute;left:0;right:0;bottom:-6px;height:2px;
+      border-radius:99px;
+      background:linear-gradient(90deg, rgba(24,56,40,.0), rgba(24,56,40,.85), rgba(176,141,87,.45), rgba(24,56,40,.0));
+      opacity:.9;
+    }
+
+    section{padding:var(--section-pad) 0}
+    section.divider{position:relative}
+    section.divider::after{
+      content:"";
+      position:absolute;left:50%;bottom:-40px;
+      width:1px;height:80px;
+      background:rgba(255,255,255,.08);
+      opacity:.7;
+    }
+    section{scroll-margin-top:90px;}
+
+    .hero{
+      padding:34px 0 56px;
+      background: var(--surface);
+      border-bottom:1px solid var(--line);
+      position:relative;
+      overflow:hidden;
+    }
+    .hero::before{
+      content:"";
+      position:absolute;inset:-120px;
+      background: none;
+      filter:blur(8px);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .hero h1{
+      font-size:clamp(28px,3.2vw,44px);
+      line-height:1.12;
+      margin:12px 0 10px;
+      letter-spacing:-.02em;
+      max-width:34ch;
+    }
+    .hero p{
+      color:var(--text-muted);
+      font-size:16.5px;
+      max-width:74ch;
+    }
+
+    .section-title{
+      display:flex;align-items:flex-end;justify-content:space-between;
+      gap:24px;margin-bottom:32px;
+      position:relative;
+    }
+    .section-title::after{
+      content:"";
+      position:absolute;left:0;right:0;bottom:-16px;height:1px;
+      background:linear-gradient(90deg, rgba(24,56,40,.0), rgba(24,56,40,.35), rgba(255,255,255,.10), rgba(176,141,87,.18), rgba(24,56,40,.0));
+      opacity:.95;
+    }
+    .section-title h2{
+      font-size:clamp(24px,3vw,38px);
+      line-height:1.12;
+      letter-spacing:-.015em;
+    }
+    .section-title p{color:var(--text-muted);max-width:520px}
+
+    .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--gap)}
+    .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--gap)}
+
+    .card,.pricing-card{
+      background:var(--glass);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:var(--radius-md);
+      box-shadow:var(--glass-glow);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+      position:relative;
+      overflow:hidden;
+    }
+    .card::before,.pricing-card::before{
+      content:"";
+      position:absolute;left:0;right:0;top:0;height:2px;
+      background:var(--top-accent);
+      opacity:.90;
+    }
+    .card{padding:22px}
+    .card h3{margin-bottom:10px;font-size:17px}
+    .card p{color:var(--text-muted)}
+    .pricing-card{
+      padding:24px;
+      display:grid;gap:10px;
+      background:rgba(30,36,48,.62);
+      border-color:rgba(255,255,255,.10);
+    }
+    .price{font-size:14px;color:var(--text-muted)}
+    .terms{font-size:12px;color:var(--text-soft)}
+
+    .cta{
+      background: var(--glass-2);
+      border-radius:var(--radius-lg);
+      padding:40px;
+      border:1px solid rgba(255,255,255,.12);
+      display:grid;gap:24px;
+      align-items:center;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      box-shadow:0 40px 90px rgba(0,0,0,.65);
+      position:relative;
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
+      overflow:hidden;
+    }
+    .cta::before{
+      content:"";
+      position:absolute;left:18px;right:18px;top:12px;
+      height:2px;border-radius:999px;
+      background:var(--top-accent);
+      opacity:.95;
+    }
+    .cta form{display:grid;gap:12px}
+    input,textarea{
+      background:rgba(30,36,48,.62);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:12px;
+      padding:12px 14px;
+      color:var(--text);
+      font-family:inherit;
+      outline:none;
+      transition:border-color .2s ease, box-shadow .2s ease;
+    }
+    input:focus,textarea:focus{
+      border-color:rgba(24,56,40,.75);
+      box-shadow:0 0 0 3px rgba(24,56,40,.16);
+    }
+    textarea{resize:vertical;min-height:110px}
+
+    .form-message{
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:14px;
+      padding:12px 14px;
+      background:rgba(23,28,36,.72);
+      color:var(--text-muted);
+      display:none;
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+    }
+    .form-message.success{border-color:rgba(24,56,40,.55);color:var(--text)}
+    .form-message.error{border-color:rgba(255,255,255,.14);color:var(--text-muted)}
+
+    .footer{
+      padding:44px 0 70px;
+      color:var(--text-muted);
+      border-top:1px solid var(--line);
+      margin-top:40px;
+      background: var(--surface);
+    }
+    .footer-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:24px;
+      align-items:start;
+    }
+    .footer h4{
+      font-size:12px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:var(--text-soft);
+      margin-bottom:10px;
+    }
+    .footer p{margin:6px 0}
+    .footer a:hover{color:var(--text)}
+
+    .lift{transition:transform .35s ease,box-shadow .35s ease,border-color .35s ease, filter .35s ease}
+    .lift:hover{
+      transform:translateY(-7px);
+      box-shadow:0 40px 90px rgba(0,0,0,.62);
+      border-color:rgba(24,56,40,.38);
+      filter:saturate(1.04);
+    }
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+    .reveal.in-view{opacity:1;transform:translateY(0)}
+    @media (prefers-reduced-motion:reduce){.reveal,.lift{transition:none}}
+
+    @media (max-width:1100px){
+      :root{ --btn-pad-x:14px; --btn-pad-y:10px; --btn-font:13px; }
+      .nav-links{gap:10px;font-size:12.5px}
+      .logo img{height:38px}
+    }
+    @media (max-width:980px){
+      :root{ --btn-pad-x:12px; --btn-pad-y:9px; --btn-font:12.5px; }
+      .nav{gap:10px}
+      .nav-links{gap:8px;font-size:12px}
+      .nav-cta{gap:8px}
+      .logo img{height:36px}
+    }
+    @media (max-width:900px){
+      .nav-links{display:none}
+    }
+    @media (max-width:840px){
+      .nav{flex-wrap:wrap}
+      .cta{padding:30px}
+      .logo .logo-horizontal{display:none}
+      .logo .logo-mark{display:block;height:24px}
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container nav">
+      <a class="logo" href="index.html">
+        <img class="logo-horizontal" src="assets/logo/novellum-horizontal.svg" alt="Nóvellum" />
+        <img class="logo-mark" src="assets/logo/novellum-mark.svg" alt="Nóvellum" />
+      </a>
+
+      <nav class="nav-links" aria-label="Навігація">
+        <a href="index.html#value">Цінність</a>
+        <a href="index.html#formats">Формати</a>
+        <a href="index.html#products">Продукти</a>
+        <a href="index.html#process">Процес</a>
+        <a href="index.html#pricing">Аналітика</a>
+        <a href="index.html#reminder">Reminder</a>
+        <a href="partners.html">Партнерство</a>
+        <a href="index.html#contact">Контакт</a>
+      </nav>
+
+      <div class="nav-cta">
+        <a class="button secondary" href="https://t.me/novellum_reminder_bot" target="_blank" rel="noopener">Reminder Bot</a>
+        <a class="button secondary" href="https://t.me/novellum" target="_blank" rel="noopener">Telegram</a>
+        <a class="button primary" href="#contact">Ініціювати</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="top">
+      <div class="container reveal">
+        <div class="pill"><span class="dot"></span>Партнерство</div>
+        <h1 class="title-accent">Партнерство для тих, хто працює з <span class="accent-word">рішеннями власника</span>.</h1>
+        <p>Ми підсилюємо вашу пропозицію executive-аналітикою як сервісом. Умови конфіденційності та межі відповідальності фіксуємо до старту.</p>
+      </div>
+    </section>
+
+    <section class="divider">
+      <div class="container">
+        <div class="section-title reveal">
+          <div>
+            <div class="pill">Кому підходить</div>
+            <h2 class="title-accent">Для практик із довірою управлінського рівня.</h2>
+          </div>
+          <p>Коли рішення приймаються швидко, цінується один огляд і одна версія цифр.</p>
+        </div>
+
+        <div class="grid-3">
+          <div class="card lift reveal">
+            <h3>Стратегічні консультанти</h3>
+            <p>Потрібен чіткий управлінський екран для розмови з власником.</p>
+          </div>
+          <div class="card lift reveal">
+            <h3>Фінансові радники</h3>
+            <p>Коли важлива єдина логіка показників і динаміки.</p>
+          </div>
+          <div class="card lift reveal">
+            <h3>Операційні практики</h3>
+            <p>Коли виконання дедлайнів має бути видимим так само, як фінанси.</p>
+          </div>
+          <div class="card lift reveal">
+            <h3>Аналітичні агенції</h3>
+            <p>Коли потрібен executive-рівень подачі й сервісний супровід.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="divider">
+      <div class="container">
+        <div class="section-title reveal">
+          <div>
+            <div class="pill">Цінність</div>
+            <h2 class="title-accent">Що отримує партнер</h2>
+          </div>
+          <p>Підсилення пропозиції без зміни ваших відносин з клієнтом.</p>
+        </div>
+
+        <div class="grid-3">
+          <div class="card lift reveal">
+            <h3>Executive-аналітика</h3>
+            <p>Короткий управлінський огляд, зручний для розмови про рішення.</p>
+          </div>
+          <div class="card lift reveal">
+            <h3>Сервісний режим</h3>
+            <p>Модель підтримується в часі, а не залишається «як є» після запуску.</p>
+          </div>
+          <div class="card lift reveal">
+            <h3>Прозорі домовленості</h3>
+            <p>Доступи, межі відповідальності, порядок змін — фіксуємо до старту.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="divider">
+      <div class="container">
+        <div class="section-title reveal">
+          <div>
+            <div class="pill">Формати</div>
+            <h2 class="title-accent">Три моделі співпраці</h2>
+          </div>
+          <p>Вибір залежить від вашої ролі та способу роботи з клієнтом.</p>
+        </div>
+
+        <div class="pricing-grid">
+          <div class="pricing-card lift reveal">
+            <h3>Referral</h3>
+            <div class="price">Передача контакту</div>
+            <p class="terms">Ви знайомите нас із клієнтом. Ми ведемо аналітику як сервіс.</p>
+          </div>
+          <div class="pricing-card lift reveal">
+            <h3>Co-delivery</h3>
+            <div class="price">Спільна робота</div>
+            <p class="terms">Ви ведете свою частину, ми — аналітику та супровід моделі.</p>
+          </div>
+          <div class="pricing-card lift reveal">
+            <h3>White-label</h3>
+            <div class="price">Під вашим брендом</div>
+            <p class="terms">Ми працюємо як бек-офіс аналітики. У фокусі — конфіденційність і стабільність сервісу.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="cta">
+          <div>
+            <div class="pill"><span class="dot"></span>Контакт</div>
+            <h2 class="title-accent">Ініціюйте розмову</h2>
+            <p style="color:var(--text-muted)">Коротко: тип клієнтів, ваша роль, бажаний формат партнерства. Працюємо під NDA.</p>
+          </div>
+
+          <form id="partnerForm" data-webhook="https://script.google.com/macros/s/AKfycbzB8052aI8vAwjW_LKxWhl0gm03vVfJKwirE7vwcrHF2YyFJ9a-B-71QhEIghxBm8eD/exec">
+            <div id="formMessage" class="form-message"></div>
+
+            <input type="text" name="name" placeholder="Ваше ім'я" required />
+            <input type="email" name="email" placeholder="Email для контакту" required />
+            <input type="text" name="contact" placeholder="Телефон або Telegram (необов’язково)" />
+            <textarea name="message" placeholder="Коротко: клієнти, роль, формат"></textarea>
+
+            <button id="submitBtn" class="button primary" type="submit">Надіслати</button>
+            <div class="terms">Якщо форма тимчасово недоступна — напишіть на <a href="mailto:partners@novellum.co">partners@novellum.co</a>.</div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <a class="logo" href="index.html">
+          <img class="logo-horizontal" src="assets/logo/novellum-horizontal.svg" alt="Nóvellum" />
+          <img class="logo-mark" src="assets/logo/novellum-mark.svg" alt="Nóvellum" />
+        </a>
+        <p>Партнерство для практик, які працюють з управлінським рівнем.</p>
+      </div>
+
+      <div>
+        <h4>Контакти</h4>
+        <p><a href="mailto:contact@novellum.co">contact@novellum.co</a></p>
+        <p><a href="https://t.me/novellum" target="_blank" rel="noopener">Telegram</a></p>
+      </div>
+
+      <div>
+        <h4>Навігація</h4>
+        <p><a href="index.html">Головна</a></p>
+        <p><a href="partners.html">Партнерство</a></p>
+        <p><a href="https://t.me/novellum_reminder_bot" target="_blank" rel="noopener">Reminder Bot</a></p>
+      </div>
+
+      <div>
+        <h4>Документи</h4>
+        <p><a href="legal/NDA.pdf" target="_blank" rel="noopener noreferrer">NDA (PDF)</a></p>
+        <p><a href="legal/Service_Agreement.pdf" target="_blank" rel="noopener noreferrer">Договір надання послуг (PDF)</a></p>
+        <p><a href="legal/Privacy_Policy.pdf" target="_blank" rel="noopener noreferrer">Політика конфіденційності (PDF)</a></p>
+        <p><a href="legal/Terms_of_Use.pdf" target="_blank" rel="noopener noreferrer">Умови використання (PDF)</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Reveal
+    const revealItems = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      revealItems.forEach((item) => revealObserver.observe(item));
+    } else {
+      revealItems.forEach((item) => item.classList.add('in-view'));
+    }
+
+    // Active nav state (partners page highlight)
+    const navLinks = document.querySelectorAll('.nav-links a');
+    navLinks.forEach(a => a.classList.remove('active'));
+    const current = Array.from(navLinks).find(a => (a.getAttribute('href') || '').includes('partners.html'));
+    if (current) current.classList.add('active');
+
+    // Partner form → Google Apps Script
+    const form = document.getElementById('partnerForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const formMessage = document.getElementById('formMessage');
+
+    function showMessage(type, text) {
+      formMessage.className = 'form-message ' + type;
+      formMessage.textContent = text;
+      formMessage.style.display = 'block';
+    }
+    function hideMessage() {
+      formMessage.style.display = 'none';
+      formMessage.textContent = '';
+      formMessage.className = 'form-message';
+    }
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      hideMessage();
+
+      const webhook = (form.getAttribute('data-webhook') || '').trim();
+      if (!webhook) {
+        showMessage('error', 'Форма тимчасово недоступна. Напишіть на partners@novellum.co.');
+        return;
+      }
+
+      const data = Object.fromEntries(new FormData(form).entries());
+      const payload = {
+        name: data.name || '',
+        email: data.email || '',
+        contact: data.contact || '',
+        message: data.message || '',
+        page: 'partners',
+        timestamp: new Date().toISOString(),
+        userAgent: navigator.userAgent
+      };
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Надсилаємо…';
+
+      try {
+        const body = new URLSearchParams(payload);
+
+        const res = await fetch(webhook, {
+          method: 'POST',
+          mode: 'cors',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+          body
+        });
+
+        if (!res.ok) throw new Error('Bad response: ' + res.status);
+
+        form.reset();
+        showMessage('success', 'Дякуємо. Повідомлення надіслано.');
+      } catch (err) {
+        showMessage('error', 'Не вдалося надіслати. Спробуйте ще раз або напишіть на partners@novellum.co.');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Надіслати';
+      }
+    });
+  </script>
+</body>
+</html>
