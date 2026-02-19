@@ -1344,14 +1344,17 @@
 
     const data = Object.fromEntries(new FormData(form).entries());
     const payload = {
-      name: data.name || '',
-      email: data.email || '',
-      contact: data.contact || '',
-      message: data.message || '',
-      page: 'index',
-      timestamp: new Date().toISOString(),
-      userAgent: navigator.userAgent
-    };
+  	name: data.name || '',
+  	email: data.email || '',
+  	contact: data.contact || '',
+  	message: data.message || '',
+  	page: 'index',
+  	timestamp: new Date().toISOString(),
+  	userAgent: navigator.userAgent,
+  	origin: location.origin,
+  	referrer: document.referrer
+	};
+
 
     submitBtn.disabled = true;
     submitBtn.textContent = 'Надсилаємо…';
