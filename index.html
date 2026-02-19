@@ -1342,17 +1342,17 @@
     return;
   }
 
+  const fd = new FormData(form);
+  fd.append('page', 'index');
+  fd.append('clientTimestamp', new Date().toISOString());
+  fd.append('userAgent', navigator.userAgent);
+  fd.append('referrer', document.referrer || '');
+  fd.append('origin', location.origin);
+
   submitBtn.disabled = true;
   submitBtn.textContent = 'Надсилаємо…';
 
   try {
-    const fd = new FormData(form);
-    fd.append('page', 'index');
-    fd.append('clientTimestamp', new Date().toISOString());
-    fd.append('userAgent', navigator.userAgent);
-    fd.append('referrer', document.referrer || '');
-    fd.append('origin', location.origin);
-
     await fetch(webhook, {
       method: 'POST',
       mode: 'no-cors',
@@ -1368,6 +1368,7 @@
     submitBtn.textContent = 'Надіслати';
   }
 });
+
 
 </script>
 
