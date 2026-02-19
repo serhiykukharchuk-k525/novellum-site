@@ -653,36 +653,42 @@
 
   const webhook = (form.getAttribute('data-webhook') || '').trim();
   if (!webhook) {
-    showMessage('error', 'Форма тимчасово недоступна. Напишіть на partners@novellum.co.');
+    showMessage('error', 'Форма тимчасово недоступна. Напишіть на serhiy.kukharchuk@novellum.co.');
     return;
   }
 
-  const fd = new FormData(form);
-  fd.append('page', 'partners');
-  fd.append('clientTimestamp', new Date().toISOString());
-  fd.append('userAgent', navigator.userAgent);
-  fd.append('referrer', document.referrer || '');
-  fd.append('origin', location.origin);
+  // Беремо всі поля форми
+  const body = new URLSearchParams();
+  for (const [k, v] of new FormData(form).entries()) body.append(k, String(v || ''));
+
+  // Додаємо технічні
+  body.append('page', 'partners');
+  body.append('clientTimestamp', new Date().toISOString());
+  body.append('userAgent', navigator.userAgent);
+  body.append('referrer', document.referrer || '');
+  body.append('origin', location.origin);
 
   submitBtn.disabled = true;
   submitBtn.textContent = 'Надсилаємо…';
 
   try {
+    // no-cors: браузер не дасть читати відповідь, але запит піде
     await fetch(webhook, {
       method: 'POST',
       mode: 'no-cors',
-      body: fd
+      body
     });
 
     form.reset();
     showMessage('success', 'Дякуємо. Повідомлення надіслано.');
   } catch (err) {
-    showMessage('error', 'Не вдалося надіслати. Спробуйте ще раз або напишіть на serhiy.kukharchuk@novellum.co.');
+    showMessage('error', 'Не вдалося надіслати. Спробуйте ще раз або напишіть на partners@novellum.co.');
   } finally {
     submitBtn.disabled = false;
     submitBtn.textContent = 'Надіслати';
   }
 });
+
 
 
   </script>

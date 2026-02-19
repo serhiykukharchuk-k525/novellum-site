@@ -1342,21 +1342,26 @@
     return;
   }
 
-  const fd = new FormData(form);
-  fd.append('page', 'index');
-  fd.append('clientTimestamp', new Date().toISOString());
-  fd.append('userAgent', navigator.userAgent);
-  fd.append('referrer', document.referrer || '');
-  fd.append('origin', location.origin);
+  // Беремо всі поля форми
+  const body = new URLSearchParams();
+  for (const [k, v] of new FormData(form).entries()) body.append(k, String(v || ''));
+
+  // Додаємо технічні
+  body.append('page', 'index');
+  body.append('clientTimestamp', new Date().toISOString());
+  body.append('userAgent', navigator.userAgent);
+  body.append('referrer', document.referrer || '');
+  body.append('origin', location.origin);
 
   submitBtn.disabled = true;
   submitBtn.textContent = 'Надсилаємо…';
 
   try {
+    // no-cors: браузер не дасть читати відповідь, але запит піде
     await fetch(webhook, {
       method: 'POST',
       mode: 'no-cors',
-      body: fd
+      body
     });
 
     form.reset();
@@ -1368,6 +1373,7 @@
     submitBtn.textContent = 'Надіслати';
   }
 });
+
 
 
 </script>
