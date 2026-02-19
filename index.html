@@ -1315,65 +1315,69 @@
       sections.forEach(s => navObserver.observe(s));
     }
 
-    // Contact form → Google Apps Script
-    const form = document.getElementById('contactForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const formMessage = document.getElementById('formMessage');
+   
+  // Contact form → Google Apps Script (GitHub Pages friendly)
+  const form = document.getElementById('contactForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const formMessage = document.getElementById('formMessage');
 
-    function showMessage(type, text) {
-      formMessage.className = 'form-message ' + type;
-      formMessage.textContent = text;
-      formMessage.style.display = 'block';
+  function showMessage(type, text) {
+    formMessage.className = 'form-message ' + type;
+    formMessage.textContent = text;
+    formMessage.style.display = 'block';
+  }
+  function hideMessage() {
+    formMessage.style.display = 'none';
+    formMessage.textContent = '';
+    formMessage.className = 'form-message';
+  }
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    hideMessage();
+
+    const webhook = (form.getAttribute('data-webhook') || '').trim();
+    if (!webhook) {
+      showMessage('error', 'Форма тимчасово недоступна. Напишіть на serhiy.kukharchuk@novellum.co.');
+      return;
     }
-    function hideMessage() {
-      formMessage.style.display = 'none';
-      formMessage.textContent = '';
-      formMessage.className = 'form-message';
+
+    const data = Object.fromEntries(new FormData(form).entries());
+    const payload = {
+      name: data.name || '',
+      email: data.email || '',
+      contact: data.contact || '',
+      message: data.message || '',
+      page: 'index',
+      timestamp: new Date().toISOString(),
+      userAgent: navigator.userAgent
+    };
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Надсилаємо…';
+
+    try {
+      // Надсилаємо як x-www-form-urlencoded
+      const body = new URLSearchParams(payload);
+
+      // no-cors: обхід CORS на GitHub Pages (відповідь opaque, але запит доходить)
+      await fetch(webhook, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        body
+      });
+
+      form.reset();
+      showMessage('success', 'Дякуємо. Повідомлення надіслано.');
+    } catch (err) {
+      showMessage('error', 'Не вдалося надіслати. Спробуйте ще раз або напишіть на serhiy.kukharchuk@novellum.co.');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Надіслати';
     }
+  });
+</script>
 
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      hideMessage();
-
-      const webhook = (form.getAttribute('data-webhook') || '').trim();
-      if (!webhook) {
-        showMessage('error', 'Форма тимчасово недоступна. Напишіть на serhiy.kukharchuk@novellum.co.');
-        return;
-      }
-
-      const data = Object.fromEntries(new FormData(form).entries());
-      const payload = {
-        name: data.name || '',
-        email: data.email || '',
-        contact: data.contact || '',
-        message: data.message || '',
-        page: 'index',
-        timestamp: new Date().toISOString(),
-        userAgent: navigator.userAgent
-      };
-
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Надсилаємо…';
-
-      try {
-        const res = await fetch(webhook, {
-          method: 'POST',
-          mode: 'cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-
-        if (!res.ok) throw new Error('Bad response: ' + res.status);
-
-        form.reset();
-        showMessage('success', 'Дякуємо. Повідомлення надіслано.');
-      } catch (err) {
-        showMessage('error', 'Не вдалося надіслати. Спробуйте ще раз або напишіть на serhiy.kukharchuk@novellum.co.');
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Надіслати';
-      }
-    });
-  </script>
 </body>
 </html>

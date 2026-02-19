@@ -672,25 +672,24 @@
       submitBtn.textContent = 'Надсилаємо…';
 
       try {
-        const body = new URLSearchParams(payload);
+  const body = new URLSearchParams(payload);
 
-        const res = await fetch(webhook, {
-          method: 'POST',
-          mode: 'cors',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-          body
-        });
+  await fetch(webhook, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+    body
+  });
 
-        if (!res.ok) throw new Error('Bad response: ' + res.status);
+  form.reset();
+  showMessage('success', 'Дякуємо. Повідомлення надіслано.');
+} catch (err) {
+  showMessage('error', 'Не вдалося надіслати. Спробуйте ще раз або напишіть на partners@novellum.co.');
+} finally {
+  submitBtn.disabled = false;
+  submitBtn.textContent = 'Надіслати';
+}
 
-        form.reset();
-        showMessage('success', 'Дякуємо. Повідомлення надіслано.');
-      } catch (err) {
-        showMessage('error', 'Не вдалося надіслати. Спробуйте ще раз або напишіть на partners@novellum.co.');
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Надіслати';
-      }
     });
   </script>
 </body>
