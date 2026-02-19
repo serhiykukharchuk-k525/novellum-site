@@ -1333,51 +1333,42 @@
   }
 
   form.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    hideMessage();
+  event.preventDefault();
+  hideMessage();
 
-    const webhook = (form.getAttribute('data-webhook') || '').trim();
-    if (!webhook) {
-      showMessage('error', 'Форма тимчасово недоступна. Напишіть на serhiy.kukharchuk@novellum.co.');
-      return;
-    }
+  const webhook = (form.getAttribute('data-webhook') || '').trim();
+  if (!webhook) {
+    showMessage('error', 'Форма тимчасово недоступна. Напишіть на serhiy.kukharchuk@novellum.co.');
+    return;
+  }
 
-    const data = Object.fromEntries(new FormData(form).entries());
-    const payload = {
-  	name: data.name || '',
-  	email: data.email || '',
-  	contact: data.contact || '',
-  	message: data.message || '',
-  	page: 'index',
-  	timestamp: new Date().toISOString(),
-  	userAgent: navigator.userAgent,
-  	origin: location.origin,
-  	referrer: document.referrer
-	};
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Надсилаємо…';
 
+  try {
+    const fd = new FormData(form);
+    fd.append('page', 'index');
+    fd.append('clientTimestamp', new Date().toISOString());
+    fd.append('userAgent', navigator.userAgent);
+    fd.append('referrer', document.referrer || '');
+    fd.append('origin', location.origin);
 
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Надсилаємо…';
+    await fetch(webhook, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: fd
+    });
 
-    try {
-  const body = new URLSearchParams(payload);
+    form.reset();
+    showMessage('success', 'Дякуємо. Повідомлення надіслано.');
+  } catch (err) {
+    showMessage('error', 'Не вдалося надіслати. Спробуйте ще раз або напишіть на serhiy.kukharchuk@novellum.co.');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Надіслати';
+  }
+});
 
-  await fetch(webhook, {
-    method: 'POST',
-    mode: 'no-cors',
-    body
-  });
-
-  form.reset();
-  showMessage('success', 'Дякуємо. Повідомлення надіслано.');
-} catch (err) {
-  showMessage('error', 'Не вдалося надіслати. Спробуйте ще раз або напишіть на serhiy.kukharchuk@novellum.co.');
-} finally {
-  submitBtn.disabled = false;
-  submitBtn.textContent = 'Надіслати';
-}
-
-  });
 </script>
 
 </body>
