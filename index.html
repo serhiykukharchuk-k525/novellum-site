@@ -1360,25 +1360,23 @@
     submitBtn.textContent = 'Надсилаємо…';
 
     try {
-      // Надсилаємо як x-www-form-urlencoded
-      const body = new URLSearchParams(payload);
+  const body = new URLSearchParams(payload);
 
-      // no-cors: обхід CORS на GitHub Pages (відповідь opaque, але запит доходить)
-      await fetch(webhook, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-        body
-      });
+  await fetch(webhook, {
+    method: 'POST',
+    mode: 'no-cors',
+    body
+  });
 
-      form.reset();
-      showMessage('success', 'Дякуємо. Повідомлення надіслано.');
-    } catch (err) {
-      showMessage('error', 'Не вдалося надіслати. Спробуйте ще раз або напишіть на serhiy.kukharchuk@novellum.co.');
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Надіслати';
-    }
+  form.reset();
+  showMessage('success', 'Дякуємо. Повідомлення надіслано.');
+} catch (err) {
+  showMessage('error', 'Не вдалося надіслати. Спробуйте ще раз або напишіть на serhiy.kukharchuk@novellum.co.');
+} finally {
+  submitBtn.disabled = false;
+  submitBtn.textContent = 'Надіслати';
+}
+
   });
 </script>
 
