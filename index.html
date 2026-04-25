@@ -805,10 +805,237 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       .hero-scroll{display:none}
       .snapshot{padding-top:18px}
     }
+
+    /* ── Noise texture ── */
+    body::after{
+      content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;
+      opacity:.028;mix-blend-mode:overlay;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size:180px 180px;
+    }
+
+    /* ── Hero animated orbs ── */
+    @keyframes orb-drift{from{transform:translate(0,0) scale(1)}to{transform:translate(28px,16px) scale(1.05)}}
+    .hero::before{
+      background:
+        radial-gradient(ellipse 700px 500px at 15% 65%, rgba(24,56,40,.24), transparent 70%),
+        radial-gradient(ellipse 500px 350px at 88% 18%, rgba(176,141,87,.10), transparent 70%);
+      animation:orb-drift 14s ease-in-out infinite alternate;
+    }
+
+    /* ── Marquee brand-strip ── */
+    @keyframes marquee-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    .brand-logos-wrap{
+      overflow:hidden;margin-top:16px;padding:6px 0;
+      mask-image:linear-gradient(90deg,transparent,black 8%,black 92%,transparent);
+      -webkit-mask-image:linear-gradient(90deg,transparent,black 8%,black 92%,transparent);
+    }
+    .brand-logos-track{
+      display:flex;gap:16px;width:max-content;
+      animation:marquee-scroll 24s linear infinite;
+    }
+    .brand-logos-track:hover{animation-play-state:paused}
+
+    /* ── Typewriter cursor ── */
+    .typewriter-word{transition:opacity .22s ease}
+    .tw-cursor{
+      display:inline-block;width:2px;height:.82em;
+      background:var(--brass);margin-left:2px;vertical-align:middle;
+      animation:cur-blink .85s steps(1) infinite;
+    }
+    @keyframes cur-blink{0%,100%{opacity:1}50%{opacity:0}}
+
+    /* ── Hover glow on cards ── */
+    .card,.signature{--mx:50%;--my:50%}
+    .card::after,.signature::after{
+      content:"";position:absolute;inset:0;border-radius:inherit;
+      background:radial-gradient(280px circle at var(--mx) var(--my),rgba(24,56,40,.2),transparent 65%);
+      pointer-events:none;opacity:0;transition:opacity .35s ease;
+    }
+    .card:hover::after,.signature:hover::after{opacity:1}
+
+    /* ── Sticky Telegram bar ── */
+    .sticky-tg{
+      position:fixed;bottom:0;left:0;right:0;z-index:100;
+      background:rgba(14,17,22,.94);
+      backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+      border-top:1px solid rgba(24,56,40,.38);
+      padding:10px 20px;
+      display:flex;align-items:center;justify-content:space-between;gap:14px;
+      transform:translateY(100%);
+      transition:transform .45s cubic-bezier(.34,1.56,.64,1);
+      box-shadow:0 -6px 28px rgba(0,0,0,.48);
+    }
+    .sticky-tg.visible{transform:translateY(0)}
+    .sticky-tg p{color:var(--text-muted);font-size:13px;margin:0}
+    .sticky-tg-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+    .sticky-tg-close{
+      background:none;border:none;color:var(--text-soft);
+      cursor:pointer;font-size:18px;line-height:1;padding:4px 8px;
+    }
+
+    /* ── Exit-intent overlay ── */
+    .exit-overlay{
+      position:fixed;inset:0;z-index:200;
+      background:rgba(0,0,0,.68);
+      backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+      display:flex;align-items:center;justify-content:center;
+      opacity:0;pointer-events:none;
+      transition:opacity .3s ease;
+    }
+    .exit-overlay.visible{opacity:1;pointer-events:all}
+    .exit-popup{
+      background:var(--glass-2);
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:var(--radius-lg);
+      padding:40px;max-width:430px;width:92vw;
+      position:relative;
+      box-shadow:0 40px 80px rgba(0,0,0,.65);
+      backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+      transform:translateY(22px);
+      transition:transform .38s cubic-bezier(.34,1.56,.64,1);
+    }
+    .exit-overlay.visible .exit-popup{transform:translateY(0)}
+    .exit-popup::before{
+      content:"";position:absolute;left:18px;right:18px;top:10px;
+      height:2px;border-radius:999px;background:var(--top-accent);
+    }
+    .exit-close{
+      position:absolute;top:14px;right:16px;
+      background:none;border:none;color:var(--text-soft);
+      cursor:pointer;font-size:20px;line-height:1;
+    }
+    .exit-popup h3{margin:12px 0 10px}
+    .exit-popup p{color:var(--text-muted);font-size:.93rem;margin-bottom:22px}
+
+    /* ── Calculator ── */
+    .calc-grid{
+      display:grid;gap:24px;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      align-items:start;
+    }
+    .calc-box{
+      background:var(--glass);border:1px solid rgba(255,255,255,.12);
+      border-radius:var(--radius-md);padding:28px;
+      box-shadow:var(--glass-glow);
+      backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+      position:relative;overflow:hidden;
+    }
+    .calc-box::before{
+      content:"";position:absolute;left:0;right:0;top:0;height:2px;
+      background:var(--top-accent);opacity:.9;
+    }
+    .calc-field{margin-bottom:22px}
+    .calc-field:last-child{margin-bottom:0}
+    .calc-field label{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--text-muted);margin-bottom:10px}
+    .calc-field .range-val{font-weight:700;color:var(--text);font-size:.9rem}
+    .calc-field input[type=range]{
+      width:100%;accent-color:rgba(43,107,79,1);
+      background:none;border:none;padding:0;border-radius:0;box-shadow:none;cursor:pointer;
+    }
+    .calc-field input[type=range]:focus{box-shadow:none;border-color:transparent}
+    .calc-result-box{
+      background:rgba(24,56,40,.18);border:1px solid rgba(24,56,40,.38);
+      border-radius:14px;padding:20px 22px;margin-bottom:18px;
+    }
+    .calc-result-num{
+      font-size:clamp(32px,4vw,44px);font-weight:800;
+      color:var(--text);letter-spacing:-.02em;line-height:1.1;
+    }
+    .calc-result-sub{font-size:.83rem;color:var(--text-muted);margin-top:4px}
+    .calc-note{font-size:.78rem;color:var(--text-soft);line-height:1.55;margin-bottom:18px}
+
+    /* ── Deliverables ── */
+    .deliverables-grid{
+      display:grid;gap:14px;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      margin-top:24px;
+    }
+    .deliverable-item{
+      display:flex;align-items:flex-start;gap:14px;
+      background:var(--glass);border:1px solid rgba(255,255,255,.10);
+      border-radius:14px;padding:18px;
+      position:relative;overflow:hidden;
+      backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    }
+    .deliverable-item::before{
+      content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+      background:linear-gradient(180deg,rgba(24,56,40,.9),rgba(176,141,87,.4));
+      border-radius:0 99px 99px 0;
+    }
+    .del-icon{
+      width:34px;height:34px;border-radius:50%;
+      background:rgba(24,56,40,.28);
+      display:flex;align-items:center;justify-content:center;
+      font-size:16px;flex-shrink:0;
+    }
+    .deliverable-item strong{display:block;margin-bottom:4px;font-size:.93rem}
+    .deliverable-item p{color:var(--text-muted);font-size:.82rem;margin:0}
+
+    /* ── Not-for section ── */
+    .not-for-grid{
+      display:grid;gap:14px;
+      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      margin-top:24px;
+    }
+    .not-for-item{
+      padding:20px;background:rgba(30,36,48,.52);
+      border:1px solid rgba(255,255,255,.09);border-radius:14px;
+      position:relative;
+    }
+    .not-for-icon{font-size:20px;margin-bottom:8px}
+    .not-for-item strong{display:block;margin-bottom:5px}
+    .not-for-item p{color:var(--text-muted);font-size:.84rem;margin:0}
+
+    /* ── Urgency strip ── */
+    .urgency-strip{
+      display:flex;align-items:center;gap:14px;
+      margin-top:22px;
+      padding:16px 20px;
+      background:rgba(24,56,40,.10);
+      border:1px solid rgba(24,56,40,.28);
+      border-radius:14px;
+    }
+    .urgency-strip p{margin:0;color:var(--text-muted);font-size:.9rem}
+    .urgency-strip a{color:var(--text);text-decoration:underline;text-underline-offset:3px}
+    .urgency-dot{
+      width:10px;height:10px;border-radius:50%;flex-shrink:0;
+      background:rgba(24,56,40,.98);
+      box-shadow:0 0 0 6px rgba(24,56,40,.18),0 0 22px rgba(24,56,40,.22);
+      animation:pulse-dot 2.2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot{
+      0%,100%{box-shadow:0 0 0 6px rgba(24,56,40,.18),0 0 22px rgba(24,56,40,.22)}
+      50%{box-shadow:0 0 0 10px rgba(24,56,40,.08),0 0 32px rgba(24,56,40,.32)}
+    }
   </style>
 </head>
 
 <body>
+
+<!-- Sticky Telegram bar -->
+<div class="sticky-tg" id="stickyTg">
+  <p>Маєте питання? Напишіть — відповімо протягом дня.</p>
+  <div class="sticky-tg-right">
+    <a class="button primary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer" style="font-size:13px;padding:9px 16px">Написати в Telegram →</a>
+    <button class="sticky-tg-close" id="stickyTgClose" aria-label="Закрити">✕</button>
+  </div>
+</div>
+
+<!-- Exit-intent popup -->
+<div class="exit-overlay" id="exitOverlay" role="dialog" aria-modal="true">
+  <div class="exit-popup">
+    <button class="exit-close" id="exitClose" aria-label="Закрити">✕</button>
+    <div class="pill" style="margin-bottom:4px">Почекайте хвилину</div>
+    <h3 class="title-accent">Ще не готові до рішення?</h3>
+    <p>Напишіть у Telegram — просто познайомимось. Без зобов'язань і питань "коли починаємо".</p>
+    <div class="nav-cta" style="flex-wrap:wrap">
+      <a class="button primary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Написати в Telegram</a>
+      <button class="button secondary" id="exitContinue">Продовжити перегляд</button>
+    </div>
+  </div>
+</div>
+
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NFX46QXS"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -846,7 +1073,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="pill"><span class="dot"></span>Для власників і керівників</div>
 
           <h1 class="title-accent">
-            Бізнес має бути <span class="accent-word">зрозумілим</span> без додаткових пояснень.
+            Бізнес має бути <span class="accent-word typewriter-word">зрозумілим</span><span class="tw-cursor" aria-hidden="true"></span> без додаткових пояснень.
           </h1>
 
           <div class="hero-subtitle">
@@ -934,7 +1161,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <section class="brand-strip">
       <div class="container">
         <h4>Сфери, з якими працюємо</h4>
-        <div class="brand-logos">
+      </div>
+      <div class="brand-logos-wrap">
+        <div class="brand-logos-track">
+          <div class="logo-pill">E-commerce</div>
+          <div class="logo-pill">Логістика</div>
+          <div class="logo-pill">Retail</div>
+          <div class="logo-pill">SaaS</div>
+          <div class="logo-pill">Виробництво</div>
           <div class="logo-pill">E-commerce</div>
           <div class="logo-pill">Логістика</div>
           <div class="logo-pill">Retail</div>
@@ -1028,7 +1262,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="pricing-card lift reveal">
             <span class="format-badge brass">Start</span>
             <h3>Вхід у формат управлінського контролю</h3>
-            <div class="price">$2 000</div>
+            <div class="price">$<span class="countup" data-target="2000">2 000</span></div>
 
             <div class="format-track">
               <span>Start</span>
@@ -1050,7 +1284,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="pricing-card lift reveal">
             <span class="format-badge">Ongoing</span>
             <h3>Система управлінської стабільності</h3>
-            <div class="price">$1 500 / місяць</div>
+            <div class="price">$<span class="countup" data-target="1500">1 500</span> / місяць</div>
 
             <div class="format-track">
               <span>Start</span>
@@ -1067,6 +1301,50 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               Щотижня — актуальна картина без ручних звірок з вашого боку.
             </p>
             <p class="terms">Обсяг змін плануємо окремо.</p>
+          </div>
+        </div>
+
+        <div class="urgency-strip reveal">
+          <div class="urgency-dot"></div>
+          <p>Паралельно ведемо не більше 5 проєктів — щоб зберегти якість і увагу до кожного клієнта. <a href="#contact">Уточнити наявність →</a></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="calculator" class="divider">
+      <div class="container">
+        <div class="section-title reveal">
+          <div>
+            <div class="pill">Калькулятор</div>
+            <h2 class="title-accent">Скільки коштує час на ручні звірки?</h2>
+          </div>
+          <p>Введіть параметри — побачите, у скільки обходяться ручні процеси щомісяця.</p>
+        </div>
+
+        <div class="calc-grid">
+          <div class="calc-box reveal">
+            <div class="calc-field">
+              <label>Людей у команді <span class="range-val" data-for="calcTeam">5</span></label>
+              <input type="range" id="calcTeam" min="2" max="60" value="5" />
+            </div>
+            <div class="calc-field">
+              <label>Уточнень статусів на тиждень <span class="range-val" data-for="calcChecks">7</span></label>
+              <input type="range" id="calcChecks" min="1" max="30" value="7" />
+            </div>
+            <div class="calc-field">
+              <label>Год. на зведення звітів / тиждень <span class="range-val" data-for="calcHours" data-unit=" год">6 год</span></label>
+              <input type="range" id="calcHours" min="1" max="20" value="6" />
+            </div>
+          </div>
+
+          <div class="calc-box reveal">
+            <div style="font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--text-soft);margin-bottom:10px">Втрати управлінського часу / місяць</div>
+            <div class="calc-result-box">
+              <div class="calc-result-num" id="calcResult">$1 650</div>
+              <div class="calc-result-sub">≈ <span id="calcResultHours">33</span> год ручної роботи на місяць</div>
+            </div>
+            <p class="calc-note">Розрахунок за ставкою $50/год для управлінця. Ongoing Nóvellum — від $1 500/міс. Ціна зрівнюється з витратами на ручну роботу — і дає систему зверху.</p>
+            <a class="button primary" href="#contact" style="width:100%;justify-content:center">Запитати деталі</a>
           </div>
         </div>
       </div>
@@ -1139,6 +1417,53 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
 
         <p class="terms" style="margin-top:16px;">Конфіденційність і межі відповідальності фіксуємо до старту.</p>
+
+        <div style="margin-top:24px;text-align:center">
+          <a class="button primary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Написати в Telegram — почати аудит</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="deliverables" class="divider">
+      <div class="container">
+        <div class="section-title reveal">
+          <div>
+            <div class="pill">Результат</div>
+            <h2 class="title-accent">Що ви отримаєте після 7 днів</h2>
+          </div>
+          <p>Не "покращення бізнесу", а конкретні артефакти, які передаємо після першого аудиту.</p>
+        </div>
+
+        <div class="deliverables-grid">
+          <div class="deliverable-item reveal">
+            <div class="del-icon">📊</div>
+            <div>
+              <strong>Управлінський огляд</strong>
+              <p>Один екран з 10–15 KPI під ваш бізнес. Читається за 5 хвилин.</p>
+            </div>
+          </div>
+          <div class="deliverable-item reveal">
+            <div class="del-icon">📋</div>
+            <div>
+              <strong>Перелік ключових показників</strong>
+              <p>Зафіксовано, що вимірюємо і чому — без зайвих метрик.</p>
+            </div>
+          </div>
+          <div class="deliverable-item reveal">
+            <div class="del-icon">📝</div>
+            <div>
+              <strong>Правила роботи з даними</strong>
+              <p>Хто оновлює, коли і як — відповідальність прописана.</p>
+            </div>
+          </div>
+          <div class="deliverable-item reveal">
+            <div class="del-icon">🗂</div>
+            <div>
+              <strong>Backlog на перший місяць</strong>
+              <p>Черга змін і доопрацювань — прозоро і в погодженому порядку.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -1239,6 +1564,48 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <p style="margin-top:8px;"><b>Plus:</b> ранковий дайджест 08:00; повтор +30 хв — лише для щоденних/щотижневих.</p>
               <p style="margin-top:8px;"><b>Premium:</b> дайджести 08:00 та 20:00; SMS — 1 повідомлення на подію.</p>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="not-for" class="divider">
+      <div class="container">
+        <div class="section-title reveal">
+          <div>
+            <div class="pill">Чесно</div>
+            <h2 class="title-accent">Для кого ми не підійдемо</h2>
+          </div>
+          <p>Краще зрозуміти це до початку. Якщо впізнаєте себе — напишіть, знайдемо альтернативу.</p>
+        </div>
+
+        <div class="not-for-grid">
+          <div class="not-for-item reveal">
+            <div class="not-for-icon">🚀</div>
+            <strong>Стартап без продажів</strong>
+            <p>На старті краще фокусуватись на продукті, ніж на управлінській аналітиці.</p>
+          </div>
+          <div class="not-for-item reveal">
+            <div class="not-for-icon">📣</div>
+            <strong>Потрібен маркетинг або CRM</strong>
+            <p>Ми будуємо управлінський огляд, а не систему продажів чи автоматизацію маркетингу.</p>
+          </div>
+          <div class="not-for-item reveal">
+            <div class="not-for-icon">⚙️</div>
+            <strong>Потрібна IT-інтеграція під ключ</strong>
+            <p>Складні кастомні інтеграції — окремий проєкт з окремим бюджетом.</p>
+          </div>
+          <div class="not-for-item reveal">
+            <div class="not-for-icon">🤝</div>
+            <strong>Команда не готова брати участь</strong>
+            <p>Перший тиждень потребує 2–3 год від вас: узгодити показники і прийняти огляд.</p>
+          </div>
+        </div>
+
+        <div class="card reveal" style="margin-top:24px;text-align:center;padding:26px 32px;background:rgba(24,56,40,.10);border-color:rgba(24,56,40,.28)">
+          <p style="color:var(--text)">Все інше — обговоримо. Більшість питань вирішуються на першій розмові.</p>
+          <div style="margin-top:16px">
+            <a class="button primary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Написати в Telegram</a>
           </div>
         </div>
       </div>
@@ -1423,7 +1790,126 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
 });
 
+    // ── Progress bars animate on load ──
+    document.querySelectorAll('.dashboard .progress span').forEach(bar => {
+      const final = bar.style.width;
+      bar.style.width = '0%';
+      bar.style.transition = 'width 1.3s cubic-bezier(.4,0,.2,1)';
+      setTimeout(() => { bar.style.width = final; }, 500);
+    });
 
+    // ── Hover glow — cursor tracking ──
+    document.querySelectorAll('.card, .signature').forEach(el => {
+      el.addEventListener('mousemove', e => {
+        const r = el.getBoundingClientRect();
+        el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
+    });
+
+    // ── Count-up animation ──
+    function countUp(el, target, duration) {
+      duration = duration || 1400;
+      let start = null;
+      function fmt(n) {
+        return n >= 1000 ? Math.floor(n / 1000) + ' ' + String(n % 1000).padStart(3, '0') : String(n);
+      }
+      function step(ts) {
+        if (!start) start = ts;
+        var p = Math.min((ts - start) / duration, 1);
+        var ease = 1 - Math.pow(1 - p, 3);
+        el.textContent = fmt(Math.floor(ease * target));
+        if (p < 1) requestAnimationFrame(step);
+        else el.textContent = fmt(target);
+      }
+      requestAnimationFrame(step);
+    }
+    if ('IntersectionObserver' in window) {
+      var cuObs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) {
+            countUp(e.target, +e.target.dataset.target);
+            cuObs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.5 });
+      document.querySelectorAll('.countup').forEach(function(el) { cuObs.observe(el); });
+    }
+
+    // ── Typewriter in hero ──
+    var twWords = ['зрозумілим', 'керованим', 'прозорим'];
+    var twIdx = 0;
+    var twEl = document.querySelector('.typewriter-word');
+    if (twEl) {
+      setInterval(function() {
+        twIdx = (twIdx + 1) % twWords.length;
+        twEl.style.opacity = '0';
+        setTimeout(function() {
+          twEl.textContent = twWords[twIdx];
+          twEl.style.opacity = '1';
+        }, 230);
+      }, 2800);
+    }
+
+    // ── Sticky Telegram bar ──
+    var stickyTg = document.getElementById('stickyTg');
+    var heroSec = document.getElementById('top');
+    var contactSec = document.getElementById('contact');
+    if (stickyTg && heroSec && contactSec) {
+      var heroVisible = true, contactVisible = false;
+      var stickyObs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.target === heroSec) heroVisible = e.isIntersecting;
+          if (e.target === contactSec) contactVisible = e.isIntersecting;
+        });
+        if (heroVisible || contactVisible) stickyTg.classList.remove('visible');
+        else stickyTg.classList.add('visible');
+      }, { threshold: 0.1 });
+      stickyObs.observe(heroSec);
+      stickyObs.observe(contactSec);
+      var closeBtn = document.getElementById('stickyTgClose');
+      if (closeBtn) closeBtn.addEventListener('click', function() { stickyTg.remove(); });
+    }
+
+    // ── Exit-intent popup ──
+    var exitOverlay = document.getElementById('exitOverlay');
+    if (exitOverlay) {
+      var exitShown = sessionStorage.getItem('exitShown');
+      if (!exitShown) {
+        document.addEventListener('mouseleave', function(e) {
+          if (e.clientY < 15 && !sessionStorage.getItem('exitShown')) {
+            sessionStorage.setItem('exitShown', '1');
+            exitOverlay.classList.add('visible');
+          }
+        });
+      }
+      function closeExit() { exitOverlay.classList.remove('visible'); }
+      var ec = document.getElementById('exitClose');
+      var ec2 = document.getElementById('exitContinue');
+      if (ec) ec.addEventListener('click', closeExit);
+      if (ec2) ec2.addEventListener('click', closeExit);
+      exitOverlay.addEventListener('click', function(e) { if (e.target === exitOverlay) closeExit(); });
+    }
+
+    // ── Calculator ──
+    function updateCalc() {
+      var checks = +(document.getElementById('calcChecks') && document.getElementById('calcChecks').value) || 7;
+      var hours  = +(document.getElementById('calcHours')  && document.getElementById('calcHours').value)  || 6;
+      var monthHours = (checks * 4) + (hours * 4);
+      var cost = Math.round(monthHours * 50 / 100) * 100;
+      var rEl = document.getElementById('calcResult');
+      var hEl = document.getElementById('calcResultHours');
+      if (rEl) rEl.textContent = '$' + (cost >= 1000 ? Math.floor(cost/1000) + ' ' + String(cost%1000).padStart(3,'0') : cost);
+      if (hEl) hEl.textContent = monthHours;
+      document.querySelectorAll('.range-val').forEach(function(el) {
+        var inp = document.getElementById(el.dataset.for);
+        if (inp) el.textContent = inp.value + (el.dataset.unit || '');
+      });
+    }
+    document.querySelectorAll('.calc-field input[type=range]').forEach(function(s) {
+      s.addEventListener('input', updateCalc);
+    });
+    updateCalc();
 
 </script>
 
