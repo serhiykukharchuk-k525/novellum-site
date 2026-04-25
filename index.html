@@ -649,7 +649,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       grid-template-columns:repeat(2, minmax(0, 1fr));
     }
     @media (min-width: 980px){
-      .how-grid{grid-template-columns:repeat(5, minmax(0, 1fr));}
+      .how-grid{grid-template-columns:repeat(3, minmax(0, 1fr));}
       .how-grid .card{padding:18px}
       .how-grid .card h3{font-size:15px;margin-bottom:8px}
       .how-grid .card p{font-size:13px;line-height:1.55}
@@ -796,6 +796,55 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
     @media (max-width:900px){
       .nav-links{display:none}
+    }
+
+    /* ── Hamburger menu ── */
+    .hamburger{
+      display:none;
+      background:none;
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:10px;
+      color:var(--text);
+      cursor:pointer;
+      padding:8px 11px;
+      flex-shrink:0;
+      gap:5px;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+    }
+    .hamburger span{
+      display:block;width:18px;height:2px;
+      background:currentColor;border-radius:2px;
+      transition:transform .25s ease,opacity .25s ease;
+    }
+    @media (max-width:900px){.hamburger{display:flex}}
+
+    .mobile-nav{
+      display:none;
+      position:fixed;inset:0;z-index:90;
+      background:rgba(14,17,22,.97);
+      backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+      flex-direction:column;align-items:center;justify-content:center;
+      gap:6px;
+      padding:80px 24px 40px;
+    }
+    .mobile-nav.open{display:flex}
+    .mobile-nav a{
+      font-size:20px;font-weight:700;color:var(--text-muted);
+      padding:12px 28px;border-radius:14px;
+      transition:color .2s,background .2s;
+      width:100%;max-width:320px;text-align:center;
+    }
+    .mobile-nav a:hover{color:var(--text);background:rgba(255,255,255,.05)}
+    .mobile-nav-close{
+      position:absolute;top:18px;right:18px;
+      background:none;border:1px solid rgba(255,255,255,.14);
+      border-radius:10px;color:var(--text);
+      cursor:pointer;padding:8px 13px;font-size:18px;line-height:1;
+    }
+    .mobile-nav-tg{
+      margin-top:16px;width:100%;max-width:320px;
     }
     @media (max-width:840px){
       .nav{flex-wrap:wrap}
@@ -1063,8 +1112,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <a class="button secondary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener">Telegram</a>
         <a class="button primary" href="#contact">Ініціювати</a>
       </div>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Відкрити меню" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </header>
+
+  <nav class="mobile-nav" id="mobileNav" aria-label="Мобільна навігація">
+    <button class="mobile-nav-close" id="mobileNavClose" aria-label="Закрити меню">✕</button>
+    <a href="#value">Цінність</a>
+    <a href="#formats">Формати</a>
+    <a href="#products">Продукти</a>
+    <a href="#process">Процес</a>
+    <a href="#pricing">Аналітика</a>
+    <a href="#reminder">Reminder</a>
+    <a href="partners.html">Партнерство</a>
+    <a href="#contact">Контакт</a>
+    <a class="button primary mobile-nav-tg" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Написати в Telegram</a>
+  </nav>
 
   <main>
     <section class="hero" id="top">
@@ -1080,7 +1145,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             Ми будуємо <span class="accent-word">аналітику</span>, яка показує реальну картину бізнесу і підтримує дисципліну виконання.
           </div>
 
-          <p>Ключові показники, фінансова динаміка і дедлайни — в одному огляді. Ви бачите картину без ручних звірок.</p>
+          <p>Ключові показники, фінансова динаміка і дедлайни — в одному дашборді. Без ручних звірок і додаткових пояснень.</p>
 
           <div class="nav-cta">
             <a class="button primary" href="#contact">Ініціювати розмову</a>
@@ -1117,7 +1182,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
             <div class="card" style="background:rgba(0,0,0,.10); border-color:rgba(255,255,255,.12)">
               <strong>Фокус</strong>
-              <p style="margin-top:6px;">3 точки уваги зафіксовано.</p>
+              <p style="margin-top:6px;">3 зони під контролем.</p>
             </div>
           </div>
         </div>
@@ -1135,7 +1200,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="container">
         <div class="snapshot-grid reveal">
           <div class="snap-card">
-            <b>Огляд: 1 екран</b>
+            <b>Дашборд: 1 екран</b>
             <div class="accent"><i></i>читабельно для C-level</div>
             <small>Короткий екран замість набору звітів.</small>
           </div>
@@ -1147,7 +1212,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="snap-card">
             <b>Процес: сервіс</b>
             <div class="accent"><i></i>підтримка в часі</div>
-            <small>Модель не «старіє» через місяць.</small>
+            <small>Дашборд залишається актуальним, а не застаріває через місяць.</small>
           </div>
           <div class="snap-card">
             <b>Формат: NDA</b>
@@ -1167,13 +1232,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="logo-pill">E-commerce</div>
           <div class="logo-pill">Логістика</div>
           <div class="logo-pill">Retail</div>
-          <div class="logo-pill">SaaS</div>
           <div class="logo-pill">Виробництво</div>
+          <div class="logo-pill">Медицина</div>
+          <div class="logo-pill">Фінанси</div>
+          <div class="logo-pill">HoReCa</div>
+          <div class="logo-pill">Агробізнес</div>
+          <div class="logo-pill">Будівництво</div>
+          <div class="logo-pill">SaaS</div>
+          <div class="logo-pill">Сервісні компанії</div>
+          <div class="logo-pill">Нерухомість</div>
+          <div class="logo-pill">Освіта</div>
+          <div class="logo-pill">Транспорт</div>
           <div class="logo-pill">E-commerce</div>
           <div class="logo-pill">Логістика</div>
           <div class="logo-pill">Retail</div>
-          <div class="logo-pill">SaaS</div>
           <div class="logo-pill">Виробництво</div>
+          <div class="logo-pill">Медицина</div>
+          <div class="logo-pill">Фінанси</div>
+          <div class="logo-pill">HoReCa</div>
+          <div class="logo-pill">Агробізнес</div>
+          <div class="logo-pill">Будівництво</div>
+          <div class="logo-pill">SaaS</div>
+          <div class="logo-pill">Сервісні компанії</div>
+          <div class="logo-pill">Нерухомість</div>
+          <div class="logo-pill">Освіта</div>
+          <div class="logo-pill">Транспорт</div>
         </div>
       </div>
     </section>
@@ -1183,7 +1266,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="section-title reveal">
           <div>
             <div class="pill">Цінність</div>
-            <h2 class="title-accent">Аналітика для рішень, а не для звітності.</h2>
+            <h2 class="title-accent">Аналітика, яка допомагає приймати рішення, а не просто звітувати.</h2>
 
             <div class="icon-badges" aria-label="Фокус напрямів">
               <div class="icon-pill" title="Фінанси" aria-label="Фінанси"><span>₴</span></div>
@@ -1192,7 +1275,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
           </div>
 
-          <p>Ми збираємо дані так, щоб управлінський сенс був очевидним з першого погляду.</p>
+          <p>Ми збираємо дані так, щоб картина бізнесу була зрозуміла з першого погляду — без підготовки і пояснень.</p>
         </div>
 
         <div class="grid-3">
@@ -1216,16 +1299,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <p>Фокус на тому, що справді керує бізнесом.</p>
           </div>
           <div class="signature lift reveal">
-            <strong>Один огляд</strong>
+            <strong>Один дашборд</strong>
             <p>Фінанси, продажі, операції — в одному місці.</p>
           </div>
           <div class="signature lift reveal">
             <strong>Відповідальність видима</strong>
-            <p>Щоб питання не «гуляли» між чатами та зустрічами.</p>
+            <p>Щоб не шукати відповідальних у чатах і на зустрічах.</p>
           </div>
           <div class="signature lift reveal">
             <strong>Менше уточнень</strong>
-            <p>Коли картина ясна, керівник не витрачає день на звірки.</p>
+            <p>Коли все видно в одному місці, не треба витрачати ранок на уточнення і дзвінки.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="social-proof" class="divider">
+      <div class="container">
+        <div class="card lift reveal" style="max-width:720px;margin:0 auto;text-align:center;padding:40px 48px">
+          <div class="pill" style="margin:0 auto 16px">Досвід</div>
+          <p style="font-size:1.1rem;line-height:1.7;color:var(--text)">
+            Працюємо під NDA. Будуємо аналітику для e-commerce, логістики, retail, виробництва, медицини, фінансів, HoReCa, агробізнесу, будівництва та сервісних компаній.
+          </p>
+          <p style="margin-top:16px;color:var(--text-muted);font-size:.95rem">
+            Перший аудит — 7 днів. Після нього власник отримує готовий дашборд на Power BI під свій бізнес — без ручних звірок і розрізнених таблиць.
+          </p>
+          <div style="margin-top:28px">
+            <a class="button primary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Написати в Telegram</a>
           </div>
         </div>
       </div>
@@ -1255,13 +1355,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="pill">Формати</div>
             <h2 class="title-accent">Починаємо з аудиту. Далі — підтримка системи.</h2>
           </div>
-          <p>Спочатку формуємо управлінську модель, далі підтримуємо її в робочому стані.</p>
+          <p>Спочатку розбираємось у вашому бізнесі і будуємо дашборд. Далі підтримуємо його в актуальному стані.</p>
         </div>
 
         <div class="pricing-grid">
           <div class="pricing-card lift reveal">
             <span class="format-badge brass">Start</span>
-            <h3>Вхід у формат управлінського контролю</h3>
+            <h3>Запуск системи управлінської аналітики</h3>
             <div class="price">$<span class="countup" data-target="2000">2 000</span></div>
 
             <div class="format-track">
@@ -1272,11 +1372,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
             <ul>
               <li><span class="status-icon">✓</span>Визначаємо ключові показники</li>
-              <li><span class="status-icon">✓</span>Формуємо короткий управлінський огляд</li>
+              <li><span class="status-icon">✓</span>Формуємо управлінський дашборд на Power BI під ваш бізнес</li>
               <li><span class="status-icon">✓</span>Фіксуємо правила роботи з виконанням</li>
             </ul>
             <p style="margin-top:16px;padding:12px 14px;background:var(--brand-soft);border-left:3px solid var(--brass);border-radius:8px;font-size:.88rem;color:var(--text)">
-              Після першого тижня — готовий управлінський огляд під ваш бізнес.
+              Після першого тижня — аудит завершено, показники погоджено, дашборд на Power BI в розробці.
             </p>
             <p class="terms">Працюємо під NDA.</p>
           </div>
@@ -1298,7 +1398,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <li><span class="status-icon">✓</span>План змін через backlog</li>
             </ul>
             <p style="margin-top:16px;padding:12px 14px;background:var(--brand-soft);border-left:3px solid var(--brass);border-radius:8px;font-size:.88rem;color:var(--text)">
-              Щотижня — актуальна картина без ручних звірок з вашого боку.
+              Щотижня ви отримуєте актуальну картину. Ручна робота — на нашому боці.
             </p>
             <p class="terms">Обсяг змін плануємо окремо.</p>
           </div>
@@ -1363,7 +1463,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="product">
           <div>
             <h3>Nóvellum Analytics</h3>
-            <p>Ми збираємо короткий управлінський огляд і підтримуємо його актуальність сервісом.</p>
+            <p>Будуємо дашборд на Power BI і підтримуємо його актуальність в сервісному режимі. Підключаємось до будь-яких джерел — від Google Sheets до корпоративних баз даних.</p>
             <ul>
               <li><span class="status-icon">📌</span>Ключові показники для власника</li>
               <li><span class="status-icon">🔎</span>Верифікація цифр</li>
@@ -1395,28 +1495,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="pill">Процес</div>
             <h2 class="title-accent">Перший аудит — 7 днів</h2>
           </div>
-          <p>За перший цикл формуємо модель: показники, огляд, правила роботи.</p>
+          <p>За перший тиждень проводимо аудит: визначаємо показники, розбираємось у даних і фіксуємо правила роботи. Дашборд будуємо після.</p>
         </div>
 
         <div class="timeline">
           <div class="timeline-item lift reveal">
             <span>Крок 1</span>
             <h3>Ключові показники</h3>
-            <p>Фіксуємо, що саме потрібно бачити для рішень.</p>
+            <p>Визначаємо, що саме потрібно бачити для прийняття рішень.</p>
           </div>
           <div class="timeline-item lift reveal">
             <span>Крок 2</span>
-            <h3>Збірка огляду</h3>
-            <p>Зводимо дані в один управлінський екран.</p>
+            <h3>Аудит даних</h3>
+            <p>Розбираємось у джерелах, перевіряємо логіку і якість даних.</p>
           </div>
           <div class="timeline-item lift reveal">
             <span>Крок 3</span>
             <h3>Правила роботи</h3>
-            <p>Домовляємось про відповідальність і порядок ведення змін.</p>
+            <p>Фіксуємо, хто що оновлює і як вносяться зміни.</p>
           </div>
         </div>
 
-        <p class="terms" style="margin-top:16px;">Конфіденційність і межі відповідальності фіксуємо до старту.</p>
+        <p class="terms" style="margin-top:16px;">NDA і межі відповідальності підписуємо до початку роботи.</p>
 
         <div style="margin-top:24px;text-align:center">
           <a class="button primary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Написати в Telegram — почати аудит</a>
@@ -1438,7 +1538,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="deliverable-item reveal">
             <div class="del-icon">📊</div>
             <div>
-              <strong>Управлінський огляд</strong>
+              <strong>Дашборд на Power BI</strong>
               <p>Один екран з 10–15 KPI під ваш бізнес. Читається за 5 хвилин.</p>
             </div>
           </div>
@@ -1472,15 +1572,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="section-title reveal">
           <div>
             <div class="pill">Аналітика</div>
-            <h2 class="title-accent">Як це працює</h2>
+            <h2 class="title-accent">Як влаштована робота після запуску</h2>
           </div>
-          <p>Один блок про те, як ми ведемо аналітику в сервісному режимі.</p>
+          <p>Як ми ведемо аналітику після того, як дашборд побудовано.</p>
         </div>
 
         <div class="how-grid">
           <div class="card lift reveal">
             <h3>Джерела</h3>
-            <p>Фіксуємо опорні дані та логіку розрахунку.</p>
+            <p>Фіксуємо опорні дані та логіку розрахунку. Підключаємось до Google Sheets, Excel, PostgreSQL, MySQL, 1С, Bitrix24, Shopify, Notion та інших API-джерел.</p>
           </div>
           <div class="card lift reveal">
             <h3>Оновлення</h3>
@@ -1496,7 +1596,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
           <div class="card lift reveal">
             <h3>Межі</h3>
-            <p>Великі інтеграції погоджуємо окремо до початку.</p>
+            <p>Складні або нестандартні інтеграції обговорюємо окремо — до початку роботи.</p>
+          </div>
+          <div class="card lift reveal">
+            <h3>Інструмент</h3>
+            <p>Звіти будуємо на Power BI. Формат адаптуємо під те, як керівник звик читати цифри.</p>
           </div>
         </div>
       </div>
@@ -1576,19 +1680,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="pill">Чесно</div>
             <h2 class="title-accent">Для кого ми не підійдемо</h2>
           </div>
-          <p>Краще зрозуміти це до початку. Якщо впізнаєте себе — напишіть, знайдемо альтернативу.</p>
+          <p>Краще сказати чесно, ніж витрачати час. Якщо впізнаєте себе — напишіть, підкажемо куди звернутись.</p>
         </div>
 
         <div class="not-for-grid">
           <div class="not-for-item reveal">
             <div class="not-for-icon">🚀</div>
             <strong>Стартап без продажів</strong>
-            <p>На старті краще фокусуватись на продукті, ніж на управлінській аналітиці.</p>
+            <p>На ранньому старті важливіше отримати перші продажі, а не будувати аналітику.</p>
           </div>
           <div class="not-for-item reveal">
             <div class="not-for-icon">📣</div>
             <strong>Потрібен маркетинг або CRM</strong>
-            <p>Ми будуємо управлінський огляд, а не систему продажів чи автоматизацію маркетингу.</p>
+            <p>Ми будуємо аналітику для керівника, а не систему продажів чи автоматизацію маркетингу.</p>
           </div>
           <div class="not-for-item reveal">
             <div class="not-for-icon">⚙️</div>
@@ -1598,12 +1702,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="not-for-item reveal">
             <div class="not-for-icon">🤝</div>
             <strong>Команда не готова брати участь</strong>
-            <p>Перший тиждень потребує 2–3 год від вас: узгодити показники і прийняти огляд.</p>
+            <p>Перший тиждень потребує 2–3 год від вас: узгодити показники і пройти аудит разом.</p>
           </div>
         </div>
 
         <div class="card reveal" style="margin-top:24px;text-align:center;padding:26px 32px;background:rgba(24,56,40,.10);border-color:rgba(24,56,40,.28)">
-          <p style="color:var(--text)">Все інше — обговоримо. Більшість питань вирішуються на першій розмові.</p>
+          <p style="color:var(--text)">Якщо сумніваєтесь — просто напишіть. Більшість питань стають зрозумілими після першої розмови.</p>
           <div style="margin-top:16px">
             <a class="button primary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Написати в Telegram</a>
           </div>
@@ -1616,8 +1720,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="cta">
           <div style="position:relative">
             <div class="pill"><span class="dot"></span>Контакт</div>
-            <h2 class="title-accent">Запросіть розмову про управлінські потреби.</h2>
-            <p class="readability" style="color:var(--text-muted)">Напишіть кілька слів — решту обговоримо в розмові. Працюємо під NDA.</p>
+            <h2 class="title-accent">Напишіть — і ми знайдемо зручний час для розмови.</h2>
+            <p class="readability" style="color:var(--text-muted)">Кілька слів про ваш бізнес — і ми відповімо протягом дня. Працюємо під NDA.</p>
           </div>
 
           <form id="contactForm" data-webhook="https://script.google.com/macros/s/AKfycbySPKR0R4G3tvh5odFhTf5WssiVxL9FzD5_y7QJyh4dDD1l8osKFvJKAee1m-r_x4VB/exec">
@@ -1789,6 +1893,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     submitBtn.textContent = 'Надіслати';
   }
 });
+
+    // ── Hamburger menu ──
+    var hamburgerBtn = document.getElementById('hamburgerBtn');
+    var mobileNav = document.getElementById('mobileNav');
+    var mobileNavClose = document.getElementById('mobileNavClose');
+    function openMobileNav() {
+      mobileNav.classList.add('open');
+      hamburgerBtn.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMobileNav() {
+      mobileNav.classList.remove('open');
+      hamburgerBtn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+    if (hamburgerBtn) hamburgerBtn.addEventListener('click', openMobileNav);
+    if (mobileNavClose) mobileNavClose.addEventListener('click', closeMobileNav);
+    if (mobileNav) {
+      mobileNav.querySelectorAll('a').forEach(function(a) {
+        a.addEventListener('click', closeMobileNav);
+      });
+    }
 
     // ── Progress bars animate on load ──
     document.querySelectorAll('.dashboard .progress span').forEach(bar => {
