@@ -1153,8 +1153,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <p>Ключові показники, фінансова динаміка і дедлайни — в одному дашборді. Без ручних звірок і додаткових пояснень.</p>
 
           <div class="nav-cta">
-            <a class="button primary" href="#contact">Ініціювати розмову</a>
-            <a class="button secondary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Написати в Telegram</a>
+            <a class="button primary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Написати в Telegram</a>
             <a class="button secondary" href="#process">Переглянути процес</a>
           </div>
         </div>
@@ -1321,16 +1320,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <section id="social-proof" class="divider">
       <div class="container">
-        <div class="card lift reveal" style="max-width:720px;margin:0 auto;text-align:center;padding:40px 48px">
-          <div class="pill" style="margin:0 auto 16px">Досвід</div>
-          <p style="font-size:1.1rem;line-height:1.7;color:var(--text)">
-            Працюємо під NDA. Будуємо аналітику для e-commerce, логістики, retail, виробництва, медицини, фінансів, HoReCa, агробізнесу, будівництва та сервісних компаній.
+        <div class="card lift reveal" style="max-width:760px;margin:0 auto;padding:36px 48px">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+            <div class="pill">Анонімний кейс</div>
+            <span style="font-size:12px;color:var(--text-soft);letter-spacing:.04em">E-commerce · NDA</span>
+          </div>
+          <p style="font-size:1.05rem;line-height:1.75;color:var(--text)">
+            Власник інтернет-магазину витрачав понад 3 год на тиждень на уточнення цифр: каса, склад і маркетинг давали різні дані, і кожен тиждень починався з дзвінків.
           </p>
-          <p style="margin-top:16px;color:var(--text-muted);font-size:.95rem">
-            Перший аудит — 7 днів. Після нього власник отримує готовий дашборд на Power BI під свій бізнес — без ручних звірок і розрізнених таблиць.
+          <p style="margin-top:14px;color:var(--text-muted);font-size:.95rem;line-height:1.7">
+            Після першого місяця роботи — один дашборд на Power BI з 11 показниками. Ручні звірки прибрано, власник бачить актуальну картину за 5 хвилин без жодного дзвінка.
           </p>
-          <div style="margin-top:28px">
+          <div style="margin-top:26px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
             <a class="button primary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Написати в Telegram</a>
+            <span style="font-size:12px;color:var(--text-soft)">Працюємо під NDA · всі деталі в розмові</span>
           </div>
         </div>
       </div>
@@ -1419,15 +1422,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <label>Годин на зведення звітів на тиждень <span class="range-val" data-for="calcHours" data-unit=" год">6 год</span></label>
               <input type="range" id="calcHours" min="1" max="20" value="6" />
             </div>
+            <div class="calc-field">
+              <label>Ваша ставка як управлінця <span class="range-val" data-for="calcRate" data-unit=" $/год">25 $/год</span></label>
+              <input type="range" id="calcRate" min="5" max="150" value="25" step="5" />
+            </div>
           </div>
 
           <div class="calc-box reveal">
             <div style="font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--text-soft);margin-bottom:10px">Втрати управлінського часу / місяць</div>
             <div class="calc-result-box">
-              <div class="calc-result-num" id="calcResult">$1 650</div>
+              <div class="calc-result-num" id="calcResult">$825</div>
               <div class="calc-result-sub">≈ <span id="calcResultHours">33</span> год ручної роботи на місяць</div>
             </div>
-            <p class="calc-note">Розрахунок за ставкою $50/год для управлінця. Ongoing Nóvellum — від $1 500/міс. Ціна зрівнюється з витратами на ручну роботу — і дає систему зверху.</p>
+            <p class="calc-note">Ongoing Nóvellum — від $1 500/міс. Коли ручна робота коштує більше — система окупається і дає час назад.</p>
             <a class="button primary" href="#contact" style="width:100%;justify-content:center">Запитати деталі</a>
           </div>
         </div>
@@ -2005,8 +2012,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     function updateCalc() {
       var checks = +(document.getElementById('calcChecks') && document.getElementById('calcChecks').value) || 7;
       var hours  = +(document.getElementById('calcHours')  && document.getElementById('calcHours').value)  || 6;
+      var rate   = +(document.getElementById('calcRate')   && document.getElementById('calcRate').value)   || 25;
       var monthHours = Math.round((checks * 4) + (hours * 4));
-      var cost = Math.round(monthHours * 50 / 100) * 100;
+      var cost = Math.round(monthHours * rate / 5) * 5;
       var rEl = document.getElementById('calcResult');
       var hEl = document.getElementById('calcResultHours');
       if (rEl) rEl.textContent = '$' + (cost >= 1000 ? Math.floor(cost/1000) + ' ' + String(cost%1000).padStart(3,'0') : cost);
