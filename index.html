@@ -609,6 +609,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       -webkit-backdrop-filter:blur(10px);
     }
     .format-badge.brass{border-color:rgba(176,141,87,.30)}
+    .pricing-card h3{padding-right:72px}
+    @media (max-width:480px){
+      .format-badge{position:static;display:inline-flex;margin-bottom:10px}
+      .pricing-card h3{padding-right:0}
+    }
     .format-track{
       margin-top:4px;
       display:flex;align-items:center;gap:10px;
@@ -881,7 +886,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
     .brand-logos-track{
       display:flex;gap:16px;width:max-content;
-      animation:marquee-scroll 24s linear infinite;
+      animation:marquee-scroll 60s linear infinite;
     }
     .brand-logos-track:hover{animation-play-state:paused}
 
@@ -1162,7 +1167,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </header>
 
             <div class="chip-row" aria-label="Мітки формату">
-              <span class="chip">Один огляд</span>
+              <span class="chip">Один дашборд</span>
               <span class="chip">10–15 KPI</span>
               <span class="chip brass">Фокус тижня</span>
             </div>
@@ -1331,23 +1336,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </section>
 
-    <section id="social-proof" class="divider">
-      <div class="container">
-        <div class="card lift reveal" style="max-width:720px;margin:0 auto;text-align:center;padding:40px 48px">
-          <div class="pill" style="margin:0 auto 16px">Досвід</div>
-          <p style="font-size:1.1rem;line-height:1.7;color:var(--text)">
-            Працюємо під NDA. Досвід — e-commerce, логістика, retail.
-          </p>
-          <p style="margin-top:16px;color:var(--text-muted);font-size:.95rem">
-            Перший аудит — 7 днів. Після нього власник отримує готовий управлінський огляд під свій бізнес — без ручних звірок і розрізнених таблиць.
-          </p>
-          <div style="margin-top:28px">
-            <a class="button primary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Написати в Telegram</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section id="formats" class="divider">
       <div class="container">
         <div class="section-title reveal">
@@ -1424,15 +1412,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="calc-grid">
           <div class="calc-box reveal">
             <div class="calc-field">
-              <label>Людей у команді <span class="range-val" data-for="calcTeam">5</span></label>
-              <input type="range" id="calcTeam" min="2" max="60" value="5" />
-            </div>
-            <div class="calc-field">
               <label>Уточнень статусів на тиждень <span class="range-val" data-for="calcChecks">7</span></label>
               <input type="range" id="calcChecks" min="1" max="30" value="7" />
             </div>
             <div class="calc-field">
-              <label>Год. на зведення звітів / тиждень <span class="range-val" data-for="calcHours" data-unit=" год">6 год</span></label>
+              <label>Годин на зведення звітів на тиждень <span class="range-val" data-for="calcHours" data-unit=" год">6 год</span></label>
               <input type="range" id="calcHours" min="1" max="20" value="6" />
             </div>
           </div>
@@ -1529,9 +1513,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="section-title reveal">
           <div>
             <div class="pill">Результат</div>
-            <h2 class="title-accent">Що ви отримаєте після 7 днів</h2>
+            <h2 class="title-accent">Що ви отримуєте, працюючи з нами</h2>
           </div>
-          <p>Не "покращення бізнесу", а конкретні артефакти, які передаємо після першого аудиту.</p>
+          <p>Не обіцянки зростання — конкретні речі, які з'являються після старту і підтримуються в часі.</p>
         </div>
 
         <div class="deliverables-grid">
@@ -1539,28 +1523,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="del-icon">📊</div>
             <div>
               <strong>Дашборд на Power BI</strong>
-              <p>Один екран з 10–15 KPI під ваш бізнес. Читається за 5 хвилин.</p>
+              <p>Один екран з 10–15 KPI під ваш бізнес. Актуальний щотижня без вашої участі.</p>
             </div>
           </div>
           <div class="deliverable-item reveal">
-            <div class="del-icon">📋</div>
+            <div class="del-icon">🎯</div>
             <div>
-              <strong>Перелік ключових показників</strong>
-              <p>Зафіксовано, що вимірюємо і чому — без зайвих метрик.</p>
+              <strong>Чіткі пріоритети</strong>
+              <p>Щотижня бачите 2–3 точки уваги — без самостійного аналізу звітів.</p>
             </div>
           </div>
           <div class="deliverable-item reveal">
             <div class="del-icon">📝</div>
             <div>
-              <strong>Правила роботи з даними</strong>
-              <p>Хто оновлює, коли і як — відповідальність прописана.</p>
+              <strong>Прозора відповідальність</strong>
+              <p>Дедлайни і статуси видно так само чітко, як фінанси — питання не "гуляють" по чатах.</p>
             </div>
           </div>
           <div class="deliverable-item reveal">
-            <div class="del-icon">🗂</div>
+            <div class="del-icon">⏱</div>
             <div>
-              <strong>Backlog на перший місяць</strong>
-              <p>Черга змін і доопрацювань — прозоро і в погодженому порядку.</p>
+              <strong>Час керівника назад</strong>
+              <p>Ручні звірки, уточнення і дзвінки "що там зі звітом" — забираємо на себе.</p>
             </div>
           </div>
         </div>
@@ -2021,7 +2005,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     function updateCalc() {
       var checks = +(document.getElementById('calcChecks') && document.getElementById('calcChecks').value) || 7;
       var hours  = +(document.getElementById('calcHours')  && document.getElementById('calcHours').value)  || 6;
-      var monthHours = (checks * 4) + (hours * 4);
+      var monthHours = Math.round((checks * 4) + (hours * 4));
       var cost = Math.round(monthHours * 50 / 100) * 100;
       var rEl = document.getElementById('calcResult');
       var hEl = document.getElementById('calcResultHours');
