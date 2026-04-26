@@ -1759,11 +1759,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <div>
         <h4>Документи</h4>
-        <p><a href="legal/NDA.pdf" target="_blank" rel="noopener noreferrer">NDA (PDF)</a></p>
-        <p><a href="legal/Service_Agreement.pdf" target="_blank" rel="noopener noreferrer">Договір надання послуг (PDF)</a></p>
         <p><a href="legal/Privacy_Policy.pdf" target="_blank" rel="noopener noreferrer">Політика конфіденційності (PDF)</a></p>
         <p><a href="legal/Terms_of_Use.pdf" target="_blank" rel="noopener noreferrer">Умови використання (PDF)</a></p>
       </div>
+    </div>
+    <div class="container" style="border-top:1px solid rgba(255,255,255,.06);margin-top:32px;padding-top:20px;padding-bottom:8px">
+      <p style="font-size:.75rem;color:var(--text-soft);margin:0">© <span id="year"></span> ФОП Кухарчук Сергій Миколайович</p>
     </div>
   </footer>
 
@@ -2028,6 +2029,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       s.addEventListener('input', updateCalc);
     });
     updateCalc();
+
+    document.getElementById('year').textContent = new Date().getFullYear();
 
 </script>
 

@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>404 — Nóvellum</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="icon" href="assets/favicon/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+  <link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png">
+  <style>
+    :root{
+      --bg:#0e1116;
+      --surface:#12161d;
+      --text:#e6e8eb;
+      --text-muted:#a8afb9;
+      --text-soft:#7b8390;
+      --brand:#183828;
+      --brand-2:#1f4a36;
+      --brand-hi:#2b6b4f;
+      --brass:#b08d57;
+      --line:rgba(255,255,255,.08);
+      --glass:rgba(23,28,36,.72);
+      --glass-border:rgba(255,255,255,.10);
+      --radius-lg:24px;
+      --radius-pill:999px;
+      --btn-pad-y:11px;
+      --btn-pad-x:18px;
+      --top-accent:linear-gradient(90deg,rgba(24,56,40,0),rgba(24,56,40,.9),rgba(176,141,87,.55),rgba(24,56,40,0));
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:"Manrope",system-ui,sans-serif;
+      color:var(--text);
+      background:var(--bg);
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      overflow-x:hidden;
+      position:relative;
+    }
+    body::before{
+      content:"";
+      position:fixed;inset:0;
+      pointer-events:none;
+      opacity:.22;
+      background:
+        linear-gradient(to bottom,rgba(255,255,255,.02),transparent 35%),
+        repeating-linear-gradient(90deg,rgba(255,255,255,.03) 0,rgba(255,255,255,.03) 1px,transparent 1px,transparent 120px),
+        repeating-linear-gradient(0deg,rgba(255,255,255,.02) 0,rgba(255,255,255,.02) 1px,transparent 1px,transparent 120px);
+      mix-blend-mode:overlay;
+    }
+    a{color:inherit;text-decoration:none}
+    .container{width:min(1160px,92vw);margin:0 auto}
+
+    /* ── Header ── */
+    header{
+      position:sticky;top:0;
+      background:rgba(14,17,22,.82);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+      z-index:50;
+      border-bottom:1px solid var(--line);
+    }
+    header::after{
+      content:"";
+      position:absolute;bottom:-1px;left:0;right:0;height:1px;
+      background:var(--top-accent);
+      opacity:.7;
+    }
+    .header-inner{
+      display:flex;align-items:center;justify-content:space-between;
+      height:56px;
+    }
+    .logo img{height:28px;width:auto}
+
+    /* ── Orbs ── */
+    .orb{
+      position:fixed;border-radius:50%;
+      pointer-events:none;filter:blur(80px);opacity:.18;
+      animation:orb-drift 18s ease-in-out infinite alternate;
+    }
+    .orb-1{width:520px;height:520px;background:radial-gradient(circle,#183828,transparent 70%);top:-120px;left:-160px;animation-duration:22s}
+    .orb-2{width:380px;height:380px;background:radial-gradient(circle,#b08d57,transparent 70%);bottom:-80px;right:-80px;opacity:.10;animation-duration:17s;animation-delay:-6s}
+    .orb-3{width:260px;height:260px;background:radial-gradient(circle,#2b6b4f,transparent 70%);top:40%;left:55%;opacity:.12;animation-duration:24s;animation-delay:-11s}
+    @keyframes orb-drift{
+      0%{transform:translate(0,0) scale(1)}
+      100%{transform:translate(30px,40px) scale(1.06)}
+    }
+
+    /* ── Main content ── */
+    main{
+      flex:1;
+      display:flex;align-items:center;justify-content:center;
+      padding:60px 0 80px;
+    }
+    .error-wrap{
+      text-align:center;
+      display:flex;flex-direction:column;align-items:center;gap:28px;
+    }
+
+    /* Big 404 */
+    .error-code{
+      font-size:clamp(96px,18vw,180px);
+      font-weight:800;
+      line-height:1;
+      letter-spacing:-.04em;
+      background:linear-gradient(135deg,rgba(230,232,235,.9) 30%,rgba(176,141,87,.65) 70%,rgba(43,107,79,.8));
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      background-clip:text;
+      position:relative;
+      user-select:none;
+    }
+    .error-code::after{
+      content:"";
+      display:block;
+      margin:16px auto 0;
+      width:72px;height:2px;
+      background:var(--top-accent);
+      border-radius:2px;
+    }
+
+    .error-title{
+      font-size:clamp(1.2rem,3vw,1.6rem);
+      font-weight:700;
+      color:var(--text);
+    }
+    .error-desc{
+      font-size:1rem;
+      color:var(--text-muted);
+      line-height:1.7;
+      max-width:420px;
+    }
+
+    /* Glass card */
+    .error-card{
+      background:var(--glass);
+      border:1px solid var(--glass-border);
+      backdrop-filter:blur(18px);
+      -webkit-backdrop-filter:blur(18px);
+      border-radius:var(--radius-lg);
+      padding:40px 48px;
+      display:flex;flex-direction:column;align-items:center;gap:24px;
+      max-width:520px;width:100%;
+      box-shadow:0 20px 60px rgba(0,0,0,.5);
+      position:relative;
+    }
+    .error-card::before{
+      content:"";
+      position:absolute;inset:0;border-radius:inherit;
+      background:linear-gradient(135deg,rgba(255,255,255,.04) 0%,transparent 60%);
+      pointer-events:none;
+    }
+
+    /* Buttons */
+    .btn-group{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+    .button{
+      display:inline-flex;align-items:center;justify-content:center;gap:7px;
+      padding:var(--btn-pad-y) var(--btn-pad-x);
+      border-radius:var(--radius-pill);
+      font-family:inherit;font-size:14px;font-weight:600;
+      cursor:pointer;border:none;transition:all .18s;
+      white-space:nowrap;
+    }
+    .button.primary{
+      background:linear-gradient(135deg,var(--brand-2),var(--brand-hi));
+      color:#fff;
+      box-shadow:0 4px 16px rgba(24,56,40,.35);
+    }
+    .button.primary:hover{
+      background:linear-gradient(135deg,var(--brand-hi),var(--brand-2));
+      box-shadow:0 6px 22px rgba(24,56,40,.5);
+      transform:translateY(-1px);
+    }
+    .button.secondary{
+      background:rgba(255,255,255,.06);
+      color:var(--text-muted);
+      border:1px solid var(--glass-border);
+    }
+    .button.secondary:hover{
+      background:rgba(255,255,255,.1);
+      color:var(--text);
+      transform:translateY(-1px);
+    }
+    .button.brass{
+      background:linear-gradient(135deg,rgba(176,141,87,.18),rgba(176,141,87,.08));
+      color:var(--brass);
+      border:1px solid rgba(176,141,87,.25);
+    }
+    .button.brass:hover{
+      background:linear-gradient(135deg,rgba(176,141,87,.28),rgba(176,141,87,.14));
+      transform:translateY(-1px);
+    }
+
+    /* Nav links */
+    .nav-links{
+      display:flex;gap:6px;flex-wrap:wrap;justify-content:center;
+    }
+    .nav-link{
+      font-size:.8rem;color:var(--text-soft);
+      padding:5px 12px;
+      border-radius:var(--radius-pill);
+      border:1px solid rgba(255,255,255,.06);
+      transition:all .15s;
+    }
+    .nav-link:hover{color:var(--text);border-color:var(--glass-border);background:rgba(255,255,255,.04)}
+
+    /* ── Footer ── */
+    footer{
+      border-top:1px solid var(--line);
+      padding:20px 0;
+    }
+    .footer-inner{
+      display:flex;align-items:center;justify-content:space-between;
+      flex-wrap:wrap;gap:12px;
+    }
+    .footer-copy{font-size:.75rem;color:var(--text-soft)}
+    .footer-nav{display:flex;gap:16px}
+    .footer-nav a{font-size:.8rem;color:var(--text-soft);transition:color .15s}
+    .footer-nav a:hover{color:var(--text)}
+
+    @media(max-width:520px){
+      .error-card{padding:28px 20px}
+      .footer-inner{flex-direction:column;align-items:flex-start;gap:8px}
+    }
+  </style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<header>
+  <div class="container header-inner">
+    <a class="logo" href="index.html">
+      <img src="assets/logo/novellum-horizontal.svg" alt="Nóvellum" />
+    </a>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="error-wrap">
+      <div class="error-code">404</div>
+
+      <div class="error-card">
+        <div>
+          <p class="error-title">Сторінку не знайдено</p>
+          <p class="error-desc" style="margin-top:10px">Схоже, ця адреса більше не існує або була переміщена. Але решта сайту — на місці.</p>
+        </div>
+
+        <div class="btn-group">
+          <a class="button primary" href="index.html">← На головну</a>
+          <a class="button brass" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Написати в Telegram</a>
+        </div>
+
+        <div class="nav-links">
+          <a class="nav-link" href="index.html#formats">Формати</a>
+          <a class="nav-link" href="index.html#products">Продукти</a>
+          <a class="nav-link" href="index.html#process">Процес</a>
+          <a class="nav-link" href="index.html#calculator">Калькулятор</a>
+          <a class="nav-link" href="partners.html">Партнерство</a>
+          <a class="nav-link" href="index.html#contact">Контакти</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <span class="footer-copy">© <span id="year"></span> ФОП Кухарчук Сергій Миколайович</span>
+      <nav class="footer-nav">
+        <a href="legal/Privacy_Policy.pdf" target="_blank" rel="noopener">Конфіденційність</a>
+        <a href="legal/Terms_of_Use.pdf" target="_blank" rel="noopener">Умови</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
