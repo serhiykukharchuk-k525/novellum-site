@@ -27,7 +27,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <title>Nóvellum — Система управлінської стабільності</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" /></noscript>
   <link rel="icon" href="assets/favicon/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
   <link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png">
@@ -281,9 +283,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       content:"";
       position:absolute;inset:-120px;
       background: none;
-      filter:blur(8px);
       opacity:.9;
       pointer-events:none;
+      will-change:transform;
     }
 
     .hero-grid{
@@ -887,6 +889,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .brand-logos-track{
       display:flex;gap:16px;width:max-content;
       animation:marquee-scroll 60s linear infinite;
+      will-change:transform;
     }
     .brand-logos-track:hover{animation-play-state:paused}
 
@@ -1056,11 +1059,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       width:10px;height:10px;border-radius:50%;flex-shrink:0;
       background:rgba(24,56,40,.98);
       box-shadow:0 0 0 6px rgba(24,56,40,.18),0 0 22px rgba(24,56,40,.22);
+      position:relative;
+    }
+    .urgency-dot::after{
+      content:"";position:absolute;inset:-6px;border-radius:50%;
+      background:rgba(24,56,40,.20);
       animation:pulse-dot 2.2s ease-in-out infinite;
+      will-change:transform,opacity;
     }
     @keyframes pulse-dot{
-      0%,100%{box-shadow:0 0 0 6px rgba(24,56,40,.18),0 0 22px rgba(24,56,40,.22)}
-      50%{box-shadow:0 0 0 10px rgba(24,56,40,.08),0 0 32px rgba(24,56,40,.32)}
+      0%,100%{transform:scale(1);opacity:1}
+      50%{transform:scale(1.8);opacity:0}
     }
   </style>
 </head>
@@ -1097,8 +1106,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <header>
     <div class="container nav">
       <a class="logo" href="#">
-        <img class="logo-horizontal" src="assets/logo/novellum-horizontal.svg" alt="Nóvellum" />
-        <img class="logo-mark" src="assets/logo/novellum-mark.svg" alt="Nóvellum" />
+        <img class="logo-horizontal" src="assets/logo/novellum-horizontal.svg" alt="Nóvellum" width="130" height="40" />
+        <img class="logo-mark" src="assets/logo/novellum-mark.svg" alt="Nóvellum" width="40" height="40" />
       </a>
 
       <nav class="nav-links" aria-label="Навігація">
