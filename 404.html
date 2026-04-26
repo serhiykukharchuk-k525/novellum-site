@@ -7,9 +7,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="icon" href="assets/favicon/favicon.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
-  <link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png">
+  <link rel="icon" href="https://novellum.co/assets/favicon/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://novellum.co/assets/favicon/favicon-32x32.png">
+  <link rel="apple-touch-icon" href="https://novellum.co/assets/favicon/apple-touch-icon.png">
   <style>
     :root{
       --bg:#0e1116;
@@ -75,6 +75,11 @@
       height:56px;
     }
     .logo img{height:28px;width:auto}
+    .logo .logo-mark{display:none}
+    @media(max-width:640px){
+      .logo .logo-horizontal{display:none}
+      .logo .logo-mark{display:block;height:24px}
+    }
 
     /* ── Orbs ── */
     .orb{
@@ -235,8 +240,9 @@
 
 <header>
   <div class="container header-inner">
-    <a class="logo" href="index.html">
-      <img src="assets/logo/novellum-horizontal.svg" alt="Nóvellum" />
+    <a class="logo" href="https://novellum.co">
+      <img class="logo-horizontal" src="https://novellum.co/assets/logo/novellum-horizontal.svg" alt="Nóvellum" />
+      <img class="logo-mark" src="https://novellum.co/assets/logo/novellum-mark.svg" alt="Nóvellum" />
     </a>
   </div>
 </header>
@@ -253,17 +259,17 @@
         </div>
 
         <div class="btn-group">
-          <a class="button primary" href="index.html">← На головну</a>
+          <a class="button primary" href="https://novellum.co">← На головну</a>
           <a class="button brass" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Написати в Telegram</a>
         </div>
 
         <div class="nav-links">
-          <a class="nav-link" href="index.html#formats">Формати</a>
-          <a class="nav-link" href="index.html#products">Продукти</a>
-          <a class="nav-link" href="index.html#process">Процес</a>
-          <a class="nav-link" href="index.html#calculator">Калькулятор</a>
-          <a class="nav-link" href="partners.html">Партнерство</a>
-          <a class="nav-link" href="index.html#contact">Контакти</a>
+          <a class="nav-link" href="https://novellum.co#formats">Формати</a>
+          <a class="nav-link" href="https://novellum.co#products">Продукти</a>
+          <a class="nav-link" href="https://novellum.co#process">Процес</a>
+          <a class="nav-link" href="https://novellum.co#calculator">Калькулятор</a>
+          <a class="nav-link" href="https://novellum.co/partners.html">Партнерство</a>
+          <a class="nav-link" href="https://novellum.co#contact">Контакти</a>
         </div>
       </div>
     </div>
@@ -275,9 +281,9 @@
     <div class="footer-inner">
       <span class="footer-copy">© <span id="year"></span> ФОП Кухарчук Сергій Миколайович</span>
       <nav class="footer-nav">
-        <a href="legal/Privacy_Policy.pdf" target="_blank" rel="noopener">Конфіденційність</a>
-        <a href="legal/Terms_of_Use.pdf" target="_blank" rel="noopener">Умови</a>
-        <a href="legal/public-offer.pdf" target="_blank" rel="noopener">Публічна оферта</a>
+        <a href="https://novellum.co/legal/Privacy_Policy.pdf" target="_blank" rel="noopener">Конфіденційність</a>
+        <a href="https://novellum.co/legal/Terms_of_Use.pdf" target="_blank" rel="noopener">Умови</a>
+        <a href="https://novellum.co/legal/public-offer.pdf" target="_blank" rel="noopener">Публічна оферта</a>
       </nav>
     </div>
   </div>
