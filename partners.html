@@ -40,26 +40,37 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     @font-face{font-family:'Manrope';font-style:normal;font-weight:400 800;font-display:swap;src:url('/assets/fonts/manrope-cyrillic.woff2') format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
     @font-face{font-family:'Manrope';font-style:normal;font-weight:400 800;font-display:swap;src:url('/assets/fonts/manrope-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
     :root{
-      --bg:#0e1116;
-      --surface:#12161d;
-      --panel:#171c24;
-      --panel-inset:#1e2430;
+      --bg:#1A2E28;
+      --bg-deep:#0F1F1C;
+      --bg-card:rgba(255,255,255,.025);
+      --surface:#1e3530;
+      --panel:#1e3530;
+      --panel-inset:#152520;
 
       --brand:#183828;
       --brand-2:#1f4a36;
       --brand-hi:#2b6b4f;
-      --brand-soft:rgba(24,56,40,.18);
+      --brand-soft:rgba(26,46,40,.18);
+      --brand-glow:rgba(26,46,40,.35);
 
-      --text:#e6e8eb;
-      --text-muted:#a8afb9;
-      --text-soft:#7b8390;
+      --bronze:#D4B886;
+      --bronze-bright:#E8C896;
+      --bronze-deep:#A8895A;
+      --brass:#D4B886;
 
-      --accent:#cfd6df;
-      --accent-2:#b7bec8;
-      --brass:#b08d57;
+      --border:rgba(212,184,134,.12);
+      --border-strong:rgba(212,184,134,.28);
+      --line:rgba(212,184,134,.12);
+      --line-strong:rgba(212,184,134,.28);
 
-      --line:rgba(255,255,255,.08);
-      --line-strong:rgba(255,255,255,.12);
+      --fg:#F4EFE5;
+      --fg-muted:rgba(244,239,229,.62);
+      --fg-faint:rgba(244,239,229,.38);
+      --text:#F4EFE5;
+      --text-muted:rgba(244,239,229,.62);
+      --text-soft:rgba(244,239,229,.38);
+      --accent:#D4B886;
+      --accent-2:#A8895A;
 
       --shadow-card:0 20px 40px rgba(0,0,0,.45);
       --shadow-hero:0 40px 80px rgba(0,0,0,.65);
@@ -76,12 +87,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       --gap:20px;
       --section-pad:72px;
 
-      --glass:rgba(23,28,36,.72);
-      --glass-2:rgba(18,22,29,.70);
+      --glass:rgba(15,31,28,.75);
+      --glass-2:rgba(10,24,22,.72);
+      --glass-border:rgba(212,184,134,.10);
+      --glass-border-2:rgba(212,184,134,.18);
       --glass-glow:0 18px 55px rgba(0,0,0,.58);
 
-      --top-accent:linear-gradient(90deg, rgba(24,56,40,.0), rgba(24,56,40,.9), rgba(176,141,87,.55), rgba(24,56,40,.0));
-      --title-grad:linear-gradient(90deg, rgba(230,232,235,1), rgba(230,232,235,.86), rgba(24,56,40,.95));
+      --top-accent:linear-gradient(90deg, rgba(15,31,28,0), rgba(26,46,40,.9), rgba(212,184,134,.55), rgba(15,31,28,0));
+      --title-grad:linear-gradient(90deg, rgba(244,239,229,1), rgba(244,239,229,.86), rgba(212,184,134,.95));
     }
 
     *{box-sizing:border-box;margin:0;padding:0}
@@ -111,16 +124,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     body > header{
       position:sticky;top:0;
-      background:rgba(14,17,22,.82);
+      background:rgba(15,31,28,.88);
       backdrop-filter:blur(14px);
       -webkit-backdrop-filter:blur(14px);
       z-index:50;
-      border-bottom:1px solid rgba(255,255,255,.08);
+      border-bottom:1px solid var(--border);
     }
     body > header::after{
       content:"";
       position:absolute;left:0;right:0;bottom:-1px;height:1px;
-      background:linear-gradient(90deg, transparent, rgba(24,56,40,.35), rgba(176,141,87,.18), transparent);
+      background:var(--top-accent);
       pointer-events:none;
     }
 
@@ -155,14 +168,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       flex:0 0 auto;
       transition:color .2s ease, text-shadow .2s ease;
     }
-    .nav-links a:hover{color:var(--text); text-shadow:0 0 18px rgba(24,56,40,.22)}
+    .nav-links a:hover{color:var(--text); text-shadow:0 0 18px rgba(212,184,134,.18)}
     .nav-links a.active{color:var(--text)}
     .nav-links a.active::after{
       content:"";
       position:absolute;left:2px;right:2px;bottom:-7px;height:3px;
       border-radius:99px;
       background:var(--top-accent);
-      box-shadow:0 0 18px rgba(24,56,40,.22);
+      box-shadow:0 0 18px rgba(212,184,134,.18);
     }
 
     .nav-cta{
@@ -182,24 +195,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       position:relative;
     }
     .button.primary{
-      background:linear-gradient(180deg, rgba(207,214,223,1), rgba(207,214,223,.90));
-      color:#0e1116;
-      box-shadow:0 16px 44px rgba(0,0,0,.50);
+      background:var(--bronze);
+      color:#0F1F1C;
+      box-shadow:0 8px 28px rgba(212,184,134,.22);
+      font-weight:600;
     }
     .button.primary::after{
       content:"";
       position:absolute;inset:-1px;
       border-radius:999px;
       padding:1px;
-      background:linear-gradient(90deg, rgba(24,56,40,.0), rgba(24,56,40,.35), rgba(176,141,87,.22), rgba(24,56,40,.0));
-      -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      background:linear-gradient(90deg,rgba(232,200,150,.0),rgba(232,200,150,.35),rgba(212,184,134,.22),rgba(232,200,150,.0));
+      -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
       -webkit-mask-composite:xor;
       mask-composite:exclude;
       pointer-events:none;
       opacity:.9;
     }
     .button.primary:hover{
-      box-shadow:0 18px 58px rgba(0,0,0,.60), 0 0 0 1px rgba(24,56,40,.30);
+      background:var(--bronze-bright);
+      box-shadow:0 12px 36px rgba(212,184,134,.32);
     }
     .button.secondary{
       border-color:rgba(255,255,255,.16);
@@ -208,7 +223,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
     }
     .button.secondary:hover{
-      border-color:rgba(24,56,40,.55);
+      border-color:rgba(212,184,134,.28);
       box-shadow:0 16px 44px rgba(0,0,0,.52), inset 0 1px 0 rgba(255,255,255,.05);
     }
     .button:hover{transform:translateY(-2px)}
@@ -218,17 +233,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       display:inline-flex;align-items:center;gap:8px;
       padding:6px 14px;border-radius:var(--radius-pill);
       font-size:12px;letter-spacing:.08em;text-transform:uppercase;
-      border:1px solid rgba(255,255,255,.12);
-      color:var(--accent-2);
-      background:rgba(23,28,36,.55);
+      border:1px solid rgba(212,184,134,.18);
+      color:var(--bronze);
+      background:rgba(212,184,134,.08);
       backdrop-filter:blur(10px);
       -webkit-backdrop-filter:blur(10px);
-      box-shadow:var(--shadow-inset);
     }
     .pill .dot{
       width:8px;height:8px;border-radius:50%;
-      background:rgba(24,56,40,.98);
-      box-shadow:0 0 0 6px rgba(24,56,40,.16), 0 0 28px rgba(24,56,40,.22);
+      background:rgba(43,107,79,.98);
+      box-shadow:0 0 0 6px rgba(43,107,79,.16), 0 0 28px rgba(43,107,79,.22);
     }
 
     .title-accent{
@@ -239,15 +253,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       text-shadow:none;
     }
     .accent-word{
-      color:rgba(230,232,235,1);
+      color:rgba(244,239,229,1);
       position:relative;
-      text-shadow:0 0 22px rgba(24,56,40,.22);
+      text-shadow:0 0 22px rgba(212,184,134,.18);
     }
     .accent-word::after{
       content:"";
       position:absolute;left:0;right:0;bottom:-6px;height:2px;
       border-radius:99px;
-      background:linear-gradient(90deg, rgba(24,56,40,.0), rgba(24,56,40,.85), rgba(176,141,87,.45), rgba(24,56,40,.0));
+      background:linear-gradient(90deg, rgba(15,31,28,0), rgba(26,46,40,.6), rgba(212,184,134,.55), rgba(15,31,28,0));
       opacity:.9;
     }
 
@@ -257,7 +271,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       content:"";
       position:absolute;left:50%;bottom:-40px;
       width:1px;height:80px;
-      background:rgba(255,255,255,.08);
+      background:rgba(212,184,134,.14);
       opacity:.7;
     }
     section{scroll-margin-top:90px;}
@@ -298,7 +312,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .section-title::after{
       content:"";
       position:absolute;left:0;right:0;bottom:-16px;height:1px;
-      background:linear-gradient(90deg, rgba(24,56,40,.0), rgba(24,56,40,.35), rgba(255,255,255,.10), rgba(176,141,87,.18), rgba(24,56,40,.0));
+      background:linear-gradient(90deg, rgba(15,31,28,0), rgba(26,46,40,.25), rgba(255,255,255,.08), rgba(212,184,134,.22), rgba(15,31,28,0));
       opacity:.95;
     }
     .section-title h2{
@@ -333,14 +347,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .pricing-card{
       padding:24px;
       display:grid;gap:10px;
-      background:rgba(30,36,48,.62);
-      border-color:rgba(255,255,255,.10);
+      background:rgba(10,20,18,.70);
+      border-color:rgba(212,184,134,.12);
     }
     .price{font-size:14px;color:var(--text-muted)}
     .terms{font-size:12px;color:var(--text-soft)}
 
     .cta{
-      background: var(--glass-2);
+      background:rgba(10,24,22,.80);
       border-radius:var(--radius-lg);
       padding:40px;
       border:1px solid rgba(255,255,255,.12);
@@ -362,8 +376,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
     .cta form{display:grid;gap:12px}
     input,textarea{
-      background:rgba(30,36,48,.62);
-      border:1px solid rgba(255,255,255,.12);
+      background:rgba(10,20,18,.68);
+      border:1px solid rgba(255,255,255,.10);
       border-radius:12px;
       padding:12px 14px;
       color:var(--text);
@@ -372,8 +386,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       transition:border-color .2s ease, box-shadow .2s ease;
     }
     input:focus,textarea:focus{
-      border-color:rgba(24,56,40,.75);
-      box-shadow:0 0 0 3px rgba(24,56,40,.16);
+      border-color:rgba(212,184,134,.55);
+      box-shadow:0 0 0 3px rgba(212,184,134,.12);
     }
     textarea{resize:vertical;min-height:110px}
 
@@ -381,13 +395,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       border:1px solid rgba(255,255,255,.12);
       border-radius:14px;
       padding:12px 14px;
-      background:rgba(23,28,36,.72);
+      background:rgba(8,16,14,.80);
       color:var(--text-muted);
       display:none;
       backdrop-filter:blur(12px);
       -webkit-backdrop-filter:blur(12px);
     }
-    .form-message.success{border-color:rgba(24,56,40,.55);color:var(--text)}
+    .form-message.success{border-color:rgba(61,107,92,.60);color:var(--text)}
     .form-message.error{border-color:rgba(255,255,255,.14);color:var(--text-muted)}
 
     .footer{
@@ -417,7 +431,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .lift:hover{
       transform:translateY(-7px);
       box-shadow:0 40px 90px rgba(0,0,0,.62);
-      border-color:rgba(24,56,40,.38);
+      border-color:rgba(212,184,134,.20);
       filter:saturate(1.04);
     }
     .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
@@ -473,7 +487,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <div class="nav-cta">
         <a class="button secondary" href="https://t.me/novellum_reminder_bot" target="_blank" rel="noopener">Reminder Bot</a>
-        <a class="button secondary" href="https://t.me/novellum" target="_blank" rel="noopener">Telegram</a>
+        <a class="button secondary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener">Telegram</a>
         <a class="button primary" href="#contact">Ініціювати</a>
       </div>
     </div>
@@ -614,7 +628,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div>
         <h4>Контакти</h4>
         <p><a href="mailto:contact@novellum.co">contact@novellum.co</a></p>
-        <p><a href="https://t.me/novellum" target="_blank" rel="noopener">Telegram</a></p>
+        <p><a href="https://t.me/serhiy_novellum" target="_blank" rel="noopener">Telegram</a></p>
       </div>
 
       <div>
