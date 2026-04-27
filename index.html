@@ -1533,33 +1533,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="calc-grid">
           <div class="calc-box reveal">
             <div class="calc-field">
-              <label>Уточнень статусів на тиждень <span class="range-val" data-for="calcChecks">20</span></label>
-              <input type="range" id="calcChecks" min="1" max="30" value="20" />
+              <label>Уточнень статусів на тиждень <span class="range-val" data-for="calcChecks">7</span></label>
+              <input type="range" id="calcChecks" min="1" max="30" value="7" />
             </div>
             <div class="calc-field">
-              <label>Годин на зведення звітів на тиждень <span class="range-val" data-for="calcHours" data-unit=" год">10 год</span></label>
-              <input type="range" id="calcHours" min="1" max="20" value="10" />
+              <label>Годин на зведення звітів на тиждень <span class="range-val" data-for="calcHours" data-unit=" год">8 год</span></label>
+              <input type="range" id="calcHours" min="1" max="20" value="8" />
             </div>
             <div class="calc-field">
-              <label>Ваша ставка як управлінця <span class="range-val" data-for="calcRate" data-unit=" $/год">75 $/год</span></label>
-              <input type="range" id="calcRate" min="5" max="150" value="75" step="5" />
+              <label>Ваша ставка як управлінця <span class="range-val" data-for="calcRate" data-unit=" $/год">50 $/год</span></label>
+              <input type="range" id="calcRate" min="5" max="150" value="50" step="5" />
             </div>
           </div>
 
           <div class="calc-box reveal">
             <div style="font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--text-soft);margin-bottom:10px">Втрати управлінського часу / місяць</div>
             <div class="calc-result-box">
-              <div class="calc-result-num" id="calcResult">$1&#8239;800</div>
-              <div class="calc-result-sub">≈ <span id="calcResultHours">120</span> год ручної роботи на місяць</div>
+              <div class="calc-result-num" id="calcResult">$3&#8239;000</div>
+              <div class="calc-result-sub">≈ <span id="calcResultHours">60</span> год ручної роботи на місяць</div>
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px">
               <div style="background:rgba(61,107,92,.12);border:1px solid rgba(61,107,92,.3);border-radius:12px;padding:12px 14px">
                 <div style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-soft);margin-bottom:4px">Економія / міс</div>
-                <div style="font-size:20px;font-weight:800;color:#6ab89a;letter-spacing:-.02em" id="calcSaved">$300</div>
+                <div style="font-size:20px;font-weight:800;color:#6ab89a;letter-spacing:-.02em" id="calcSaved">$1&#8239;500</div>
               </div>
               <div style="background:rgba(212,184,134,.06);border:1px solid var(--border);border-radius:12px;padding:12px 14px">
                 <div style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-soft);margin-bottom:4px">Окупність</div>
-                <div style="font-size:20px;font-weight:800;color:var(--bronze);letter-spacing:-.02em" id="calcRoi">5.0 <span style="font-size:12px;font-weight:400">міс</span></div>
+                <div style="font-size:20px;font-weight:800;color:var(--bronze);letter-spacing:-.02em" id="calcRoi">1.0 <span style="font-size:12px;font-weight:400">міс</span></div>
               </div>
             </div>
             <p class="calc-note">Ongoing Nóvellum — від $1 500/міс. Коли ручна робота коштує більше — система окупається і дає час назад.</p>
@@ -2144,8 +2144,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     // ── Calculator ──
     function updateCalc() {
       var checks = +(document.getElementById('calcChecks') && document.getElementById('calcChecks').value) || 7;
-      var hours  = +(document.getElementById('calcHours')  && document.getElementById('calcHours').value)  || 6;
-      var rate   = +(document.getElementById('calcRate')   && document.getElementById('calcRate').value)   || 25;
+      var hours  = +(document.getElementById('calcHours')  && document.getElementById('calcHours').value)  || 8;
+      var rate   = +(document.getElementById('calcRate')   && document.getElementById('calcRate').value)   || 50;
       var monthHours = Math.round((checks * 4) + (hours * 4));
       var cost = Math.round(monthHours * rate / 5) * 5;
       var saved = Math.max(0, cost - 1500);
