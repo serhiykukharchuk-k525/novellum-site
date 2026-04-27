@@ -417,8 +417,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .live-focus-item:last-child{border-bottom:none}
     .live-focus-num{font-size:10px;font-weight:700;color:rgba(244,239,229,.3);min-width:18px;flex-shrink:0}
     .live-focus-alert{width:6px;height:6px;border-radius:50%;background:#e05c50;flex-shrink:0;margin-left:auto}
+    /* Progress bars */
+    .live-bars{border-top:1px solid rgba(255,255,255,.06);margin-top:16px;padding-top:14px;display:grid;gap:10px}
+    .live-bar-row-labels{display:flex;justify-content:space-between;font-size:10px;color:rgba(244,239,229,.38);margin-bottom:5px;letter-spacing:.02em}
+    .live-bar-track{height:3px;background:rgba(212,184,134,.10);border-radius:2px;overflow:hidden}
+    .live-bar-fill{height:100%;background:var(--bronze);border-radius:2px;transition:width 1.4s ease}
+    /* Focus block with subtle bg */
+    .live-focus{border-top:1px solid rgba(255,255,255,.06);margin-top:16px;padding:12px 14px;background:rgba(255,255,255,.025);border-radius:10px}
     /* Footer tags */
-    .live-dash-footer{margin-top:16px;padding-top:12px;border-top:1px solid rgba(255,255,255,.05);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(244,239,229,.2);text-align:center}
+    .live-dash-footer{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.05);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(244,239,229,.18);text-align:center}
 
     .dashboard{
       position:relative;
@@ -1259,7 +1266,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <div class="live-live-badge"><span class="live-dot"></span>LIVE</div>
             </div>
 
-            <div class="live-rev-label">REVENUE · MTD</div>
+            <div class="live-rev-label">ВИРУЧКА · МТД</div>
             <div class="live-rev-row">
               <div class="live-rev-val" id="dash-revenue">₴1&nbsp;284&nbsp;560</div>
               <div class="live-rev-delta" id="dash-rev-delta">+12.4%</div>
@@ -1271,20 +1278,37 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                   <stop offset="100%" stop-color="#D4B886" stop-opacity="0"/>
                 </linearGradient>
               </defs>
-              <path id="spark-path" d="M0 30 C18 28,32 25,52 23 C72 21,84 26,104 22 C124 18,138 19,158 15 C178 11,192 13,212 9 C232 5,248 7,280 3" stroke="#D4B886" stroke-width="1.5" fill="none"/>
-              <path id="spark-fill" d="M0 30 C18 28,32 25,52 23 C72 21,84 26,104 22 C124 18,138 19,158 15 C178 11,192 13,212 9 C232 5,248 7,280 3 L280 34 L0 34 Z" fill="url(#spark-grad)"/>
+              <path d="M0 30 C18 28,32 25,52 23 C72 21,84 26,104 22 C124 18,138 19,158 15 C178 11,192 13,212 9 C232 5,248 7,280 3" stroke="#D4B886" stroke-width="1.5" fill="none"/>
+              <path d="M0 30 C18 28,32 25,52 23 C72 21,84 26,104 22 C124 18,138 19,158 15 C178 11,192 13,212 9 C232 5,248 7,280 3 L280 34 L0 34 Z" fill="url(#spark-grad)"/>
             </svg>
 
             <div class="live-metrics-row">
               <div class="live-metric-col">
-                <div class="live-metric-label">MARGIN</div>
+                <div class="live-metric-label">МАРЖА</div>
                 <div class="live-metric-val" id="dash-margin">34.2%</div>
                 <div class="live-metric-delta live-delta-pos" id="dash-margin-delta">+1.2 pp</div>
               </div>
               <div class="live-metric-col">
-                <div class="live-metric-label">ORDERS / DAY</div>
+                <div class="live-metric-label">ЗАМОВЛЕННЯ / ДЕНЬ</div>
                 <div class="live-metric-val" id="dash-orders">847</div>
                 <div class="live-metric-delta live-delta-neg" id="dash-orders-delta">−3.1%</div>
+              </div>
+            </div>
+
+            <div class="live-bars">
+              <div class="live-bar-row">
+                <div class="live-bar-row-labels">
+                  <span>Виконання плану</span>
+                  <span id="dash-plan-pct">76%</span>
+                </div>
+                <div class="live-bar-track"><div class="live-bar-fill" id="dash-plan-bar" style="width:76%"></div></div>
+              </div>
+              <div class="live-bar-row">
+                <div class="live-bar-row-labels">
+                  <span>Актуальність даних</span>
+                  <span style="color:#4caf6e">онлайн</span>
+                </div>
+                <div class="live-bar-track"><div class="live-bar-fill" style="width:100%;background:#4caf6e"></div></div>
               </div>
             </div>
 
@@ -2075,7 +2099,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       var ordEl = document.getElementById('dash-orders');
       var ordDelta = document.getElementById('dash-orders-delta');
       if (!revEl) return;
-      var rev = 1284560, mar = 34.2, ord = 847;
+      var pctEl = document.getElementById('dash-plan-pct');
+      var barEl = document.getElementById('dash-plan-bar');
+      var rev = 1284560, mar = 34.2, ord = 847, pct = 76;
       var revBase = rev, marBase = mar, ordBase = ord;
       function jitter(v, range) { return v * (1 + (Math.random() * 2 - 1) * range / 100); }
       function fmtRev(v) {
@@ -2087,14 +2113,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         var newRev = jitter(rev, 1);
         var newMar = jitter(mar, 1);
         var newOrd = jitter(ord, 1);
+        var newPct = Math.min(99, Math.max(50, jitter(pct, 1)));
         var revPct = ((newRev - revBase) / revBase * 100).toFixed(1);
         var marPp  = (newMar - marBase).toFixed(1);
         var ordPct = ((newOrd - ordBase) / ordBase * 100).toFixed(1);
         [revEl, marEl, ordEl].forEach(fade);
-        rev = newRev; mar = newMar; ord = newOrd;
+        rev = newRev; mar = newMar; ord = newOrd; pct = newPct;
         revEl.textContent = fmtRev(rev);
         marEl.textContent = mar.toFixed(1) + '%';
         ordEl.textContent = Math.round(ord);
+        var p = Math.round(pct);
+        if (pctEl) pctEl.textContent = p + '%';
+        if (barEl) barEl.style.width = p + '%';
         if (revDelta) { revDelta.textContent = (revPct>=0?'+':'')+revPct+'%'; revDelta.className='live-rev-delta '+(revPct>=0?'live-delta-pos':'live-delta-neg'); }
         if (marDelta) { marDelta.textContent = (marPp>=0?'+':'')+marPp+' pp'; marDelta.className='live-metric-delta '+(marPp>=0?'live-delta-pos':'live-delta-neg'); }
         if (ordDelta) { ordDelta.textContent = (ordPct>=0?'+':'')+ordPct+'%'; ordDelta.className='live-metric-delta '+(ordPct>=0?'live-delta-pos':'live-delta-neg'); }
