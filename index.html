@@ -40,28 +40,46 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     @font-face{font-family:'Manrope';font-style:normal;font-weight:400 800;font-display:swap;src:url('/assets/fonts/manrope-cyrillic.woff2') format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
     @font-face{font-family:'Manrope';font-style:normal;font-weight:400 800;font-display:swap;src:url('/assets/fonts/manrope-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
     :root{
-      --bg:#0e1116;
-      --surface:#12161d;
-      --panel:#171c24;
-      --panel-inset:#1e2430;
+      --bg:#1A2E28;
+      --bg-deep:#0F1F1C;
+      --bg-card:rgba(255,255,255,.025);
+      --bg-card-elev:rgba(255,255,255,.04);
+      --surface:#1e3530;
+      --panel:#1e3530;
+      --panel-inset:#152520;
 
-      /* Brand from logo */
+      /* Brand */
       --brand:#183828;
       --brand-2:#1f4a36;
       --brand-hi:#2b6b4f;
-      --brand-soft:rgba(24,56,40,.18);
-      --brand-glow:rgba(24,56,40,.35);
+      --brand-soft:rgba(26,46,40,.18);
+      --brand-glow:rgba(26,46,40,.35);
 
-      --text:#e6e8eb;
-      --text-muted:#a8afb9;
-      --text-soft:#7b8390;
+      /* Bronze */
+      --bronze:#D4B886;
+      --bronze-bright:#E8C896;
+      --bronze-deep:#A8895A;
+      --brass:#D4B886;
 
-      --accent:#cfd6df;
-      --accent-2:#b7bec8;
-      --brass:#b08d57;
+      /* Border */
+      --border:rgba(212,184,134,.12);
+      --border-strong:rgba(212,184,134,.28);
+      --line:rgba(212,184,134,.12);
+      --line-strong:rgba(212,184,134,.28);
 
-      --line:rgba(255,255,255,.08);
-      --line-strong:rgba(255,255,255,.12);
+      /* Text */
+      --fg:#F4EFE5;
+      --fg-muted:rgba(244,239,229,.62);
+      --fg-faint:rgba(244,239,229,.38);
+      --text:#F4EFE5;
+      --text-muted:rgba(244,239,229,.62);
+      --text-soft:rgba(244,239,229,.38);
+      --accent:#D4B886;
+      --accent-2:#A8895A;
+
+      /* Status */
+      --green-pos:#3D6B5C;
+      --red-neg:#C25B4F;
 
       --shadow-card:0 20px 40px rgba(0,0,0,.45);
       --shadow-hero:0 40px 80px rgba(0,0,0,.65);
@@ -79,15 +97,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       --section-pad:72px;
 
       /* Glass */
-      --glass:rgba(23,28,36,.72);
-      --glass-2:rgba(18,22,29,.70);
-      --glass-border:rgba(255,255,255,.10);
-      --glass-border-2:rgba(255,255,255,.14);
+      --glass:rgba(15,31,28,.75);
+      --glass-2:rgba(10,24,22,.72);
+      --glass-border:rgba(212,184,134,.10);
+      --glass-border-2:rgba(212,184,134,.18);
       --glass-glow:0 18px 55px rgba(0,0,0,.58);
 
-      /* Stronger “premium” focus line */
-      --top-accent:linear-gradient(90deg, rgba(24,56,40,.0), rgba(24,56,40,.9), rgba(176,141,87,.55), rgba(24,56,40,.0));
-      --title-grad:linear-gradient(90deg, rgba(230,232,235,1), rgba(230,232,235,.86), rgba(24,56,40,.95));
+      --top-accent:linear-gradient(90deg, rgba(15,31,28,0), rgba(26,46,40,.9), rgba(212,184,134,.55), rgba(15,31,28,0));
+      --title-grad:linear-gradient(90deg, rgba(244,239,229,1), rgba(244,239,229,.86), rgba(212,184,134,.95));
     }
 
     *{box-sizing:border-box;margin:0;padding:0}
@@ -121,11 +138,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     /* Sticky only top header */
     body > header{
       position:sticky;top:0;
-      background:rgba(14,17,22,.82);
+      background:rgba(15,31,28,.88);
       backdrop-filter:blur(14px);
       -webkit-backdrop-filter:blur(14px);
       z-index:50;
-      border-bottom:1px solid rgba(255,255,255,.08);
+      border-bottom:1px solid var(--border);
     }
     body > header::after{
       content:"";
@@ -197,24 +214,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
 
     .button.primary{
-      background:linear-gradient(180deg, rgba(207,214,223,1), rgba(207,214,223,.90));
-      color:#0e1116;
-      box-shadow:0 16px 44px rgba(0,0,0,.50);
+      background:var(--bronze);
+      color:#0F1F1C;
+      box-shadow:0 8px 28px rgba(212,184,134,.22);
+      font-weight:600;
     }
     .button.primary::after{
       content:"";
       position:absolute;inset:-1px;
       border-radius:999px;
       padding:1px;
-      background:linear-gradient(90deg, rgba(24,56,40,.0), rgba(24,56,40,.35), rgba(176,141,87,.22), rgba(24,56,40,.0));
-      -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      background:linear-gradient(90deg,rgba(232,200,150,.0),rgba(232,200,150,.35),rgba(212,184,134,.22),rgba(232,200,150,.0));
+      -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
       -webkit-mask-composite:xor;
       mask-composite:exclude;
       pointer-events:none;
       opacity:.9;
     }
     .button.primary:hover{
-      box-shadow:0 18px 58px rgba(0,0,0,.60), 0 0 0 1px rgba(24,56,40,.30);
+      background:var(--bronze-bright);
+      box-shadow:0 12px 36px rgba(212,184,134,.32);
     }
 
     .button.secondary{
@@ -273,10 +292,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     /* HERO */
     .hero{
       padding:34px 0 56px;
-      background: var(--surface);
-      border-bottom:1px solid var(--line);
+      background:linear-gradient(180deg,var(--bg-deep),var(--bg));
+      border-bottom:1px solid var(--border);
       position:relative;
       overflow:hidden;
+    }
+    .hero-deco-n{
+      position:absolute;right:-40px;top:-80px;
+      font-family:Georgia,serif;font-size:480px;font-style:italic;
+      color:var(--bronze);opacity:.05;
+      line-height:1;pointer-events:none;user-select:none;
+      z-index:0;
+    }
+    .hero-trust-strip{
+      display:flex;gap:0;
+      border-top:1px solid var(--border);
+      margin-top:28px;padding-top:18px;
+      flex-wrap:wrap;gap:20px;
+    }
+    .hero-trust-item{
+      display:flex;flex-direction:column;gap:2px;
+    }
+    .hero-trust-item span:first-child{
+      font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+      color:var(--text-soft);
+    }
+    .hero-trust-item span:last-child{
+      font-size:13px;font-weight:600;color:var(--bronze);
     }
     .hero::before{
       content:"";
@@ -318,28 +360,44 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       background:var(--glass);
       border-radius:20px;
       padding:26px;
-      border:1px solid rgba(255,255,255,.12);
+      border:1px solid var(--border);
       position:relative;
       min-height:320px;
       box-shadow:var(--shadow-hero);
       backdrop-filter:blur(14px);
       -webkit-backdrop-filter:blur(14px);
     }
-    .hero-visual::before{
-      content:"";
-      position:absolute;inset:-2px;
-      border-radius:22px;
-      background: none;
-      pointer-events:none;
-      opacity:.9;
+    .hero-visual::before{content:none}
+    .hero-visual::after{content:none}
+    /* Live dashboard */
+    .live-dash{padding:0}
+    .live-dash-header{
+      display:flex;align-items:center;justify-content:space-between;
+      margin-bottom:20px;
     }
-    .hero-visual::after{
-      content:"";
-      position:absolute;inset:16px;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.10);
-      pointer-events:none;
+    .live-dash-title{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-soft)}
+    .live-dot{
+      width:6px;height:6px;border-radius:50%;background:#4caf6e;
+      box-shadow:0 0 6px rgba(76,175,110,.6);
+      animation:blink-live 2s ease-in-out infinite;
     }
+    @keyframes blink-live{0%,100%{opacity:1}50%{opacity:.35}}
+    .live-kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+    .live-kpi-full{grid-column:span 2}
+    .live-kpi{
+      background:rgba(212,184,134,.06);
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:14px 16px;
+    }
+    .live-kpi-label{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-soft);margin-bottom:6px}
+    .live-kpi-val{font-size:22px;font-weight:800;color:var(--bronze);letter-spacing:-.02em;transition:opacity .3s}
+    .live-kpi-val.updating{opacity:.4}
+    .live-kpi-sub{font-size:11px;color:var(--text-soft);margin-top:3px}
+    .live-bar-wrap{margin-top:14px}
+    .live-bar-label{display:flex;justify-content:space-between;font-size:11px;color:var(--text-soft);margin-bottom:6px}
+    .live-bar{height:4px;background:rgba(212,184,134,.12);border-radius:2px;overflow:hidden}
+    .live-bar-fill{height:100%;background:var(--bronze);border-radius:2px;transition:width 1.4s ease}
 
     .dashboard{
       position:relative;
@@ -685,7 +743,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       display:flex;justify-content:space-between;align-items:center;
       cursor:pointer;font-weight:700;
     }
-    .accordion-header .chev{color:rgba(24,56,40,.98);font-weight:900}
+    .accordion-header .chev{color:var(--bronze);font-weight:900}
     .accordion-body{margin-top:12px;color:var(--text-muted);display:none}
     .accordion-item.active .accordion-body{display:block}
 
@@ -1115,7 +1173,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <a href="#products">Продукти</a>
         <a href="#process">Процес</a>
         <a href="#pricing">Аналітика</a>
-        <a href="#reminder">Reminder</a>
         <a href="partners.html">Партнерство</a>
         <a href="#contact">Контакт</a>
       </nav>
@@ -1138,7 +1195,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a href="#products">Продукти</a>
     <a href="#process">Процес</a>
     <a href="#pricing">Аналітика</a>
-    <a href="#reminder">Reminder</a>
     <a href="partners.html">Партнерство</a>
     <a href="#contact">Контакт</a>
     <a class="button primary mobile-nav-tg" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Написати в Telegram</a>
@@ -1146,8 +1202,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <main>
     <section class="hero" id="top">
+      <div class="hero-deco-n" aria-hidden="true">N</div>
       <div class="container hero-grid">
-        <div>
+        <div style="position:relative;z-index:1">
           <div class="pill"><span class="dot"></span>Для власників і керівників</div>
 
           <h1 class="title-accent">
@@ -1164,37 +1221,43 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <a class="button primary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Написати в Telegram</a>
             <a class="button secondary" href="#process">Переглянути процес</a>
           </div>
+
+          <div class="hero-trust-strip">
+            <div class="hero-trust-item"><span>NDA</span><span>Конфіденційно</span></div>
+            <div class="hero-trust-item"><span>Аудит</span><span>7 днів</span></div>
+            <div class="hero-trust-item"><span>Паралельно</span><span>5 проєктів max</span></div>
+          </div>
         </div>
 
-        <div class="hero-visual">
-          <div class="dashboard lift" aria-label="Приклад огляду">
-            <header>
-              <h3>Executive overview</h3>
-              <span class="chip brass"><span class="mini"></span>NDA</span>
-            </header>
-
-            <div class="chip-row" aria-label="Мітки формату">
-              <span class="chip">Один дашборд</span>
-              <span class="chip">10–15 KPI</span>
-              <span class="chip brass">Фокус тижня</span>
+        <div class="hero-visual" style="position:relative;z-index:1">
+          <div class="live-dash" aria-label="Live dashboard preview">
+            <div class="live-dash-header">
+              <span class="live-dash-title">Executive overview</span>
+              <span class="live-dot"></span>
             </div>
 
-            <div class="metric">
-              <small>Покриття даних</small>
-              <div class="progress"><span style="width:76%"></span></div>
-            </div>
-            <div class="metric">
-              <small>Актуальність</small>
-              <div class="progress"><span style="width:58%"></span></div>
-            </div>
-            <div class="metric">
-              <small>Контроль виконання</small>
-              <div class="progress"><span style="width:92%"></span></div>
+            <div class="live-kpi-grid">
+              <div class="live-kpi live-kpi-full">
+                <div class="live-kpi-label">Виручка / місяць</div>
+                <div class="live-kpi-val" id="dash-revenue">₴1&nbsp;284&nbsp;560</div>
+              </div>
+              <div class="live-kpi">
+                <div class="live-kpi-label">Маржа</div>
+                <div class="live-kpi-val" id="dash-margin">34.2%</div>
+              </div>
+              <div class="live-kpi">
+                <div class="live-kpi-label">Замовлення</div>
+                <div class="live-kpi-val" id="dash-orders">847</div>
+              </div>
             </div>
 
-            <div class="card" style="background:rgba(0,0,0,.10); border-color:rgba(255,255,255,.12)">
-              <strong>Фокус</strong>
-              <p style="margin-top:6px;">3 зони під контролем.</p>
+            <div class="live-bar-wrap">
+              <div class="live-bar-label"><span>Виконання плану</span><span id="dash-plan-pct">76%</span></div>
+              <div class="live-bar"><div class="live-bar-fill" id="dash-plan-bar" style="width:76%"></div></div>
+            </div>
+            <div class="live-bar-wrap" style="margin-top:8px">
+              <div class="live-bar-label"><span>Актуальність даних</span><span>онлайн</span></div>
+              <div class="live-bar"><div class="live-bar-fill" style="width:100%;background:var(--green-pos)"></div></div>
             </div>
           </div>
         </div>
@@ -1415,7 +1478,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="section-title reveal">
           <div>
             <div class="pill">Калькулятор</div>
-            <h2 class="title-accent">Скільки коштує час на ручні звірки?</h2>
+            <h2 class="title-accent">Скільки коштують ручні звірки?</h2>
           </div>
           <p>Введіть параметри — побачите, у скільки обходяться ручні процеси щомісяця.</p>
         </div>
@@ -1441,6 +1504,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="calc-result-box">
               <div class="calc-result-num" id="calcResult">$825</div>
               <div class="calc-result-sub">≈ <span id="calcResultHours">33</span> год ручної роботи на місяць</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px">
+              <div style="background:rgba(61,107,92,.12);border:1px solid rgba(61,107,92,.3);border-radius:12px;padding:12px 14px">
+                <div style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-soft);margin-bottom:4px">Економія / міс</div>
+                <div style="font-size:20px;font-weight:800;color:#6ab89a;letter-spacing:-.02em" id="calcSaved">$0</div>
+              </div>
+              <div style="background:rgba(212,184,134,.06);border:1px solid var(--border);border-radius:12px;padding:12px 14px">
+                <div style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-soft);margin-bottom:4px">Окупність</div>
+                <div style="font-size:20px;font-weight:800;color:var(--bronze);letter-spacing:-.02em" id="calcRoi">∞ <span style="font-size:12px;font-weight:400">міс</span></div>
+              </div>
             </div>
             <p class="calc-note">Ongoing Nóvellum — від $1 500/міс. Коли ручна робота коштує більше — система окупається і дає час назад.</p>
             <a class="button primary" href="#contact" style="width:100%;justify-content:center">Запитати деталі</a>
@@ -1472,16 +1545,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <div>
             <h3>Nóvellum Reminder</h3>
-            <p>Telegram-бот для особистих нагадувань про зустрічі, дзвінки та події.</p>
-            <ul>
-              <li><span class="status-icon">⏰</span>Нагадування перед подією</li>
-              <li><span class="status-icon">🔁</span>Повторювані задачі</li>
-              <li><span class="status-icon">🗞</span>Дайджести за тарифом</li>
-            </ul>
-            <div class="nav-cta" style="margin-top:14px;">
-              <a class="button primary" href="https://t.me/novellum_reminder_bot" target="_blank" rel="noopener">Відкрити Reminder</a>
-              <a class="button secondary" href="#reminder">Тарифи</a>
-            </div>
+            <p>Telegram-бот для особистих нагадувань про зустрічі, дзвінки та події. <a href="reminder.html" style="color:var(--bronze);text-decoration:underline;text-underline-offset:3px">Детальніше →</a></p>
           </div>
         </div>
       </div>
@@ -1491,7 +1555,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="container">
         <div class="section-title reveal">
           <div>
-            <div class="pill">Процес</div>
+            <div class="pill">Процес і результат</div>
             <h2 class="title-accent">Перший аудит — 7 днів</h2>
           </div>
           <p>За перший тиждень проводимо аудит: визначаємо показники, розбираємось у даних і фіксуємо правила роботи. Дашборд будуємо після.</p>
@@ -1499,17 +1563,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         <div class="timeline">
           <div class="timeline-item lift reveal">
-            <span>Крок 1</span>
+            <span>День 1–2</span>
             <h3>Ключові показники</h3>
             <p>Визначаємо, що саме потрібно бачити для прийняття рішень.</p>
           </div>
           <div class="timeline-item lift reveal">
-            <span>Крок 2</span>
+            <span>День 3–5</span>
             <h3>Аудит даних</h3>
             <p>Розбираємось у джерелах, перевіряємо логіку і якість даних.</p>
           </div>
           <div class="timeline-item lift reveal">
-            <span>Крок 3</span>
+            <span>День 6–7</span>
             <h3>Правила роботи</h3>
             <p>Фіксуємо, хто що оновлює і як вносяться зміни.</p>
           </div>
@@ -1517,51 +1581,45 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         <p class="terms" style="margin-top:16px;">NDA і межі відповідальності підписуємо до початку роботи.</p>
 
-        <div style="margin-top:24px;text-align:center">
-          <a class="button primary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Написати в Telegram — почати аудит</a>
-        </div>
-      </div>
-    </section>
-
-    <section id="deliverables" class="divider">
-      <div class="container">
-        <div class="section-title reveal">
-          <div>
-            <div class="pill">Результат</div>
-            <h2 class="title-accent">Що ви отримуєте, працюючи з нами</h2>
-          </div>
-          <p>Не обіцянки зростання — конкретні речі, які з'являються після старту і підтримуються в часі.</p>
+        <div class="process-divider reveal" style="margin-top:40px;display:flex;align-items:center;gap:16px;">
+          <div style="flex:1;height:1px;background:var(--border)"></div>
+          <span style="font-size:.8rem;font-weight:600;color:var(--text-muted);white-space:nowrap;letter-spacing:.04em;text-transform:uppercase">Що ви отримуєте, працюючи з нами</span>
+          <div style="flex:1;height:1px;background:var(--border)"></div>
         </div>
 
-        <div class="deliverables-grid">
+        <div class="deliverables-grid" style="margin-top:32px;">
           <div class="deliverable-item reveal">
             <div class="del-icon">📊</div>
             <div>
-              <strong>Дашборд на Power BI</strong>
+              <strong>Дашборд Power BI</strong>
               <p>Один екран з 10–15 KPI під ваш бізнес. Актуальний щотижня без вашої участі.</p>
             </div>
           </div>
           <div class="deliverable-item reveal">
-            <div class="del-icon">🎯</div>
+            <div class="del-icon">📋</div>
             <div>
-              <strong>Чіткі пріоритети</strong>
-              <p>Щотижня бачите 2–3 точки уваги — без самостійного аналізу звітів.</p>
+              <strong>Перелік KPI</strong>
+              <p>Узгоджений список показників з формулами та джерелами — зафіксовано документально.</p>
             </div>
           </div>
           <div class="deliverable-item reveal">
-            <div class="del-icon">📝</div>
+            <div class="del-icon">📖</div>
             <div>
-              <strong>Прозора відповідальність</strong>
-              <p>Дедлайни і статуси видно так само чітко, як фінанси — питання не "гуляють" по чатах.</p>
+              <strong>Зрозуміла документація</strong>
+              <p>Опис логіки розрахунків і правил оновлення, яким може скористатись будь-хто з команди.</p>
             </div>
           </div>
           <div class="deliverable-item reveal">
-            <div class="del-icon">⏱</div>
+            <div class="del-icon">🗂</div>
             <div>
-              <strong>Час керівника назад</strong>
-              <p>Ручні звірки, уточнення і дзвінки "що там зі звітом" — забираємо на себе.</p>
+              <strong>Backlog змін</strong>
+              <p>Прозора черга доопрацювань — видно, що в роботі, що заплановано, що зроблено.</p>
             </div>
           </div>
+        </div>
+
+        <div style="margin-top:32px;text-align:center">
+          <a class="button primary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Написати в Telegram — почати аудит</a>
         </div>
       </div>
     </section>
@@ -1605,73 +1663,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </section>
 
-    <section id="reminder" class="divider">
-      <div class="container">
-        <div class="section-title reveal">
-          <div>
-            <div class="pill">Reminder</div>
-            <h2 class="title-accent">Підписка бота: Nóvellum Reminder</h2>
-          </div>
-          <p class="reminder-sub">Три рівні під різні сценарії нагадувань.</p>
-        </div>
-
-        <div class="pricing-grid">
-          <div class="pricing-card lift reveal">
-            <h3>Basic</h3>
-            <div class="price">$19/міс</div>
-            <p class="terms">$190/рік</p>
-            <ul>
-              <li><span class="status-icon">✓</span>Telegram</li>
-              <li><span class="status-icon">✓</span>Нагадування: 1 год + 15 хв</li>
-              <li><span class="status-icon">✓</span>Ліміт: 60 задач</li>
-            </ul>
-          </div>
-
-          <div class="pricing-card lift reveal">
-            <h3>Plus</h3>
-            <div class="price">$49/міс</div>
-            <p class="terms">$490/рік</p>
-            <ul>
-              <li><span class="status-icon">✓</span>Telegram</li>
-              <li><span class="status-icon">✓</span>Нагадування: 1 год + 30 хв + 15 хв</li>
-              <li><span class="status-icon">✓</span>Ліміт: 300 задач</li>
-            </ul>
-          </div>
-
-          <div class="pricing-card lift reveal">
-            <h3>Premium</h3>
-            <div class="price">$89/міс</div>
-            <p class="terms">$890/рік</p>
-            <ul>
-              <li><span class="status-icon">✓</span>Telegram + SMS</li>
-              <li><span class="status-icon">✓</span>Нагадування: 1 год + 30 хв + 15 хв + 5 хв</li>
-              <li><span class="status-icon">✓</span>Без ліміту задач</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="nav-cta reveal" style="margin-top:18px;">
-          <a class="button primary" href="https://t.me/novellum_reminder_bot" target="_blank" rel="noopener">Відкрити Nóvellum Reminder</a>
-          <a class="button secondary" href="#contact">Питання по підписці</a>
-        </div>
-
-        <div class="reminder-mini reveal" style="margin-top:16px;">
-          Тестовий період: 7 днів (для Premium потрібен телефон).
-        </div>
-
-        <div class="accordion reveal" style="margin-top:18px;">
-          <div class="accordion-item active">
-            <div class="accordion-header">Дайджести та повтори <span class="chev">+</span></div>
-            <div class="accordion-body">
-              <p><b>Basic:</b> без дайджестів, без повторів після часу.</p>
-              <p style="margin-top:8px;"><b>Plus:</b> ранковий дайджест 08:00; повтор +30 хв — лише для щоденних/щотижневих.</p>
-              <p style="margin-top:8px;"><b>Premium:</b> дайджести 08:00 та 20:00; SMS — 1 повідомлення на подію.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section id="not-for" class="divider">
       <div class="container">
         <div class="section-title reveal">
@@ -1705,10 +1696,60 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
 
-        <div class="card reveal" style="margin-top:24px;text-align:center;padding:26px 32px;background:rgba(24,56,40,.10);border-color:rgba(24,56,40,.28)">
+        <div class="card reveal" style="margin-top:24px;text-align:center;padding:26px 32px;background:rgba(212,184,134,.05);border-color:rgba(212,184,134,.18)">
           <p style="color:var(--text)">Якщо сумніваєтесь — просто напишіть. Більшість питань стають зрозумілими після першої розмови.</p>
           <div style="margin-top:16px">
             <a class="button primary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Написати в Telegram</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="divider">
+      <div class="container">
+        <div class="section-title reveal">
+          <div>
+            <div class="pill">FAQ</div>
+            <h2 class="title-accent">Часті запитання</h2>
+          </div>
+        </div>
+
+        <div class="accordion reveal" style="margin-top:8px;">
+          <div class="accordion-item">
+            <div class="accordion-header">Скільки часу займає впровадження? <span class="chev">+</span></div>
+            <div class="accordion-body">
+              <p>Залежить від специфіки бізнесу і складності дашборду. Аудит займає 7 днів: визначаємо показники, розбираємось у даних і формуємо ТЗ. Далі обговорюємо терміни індивідуально.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header">Які інструменти використовуєте? <span class="chev">+</span></div>
+            <div class="accordion-body">
+              <p>Power BI для дашбордів. Підключаємось до Excel/Google Sheets, CRM, облікові програми.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header">Чи потрібно платити за Power BI? <span class="chev">+</span></div>
+            <div class="accordion-body">
+              <p>Є кілька варіантів ліцензій — Desktop, Pro, Premium. Підберемо оптимальний під ваш сценарій, деталі на офіційній сторінці Microsoft.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header">Мої дані в безпеці? <span class="chev">+</span></div>
+            <div class="accordion-body">
+              <p>NDA підписуємо до початку роботи. Дані не передаються третім особам.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header">Що якщо немає нормального обліку? <span class="chev">+</span></div>
+            <div class="accordion-body">
+              <p>Починаємо з аудиту того, що є. Навіть Excel — робоча основа: впорядковуємо, фіксуємо логіку і будуємо дашборд поверх наявних даних.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header">Що відбувається після здачі дашборду? <span class="chev">+</span></div>
+            <div class="accordion-body">
+              <p>Переходимо в режим підтримки: стежимо за якістю даних, оновлюємо показники, додаємо нові зрізи. Живий інструмент, не статичний звіт.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -1978,6 +2019,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       }, 2800);
     }
 
+    // ── Live dashboard animation ──
+    (function() {
+      var revEl = document.getElementById('dash-revenue');
+      var marEl = document.getElementById('dash-margin');
+      var ordEl = document.getElementById('dash-orders');
+      var pctEl = document.getElementById('dash-plan-pct');
+      var barEl = document.getElementById('dash-plan-bar');
+      if (!revEl) return;
+      var rev = 1284560, mar = 34.2, ord = 847, pct = 76;
+      function jitter(v, pct_range) { return v * (1 + (Math.random() * 2 - 1) * pct_range / 100); }
+      function fmtRev(v) {
+        var r = Math.round(v);
+        var t = Math.floor(r / 1000);
+        var u = String(r % 1000).padStart(3, '0');
+        return '₴' + t + ' ' + u;
+      }
+      setInterval(function() {
+        rev = jitter(rev, 1); mar = jitter(mar, 1); ord = jitter(ord, 1); pct = Math.min(99, Math.max(50, jitter(pct, 1)));
+        revEl.textContent = fmtRev(rev);
+        marEl.textContent = mar.toFixed(1) + '%';
+        ordEl.textContent = Math.round(ord);
+        var p = Math.round(pct);
+        pctEl.textContent = p + '%';
+        barEl.style.width = p + '%';
+      }, 2000);
+    })();
+
     // ── Sticky Telegram bar ──
     var stickyTg = document.getElementById('stickyTg');
     var heroSec = document.getElementById('top');
@@ -2025,10 +2093,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       var rate   = +(document.getElementById('calcRate')   && document.getElementById('calcRate').value)   || 25;
       var monthHours = Math.round((checks * 4) + (hours * 4));
       var cost = Math.round(monthHours * rate / 5) * 5;
+      var saved = Math.max(0, cost - 1500);
+      var roiMonths = saved > 0 ? (1500 / saved).toFixed(1) : '∞';
       var rEl = document.getElementById('calcResult');
       var hEl = document.getElementById('calcResultHours');
-      if (rEl) rEl.textContent = '$' + (cost >= 1000 ? Math.floor(cost/1000) + ' ' + String(cost%1000).padStart(3,'0') : cost);
+      var sEl = document.getElementById('calcSaved');
+      var roiEl = document.getElementById('calcRoi');
+      function fmt(v){return '$' + (v >= 1000 ? Math.floor(v/1000) + ' ' + String(v%1000).padStart(3,'0') : v);}
+      if (rEl) rEl.textContent = fmt(cost);
       if (hEl) hEl.textContent = monthHours;
+      if (sEl) sEl.textContent = fmt(saved);
+      if (roiEl) roiEl.innerHTML = roiMonths + (roiMonths !== '∞' ? ' <span style="font-size:12px;font-weight:400">міс</span>' : '');
       document.querySelectorAll('.range-val').forEach(function(el) {
         var inp = document.getElementById(el.dataset.for);
         if (inp) el.textContent = inp.value + (el.dataset.unit || '');
