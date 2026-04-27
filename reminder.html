@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NGTBVNVX');</script>
+<!-- End Google Tag Manager -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nóvellum Reminder — Telegram-бот для особистих нагадувань</title>
+  <meta name="description" content="Telegram-бот для нагадувань про зустрічі, дзвінки та події. Три тарифи: Basic, Plus, Premium. Тестовий період 7 днів." />
+  <link rel="preload" href="/assets/fonts/manrope-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="icon" href="assets/favicon/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+  <link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png">
+  <style>
+    @font-face{font-family:'Manrope';font-style:normal;font-weight:400 800;font-display:swap;src:url('/assets/fonts/manrope-cyrillic-ext.woff2') format('woff2');unicode-range:U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F}
+    @font-face{font-family:'Manrope';font-style:normal;font-weight:400 800;font-display:swap;src:url('/assets/fonts/manrope-cyrillic.woff2') format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+    @font-face{font-family:'Manrope';font-style:normal;font-weight:400 800;font-display:swap;src:url('/assets/fonts/manrope-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+    :root{
+      --bg:#1A2E28;
+      --bg-deep:#0F1F1C;
+      --bronze:#D4B886;
+      --bronze-bright:#E8C896;
+      --border:rgba(212,184,134,.12);
+      --border-strong:rgba(212,184,134,.28);
+      --text:#F4EFE5;
+      --text-muted:rgba(244,239,229,.62);
+      --text-soft:rgba(244,239,229,.38);
+      --glass:rgba(15,31,28,.75);
+      --glass-border:rgba(212,184,134,.10);
+      --glass-glow:0 18px 55px rgba(0,0,0,.58);
+      --radius-lg:24px;
+      --radius-md:16px;
+      --radius-pill:999px;
+      --btn-pad-y:11px;
+      --btn-pad-x:18px;
+      --gap:20px;
+      --top-accent:linear-gradient(90deg,rgba(15,31,28,0),rgba(26,46,40,.9),rgba(212,184,134,.55),rgba(15,31,28,0));
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:"Manrope",system-ui,sans-serif;
+      color:var(--text);
+      line-height:1.65;
+      background:var(--bg);
+      overflow-x:hidden;
+    }
+    body::before{
+      content:"";position:fixed;inset:0;pointer-events:none;opacity:.22;
+      background:
+        linear-gradient(to bottom,rgba(255,255,255,.02),transparent 35%),
+        repeating-linear-gradient(90deg,rgba(255,255,255,.03) 0,rgba(255,255,255,.03) 1px,transparent 1px,transparent 120px),
+        repeating-linear-gradient(0deg,rgba(255,255,255,.02) 0,rgba(255,255,255,.02) 1px,transparent 1px,transparent 120px);
+      mix-blend-mode:overlay;
+    }
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{width:min(1100px,92vw);margin:0 auto}
+
+    /* ── Header ── */
+    header{
+      position:sticky;top:0;z-index:50;
+      background:rgba(15,31,28,.88);
+      backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--border);
+    }
+    header::after{
+      content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;
+      background:var(--top-accent);pointer-events:none;
+    }
+    .nav{display:flex;align-items:center;justify-content:space-between;height:56px;gap:12px}
+    .logo img{height:28px;width:auto}
+    .logo .logo-mark{display:none}
+    @media(max-width:640px){.logo .logo-horizontal{display:none}.logo .logo-mark{display:block;height:24px}}
+    .nav-links{display:flex;gap:4px}
+    .nav-links a{font-size:13px;font-weight:500;color:var(--text-muted);padding:6px 10px;border-radius:var(--radius-pill);transition:color .15s}
+    .nav-links a:hover{color:var(--text)}
+    .nav-cta{display:flex;gap:8px}
+    @media(max-width:768px){.nav-links{display:none}}
+
+    /* ── Orbs ── */
+    .orb{position:fixed;border-radius:50%;pointer-events:none;filter:blur(80px);opacity:.14;animation:orb-drift 20s ease-in-out infinite alternate}
+    .orb-1{width:500px;height:500px;background:radial-gradient(circle,#1A2E28,transparent 70%);top:-100px;left:-120px;animation-duration:22s}
+    .orb-2{width:360px;height:360px;background:radial-gradient(circle,#D4B886,transparent 70%);bottom:-60px;right:-60px;opacity:.08;animation-duration:17s;animation-delay:-6s}
+    @keyframes orb-drift{0%{transform:translate(0,0) scale(1)}100%{transform:translate(24px,32px) scale(1.05)}}
+
+    /* ── Buttons ── */
+    .button{
+      display:inline-flex;align-items:center;justify-content:center;gap:7px;
+      padding:var(--btn-pad-y) var(--btn-pad-x);
+      border-radius:var(--radius-pill);font-family:inherit;font-size:14px;font-weight:600;
+      cursor:pointer;border:none;transition:all .18s;white-space:nowrap;text-decoration:none;
+    }
+    .button.primary{
+      background:var(--bronze);color:#0F1F1C;
+      box-shadow:0 8px 28px rgba(212,184,134,.22);
+    }
+    .button.primary:hover{background:var(--bronze-bright);transform:translateY(-1px);box-shadow:0 12px 36px rgba(212,184,134,.32)}
+    .button.secondary{
+      background:rgba(255,255,255,.06);color:var(--text-muted);
+      border:1px solid var(--glass-border);
+    }
+    .button.secondary:hover{background:rgba(255,255,255,.10);color:var(--text);transform:translateY(-1px)}
+
+    /* ── Pill ── */
+    .pill{
+      display:inline-flex;align-items:center;gap:6px;
+      padding:5px 12px;border-radius:var(--radius-pill);
+      background:rgba(212,184,134,.08);border:1px solid rgba(212,184,134,.18);
+      font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--bronze);
+      margin-bottom:14px;
+    }
+
+    /* ── Section titles ── */
+    .section-title{display:grid;grid-template-columns:1fr 1fr;gap:24px 40px;align-items:start;margin-bottom:40px}
+    .section-title h2{font-size:clamp(1.6rem,3.5vw,2.2rem);font-weight:800;line-height:1.22;letter-spacing:-.02em;color:var(--text)}
+    .section-title p{color:var(--text-muted);font-size:1rem;line-height:1.7;margin-top:4px}
+    @media(max-width:768px){.section-title{grid-template-columns:1fr}}
+
+    /* ── Hero ── */
+    .hero{
+      padding:80px 0 64px;
+      position:relative;overflow:hidden;
+    }
+    .hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+    @media(max-width:768px){.hero-inner{grid-template-columns:1fr}}
+    .hero-eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--bronze);font-weight:700;margin-bottom:16px}
+    .hero h1{font-size:clamp(2rem,5vw,3rem);font-weight:800;line-height:1.16;letter-spacing:-.03em;color:var(--text);margin-bottom:18px}
+    .hero p{font-size:1.05rem;color:var(--text-muted);line-height:1.75;margin-bottom:28px}
+    .hero-cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+    .hero-note{font-size:12px;color:var(--text-soft);margin-top:14px}
+    /* Telegram preview card */
+    .tg-preview{
+      background:rgba(8,12,14,.92);border-radius:20px;
+      border:1px solid rgba(255,255,255,.07);
+      padding:20px 22px;
+      box-shadow:0 28px 70px rgba(0,0,0,.7);
+      position:relative;
+    }
+    .tg-preview::before{
+      content:"";position:absolute;inset:0;border-radius:inherit;
+      background:linear-gradient(135deg,rgba(212,184,134,.04),transparent 55%);pointer-events:none;
+    }
+    .tg-header{display:flex;align-items:center;gap:10px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.06)}
+    .tg-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#1f4a36,#2b6b4f);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+    .tg-name{font-size:14px;font-weight:700;color:var(--text)}
+    .tg-status{font-size:11px;color:#4caf6e}
+    .tg-msg{margin-bottom:10px}
+    .tg-bubble{
+      display:inline-block;padding:10px 14px;border-radius:14px 14px 14px 4px;
+      background:rgba(255,255,255,.07);font-size:13px;color:var(--text-muted);line-height:1.5;
+      max-width:85%;
+    }
+    .tg-bubble.bot{border-radius:14px 14px 4px 14px;background:rgba(212,184,134,.12);color:var(--text);margin-left:auto;display:block;text-align:right}
+    .tg-time{font-size:10px;color:var(--text-soft);margin-top:3px;padding:0 4px}
+    .tg-reminder{
+      background:rgba(212,184,134,.08);border:1px solid rgba(212,184,134,.2);
+      border-radius:12px;padding:12px 14px;margin-top:14px;
+    }
+    .tg-reminder-label{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--bronze);margin-bottom:6px}
+    .tg-reminder-text{font-size:13px;color:var(--text);font-weight:600}
+    .tg-reminder-sub{font-size:11px;color:var(--text-muted);margin-top:3px}
+
+    /* ── Features ── */
+    .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
+    @media(max-width:768px){.features-grid{grid-template-columns:1fr}}
+    .feature-card{
+      background:var(--glass);border:1px solid rgba(255,255,255,.10);
+      border-radius:var(--radius-md);padding:24px;
+      box-shadow:var(--glass-glow);position:relative;overflow:hidden;
+    }
+    .feature-card::before{
+      content:"";position:absolute;left:0;right:0;top:0;height:2px;
+      background:var(--top-accent);opacity:.85;
+    }
+    .feature-icon{font-size:28px;margin-bottom:14px}
+    .feature-card h3{font-size:16px;font-weight:700;margin-bottom:8px}
+    .feature-card p{font-size:14px;color:var(--text-muted);line-height:1.65}
+
+    /* ── Divider ── */
+    .divider{padding:64px 0;border-top:1px solid rgba(255,255,255,.06)}
+
+    /* ── Pricing ── */
+    .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
+    @media(max-width:768px){.pricing-grid{grid-template-columns:1fr;max-width:380px;margin:0 auto}}
+    .pricing-card{
+      background:var(--glass);border:1px solid rgba(255,255,255,.10);
+      border-radius:var(--radius-md);padding:28px 24px;
+      box-shadow:var(--glass-glow);position:relative;overflow:hidden;
+      display:grid;gap:16px;
+    }
+    .pricing-card::before{
+      content:"";position:absolute;left:0;right:0;top:0;height:2px;
+      background:var(--top-accent);opacity:.85;
+    }
+    .pricing-card.featured{
+      border-color:rgba(212,184,134,.28);
+      background:rgba(212,184,134,.05);
+    }
+    .pricing-card.featured::before{opacity:1}
+    .plan-badge{
+      position:absolute;top:16px;right:16px;
+      font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+      padding:3px 8px;border-radius:var(--radius-pill);
+      background:rgba(212,184,134,.18);color:var(--bronze);border:1px solid rgba(212,184,134,.28);
+    }
+    .pricing-card h3{font-size:18px;font-weight:800}
+    .price-row{display:flex;align-items:baseline;gap:6px}
+    .price{font-size:32px;font-weight:800;color:var(--bronze);letter-spacing:-.02em}
+    .price-period{font-size:14px;color:var(--text-muted)}
+    .price-annual{font-size:12px;color:var(--text-soft);margin-top:2px}
+    .pricing-card ul{list-style:none;display:grid;gap:9px}
+    .pricing-card li{display:flex;align-items:flex-start;gap:9px;font-size:13px;color:var(--text-muted);line-height:1.5}
+    .pricing-card li .chk{
+      width:16px;height:16px;border-radius:50%;flex-shrink:0;margin-top:1px;
+      background:rgba(212,184,134,.15);border:1px solid rgba(212,184,134,.28);
+      display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--bronze);
+    }
+
+    /* ── Accordion ── */
+    .accordion{display:grid;gap:12px}
+    .accordion-item{
+      background:var(--glass);border:1px solid rgba(255,255,255,.10);
+      border-radius:var(--radius-md);padding:18px 20px;
+      box-shadow:var(--glass-glow);position:relative;overflow:hidden;
+    }
+    .accordion-item::before{
+      content:"";position:absolute;left:0;right:0;top:0;height:2px;
+      background:var(--top-accent);opacity:.7;
+    }
+    .accordion-header{display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-weight:700;font-size:15px;gap:16px}
+    .accordion-header .chev{color:var(--bronze);font-weight:900;flex-shrink:0;transition:transform .2s}
+    .accordion-item.active .accordion-header .chev{transform:rotate(45deg)}
+    .accordion-body{display:none;margin-top:12px;color:var(--text-muted);font-size:14px;line-height:1.7}
+    .accordion-item.active .accordion-body{display:block}
+    .accordion-body p+p{margin-top:8px}
+    .accordion-body b{color:var(--text)}
+
+    /* ── CTA box ── */
+    .cta-box{
+      background:rgba(212,184,134,.04);border:1px solid rgba(212,184,134,.14);
+      border-radius:var(--radius-lg);padding:48px;
+      display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;
+    }
+    @media(max-width:640px){.cta-box{grid-template-columns:1fr;padding:28px 20px}}
+    .cta-box h2{font-size:clamp(1.4rem,3vw,1.9rem);font-weight:800;line-height:1.3}
+    .cta-box p{color:var(--text-muted);margin-top:8px;font-size:.95rem}
+    .cta-btns{display:flex;gap:10px;flex-direction:column}
+
+    /* ── Footer ── */
+    footer{border-top:1px solid rgba(255,255,255,.06);padding:32px 0 20px}
+    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px}
+    @media(max-width:768px){.footer-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:480px){.footer-grid{grid-template-columns:1fr}}
+    .footer-grid>div:first-child p{font-size:13px;color:var(--text-muted);margin-top:12px;line-height:1.65}
+    .footer-grid h4{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-soft);margin-bottom:12px}
+    .footer-grid p{margin-bottom:6px}
+    .footer-grid a{font-size:13px;color:var(--text-muted);transition:color .15s}
+    .footer-grid a:hover{color:var(--text)}
+    .footer-copy{font-size:.75rem;color:var(--text-soft);margin-top:24px;padding-top:16px;border-top:1px solid rgba(255,255,255,.06)}
+
+    /* ── Mini tag ── */
+    .terms{font-size:12px;color:var(--text-soft);line-height:1.6}
+  </style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NGTBVNVX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<header>
+  <div class="container nav">
+    <a class="logo" href="/">
+      <img class="logo-horizontal" src="assets/logo/novellum-horizontal.svg" alt="Nóvellum" />
+      <img class="logo-mark" src="assets/logo/novellum-mark.svg" alt="Nóvellum" />
+    </a>
+    <nav class="nav-links">
+      <a href="/">Аналітика</a>
+      <a href="partners.html">Партнерство</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="button secondary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener">Telegram</a>
+      <a class="button primary" href="https://t.me/novellum_reminder_bot" target="_blank" rel="noopener">Відкрити бота</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ── Hero ── -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-inner">
+        <div>
+          <div class="hero-eyebrow">Nóvellum Reminder</div>
+          <h1>Telegram-бот для нагадувань, які справді спрацьовують</h1>
+          <p>Зустрічі, дзвінки, дедлайни — нагадування приходять у Telegram за 1 год, 30 хв і 15 хв до події. Без зайвих кліків і окремих додатків.</p>
+          <div class="hero-cta">
+            <a class="button primary" href="https://t.me/novellum_reminder_bot" target="_blank" rel="noopener">Спробувати безкоштовно</a>
+            <a class="button secondary" href="#pricing">Переглянути тарифи</a>
+          </div>
+          <p class="hero-note">Тестовий період 7 днів · Не потрібна кредитна картка</p>
+        </div>
+
+        <div class="tg-preview">
+          <div class="tg-header">
+            <div class="tg-avatar">🔔</div>
+            <div>
+              <div class="tg-name">Nóvellum Reminder</div>
+              <div class="tg-status">● онлайн</div>
+            </div>
+          </div>
+
+          <div class="tg-msg">
+            <div class="tg-bubble">Нагадай мені зателефонувати Олексію завтра о 14:00</div>
+            <div class="tg-time">14:23</div>
+          </div>
+          <div class="tg-msg">
+            <div class="tg-bubble bot">✅ Нагадування встановлено на завтра, 14:00.<br>Отримаєш сповіщення за 1 год і за 15 хв.</div>
+            <div class="tg-time" style="text-align:right">14:23</div>
+          </div>
+
+          <div class="tg-reminder">
+            <div class="tg-reminder-label">🔔 Нагадування · за 15 хв</div>
+            <div class="tg-reminder-text">Дзвінок Олексію</div>
+            <div class="tg-reminder-sub">Сьогодні о 14:00 · через 15 хвилин</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Features ── -->
+  <section class="divider">
+    <div class="container">
+      <div class="section-title">
+        <div>
+          <div class="pill">Можливості</div>
+          <h2>Все, що потрібно для особистого тайм-менеджменту</h2>
+        </div>
+        <p>Простий інтерфейс у Telegram — без реєстрацій на сторонніх сервісах і без установки окремих додатків.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">⏰</div>
+          <h3>Нагадування перед подією</h3>
+          <p>Сповіщення за 1 год, 30 хв і 15 хв. Встановлюєш один раз — бот нагадає у потрібний момент.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔁</div>
+          <h3>Повторювані задачі</h3>
+          <p>Щоденні, щотижневі та щомісячні нагадування. Ідеально для регулярних зустрічей і рутинних задач.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🗞</div>
+          <h3>Дайджести дня</h3>
+          <p>Ранковий огляд усіх подій на день о 08:00. На Premium — ще й вечірній дайджест о 20:00.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📱</div>
+          <h3>Тільки Telegram</h3>
+          <p>Не потрібні сторонні додатки. Всі нагадування — там, де вже є ваші чати й контакти.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📌</div>
+          <h3>До 300 задач</h3>
+          <p>На тарифі Plus — до 300 активних нагадувань одночасно. На Premium — без обмежень.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📲</div>
+          <h3>SMS на Premium</h3>
+          <p>Критично важлива зустріч? Premium надсилає SMS як резервне сповіщення.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Pricing ── -->
+  <section class="divider" id="pricing">
+    <div class="container">
+      <div class="section-title">
+        <div>
+          <div class="pill">Тарифи</div>
+          <h2>Три рівні під різні сценарії</h2>
+        </div>
+        <p>Починайте з Basic — і переходьте вище, коли потрібно більше. Тестовий період 7 днів на будь-якому тарифі.</p>
+      </div>
+
+      <div class="pricing-grid">
+        <!-- Basic -->
+        <div class="pricing-card">
+          <h3>Basic</h3>
+          <div>
+            <div class="price-row">
+              <div class="price">$19</div>
+              <div class="price-period">/місяць</div>
+            </div>
+            <div class="price-annual">$190/рік — 2 місяці безкоштовно</div>
+          </div>
+          <ul>
+            <li><span class="chk">✓</span>Telegram-нагадування</li>
+            <li><span class="chk">✓</span>За 1 год і 15 хв до події</li>
+            <li><span class="chk">✓</span>До 60 активних задач</li>
+            <li><span class="chk">✓</span>Повторювані нагадування</li>
+          </ul>
+          <a class="button secondary" href="https://t.me/novellum_reminder_bot" target="_blank" rel="noopener" style="text-align:center">Спробувати</a>
+        </div>
+
+        <!-- Plus -->
+        <div class="pricing-card featured">
+          <div class="plan-badge">Популярний</div>
+          <h3>Plus</h3>
+          <div>
+            <div class="price-row">
+              <div class="price">$49</div>
+              <div class="price-period">/місяць</div>
+            </div>
+            <div class="price-annual">$490/рік — 2 місяці безкоштовно</div>
+          </div>
+          <ul>
+            <li><span class="chk">✓</span>Telegram-нагадування</li>
+            <li><span class="chk">✓</span>За 1 год, 30 хв і 15 хв</li>
+            <li><span class="chk">✓</span>До 300 активних задач</li>
+            <li><span class="chk">✓</span>Ранковий дайджест о 08:00</li>
+            <li><span class="chk">✓</span>Повтор +30 хв для щоденних подій</li>
+          </ul>
+          <a class="button primary" href="https://t.me/novellum_reminder_bot" target="_blank" rel="noopener" style="text-align:center">Спробувати</a>
+        </div>
+
+        <!-- Premium -->
+        <div class="pricing-card">
+          <h3>Premium</h3>
+          <div>
+            <div class="price-row">
+              <div class="price">$89</div>
+              <div class="price-period">/місяць</div>
+            </div>
+            <div class="price-annual">$890/рік — 2 місяці безкоштовно</div>
+          </div>
+          <ul>
+            <li><span class="chk">✓</span>Telegram + SMS</li>
+            <li><span class="chk">✓</span>За 1 год, 30 хв, 15 хв і 5 хв</li>
+            <li><span class="chk">✓</span>Без обмежень задач</li>
+            <li><span class="chk">✓</span>Дайджести о 08:00 і 20:00</li>
+            <li><span class="chk">✓</span>SMS — 1 повідомлення на подію</li>
+          </ul>
+          <a class="button secondary" href="https://t.me/novellum_reminder_bot" target="_blank" rel="noopener" style="text-align:center">Спробувати</a>
+        </div>
+      </div>
+
+      <p class="terms" style="margin-top:20px;text-align:center">
+        Тестовий період 7 днів на будь-якому тарифі. Для Premium потрібен номер телефону для SMS.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── FAQ ── -->
+  <section class="divider">
+    <div class="container">
+      <div class="section-title">
+        <div>
+          <div class="pill">FAQ</div>
+          <h2>Часті запитання</h2>
+        </div>
+        <p>Якщо не знайшли відповідь — напишіть у Telegram, відповімо швидко.</p>
+      </div>
+
+      <div class="accordion">
+        <div class="accordion-item active">
+          <div class="accordion-header">Як встановити нагадування? <span class="chev">+</span></div>
+          <div class="accordion-body">
+            <p>Просто напишіть боту в Telegram природньою мовою: "Нагадай мені зателефонувати Олексію завтра о 14:00". Бот підтвердить і встановить сповіщення автоматично.</p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-header">Чим відрізняються дайджести на Plus і Premium? <span class="chev">+</span></div>
+          <div class="accordion-body">
+            <p><b>Basic:</b> без дайджестів, без повторів після часу події.</p>
+            <p><b>Plus:</b> ранковий дайджест о 08:00; повтор +30 хв — лише для щоденних та щотижневих подій.</p>
+            <p><b>Premium:</b> дайджести о 08:00 та 20:00; SMS — 1 повідомлення на подію як резервне сповіщення.</p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-header">Чи можна скасувати підписку? <span class="chev">+</span></div>
+          <div class="accordion-body">
+            <p>Так, у будь-який момент. Доступ зберігається до кінця оплаченого періоду.</p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-header">Як працює тестовий період? <span class="chev">+</span></div>
+          <div class="accordion-body">
+            <p>7 днів безкоштовно на будь-якому тарифі. Кредитна картка для початку тесту не потрібна. Після закінчення тесту підписка не активується автоматично.</p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-header">SMS-нагадування — для яких країн? <span class="chev">+</span></div>
+          <div class="accordion-body">
+            <p>Підтримуємо Україну та більшість країн Європи. Уточніть наявність вашої країни у Telegram перед оформленням Premium.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ── -->
+  <section class="divider">
+    <div class="container">
+      <div class="cta-box">
+        <div>
+          <h2>Спробуйте 7 днів безкоштовно</h2>
+          <p>Відкрийте бота в Telegram — і одразу встановіть перше нагадування. Без реєстрації і кредитних карток.</p>
+        </div>
+        <div class="cta-btns">
+          <a class="button primary" href="https://t.me/novellum_reminder_bot" target="_blank" rel="noopener">Відкрити Nóvellum Reminder</a>
+          <a class="button secondary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener">Запитати у Telegram</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="/">
+          <img class="logo-horizontal" src="assets/logo/novellum-horizontal.svg" alt="Nóvellum" style="height:26px;width:auto" />
+        </a>
+        <p>Nóvellum Reminder — Telegram-бот для особистих нагадувань. Продукт компанії Nóvellum.</p>
+      </div>
+      <div>
+        <h4>Контакти</h4>
+        <p><a href="mailto:contact@novellum.co">contact@novellum.co</a></p>
+        <p><a href="https://t.me/serhiy_novellum" target="_blank" rel="noopener">Telegram</a></p>
+      </div>
+      <div>
+        <h4>Навігація</h4>
+        <p><a href="/">Аналітика</a></p>
+        <p><a href="partners.html">Партнерство</a></p>
+        <p><a href="https://t.me/novellum_reminder_bot" target="_blank" rel="noopener">Відкрити бота</a></p>
+      </div>
+      <div>
+        <h4>Документи</h4>
+        <p><a href="legal/Privacy-Policy.pdf" target="_blank" rel="noopener noreferrer">Конфіденційність</a></p>
+        <p><a href="legal/Terms-of-Use.pdf" target="_blank" rel="noopener noreferrer">Умови використання</a></p>
+        <p><a href="legal/public-offer.pdf" target="_blank" rel="noopener noreferrer">Публічна оферта</a></p>
+      </div>
+    </div>
+    <div class="footer-copy">© <span id="year"></span> ФОП Кухарчук Сергій Миколайович</div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  document.querySelectorAll('.accordion-item').forEach(function(item) {
+    item.querySelector('.accordion-header').addEventListener('click', function() {
+      item.classList.toggle('active');
+    });
+  });
+</script>
+
+</body>
+</html>
