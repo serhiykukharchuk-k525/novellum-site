@@ -187,7 +187,7 @@
     let smWaveY = -12;
 
     function tick() {
-      t += 0.0025;
+      t += 0.006;
 
       bgScrollSmooth = lerp(bgScrollSmooth, window.scrollY * 0.35, 0.06);
       const bgY = bgScrollSmooth;
@@ -254,6 +254,14 @@
 
   // ── DASHBOARD ANIMATIONS ────────────────────────────
   window.addEventListener('DOMContentLoaded', () => {
+
+    // 0. Header shadow on scroll
+    const headerEl = document.querySelector('body > header');
+    if (headerEl) {
+      window.addEventListener('scroll', () => {
+        headerEl.classList.toggle('scrolled', window.scrollY > 50);
+      }, { passive: true });
+    }
 
     // 1. Sparkline
     const sparkPath = document.querySelector('.hero path[stroke]');

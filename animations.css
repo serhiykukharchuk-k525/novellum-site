@@ -6,7 +6,7 @@
 
 /* ── AURORA (завжди, весь сайт) ── */
 #novellum-aurora {
-  position: fixed; inset: 0; z-index: 0;
+  position: fixed; inset: 0; z-index: 10000;
   pointer-events: none; overflow: hidden;
 }
 .aurora-band {
@@ -222,25 +222,25 @@
   * { animation: none !important; transition: none !important; }
 }
 
-/* ── SECTION TRANSPARENCY — дозволяє анімацію на фоні просвічувати ── */
+/* ── SECTION TRANSPARENCY — дозволяє aurora/canvas просвічувати ── */
 
-/* Всі основні секції */
-section,
-.section,
-[id="value"],
-[id="for-whom"],
-[id="obstacles"],
-[id="formats"],
-[id="products"],
-[id="process"],
-[id="demo"],
-[id="pricing"],
-[id="snapshot"],
-[id="contact"] {
-  background-color: rgba(26, 46, 40, 0.75) !important;
+/* Всі секції крім hero мають напівпрозорий фон */
+main > section:not(.hero) {
+  background: rgba(26, 46, 40, 0.72) !important;
 }
 
-/* Що залишається непрозорим */
+/* snapshot і brand-strip мають власні темні фони — робимо напівпрозорими */
+.snapshot,
+.brand-strip {
+  background: rgba(26, 46, 40, 0.82) !important;
+}
+
+/* Hero залишається непрозорим */
+.hero {
+  background: linear-gradient(180deg, rgba(15,31,28,0.95), rgba(26,46,40,0.95)) !important;
+}
+
+/* Що залишається повністю непрозорим */
 header,
 nav,
 .nav,
@@ -254,46 +254,76 @@ footer,
 }
 
 /* ── GLASSMORPHISM — картки (крім hero) ── */
-.calculator,
 .card,
-.format-card,
-.obstacle-card,
-.partner-case,
+.signature,
+.timeline-item,
 .pricing-card,
-.product-card,
-.faq-item {
-  background-color: rgba(26, 46, 40, 0.45) !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(212, 184, 134, 0.12);
+.calc-box,
+.accordion-item,
+.snap-card,
+.deliverable-item,
+.product,
+.obstacle-card,
+.partner-case {
+  background: rgba(10, 24, 22, 0.52) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border: 1px solid rgba(212, 184, 134, 0.14) !important;
   box-shadow:
     0 4px 24px rgba(0, 0, 0, 0.18),
     inset 0 1px 0 rgba(255, 255, 255, 0.04);
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.calculator:hover,
 .card:hover,
-.format-card:hover,
-.obstacle-card:hover,
-.partner-case:hover,
+.signature:hover,
+.timeline-item:hover,
 .pricing-card:hover,
-.product-card:hover,
-.faq-item:hover {
-  border-color: rgba(212, 184, 134, 0.22);
+.calc-box:hover,
+.accordion-item:hover,
+.snap-card:hover,
+.deliverable-item:hover,
+.product:hover,
+.obstacle-card:hover,
+.partner-case:hover {
+  border-color: rgba(212, 184, 134, 0.22) !important;
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.22),
     inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
-/* ── STACKING ORDER — контент над canvas/aurora, hero без змін ── */
-#novellum-aurora { z-index: 0; }
-#novellum-canvas { z-index: 1; }
+/* hero dashboard — без скляного ефекту */
+.live-dash,
+.hero-visual {
+  background: revert !important;
+  backdrop-filter: revert !important;
+  border: revert !important;
+}
 
-body > header,
-body > nav,
+/* ── STACKING ORDER — контент над canvas/aurora, noise шаром ── */
+#novellum-canvas { z-index: 10001; }
+
+/* header вже position:sticky — лише підіймаємо z-index */
+body > header {
+  z-index: 10002;
+}
 main,
 body > footer {
   position: relative;
-  z-index: 2;
+  z-index: 10002;
+}
+
+/* Вже position:fixed — лише підіймаємо над aurora/canvas */
+.sticky-tg,
+.exit-overlay,
+.mobile-nav {
+  z-index: 10002;
+}
+
+/* ── HEADER SCROLL SHADOW ── */
+body > header {
+  transition: box-shadow 0.3s ease;
+}
+body > header.scrolled {
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
 }
