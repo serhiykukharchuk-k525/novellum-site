@@ -1,40 +1,8 @@
 /* ============================================================
    Nóvellum — animations.css
-   Aurora background, scroll-reveal (stagger/counter/timeline),
-   demo iframe, CTA pairs, pricing context, partner cases.
+   Scroll-reveal (stagger/counter/timeline), demo iframe,
+   CTA pairs, pricing context, partner cases.
    ============================================================ */
-
-/* ── AURORA (завжди, весь сайт) ── */
-#novellum-aurora {
-  position: fixed; inset: 0; z-index: 10000;
-  pointer-events: none; overflow: hidden;
-}
-.aurora-band {
-  position: absolute; border-radius: 50%;
-  filter: blur(90px); mix-blend-mode: screen;
-}
-.ab1 {
-  width: 150vw; height: 50vh;
-  background: radial-gradient(ellipse, rgba(212,184,134,.14) 0%, transparent 70%);
-  bottom: -18vh; left: -25vw;
-  animation: aurDrift 32s ease-in-out infinite alternate;
-}
-.ab2 {
-  width: 100vw; height: 36vh;
-  background: radial-gradient(ellipse, rgba(168,137,90,.09) 0%, transparent 70%);
-  bottom: -8vh; right: -15vw;
-  animation: aurDrift 40s ease-in-out infinite alternate-reverse;
-}
-.ab3 {
-  width: 72vw; height: 28vh;
-  background: radial-gradient(ellipse, rgba(43,107,79,.12) 0%, transparent 65%);
-  bottom: -4vh; left: 15vw;
-  animation: aurDrift 48s ease-in-out infinite alternate;
-}
-@keyframes aurDrift {
-  0%   { transform: translateX(0) scaleY(1); }
-  100% { transform: translateX(5vw) scaleY(1.1); }
-}
 
 /* ── STAGGER REVEAL ── */
 [data-anim="stagger"] {
@@ -211,113 +179,9 @@
   .partners-cases { grid-template-columns: 1fr; }
 }
 
-/* ── CANVAS OPACITY CAP ── */
-#novellum-canvas {
-  opacity: 0.8;
-}
-
 /* ── REDUCED MOTION ── */
 @media (prefers-reduced-motion: reduce) {
-  #novellum-aurora, #novellum-canvas { display: none; }
   * { animation: none !important; transition: none !important; }
-}
-
-/* ── SECTION TRANSPARENCY — дозволяє aurora/canvas просвічувати ── */
-
-/* Всі секції крім hero мають напівпрозорий фон */
-main > section:not(.hero) {
-  background: rgba(26, 46, 40, 0.72) !important;
-}
-
-/* snapshot і brand-strip мають власні темні фони — робимо напівпрозорими */
-.snapshot,
-.brand-strip {
-  background: rgba(26, 46, 40, 0.82) !important;
-}
-
-/* Hero залишається непрозорим */
-.hero {
-  background: linear-gradient(180deg, rgba(15,31,28,0.95), rgba(26,46,40,0.95)) !important;
-}
-
-/* Що залишається повністю непрозорим */
-header,
-nav,
-.nav,
-footer,
-.footer,
-.modal,
-.overlay,
-.cookie-banner,
-.popup {
-  background-color: var(--color-bg, #1A2E28) !important;
-}
-
-/* ── GLASSMORPHISM — картки (крім hero) ── */
-.card,
-.signature,
-.timeline-item,
-.pricing-card,
-.calc-box,
-.accordion-item,
-.snap-card,
-.deliverable-item,
-.product,
-.obstacle-card,
-.partner-case {
-  background: rgba(10, 24, 22, 0.52) !important;
-  backdrop-filter: blur(14px) !important;
-  -webkit-backdrop-filter: blur(14px) !important;
-  border: 1px solid rgba(212, 184, 134, 0.14) !important;
-  box-shadow:
-    0 4px 24px rgba(0, 0, 0, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card:hover,
-.signature:hover,
-.timeline-item:hover,
-.pricing-card:hover,
-.calc-box:hover,
-.accordion-item:hover,
-.snap-card:hover,
-.deliverable-item:hover,
-.product:hover,
-.obstacle-card:hover,
-.partner-case:hover {
-  border-color: rgba(212, 184, 134, 0.22) !important;
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
-}
-
-/* hero dashboard — без скляного ефекту */
-.live-dash,
-.hero-visual {
-  background: revert !important;
-  backdrop-filter: revert !important;
-  border: revert !important;
-}
-
-/* ── STACKING ORDER — контент над canvas/aurora, noise шаром ── */
-#novellum-canvas { z-index: 10001; }
-
-/* header вже position:sticky — лише підіймаємо z-index */
-body > header {
-  z-index: 10002;
-}
-main,
-body > footer {
-  position: relative;
-  z-index: 10002;
-}
-
-/* Вже position:fixed — лише підіймаємо над aurora/canvas */
-.sticky-tg,
-.exit-overlay,
-.mobile-nav {
-  z-index: 10002;
 }
 
 /* ── HEADER SCROLL SHADOW ── */
