@@ -1,0 +1,221 @@
+/* ============================================================
+   Nóvellum — animations.css
+   Aurora background, scroll-reveal (stagger/counter/timeline),
+   demo iframe, CTA pairs, pricing context, partner cases.
+   ============================================================ */
+
+/* ── AURORA (завжди, весь сайт) ── */
+#novellum-aurora {
+  position: fixed; inset: 0; z-index: 0;
+  pointer-events: none; overflow: hidden;
+}
+.aurora-band {
+  position: absolute; border-radius: 50%;
+  filter: blur(90px); mix-blend-mode: screen;
+}
+.ab1 {
+  width: 150vw; height: 50vh;
+  background: radial-gradient(ellipse, rgba(212,184,134,.14) 0%, transparent 70%);
+  bottom: -18vh; left: -25vw;
+  animation: aurDrift 32s ease-in-out infinite alternate;
+}
+.ab2 {
+  width: 100vw; height: 36vh;
+  background: radial-gradient(ellipse, rgba(168,137,90,.09) 0%, transparent 70%);
+  bottom: -8vh; right: -15vw;
+  animation: aurDrift 40s ease-in-out infinite alternate-reverse;
+}
+.ab3 {
+  width: 72vw; height: 28vh;
+  background: radial-gradient(ellipse, rgba(43,107,79,.12) 0%, transparent 65%);
+  bottom: -4vh; left: 15vw;
+  animation: aurDrift 48s ease-in-out infinite alternate;
+}
+@keyframes aurDrift {
+  0%   { transform: translateX(0) scaleY(1); }
+  100% { transform: translateX(5vw) scaleY(1.1); }
+}
+
+/* ── STAGGER REVEAL ── */
+[data-anim="stagger"] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+[data-anim="stagger"].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Акцентна лінія зліва */
+.obstacle-card,
+.partner-case {
+  position: relative;
+}
+.obstacle-card::before,
+.partner-case::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+  background: #D4B886; /* бронзовий акцент сайту */
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.4s ease 0.1s;
+}
+[data-anim="stagger"].is-visible::before {
+  transform: scaleY(1);
+}
+
+/* ── COUNTER ── */
+[data-anim="counter"] {
+  display: inline-block;
+}
+
+/* ── TIMELINE ── */
+[data-anim="timeline-line"] {
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+[data-anim="timeline-line"].is-visible {
+  transform: scaleY(1);
+}
+[data-anim="timeline-dot"] {
+  transition: background-color 0.3s ease;
+}
+[data-anim="timeline-dot"].is-visible {
+  background-color: #D4B886;
+}
+
+/* ── BUTTONS (cta-dual) ── */
+.btn{
+  padding:var(--btn-pad-y) var(--btn-pad-x);
+  border-radius:var(--radius-pill);
+  border:1px solid transparent;
+  font-weight:700;font-size:var(--btn-font);line-height:1;
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  min-height:40px;white-space:nowrap;
+  transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease, opacity .25s ease, background .25s ease;
+  max-width:100%;
+  position:relative;
+  text-decoration:none;
+  cursor:pointer;
+}
+.btn--primary{
+  background:var(--bronze);
+  color:#0F1F1C;
+  box-shadow:0 8px 28px rgba(212,184,134,.22);
+}
+.btn--primary:hover{
+  background:var(--bronze-bright);
+  box-shadow:0 12px 36px rgba(212,184,134,.32);
+}
+.btn--ghost{
+  border-color:rgba(255,255,255,.16);
+  color:var(--text);
+  background:rgba(0,0,0,.08);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+.btn--ghost:hover{
+  border-color:rgba(212,184,134,.28);
+  box-shadow:0 16px 44px rgba(0,0,0,.52), inset 0 1px 0 rgba(255,255,255,.05);
+}
+.btn:hover{transform:translateY(-2px)}
+
+/* ── SECTION EYEBROW ── */
+.section-eyebrow{
+  font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--bronze);font-weight:700;margin-bottom:10px;
+}
+
+/* ── FOR-WHOM ── */
+.for-whom-content{max-width:680px;margin-top:18px}
+.for-whom-content p{color:var(--text-muted);line-height:1.75}
+
+/* ── OBSTACLES ── */
+.obstacles-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:var(--gap);
+  margin-top:28px;
+}
+.obstacle-card{
+  background:var(--glass);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:var(--radius-md);
+  box-shadow:var(--glass-glow);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  padding:22px;
+  overflow:hidden;
+}
+.obstacle-icon{
+  display:inline-flex;font-size:22px;color:var(--bronze);
+}
+.obstacle-card h3{margin:14px 0 8px}
+.obstacle-card p{color:var(--text-muted)}
+
+/* ── DEMO ── */
+#demo h2{margin-top:8px;max-width:760px}
+.demo-description,
+.demo-note{color:var(--text-muted);max-width:680px;line-height:1.75}
+.demo-note{margin-top:20px}
+
+.demo-iframe-wrapper {
+  border: 1px solid rgba(212, 184, 134, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 32px 0;
+}
+.demo-iframe-wrapper iframe {
+  display: block; width: 100%; height: 600px; border: none;
+}
+
+/* ── CTA DUAL ── */
+.cta-dual {
+  display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+  margin-top: 28px;
+}
+
+/* ── PRICING CONTEXT ── */
+.pricing-context {
+  max-width: 680px;
+  margin: 0 auto 32px;
+  padding: 24px 0;
+}
+.pricing-context__text {
+  font-size: 15px;
+  line-height: 1.75;
+  opacity: 0.82;
+}
+
+/* ── PARTNERS ── */
+.partners-intro{color:var(--text-muted);max-width:680px;line-height:1.75;margin-top:14px}
+.partners-cases {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin: 40px 0;
+}
+.partner-case{
+  background:var(--glass);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:var(--radius-md);
+  box-shadow:var(--glass-glow);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  padding:22px;
+  overflow:hidden;
+}
+.partner-case h3{margin-bottom:10px}
+.partner-case p{color:var(--text-muted)}
+
+@media (max-width: 768px) {
+  .demo-iframe-wrapper iframe { height: 400px; }
+  .obstacles-grid { grid-template-columns: 1fr; }
+  .partners-cases { grid-template-columns: 1fr; }
+}
+
+/* ── REDUCED MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+  #novellum-aurora, #novellum-canvas { display: none; }
+  * { animation: none !important; transition: none !important; }
+}
