@@ -219,3 +219,46 @@
   #novellum-aurora, #novellum-canvas { display: none; }
   * { animation: none !important; transition: none !important; }
 }
+
+/* ── SECTION TRANSPARENCY — дозволяє анімацію на фоні просвічувати ── */
+
+/* Всі основні секції */
+section,
+.section,
+[id="value"],
+[id="for-whom"],
+[id="obstacles"],
+[id="formats"],
+[id="products"],
+[id="process"],
+[id="demo"],
+[id="pricing"],
+[id="snapshot"],
+[id="contact"] {
+  background-color: rgba(26, 46, 40, 0.75) !important;
+}
+
+/* Що залишається непрозорим */
+header,
+nav,
+.nav,
+footer,
+.footer,
+.modal,
+.overlay,
+.cookie-banner,
+.popup {
+  background-color: var(--color-bg, #1A2E28) !important;
+}
+
+/* Калькулятор і картки — трохи темніші щоб текст читався */
+.calculator,
+.card,
+.format-card,
+.obstacle-card,
+.partner-case,
+.pricing-card,
+.product-card,
+.faq-item {
+  background-color: rgba(26, 46, 40, 0.85) !important;
+}
