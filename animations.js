@@ -1,6 +1,11 @@
 (function () {
   'use strict';
 
+  // ── MOBILE DETECTION ─────────────────────────────────
+  // На мобайлі Three.js не завантажується взагалі — лишається легка Aurora (CSS)
+  const isMobile = window.matchMedia('(max-width: 768px)').matches
+    || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
   // ── AURORA ──────────────────────────────────────────
   if (!document.getElementById('novellum-aurora')) {
     const aurora = document.createElement('div');
@@ -60,8 +65,16 @@
   }
 
   // ── THREE.JS CANVAS ─────────────────────────────────
-  if (typeof THREE !== 'undefined') {
-    initThreeBackground();
+  // Завантажується тільки на desktop — на мобайлі економимо бандвідж і CPU
+  if (!isMobile) {
+    if (typeof THREE !== 'undefined') {
+      initThreeBackground();
+    } else {
+      const script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+      script.onload = initThreeBackground;
+      document.head.appendChild(script);
+    }
   }
 
   function initThreeBackground() {
@@ -70,8 +83,8 @@
     canvas.style.cssText = 'position:fixed;inset:0;z-index:1;pointer-events:none;width:100vw;height:100vh;';
     document.body.insertBefore(canvas, document.body.children[1]);
 
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false });
+    renderer.setPixelRatio(1);
     renderer.setSize(innerWidth, innerHeight);
 
     const scene = new THREE.Scene();
@@ -80,14 +93,13 @@
     cam.lookAt(0, 0, 0);
 
     let zones = measureZones();
-    const isMobile = () => innerWidth <= 768;
 
-    // ── MASTER GROUP (constellation + helix) ──
+    // ── MASTER GROUP (constellation) ──
     const masterGroup = new THREE.Group();
     scene.add(masterGroup);
 
     // ── CONSTELLATION ──────────────────────────
-    const NODE_N = isMobile() ? 24 : 48;
+    const NODE_N = 32;
     const nodeBase = [];
     const nodePhase = [];
     const nodePositions = new Float32Array(NODE_N * 3);
@@ -135,58 +147,10 @@
     constellationGroup.add(constellationLines);
     masterGroup.add(constellationGroup);
 
-    // ── DATA HELIX x2 ──────────────────────────
-    const HELIX_LABELS = ['847', '34.2%', '+12.4', '₴1.28M', 'KPI', '76%',
-      '11', 'EBITDA', 'ROI', 'LTV', 'ARR', 'MTD', 'YoY', 'Q4', 'NDA',
-      '→', '∑', 'Δ', '87%', '99.1%'];
-
-    function makeLabelSprite(text) {
-      const size = 128;
-      const cnv = document.createElement('canvas');
-      cnv.width = size; cnv.height = size;
-      const ctx = cnv.getContext('2d');
-      ctx.clearRect(0, 0, size, size);
-      const fontSize = text.length > 4 ? 13 : text.length > 2 ? 16 : 18;
-      ctx.font = `600 ${fontSize}px Manrope, sans-serif`;
-      ctx.fillStyle = 'rgba(212,184,134,0.7)';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(text, size / 2, size / 2);
-      const tex = new THREE.CanvasTexture(cnv);
-      const mat = new THREE.SpriteMaterial({ map: tex, transparent: true, opacity: 0, depthWrite: false });
-      const sprite = new THREE.Sprite(mat);
-      sprite.scale.set(0.9, 0.9, 1);
-      return sprite;
-    }
-
-    function buildHelix(xOffset, sign) {
-      const group = new THREE.Group();
-      group.position.x = xOffset;
-      group.position.y = -15; // починається нижче екрану, піднімається при скролі
-      HELIX_LABELS.forEach((label, i) => {
-        const turns = 2;
-        const angle = (i / HELIX_LABELS.length) * Math.PI * 2 * turns;
-        const radius = 1.3;
-        const sprite = makeLabelSprite(label);
-        sprite.position.set(
-          Math.cos(angle) * radius * sign,
-          (i - HELIX_LABELS.length / 2) * 0.45,
-          Math.sin(angle) * radius
-        );
-        group.add(sprite);
-      });
-      return group;
-    }
-
-    const helixLeft = buildHelix(-5.5, 1);
-    const helixRight = buildHelix(5.5, -1);
-    masterGroup.add(helixLeft);
-    masterGroup.add(helixRight);
-
     // ── WAVE PARTICLES ─────────────────────────
-    const GW = isMobile() ? 48 : 72;
+    const GW = 36;
     const GH = GW;
-    const SPACING = 0.22;
+    const SPACING = 0.38;
     const waveCount = GW * GH;
     const wavePositions = new Float32Array(waveCount * 3);
     let wi = 0;
@@ -218,9 +182,8 @@
 
     // Smoothed (lerp'd) state — усуває стрибки при швидкому скролі
     let bgScrollSmooth = 0;
-    let smConstOp = 0, smHelixOp = 0, smWaveOp = 0;
+    let smConstOp = 0, smWaveOp = 0;
     let smMasterY = 0;
-    let smHelixY = -15;
     let smWaveY = -12;
 
     function tick() {
@@ -239,10 +202,6 @@
       // Organic drift of constellation
       constellationGroup.position.y = Math.sin(t * 0.2) * 0.05;
       constellationGroup.rotation.y = Math.sin(t * 0.15) * 0.02;
-
-      // Helix rotation
-      helixLeft.rotation.y += 0.001;
-      helixRight.rotation.y -= 0.001;
 
       // Wave undulation — більш виразна амплітуда
       const posAttr = waveGeo.attributes.position;
@@ -264,32 +223,18 @@
       const constOut = iLerp(zones.zB_start, zones.zB_end * 0.4, bgY);
       const constOpTarget = clamp(constIn, 0, 1) * clamp(1 - constOut, 0, 1);
 
-      const helixIn = iLerp(zones.zB_start, zones.zB_end * 0.5, bgY);
-      const helixOut = iLerp(zones.zB_end * 0.7, zones.zC_start, bgY);
-      const helixOpTarget = clamp(helixIn, 0, 1) * clamp(1 - helixOut, 0, 1);
-
       const waveIn = iLerp(zones.zC_start, zones.zC_end * 0.8, bgY);
       const waveOpTarget = clamp(waveIn * 1.2, 0, 1);
 
       smConstOp = lerp(smConstOp, constOpTarget, 0.04);
-      smHelixOp = lerp(smHelixOp, helixOpTarget, 0.04);
       smWaveOp = lerp(smWaveOp, waveOpTarget, 0.04);
 
       nodeMat.opacity = 0.24 * smConstOp;
       lineMat.opacity = 0.06 * smConstOp;
 
-      helixLeft.children.forEach(s => s.material.opacity = smHelixOp * 0.32);
-      helixRight.children.forEach(s => s.material.opacity = smHelixOp * 0.32);
-
       waveMat.opacity = smWaveOp * 0.65;
 
-      // ДНК з'являється знизу при наближенні до своєї зони
-      const helixTargetY = lerp(-15, 0, easeOut(clamp(helixIn * 1.5, 0, 1)));
-      smHelixY = lerp(smHelixY, helixTargetY, 0.04);
-      helixLeft.position.y = smHelixY;
-      helixRight.position.y = smHelixY;
-
-      // Хвилі також піднімаються знизу
+      // Хвилі піднімаються знизу
       const waveTargetY = lerp(-12, -2.5, easeOut(waveIn));
       smWaveY = lerp(smWaveY, waveTargetY, 0.04);
       wavePoints.position.y = smWaveY;

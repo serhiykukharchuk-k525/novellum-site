@@ -147,10 +147,7 @@
   padding:22px;
   overflow:hidden;
 }
-.obstacle-icon{
-  display:inline-flex;font-size:22px;color:var(--bronze);
-}
-.obstacle-card h3{margin:14px 0 8px}
+.obstacle-card h3{margin:0 0 8px}
 .obstacle-card p{color:var(--text-muted)}
 
 /* ── DEMO ── */
@@ -256,7 +253,7 @@ footer,
   background-color: var(--color-bg, #1A2E28) !important;
 }
 
-/* Калькулятор і картки — трохи темніші щоб текст читався */
+/* ── GLASSMORPHISM — картки (крім hero) ── */
 .calculator,
 .card,
 .format-card,
@@ -265,5 +262,38 @@ footer,
 .pricing-card,
 .product-card,
 .faq-item {
-  background-color: rgba(26, 46, 40, 0.85) !important;
+  background-color: rgba(26, 46, 40, 0.45) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 184, 134, 0.12);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.calculator:hover,
+.card:hover,
+.format-card:hover,
+.obstacle-card:hover,
+.partner-case:hover,
+.pricing-card:hover,
+.product-card:hover,
+.faq-item:hover {
+  border-color: rgba(212, 184, 134, 0.22);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* ── STACKING ORDER — контент над canvas/aurora, hero без змін ── */
+#novellum-aurora { z-index: 0; }
+#novellum-canvas { z-index: 1; }
+
+body > header,
+body > nav,
+main,
+body > footer {
+  position: relative;
+  z-index: 2;
 }
