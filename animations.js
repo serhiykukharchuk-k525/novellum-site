@@ -192,7 +192,7 @@
       const bgY = window.scrollY * 0.35;
 
       // Scroll-based parallax for masterGroup
-      masterGroup.position.y = bgY * 0.001 * -4;
+      masterGroup.position.y = -(bgY * 0.001 * -4);
       masterGroup.rotation.y = mx * 0.05;
       masterGroup.rotation.x = my * 0.03;
 
