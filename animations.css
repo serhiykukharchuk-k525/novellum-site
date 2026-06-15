@@ -214,6 +214,11 @@
   .partners-cases { grid-template-columns: 1fr; }
 }
 
+/* ── CANVAS OPACITY CAP ── */
+#novellum-canvas {
+  opacity: 0.8;
+}
+
 /* ── REDUCED MOTION ── */
 @media (prefers-reduced-motion: reduce) {
   #novellum-aurora, #novellum-canvas { display: none; }

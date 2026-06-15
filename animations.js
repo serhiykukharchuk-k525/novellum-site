@@ -16,22 +16,47 @@
   // ── MEASURE ZONES ───────────────────────────────────
   function measureZones() {
     const totalH = Math.max(document.body.scrollHeight - window.innerHeight, 1);
-    const ids = ['value', 'obstacles', 'formats', 'process', 'demo', 'pricing', 'contact'];
-    const tops = ids.map(id => {
+    const getTop = (id) => {
       const el = document.getElementById(id);
       return el ? el.offsetTop : null;
-    }).filter(v => v !== null).sort((a, b) => a - b);
+    };
+
+    // Перша секція після hero і орієнтовні точки середини/кінця сторінки
+    const heroBottom = getTop('for-whom') || getTop('value') || totalH * 0.15;
+    const midPoint = getTop('process') || getTop('formats') || totalH * 0.50;
+    const latePoint = getTop('demo') || getTop('contact') || totalH * 0.78;
 
     return {
       totalH,
-      zA: tops[1] || totalH * 0.33,  // після 2-ї секції
-      zB: tops[3] || totalH * 0.66,  // після 4-ї секції
+      // Зона A: constellation — від початку до першої секції після hero
+      zA_start: 0,
+      zA_end: heroBottom * 0.8,
+
+      // Зона B: helix — з'являється коли constellation майже зникла
+      zB_start: heroBottom * 0.6,
+      zB_end: midPoint,
+
+      // Зона C: wave — нижня третина, не зникає до кінця
+      zC_start: midPoint * 0.9,
+      zC_end: latePoint,
     };
   }
 
   function iLerp(a, b, v) {
     if (a === b) return v >= a ? 1 : 0;
     return Math.min(1, Math.max(0, (v - a) / (b - a)));
+  }
+
+  function lerp(a, b, t) {
+    return a + (b - a) * t;
+  }
+
+  function clamp(v, a, b) {
+    return Math.min(Math.max(v, a), b);
+  }
+
+  function easeOut(x) {
+    return 1 - (1 - x) * (1 - x);
   }
 
   // ── THREE.JS CANVAS ─────────────────────────────────
@@ -116,24 +141,28 @@
       '→', '∑', 'Δ', '87%', '99.1%'];
 
     function makeLabelSprite(text) {
+      const size = 128;
       const cnv = document.createElement('canvas');
-      cnv.width = 128; cnv.height = 64;
+      cnv.width = size; cnv.height = size;
       const ctx = cnv.getContext('2d');
-      ctx.font = '600 30px Manrope, sans-serif';
-      ctx.fillStyle = 'rgba(212,184,134,0.9)';
+      ctx.clearRect(0, 0, size, size);
+      const fontSize = text.length > 4 ? 13 : text.length > 2 ? 16 : 18;
+      ctx.font = `600 ${fontSize}px Manrope, sans-serif`;
+      ctx.fillStyle = 'rgba(212,184,134,0.7)';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText(text, 64, 34);
+      ctx.fillText(text, size / 2, size / 2);
       const tex = new THREE.CanvasTexture(cnv);
       const mat = new THREE.SpriteMaterial({ map: tex, transparent: true, opacity: 0, depthWrite: false });
       const sprite = new THREE.Sprite(mat);
-      sprite.scale.set(1.6, 0.8, 1);
+      sprite.scale.set(0.9, 0.9, 1);
       return sprite;
     }
 
     function buildHelix(xOffset, sign) {
       const group = new THREE.Group();
       group.position.x = xOffset;
+      group.position.y = -15; // починається нижче екрану, піднімається при скролі
       HELIX_LABELS.forEach((label, i) => {
         const turns = 2;
         const angle = (i / HELIX_LABELS.length) * Math.PI * 2 * turns;
@@ -176,7 +205,7 @@
       depthWrite: false, sizeAttenuation: true,
     });
     const wavePoints = new THREE.Points(waveGeo, waveMat);
-    wavePoints.position.y = -10;
+    wavePoints.position.y = -12; // починається нижче екрану, піднімається при скролі
     scene.add(wavePoints);
 
     // ── ANIMATION LOOP ─────────────────────────
@@ -187,12 +216,23 @@
       my = (e.clientY / innerHeight - 0.5) * 2;
     }, { passive: true });
 
+    // Smoothed (lerp'd) state — усуває стрибки при швидкому скролі
+    let bgScrollSmooth = 0;
+    let smConstOp = 0, smHelixOp = 0, smWaveOp = 0;
+    let smMasterY = 0;
+    let smHelixY = -15;
+    let smWaveY = -12;
+
     function tick() {
       t += 0.0025;
-      const bgY = window.scrollY * 0.35;
 
-      // Scroll-based parallax for masterGroup
-      masterGroup.position.y = -(bgY * 0.001 * -4);
+      bgScrollSmooth = lerp(bgScrollSmooth, window.scrollY * 0.35, 0.06);
+      const bgY = bgScrollSmooth;
+
+      // Scroll-based parallax for masterGroup (рухається вгору разом зі скролом)
+      const targetMasterY = -(bgY * 0.001 * -4);
+      smMasterY = lerp(smMasterY, targetMasterY, 0.04);
+      masterGroup.position.y = smMasterY;
       masterGroup.rotation.y = mx * 0.05;
       masterGroup.rotation.x = my * 0.03;
 
@@ -204,33 +244,55 @@
       helixLeft.rotation.y += 0.001;
       helixRight.rotation.y -= 0.001;
 
-      // Wave undulation
+      // Wave undulation — більш виразна амплітуда
       const posAttr = waveGeo.attributes.position;
       for (let ix = 0; ix < GW; ix++) {
         for (let iz = 0; iz < GH; iz++) {
           const idx = ix * GH + iz;
-          posAttr.array[idx * 3 + 1] = Math.sin(ix * 0.35 + t * 6) * 0.18 + Math.cos(iz * 0.35 + t * 4) * 0.18;
+          const x = wavePositions[idx * 3];
+          const z = wavePositions[idx * 3 + 2];
+          posAttr.array[idx * 3 + 1] =
+            Math.sin(x * 0.35 + t * 6) * 0.38 +
+            Math.sin(z * 0.35 * 0.58 + t * 4 * 0.48) * 0.24 +
+            Math.cos((x + z) * 0.4 + t * 0.28) * 0.13;
         }
       }
       posAttr.needsUpdate = true;
-      wavePoints.position.y = -10 + iLerp(0, 1, 1) * 7.2; // base lift, opacity drives visibility
 
-      // Opacity phases tied to zones
-      const cIn = iLerp(0, zones.zA * 0.2, bgY);
-      const cOut = iLerp(zones.zA * 0.7, zones.zA, bgY);
-      const constellationOpacity = cIn * (1 - cOut);
-      nodeMat.opacity = 0.24 * constellationOpacity;
-      lineMat.opacity = 0.06 * constellationOpacity;
+      // Фази opacity / положення, рівномірно розподілені по всій сторінці
+      const constIn = iLerp(zones.zA_start, zones.zA_end * 0.5, bgY);
+      const constOut = iLerp(zones.zB_start, zones.zB_end * 0.4, bgY);
+      const constOpTarget = clamp(constIn, 0, 1) * clamp(1 - constOut, 0, 1);
 
-      const hIn = iLerp(zones.zA * 0.8, zones.zB * 0.5, bgY);
-      const hOut = iLerp(zones.zB * 0.8, zones.zB, bgY);
-      const helixOpacity = hIn * (1 - hOut);
-      helixLeft.children.forEach(s => s.material.opacity = 0.7 * helixOpacity);
-      helixRight.children.forEach(s => s.material.opacity = 0.7 * helixOpacity);
+      const helixIn = iLerp(zones.zB_start, zones.zB_end * 0.5, bgY);
+      const helixOut = iLerp(zones.zB_end * 0.7, zones.zC_start, bgY);
+      const helixOpTarget = clamp(helixIn, 0, 1) * clamp(1 - helixOut, 0, 1);
 
-      const wIn = iLerp(zones.zB * 0.9, zones.zB * 1.3, bgY);
-      waveMat.opacity = 0.42 * wIn;
-      wavePoints.position.y = -10 + 7.2 * wIn;
+      const waveIn = iLerp(zones.zC_start, zones.zC_end * 0.8, bgY);
+      const waveOpTarget = clamp(waveIn * 1.2, 0, 1);
+
+      smConstOp = lerp(smConstOp, constOpTarget, 0.04);
+      smHelixOp = lerp(smHelixOp, helixOpTarget, 0.04);
+      smWaveOp = lerp(smWaveOp, waveOpTarget, 0.04);
+
+      nodeMat.opacity = 0.24 * smConstOp;
+      lineMat.opacity = 0.06 * smConstOp;
+
+      helixLeft.children.forEach(s => s.material.opacity = smHelixOp * 0.32);
+      helixRight.children.forEach(s => s.material.opacity = smHelixOp * 0.32);
+
+      waveMat.opacity = smWaveOp * 0.65;
+
+      // ДНК з'являється знизу при наближенні до своєї зони
+      const helixTargetY = lerp(-15, 0, easeOut(clamp(helixIn * 1.5, 0, 1)));
+      smHelixY = lerp(smHelixY, helixTargetY, 0.04);
+      helixLeft.position.y = smHelixY;
+      helixRight.position.y = smHelixY;
+
+      // Хвилі також піднімаються знизу
+      const waveTargetY = lerp(-12, -2.5, easeOut(waveIn));
+      smWaveY = lerp(smWaveY, waveTargetY, 0.04);
+      wavePoints.position.y = smWaveY;
 
       renderer.render(scene, cam);
       requestAnimationFrame(tick);
