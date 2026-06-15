@@ -1157,6 +1157,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       0%,100%{transform:scale(1);opacity:1}
       50%{transform:scale(1.8);opacity:0}
     }
+
+    /* ── Section eyebrow / for-whom ── */
+    .section-eyebrow{
+      font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+      color:var(--bronze);font-weight:700;margin-bottom:10px;
+    }
+    .for-whom-content{max-width:680px;margin-top:18px}
+    .for-whom-content p{color:var(--text-muted);line-height:1.75}
+
+    /* ── Demo iframe (mobile) ── */
+    @media (max-width: 768px) {
+      #demo iframe { height: 400px; }
+    }
   </style>
 </head>
 
@@ -1167,6 +1180,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <p>Маєте питання? Напишіть — відповімо протягом дня.</p>
   <div class="sticky-tg-right">
     <a class="button primary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer" style="font-size:13px;padding:9px 16px">Написати в Telegram →</a>
+    <a class="button secondary" href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener" style="font-size:13px;padding:9px 16px">LinkedIn</a>
     <button class="sticky-tg-close" id="stickyTgClose" aria-label="Закрити">✕</button>
   </div>
 </div>
@@ -1343,6 +1357,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </a>
     </section>
 
+    <!-- СЕКЦІЯ: Для кого це — додано -->
+    <section id="for-whom" class="divider">
+      <div class="container">
+        <p class="section-eyebrow reveal">Для кого це</p>
+        <h2 class="title-accent reveal">Наш клієнт — власник МСБ що масштабується.</h2>
+        <div class="for-whom-content reveal">
+          <p>
+            Є 1С або ERP, є Excel, є CRM. Але немає системи яка показує
+            реальну картину вчасно. Маржа по категоріях невідома. План
+            порівнюють з фактом в кінці місяця. Цифри в різних відділів різні.
+            Понеділок починається з дзвінків і уточнень.
+          </p>
+        </div>
+        <div class="reveal" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;align-items:center">
+          <a href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener" class="button primary">Написати в LinkedIn →</a>
+          <a href="https://t.me/serhiy_novellum" target="_blank" rel="noopener" class="button secondary">або Telegram</a>
+        </div>
+      </div>
+    </section>
+
     <section class="snapshot" id="snapshot">
       <div class="container">
         <div class="snapshot-grid reveal">
@@ -1461,6 +1495,44 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </section>
 
+    <!-- СЕКЦІЯ: Що заважає — додано -->
+    <section id="obstacles" class="divider">
+      <div class="container">
+        <div class="section-title reveal">
+          <div>
+            <p class="section-eyebrow">Чому це не вирішується самостійно</p>
+            <h2 class="title-accent">Що заважає зробити це своїми силами.</h2>
+          </div>
+        </div>
+        <div class="grid-3" style="margin-top:8px">
+          <div class="card lift reveal">
+            <h3>Не зрозуміло які KPI важливі</h3>
+            <p>Немає розуміння які показники справді керують бізнесом — вимірюють все підряд.</p>
+          </div>
+          <div class="card lift reveal">
+            <h3>Облік хаотичний</h3>
+            <p>Дані в різних місцях — Excel, CRM, 1С, чати. Зведення займає дні.</p>
+          </div>
+          <div class="card lift reveal">
+            <h3>Немає часу розбиратись</h3>
+            <p>Все горить. Аналітика відкладається до кращих часів — які не настають.</p>
+          </div>
+          <div class="card lift reveal">
+            <h3>Фрілансер зробив і зник</h3>
+            <p>Дашборд є, але застарів. Ніхто не підтримує — використовувати страшно.</p>
+          </div>
+          <div class="card lift reveal">
+            <h3>IT і бізнес говорять різними мовами</h3>
+            <p>IT не розуміє бізнес-логіку. Бізнес не може сформулювати задачу технічно.</p>
+          </div>
+          <div class="card lift reveal">
+            <h3>Страх що не будуть використовувати</h3>
+            <p>Зроблять — а команда повернеться до Excel. Гроші витрачені, результат нульовий.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="social-proof" class="divider">
       <div class="container">
         <div class="card lift reveal" style="max-width:760px;margin:0 auto;padding:36px 48px">
@@ -1476,6 +1548,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </p>
           <div style="margin-top:26px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
             <a class="button primary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Написати в Telegram</a>
+            <a class="button secondary" href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener">LinkedIn</a>
             <span style="font-size:12px;color:var(--text-soft)">Працюємо під NDA · всі деталі в розмові</span>
           </div>
         </div>
@@ -1544,6 +1617,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </div>
     </section>
+
+    <!-- ЛОГІКА ЦІНИ — додано перед калькулятором -->
+    <div style="padding:0 0 8px">
+      <div class="container">
+        <p class="reveal" style="max-width:680px;font-size:15px;line-height:1.75;color:var(--text-muted);padding:24px 0 0">
+          Власник бізнесу з оборотом $115K/міс приймає рішення із запізненням —
+          коли дані збираються вручну і картина з'являється в кінці місяця.
+          Запізніле рішення по маржі, залишках або cash flow може коштувати
+          <strong style="color:var(--text)">$2 000–3 500/міс</strong> прихованих втрат.
+          Ongoing Nóvellum — від $1 500/міс. Система окупається якщо виправляє
+          хоча б одне відхилення на місяць.
+        </p>
+      </div>
+    </div>
 
     <section id="calculator" class="divider">
       <div class="container">
@@ -1615,10 +1702,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </ul>
           </div>
 
+          <!-- REMINDER BOT — тимчасово вимкнено
           <div>
             <h3>Nóvellum Reminder</h3>
             <p>Telegram-бот для особистих нагадувань про зустрічі, дзвінки та події. <a href="reminder.html" style="color:var(--bronze);text-decoration:underline;text-underline-offset:3px">Детальніше →</a></p>
           </div>
+          /REMINDER BOT -->
         </div>
       </div>
     </section>
@@ -1690,8 +1779,44 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
 
-        <div style="margin-top:32px;text-align:center">
+        <div style="margin-top:32px;text-align:center;display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
           <a class="button primary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Написати в Telegram — почати аудит</a>
+          <a class="button secondary" href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- СЕКЦІЯ: Демо дашборд — додано -->
+    <section id="demo" class="divider">
+      <div class="container">
+        <div class="section-title reveal">
+          <div>
+            <p class="section-eyebrow">Демо</p>
+            <h2 class="title-accent">Демо дашборд — e-commerce, Power BI, анонімні дані.</h2>
+          </div>
+        </div>
+        <p class="reveal" style="color:var(--text-muted);max-width:680px;line-height:1.75;margin-bottom:24px">
+          Реальна структура управлінського дашборду на анонімізованих даних.
+          Можна клікати, фільтрувати, дивитись логіку побудови.
+        </p>
+        <div class="reveal" style="border:1px solid rgba(212,184,134,.2);border-radius:12px;overflow:hidden;margin-bottom:24px">
+          <iframe
+            title="Nóvellum Demo Dashboard"
+            width="100%"
+            height="600"
+            src="https://app.powerbi.com/view?r=eyJrIjoiYjM2MDJjMTEtNTk5Yi00MWM2LWExNzEtNTJhYTY5ZGFkZDcyIiwidCI6Ijc1Y2QyZWIwLWJlYWUtNGMzMS1hODYyLTQzNmQ5M2RmMmUzOCIsImMiOjl9"
+            frameborder="0"
+            allowfullscreen="true"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation"
+            style="display:block;width:100%;border:none">
+          </iframe>
+        </div>
+        <p class="reveal" style="color:var(--text-muted);margin-bottom:18px">Хочете такий само для свого бізнесу?</p>
+        <div class="reveal" style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+          <a href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener" class="button primary">Написати в LinkedIn →</a>
+          <a href="https://t.me/serhiy_novellum" target="_blank" rel="noopener" class="button secondary">або Telegram</a>
         </div>
       </div>
     </section>
@@ -1735,6 +1860,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </section>
 
+    <!-- СЕКЦІЯ "Для кого ми не підійдемо" — закоментовано
     <section id="not-for" class="divider">
       <div class="container">
         <div class="section-title reveal">
@@ -1776,6 +1902,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </div>
     </section>
+    /not-for -->
 
     <section id="faq" class="divider">
       <div class="container">
@@ -1875,14 +2002,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p><a href="#formats">Формати</a></p>
         <p><a href="#products">Продукти</a></p>
         <p><a href="partners.html">Партнерство</a></p>
-        <p><a href="https://t.me/novellum_reminder_bot" target="_blank" rel="noopener">Reminder Bot</a></p>
+        <!-- <p><a href="https://t.me/novellum_reminder_bot" target="_blank" rel="noopener">Reminder Bot</a></p> -->
       </div>
 
       <div>
         <h4>Документи</h4>
         <p><a href="legal/Privacy-Policy.pdf" target="_blank" rel="noopener noreferrer">Політика конфіденційності (PDF)</a></p>
         <p><a href="legal/Terms-of-Use.pdf" target="_blank" rel="noopener noreferrer">Умови використання (PDF)</a></p>
-        <p><a href="legal/public-offer.pdf" target="_blank" rel="noopener noreferrer">Публічна оферта (Reminder Bot)</a></p>
+        <!-- <p><a href="legal/public-offer.pdf" target="_blank" rel="noopener noreferrer">Публічна оферта (Reminder Bot)</a></p> -->
       </div>
     </div>
     <div class="container" style="border-top:1px solid rgba(255,255,255,.06);margin-top:32px;padding-top:20px;padding-bottom:8px">
@@ -2037,6 +2164,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       bar.style.transition = 'width 1.3s cubic-bezier(.4,0,.2,1)';
       setTimeout(() => { bar.style.width = final; }, 500);
     });
+
+    // ── Live dashboard plan bar animate on load ──
+    (function() {
+      var planBar = document.getElementById('dash-plan-bar');
+      if (planBar) {
+        var finalWidth = planBar.style.width || '76%';
+        planBar.style.width = '0%';
+        planBar.style.transition = 'width 1.4s cubic-bezier(.4,0,.2,1) 0.6s';
+        setTimeout(function() {
+          planBar.style.width = finalWidth;
+        }, 300);
+      }
+    })();
 
     // ── Hover glow — cursor tracking ──
     document.querySelectorAll('.card, .signature').forEach(el => {
