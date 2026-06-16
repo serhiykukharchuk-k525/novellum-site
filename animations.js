@@ -17,30 +17,48 @@
     }
   });
 
-  // ── 1. PARTICLE FIELD ────────────────────────────────────────
+  // ── 1. PARTICLE FIELD (DNA Capital style — starts after hero) ─
   function initParticleField() {
+    var heroEl = document.querySelector('.hero');
+    var mainEl = document.querySelector('body > main');
     var canvas = document.createElement('canvas');
     canvas.id = 'novellum-canvas';
-    document.body.prepend(canvas);
+    if (heroEl && heroEl.parentNode) {
+      heroEl.parentNode.insertBefore(canvas, heroEl.nextSibling);
+    } else {
+      document.body.prepend(canvas);
+    }
     var ctx = canvas.getContext('2d');
-    var W, H;
-    var N = isMobile ? 60 : 160;
-    var CONNECT_DIST = isMobile ? 44 : 65;
+    var W, H, ratio;
+    var N = isMobile ? 80 : 200;
+    var CONNECT_DIST = isMobile ? 55 : 80;
     var particles = [];
 
     function resize() {
-      W = canvas.width = window.innerWidth;
-      H = canvas.height = window.innerHeight;
+      var topOffset = heroEl ? heroEl.offsetHeight : 0;
+      var docH = (mainEl || document.body).scrollHeight - topOffset;
+      W = window.innerWidth;
+      H = Math.max(docH, window.innerHeight);
+      ratio = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
+      canvas.style.top = topOffset + 'px';
+      canvas.style.height = H + 'px';
+      canvas.width = W * ratio;
+      canvas.height = H * ratio;
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
     }
     resize();
     window.addEventListener('resize', resize, { passive: true });
+    window.addEventListener('load', resize);
+    setTimeout(resize, 600);
 
     for (var i = 0; i < N; i++) {
       particles.push({
         x: Math.random() * window.innerWidth,
-        y: Math.random() * window.innerHeight,
+        y: Math.random() * H,
         vx: (Math.random() - .5) * .22,
         vy: (Math.random() - .5) * .22,
+        r: .5 + Math.random(),
+        a: .06 + Math.random() * .12,
       });
     }
 
@@ -52,8 +70,8 @@
         if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
         if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, 1, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(212,184,134,.18)';
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(212,184,134,' + p.a.toFixed(3) + ')';
         ctx.fill();
         for (var j = i + 1; j < N; j++) {
           var q = particles[j];
@@ -63,7 +81,7 @@
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(q.x, q.y);
-            ctx.strokeStyle = 'rgba(212,184,134,' + (0.035 * (1 - d / CONNECT_DIST)).toFixed(3) + ')';
+            ctx.strokeStyle = 'rgba(212,184,134,' + (0.14 * (1 - d / CONNECT_DIST)).toFixed(3) + ')';
             ctx.lineWidth = .5;
             ctx.stroke();
           }
