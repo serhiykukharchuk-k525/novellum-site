@@ -11,20 +11,27 @@ body > footer {
   z-index: 10001;
 }
 body > header { z-index: 10002 !important; }
+/* .sticky-tg / .exit-overlay / .mobile-nav already have position:fixed
+   set inline — only raise z-index here, do NOT touch position or it
+   breaks their fixed placement. */
 .sticky-tg,
 .exit-overlay,
 .mobile-nav {
-  position: relative;
   z-index: 10003 !important;
 }
 
-/* ── PARTICLE CANVAS ── */
+/* ── PARTICLE CANVAS ──
+   Canvas is inserted right after .hero and positioned absolute so it
+   starts only once the first screen has been scrolled past, spanning
+   the rest of the document (DNA Capital style). Top/height are set
+   inline by animations.js. */
 #novellum-canvas {
-  position: fixed !important;
-  inset: 0 !important;
-  z-index: 10000 !important;
+  position: absolute !important;
+  left: 0;
+  width: 100%;
+  z-index: 0;
   pointer-events: none !important;
-  opacity: 0.7;
+  opacity: 0.75;
 }
 
 /* ── HERO TRUST STRIP ── */
@@ -113,17 +120,17 @@ body > header { z-index: 10002 !important; }
 .phone-v-wrap {
   position: relative;
   width: 100%;
-  max-width: 340px;
+  max-width: 360px;
   margin: 0 auto;
 }
 .phone-v-frame {
-  background: #111;
-  border-radius: 44px;
-  border: 8px solid #252525;
+  background: #0d0d0d;
+  border-radius: 48px;
+  border: 9px solid #1e1e1e;
   box-shadow:
-    0 0 0 1px rgba(255,255,255,.07),
-    0 40px 80px rgba(0,0,0,.65),
-    inset 0 0 0 1px rgba(255,255,255,.04);
+    0 0 0 1px rgba(255,255,255,.08),
+    0 50px 100px rgba(0,0,0,.75),
+    inset 0 1px 0 rgba(255,255,255,.06);
   overflow: hidden;
   position: relative;
 }
@@ -131,33 +138,34 @@ body > header { z-index: 10002 !important; }
   position: absolute;
   top: 0; left: 50%;
   transform: translateX(-50%);
-  width: 96px; height: 26px;
-  background: #111;
-  border-radius: 0 0 18px 18px;
+  width: 100px; height: 28px;
+  background: #0d0d0d;
+  border-radius: 0 0 20px 20px;
   z-index: 5;
 }
 .phone-v-statusbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 30px 20px 6px;
+  padding: 32px 22px 4px;
   font-size: 12px;
   font-weight: 600;
-  color: rgba(255,255,255,.55);
+  color: rgba(255,255,255,.5);
+  letter-spacing: .02em;
 }
 .phone-v-fade {
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  height: 180px;
+  height: 200px;
   background: linear-gradient(
     to top,
     var(--bg, #1A2E28) 0%,
-    rgba(26,46,40,.7) 50%,
+    rgba(26,46,40,.75) 45%,
     transparent 100%
   );
-  border-radius: 0 0 36px 36px;
+  border-radius: 0 0 40px 40px;
   pointer-events: none;
-  z-index: 3;
+  z-index: 4;
 }
 .hero-visual {
   padding: 0 !important;
@@ -167,50 +175,69 @@ body > header { z-index: 10002 !important; }
   backdrop-filter: none !important;
   min-height: auto !important;
 }
-@media (max-width: 768px) {
-  .phone-v-wrap { max-width: 280px; }
-  .phone-v-frame { border-radius: 32px; border-width: 6px; }
-  .phone-v-fade { height: 120px; }
+@media (max-width: 900px) {
+  .phone-v-wrap { max-width: 300px; }
+  .phone-v-frame { border-radius: 36px; border-width: 7px; }
 }
 
-/* ── ANIMATED BORDER BUTTON ── */
-@property --btn-angle {
+/* ── ANIMATED BORDER BUTTON ──
+   .button.primary already has its own ::after (static shimmer line) with
+   higher specificity (.button.primary::after) than .button--anim::after,
+   which silently overrode our animated background — that's why the
+   border looked static. All visual props below carry !important so this
+   rule always wins regardless of which other button classes are present. */
+@property --grad-angle {
   syntax: '<angle>';
   initial-value: 0deg;
   inherits: false;
 }
-@keyframes btnBorder { to { --btn-angle: 360deg; } }
+@keyframes btnRotate {
+  from { --grad-angle: 0deg; }
+  to   { --grad-angle: 360deg; }
+}
 .button--anim {
   position: relative;
   isolation: isolate;
   border-color: transparent !important;
+  background-clip: padding-box;
+  color: var(--fg, #F4EFE5) !important;
+}
+.button--anim::after {
+  content: '' !important;
+  position: absolute !important;
+  inset: -1.5px !important;
+  border-radius: inherit !important;
+  background: linear-gradient(
+    var(--grad-angle, 0deg),
+    rgba(212,184,134,0) 0%,
+    rgba(212,184,134,0) 35%,
+    rgba(212,184,134,.9) 50%,
+    rgba(212,184,134,0) 65%,
+    rgba(212,184,134,0) 100%
+  ) !important;
+  -webkit-mask: none !important;
+  mask: none !important;
+  animation: btnRotate 2.5s linear infinite !important;
+  opacity: 1 !important;
+  pointer-events: none !important;
+  z-index: -1 !important;
 }
 .button--anim::before {
   content: '';
   position: absolute;
-  inset: -1px;
+  inset: 1px;
   border-radius: inherit;
-  padding: 1px;
-  background: conic-gradient(
-    from var(--btn-angle, 0deg),
-    transparent 0deg,
-    rgba(212,184,134,.9) 50deg,
-    transparent 100deg
-  );
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  animation: btnBorder 2.5s linear infinite;
-  pointer-events: none;
+  background: var(--bg-deep, #0F1F1C);
+  z-index: -1;
 }
-@supports not (background: conic-gradient(from 0deg, red, blue)) {
-  .button--anim {
-    border: 1px solid rgba(212,184,134,.4) !important;
-    animation: btnBorderFallback 2s ease-in-out infinite;
+@supports not (background: conic-gradient(red, blue)) {
+  .button--anim::after {
+    background: rgba(212,184,134,.3) !important;
+    animation: btnFallback 2s ease-in-out infinite !important;
   }
-  @keyframes btnBorderFallback {
-    0%,100% { border-color: rgba(212,184,134,.2); }
-    50% { border-color: rgba(212,184,134,.7); }
+  @keyframes btnFallback {
+    0%,100% { opacity: .3; }
+    50%     { opacity: .8; }
   }
 }
 
@@ -523,54 +550,44 @@ body > header { z-index: 10002 !important; }
 .tool-pill.fly-in { opacity: 1; transform: translateX(0) translateY(0); }
 .tool-pill:hover { border-color: rgba(212,184,134,.28); color: rgba(244,239,229,.72); }
 
-/* ── SOURCES ORBIT (#products — icon fly-out) ── */
+/* ── SOURCES ORBIT (#products — icon fly-out, no labels) ── */
 .sources-orbit {
   position: relative;
-  height: 20px;
-  margin-top: 24px;
+  height: 60px;
+  margin-top: 32px;
   overflow: visible;
 }
 .src-icon {
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translateX(-50%) translateY(-50%);
-  opacity: 0;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border: 1px solid rgba(255,255,255,.09);
-  border-radius: 8px;
-  background: rgba(255,255,255,.02);
+  justify-content: center;
+  border: 1px solid rgba(212,184,134,.15);
+  border-radius: 10px;
+  background: rgba(212,184,134,.05);
   backdrop-filter: blur(8px);
-  white-space: nowrap;
-  font-size: 11px;
-  color: rgba(244,239,229,.5);
-  font-weight: 500;
-  transition: transform .8s cubic-bezier(.34,1.4,.64,1), opacity .5s ease;
-  z-index: 0;
+  opacity: 0;
+  transform: translateX(-50%) translateY(-50%);
+  transition: transform .9s cubic-bezier(.34,1.3,.64,1), opacity .6s ease;
   pointer-events: none;
+  z-index: 0;
 }
-.src-icon img { display: block; border-radius: 3px; }
 .src-icon.flown {
   opacity: 1;
   transform: translateX(calc(-50% + var(--tx, 0px))) translateY(calc(-50% + var(--ty, 0px)));
 }
-.src-icon:hover { border-color: rgba(212,184,134,.28); color: rgba(244,239,229,.72); }
 .src-text-icon {
-  width: 20px; height: 20px;
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(212,184,134,.15);
-  border-radius: 4px;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 800;
-  color: #D4B886;
+  color: rgba(212,184,134,.7);
 }
 @media (max-width: 768px) {
-  .src-icon { font-size: 10px; padding: 5px 10px; }
   .src-icon.flown {
-    transform: translateX(calc(-50% + var(--tx, 0px) * .5)) translateY(calc(-50% + var(--ty, 0px) * .5));
+    transform: translateX(calc(-50% + var(--tx, 0px) * .45)) translateY(calc(-50% + var(--ty, 0px) * .45));
   }
 }
 
@@ -596,8 +613,17 @@ body > header { z-index: 10002 !important; }
 
 /* ── PARTNER CASES ── */
 .partner-case p,
-.partner-case h3,
-.partners-cases .card p {
-  font-size: 15px;
+.partners-cases .card p,
+[class*="card"] p,
+[class*="case"] p {
+  font-size: 14px;
   line-height: 1.65;
+  color: var(--text-muted);
+}
+.partner-case h3,
+[class*="card"] h3,
+[class*="case"] h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 6px;
 }
