@@ -421,6 +421,11 @@ body > footer {
   }
 }
 
+/* ── CARD ALIGNMENT ── */
+.how-grid .card { text-align: center; }
+.how-grid .card p { text-align: left; }
+.snap-card { text-align: center; }
+
 /* ── REDUCED MOTION ── */
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
