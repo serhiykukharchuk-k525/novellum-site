@@ -12,7 +12,8 @@
       initTimelineEnhancements();
       initTypewriters();
       initFlyingIcons();
-      initProductsOrbit();
+      initSourcesOrbit();
+      initPhone3d();
     }
   });
 
@@ -23,8 +24,8 @@
     document.body.prepend(canvas);
     var ctx = canvas.getContext('2d');
     var W, H;
-    var N = isMobile ? 80 : 180;
-    var CONNECT_DIST = isMobile ? 50 : 65;
+    var N = isMobile ? 60 : 160;
+    var CONNECT_DIST = isMobile ? 45 : 65;
     var particles = [];
 
     function resize() {
@@ -239,17 +240,30 @@
     io.observe(orbit);
   }
 
-  // ── 7. PRODUCTS TOOLS ORBIT (#toolsOrbit) ────────────────────
-  function initProductsOrbit() {
-    var el = document.getElementById('toolsOrbit');
+  // ── 7. SOURCES ORBIT (#sourcesOrbit) ─────────────────────────
+  function initSourcesOrbit() {
+    var el = document.getElementById('sourcesOrbit');
     if (!el) return;
     var obs = new IntersectionObserver(function (entries) {
       if (!entries[0].isIntersecting) return;
-      el.querySelectorAll('.tool-pill-abs').forEach(function (pill, i) {
-        setTimeout(function () { pill.classList.add('flown'); }, i * 60);
+      el.querySelectorAll('.src-icon').forEach(function (ic) {
+        var delay = parseInt(ic.dataset.delay) || 0;
+        setTimeout(function () { ic.classList.add('flown'); }, delay);
       });
       obs.unobserve(el);
     }, { threshold: 0.3 });
+    obs.observe(el);
+  }
+
+  // ── 8. 3D PHONE (#phone3d) ────────────────────────────────────
+  function initPhone3d() {
+    var el = document.getElementById('phone3d');
+    if (!el) return;
+    var obs = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      el.classList.add('on');
+      obs.unobserve(el);
+    }, { threshold: 0.15 });
     obs.observe(el);
   }
 
