@@ -6,38 +6,42 @@
 
 /* ── STACKING ── */
 body > main,
-body > footer {
+body > footer,
+.sticky-tg,
+.exit-overlay,
+.mobile-nav {
   position: relative;
-  z-index: 2;
+  z-index: 20;
 }
+body > header { z-index: 100; }
 
 /* ── PARTICLE CANVAS ── */
 #novellum-canvas {
   position: fixed;
   inset: 0;
-  z-index: 1;
+  z-index: 10;
   pointer-events: none;
+  opacity: 0.75;
 }
 
-/* ── HERO TRUST STRIP (rectangular cards with stagger) ── */
+/* ── HERO TRUST STRIP ── */
 .hero-trust-strip {
   display: flex;
-  gap: 10px;
+  gap: 24px;
   flex-wrap: wrap;
   margin-top: 28px;
-  border-top: none;
-  padding-top: 0;
-  align-items: stretch;
+  padding-top: 20px;
+  border-top: 1px solid rgba(212,184,134,.10);
+  align-items: flex-start;
 }
 .hero-trust-item {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 3px;
-  padding: 10px 16px;
-  border: 1px solid rgba(212,184,134,.15);
-  border-radius: 10px;
-  background: rgba(255,255,255,.03);
+  gap: 2px;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: none;
   opacity: 0;
   transform: translateY(8px);
   transition: opacity .5s ease, transform .5s ease;
@@ -90,18 +94,21 @@ body > footer {
   box-shadow: 0 0 0 4px rgba(212,184,134,.10);
 }
 
-/* ── PHONE MOCKUP VERTICAL (hero) ── */
-.phone-mockup-v {
+/* ── PHONE MOCKUP VERTICAL (hero — Origin style) ── */
+.phone-wrap-v {
   position: relative;
   width: 100%;
-  max-width: 340px;
+  max-width: 320px;
   margin: 0 auto;
 }
-.phone-frame-v {
-  background: #1a1a1a;
-  border-radius: 36px;
-  border: 8px solid #2a2a2a;
-  box-shadow: 0 40px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.06);
+.phone-body-v {
+  background: #111;
+  border-radius: 44px;
+  border: 8px solid #222;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.08),
+    0 40px 80px rgba(0,0,0,.7),
+    inset 0 0 0 1px rgba(255,255,255,.04);
   overflow: hidden;
   position: relative;
 }
@@ -109,52 +116,126 @@ body > footer {
   position: absolute;
   top: 0; left: 50%;
   transform: translateX(-50%);
-  width: 90px; height: 22px;
-  background: #1a1a1a;
-  border-radius: 0 0 16px 16px;
-  z-index: 2;
+  width: 96px; height: 28px;
+  background: #111;
+  border-radius: 0 0 20px 20px;
+  z-index: 5;
 }
-.phone-screen-v {
-  padding: 28px 0 0;
-  max-height: 520px;
-  overflow: hidden;
+.phone-status-v {
+  display: flex;
+  justify-content: space-between;
+  padding: 32px 20px 6px;
+  font-size: 11px;
+  color: rgba(255,255,255,.5);
+  font-weight: 600;
+  font-family: inherit;
 }
-.phone-fade-bottom {
+.phone-fade-v {
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  height: 140px;
-  background: linear-gradient(to top, var(--bg, #1A2E28) 0%, transparent 100%);
+  height: 160px;
+  background: linear-gradient(
+    to top,
+    var(--bg, #1A2E28) 0%,
+    rgba(26,46,40,.6) 60%,
+    transparent 100%
+  );
+  border-radius: 0 0 36px 36px;
   pointer-events: none;
-  border-radius: 0 0 28px 28px;
+}
+.hero-visual { max-width: 360px; }
+@media (max-width: 768px) {
+  .phone-wrap-v { max-width: 280px; }
+  .phone-body-v { border-radius: 32px; border-width: 6px; }
+  .hero-visual { max-width: 100%; }
 }
 
-/* ── PHONE MOCKUP HORIZONTAL (#demo) ── */
-.phone-mockup-h {
-  max-width: 680px;
-  margin: 0 auto 32px;
+/* ── ANIMATED BORDER BUTTON ── */
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
 }
-.phone-frame-h {
-  background: #1a1a1a;
-  border-radius: 28px;
-  border: 8px solid #2a2a2a;
-  box-shadow: 0 40px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.05);
-  overflow: hidden;
+@keyframes rotateBorder { to { --angle: 360deg; } }
+.button--animated-border {
   position: relative;
-  aspect-ratio: 16 / 9;
+  background: transparent;
+  border: none;
+  overflow: hidden;
 }
-.phone-side-btn {
+.button--animated-border::before {
+  content: '';
   position: absolute;
-  right: -12px; top: 30%;
-  width: 4px; height: 40px;
-  background: #333;
-  border-radius: 0 4px 4px 0;
-  z-index: 1;
+  inset: -2px;
+  background: conic-gradient(
+    from var(--angle, 0deg),
+    transparent 0deg,
+    rgba(212,184,134,.8) 60deg,
+    transparent 120deg
+  );
+  border-radius: inherit;
+  animation: rotateBorder 3s linear infinite;
 }
-.phone-screen-h {
+.button--animated-border::after {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  background: var(--bg-deep, #0F1F1C);
+  border-radius: inherit;
+}
+.button--animated-border > * { position: relative; z-index: 1; }
+.button--animated-border { position: relative; z-index: 1; }
+
+/* ── 3D PHONE (#demo) ── */
+.phone-3d-wrap {
   width: 100%;
-  height: 100%;
+  max-width: 680px;
+  margin: 0 auto 40px;
+  perspective: 1200px;
+  opacity: 0;
+  transition: opacity .6s ease .2s;
 }
-.phone-screen-h img { display: block; }
+.phone-3d-wrap.on { opacity: 1; }
+.phone-3d-scene {
+  transform: rotateX(18deg) rotateY(-8deg) rotateZ(3deg);
+  transform-style: preserve-3d;
+  transition: transform .6s ease;
+}
+.phone-3d-scene:hover {
+  transform: rotateX(12deg) rotateY(-4deg) rotateZ(1deg);
+}
+.phone-3d-body {
+  background: #1a1a1a;
+  border-radius: 36px;
+  border: 8px solid #2a2a2a;
+  box-shadow:
+    0 60px 120px rgba(0,0,0,.8),
+    0 0 0 1px rgba(255,255,255,.06),
+    inset 0 0 0 1px rgba(255,255,255,.04);
+  position: relative;
+  overflow: hidden;
+}
+.phone-3d-btn-r {
+  position: absolute;
+  right: -11px;
+  width: 4px; height: 36px;
+  background: #333; border-radius: 0 3px 3px 0;
+}
+.phone-3d-btn-r.t1 { top: 22%; }
+.phone-3d-btn-r.t2 { top: 36%; }
+.phone-3d-btn-l {
+  position: absolute;
+  left: -11px; top: 28%;
+  width: 4px; height: 52px;
+  background: #333; border-radius: 3px 0 0 3px;
+}
+.phone-3d-screen { background: #0F1F1C; overflow: hidden; }
+.phone-3d-content { padding: 20px 18px 18px; }
+@media (max-width: 768px) {
+  .phone-3d-scene { transform: rotateX(12deg) rotateY(-4deg) rotateZ(2deg); }
+  .phone-3d-body { border-radius: 24px; border-width: 6px; }
+  .phone-3d-wrap { max-width: 340px; }
+}
 
 /* ── PHONE MOCKUP (#demo) ── */
 .demo-intro {
@@ -370,54 +451,53 @@ body > footer {
 .tool-pill.fly-in { opacity: 1; transform: translateX(0) translateY(0); }
 .tool-pill:hover { border-color: rgba(212,184,134,.28); color: rgba(244,239,229,.72); }
 
-/* ── PRODUCTS TOOLS ORBIT (absolute fly-out) ── */
-.tools-orbit-abs {
+/* ── SOURCES ORBIT (#products — icon fly-out) ── */
+.sources-orbit {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 160px;
-  margin-top: 40px;
+  height: 20px;
+  margin-top: 24px;
   overflow: visible;
 }
-.tools-center {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-}
-.micro-text {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: rgba(244,239,229,.35);
-}
-.tool-pill-abs {
+.src-icon {
   position: absolute;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: .06em;
-  color: rgba(244,239,229,.38);
-  border: 1px solid rgba(255,255,255,.08);
-  padding: 6px 14px;
-  border-radius: 6px;
-  background: rgba(255,255,255,.02);
-  white-space: nowrap;
-  z-index: 1;
-  transform: translate(0, 0);
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%) translate(0, 0);
   opacity: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 8px;
+  background: rgba(255,255,255,.02);
+  backdrop-filter: blur(8px);
+  white-space: nowrap;
+  font-size: 11px;
+  color: rgba(244,239,229,.5);
+  font-weight: 500;
   transition: transform .8s cubic-bezier(.34,1.4,.64,1), opacity .5s ease;
+  z-index: 0;
 }
-.tool-pill-abs.flown {
-  transform: translate(var(--tx), var(--ty));
+.src-icon img { display: block; border-radius: 3px; }
+.src-icon.flown {
   opacity: 1;
+  transform: translateX(-50%) translate(var(--tx), var(--ty));
 }
-.tool-pill-abs:hover { border-color: rgba(212,184,134,.28); color: rgba(244,239,229,.72); }
+.src-icon:hover { border-color: rgba(212,184,134,.28); color: rgba(244,239,229,.72); }
+.src-text-icon {
+  width: 20px; height: 20px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(212,184,134,.15);
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 800;
+  color: #D4B886;
+}
 @media (max-width: 768px) {
-  .tools-orbit-abs { min-height: 120px; }
-  .tool-pill-abs { font-size: 10px; padding: 4px 10px; }
-  .tool-pill-abs.flown {
-    transform: translate(calc(var(--tx) * .55), calc(var(--ty) * .55));
+  .src-icon { font-size: 10px; padding: 5px 10px; }
+  .src-icon.flown {
+    transform: translateX(-50%) translate(calc(var(--tx) * .5), calc(var(--ty) * .5));
   }
 }
 
