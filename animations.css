@@ -19,36 +19,32 @@ body > footer {
   pointer-events: none;
 }
 
-/* ── CIRCLE STATS (hero-trust-strip) ── */
-.trust-circle-wrap {
-  display: inline-flex;
-  align-items: center;
+/* ── HERO TRUST STRIP (rectangular cards with stagger) ── */
+.hero-trust-strip {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+  border-top: none;
+  padding-top: 0;
+  align-items: stretch;
+}
+.hero-trust-item {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  position: relative;
-  width: 52px;
-  height: 52px;
-  flex-shrink: 0;
+  gap: 3px;
+  padding: 10px 16px;
+  border: 1px solid rgba(212,184,134,.15);
+  border-radius: 10px;
+  background: rgba(255,255,255,.03);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .5s ease, transform .5s ease;
 }
-.trust-circle-wrap svg {
-  position: absolute;
-  inset: 0;
-  transform: rotate(-90deg);
-}
-.trust-track { stroke: rgba(212,184,134,.10); fill: none; }
-.trust-arc {
-  stroke: rgba(212,184,134,.52);
-  fill: none;
-  stroke-linecap: round;
-  transition: stroke-dashoffset 1.8s cubic-bezier(.4,0,.2,1) .4s;
-}
-.trust-num {
-  font-size: 13px;
-  font-weight: 800;
-  color: var(--bronze);
-  line-height: 1;
-  position: relative;
-  z-index: 1;
-  text-align: center;
+.hero-trust-item.vis {
+  opacity: 1;
+  transform: none;
 }
 
 /* ── PROCESS WAVE CANVAS ── */
@@ -93,6 +89,72 @@ body > footer {
   border-color: rgba(212,184,134,.70);
   box-shadow: 0 0 0 4px rgba(212,184,134,.10);
 }
+
+/* ── PHONE MOCKUP VERTICAL (hero) ── */
+.phone-mockup-v {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  margin: 0 auto;
+}
+.phone-frame-v {
+  background: #1a1a1a;
+  border-radius: 36px;
+  border: 8px solid #2a2a2a;
+  box-shadow: 0 40px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.06);
+  overflow: hidden;
+  position: relative;
+}
+.phone-notch-v {
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 90px; height: 22px;
+  background: #1a1a1a;
+  border-radius: 0 0 16px 16px;
+  z-index: 2;
+}
+.phone-screen-v {
+  padding: 28px 0 0;
+  max-height: 520px;
+  overflow: hidden;
+}
+.phone-fade-bottom {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 140px;
+  background: linear-gradient(to top, var(--bg, #1A2E28) 0%, transparent 100%);
+  pointer-events: none;
+  border-radius: 0 0 28px 28px;
+}
+
+/* ── PHONE MOCKUP HORIZONTAL (#demo) ── */
+.phone-mockup-h {
+  max-width: 680px;
+  margin: 0 auto 32px;
+}
+.phone-frame-h {
+  background: #1a1a1a;
+  border-radius: 28px;
+  border: 8px solid #2a2a2a;
+  box-shadow: 0 40px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.05);
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 16 / 9;
+}
+.phone-side-btn {
+  position: absolute;
+  right: -12px; top: 30%;
+  width: 4px; height: 40px;
+  background: #333;
+  border-radius: 0 4px 4px 0;
+  z-index: 1;
+}
+.phone-screen-h {
+  width: 100%;
+  height: 100%;
+}
+.phone-screen-h img { display: block; }
 
 /* ── PHONE MOCKUP (#demo) ── */
 .demo-intro {
@@ -240,7 +302,26 @@ body > footer {
 .btn-demo-open:hover { border-color: rgba(212,184,134,.32); color: rgba(244,239,229,.9); }
 .btn-demo-open:hover::before { left: 100%; }
 
-/* ── SECTION TYPEWRITER ── */
+/* ── SECTION TYPEWRITER (data-typewriter) ── */
+.section-typewriter {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  margin-bottom: 16px;
+  min-height: 18px;
+  display: inline-block;
+  border-right: 2px solid rgba(212,184,134,.6);
+  padding-right: 2px;
+  animation: cursorBlink .8s step-end infinite;
+}
+@keyframes cursorBlink {
+  0%, 100% { border-color: rgba(212,184,134,.6); }
+  50% { border-color: transparent; }
+}
+
+/* ── SECTION TYPEWRITER (legacy) ── */
 .section-tw-line {
   display: inline;
   font-size: 13px;
@@ -289,6 +370,57 @@ body > footer {
 .tool-pill.fly-in { opacity: 1; transform: translateX(0) translateY(0); }
 .tool-pill:hover { border-color: rgba(212,184,134,.28); color: rgba(244,239,229,.72); }
 
+/* ── PRODUCTS TOOLS ORBIT (absolute fly-out) ── */
+.tools-orbit-abs {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 160px;
+  margin-top: 40px;
+  overflow: visible;
+}
+.tools-center {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+.micro-text {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(244,239,229,.35);
+}
+.tool-pill-abs {
+  position: absolute;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .06em;
+  color: rgba(244,239,229,.38);
+  border: 1px solid rgba(255,255,255,.08);
+  padding: 6px 14px;
+  border-radius: 6px;
+  background: rgba(255,255,255,.02);
+  white-space: nowrap;
+  z-index: 1;
+  transform: translate(0, 0);
+  opacity: 0;
+  transition: transform .8s cubic-bezier(.34,1.4,.64,1), opacity .5s ease;
+}
+.tool-pill-abs.flown {
+  transform: translate(var(--tx), var(--ty));
+  opacity: 1;
+}
+.tool-pill-abs:hover { border-color: rgba(212,184,134,.28); color: rgba(244,239,229,.72); }
+@media (max-width: 768px) {
+  .tools-orbit-abs { min-height: 120px; }
+  .tool-pill-abs { font-size: 10px; padding: 4px 10px; }
+  .tool-pill-abs.flown {
+    transform: translate(calc(var(--tx) * .55), calc(var(--ty) * .55));
+  }
+}
+
 /* ── REDUCED MOTION ── */
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
@@ -298,7 +430,7 @@ body > footer {
 
 /* ── MOBILE ── */
 @media (max-width: 768px) {
-  #novellum-canvas { display: none; }
+  .phone-frame-h { border-radius: 16px; border-width: 5px; }
   .phone-frame { width: 180px; height: 360px; border-radius: 26px; }
   .ph-val { font-size: 17px; }
 }

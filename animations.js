@@ -5,14 +5,14 @@
   var isMobile = window.innerWidth < 768;
 
   window.addEventListener('DOMContentLoaded', function () {
-    if (!prefersReduced && !isMobile) initParticleField();
+    if (!prefersReduced) initParticleField();
     if (!prefersReduced) {
-      initCircleStats();
+      initHeroTrustStagger();
       initProcessWave();
       initTimelineEnhancements();
-      initPhoneMockup();
-      initTypewriter();
+      initTypewriters();
       initFlyingIcons();
+      initProductsOrbit();
     }
   });
 
@@ -23,7 +23,8 @@
     document.body.prepend(canvas);
     var ctx = canvas.getContext('2d');
     var W, H;
-    var N = 180;
+    var N = isMobile ? 80 : 180;
+    var CONNECT_DIST = isMobile ? 50 : 65;
     var particles = [];
 
     function resize() {
@@ -57,11 +58,11 @@
           var q = particles[j];
           var dx = p.x - q.x, dy = p.y - q.y;
           var d = Math.sqrt(dx * dx + dy * dy);
-          if (d < 65) {
+          if (d < CONNECT_DIST) {
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(q.x, q.y);
-            ctx.strokeStyle = 'rgba(212,184,134,' + (0.035 * (1 - d / 65)).toFixed(3) + ')';
+            ctx.strokeStyle = 'rgba(212,184,134,' + (0.035 * (1 - d / CONNECT_DIST)).toFixed(3) + ')';
             ctx.lineWidth = .5;
             ctx.stroke();
           }
@@ -72,44 +73,11 @@
     requestAnimationFrame(tick);
   }
 
-  // ── 2. CIRCLE STATS ──────────────────────────────────────────
-  function initCircleStats() {
+  // ── 2. HERO TRUST STRIP STAGGER ──────────────────────────────
+  function initHeroTrustStagger() {
     var items = document.querySelectorAll('.hero-trust-item');
-    var R = 21;
-    var C = 2 * Math.PI * R;
-
-    items.forEach(function (item) {
-      var spans = item.querySelectorAll('span');
-      if (spans.length < 2) return;
-      var valSpan = spans[1];
-      var text = valSpan.textContent.trim();
-      var m = text.match(/(\d+)/);
-      if (!m) return;
-
-      var num = parseInt(m[1], 10);
-      var max = num <= 7 ? 10 : num <= 20 ? 30 : 100;
-      var ratio = Math.min(num / max, 0.88);
-      var dashLen = C * ratio;
-
-      var wrap = document.createElement('div');
-      wrap.className = 'trust-circle-wrap';
-      wrap.innerHTML =
-        '<svg viewBox="0 0 52 52" width="52" height="52" aria-hidden="true">' +
-          '<circle class="trust-track" cx="26" cy="26" r="' + R + '" stroke-width="1.5"/>' +
-          '<circle class="trust-arc" cx="26" cy="26" r="' + R + '" stroke-width="1.5"' +
-            ' stroke-dasharray="' + C.toFixed(2) + '" stroke-dashoffset="' + C.toFixed(2) + '"/>' +
-        '</svg>' +
-        '<span class="trust-num">' + text + '</span>';
-
-      valSpan.replaceWith(wrap);
-
-      var arc = wrap.querySelector('.trust-arc');
-      var io = new IntersectionObserver(function (entries) {
-        if (!entries[0].isIntersecting) return;
-        arc.style.strokeDashoffset = (C - dashLen).toFixed(2);
-        io.unobserve(item);
-      }, { threshold: 0.5 });
-      io.observe(item);
+    items.forEach(function (el, i) {
+      setTimeout(function () { el.classList.add('vis'); }, 800 + i * 150);
     });
   }
 
@@ -196,106 +164,36 @@
     io.observe(wrapper);
   }
 
-  // ── 5. PHONE MOCKUP (#demo) ──────────────────────────────────
-  function initPhoneMockup() {
-    var container = document.querySelector('#demo .container');
-    if (!container) return;
-    var sectionTitle = container.querySelector('.section-title');
-    if (!sectionTitle) return;
-    var descP = sectionTitle.nextElementSibling;
-    if (!descP) return;
+  // ── 5. TYPEWRITERS ([data-typewriter]) ───────────────────────
+  function initTypewriters() {
+    document.querySelectorAll('[data-typewriter]').forEach(function (el) {
+      var texts;
+      try { texts = JSON.parse(el.dataset.typewriter); } catch (e) { return; }
+      var idx = 0, charIdx = 0, deleting = false;
 
-    var intro = document.createElement('div');
-    intro.className = 'demo-intro';
-    var textWrap = document.createElement('div');
-    textWrap.className = 'demo-text';
+      function type() {
+        var cur = texts[idx];
+        if (!deleting) {
+          el.textContent = cur.slice(0, ++charIdx);
+          if (charIdx === cur.length) {
+            deleting = true;
+            return setTimeout(type, 1800);
+          }
+        } else {
+          el.textContent = cur.slice(0, --charIdx);
+          if (charIdx === 0) {
+            deleting = false;
+            idx = (idx + 1) % texts.length;
+          }
+        }
+        setTimeout(type, deleting ? 40 : 60);
+      }
 
-    // Open-demo button
-    var openBtn = document.createElement('a');
-    openBtn.className = 'btn-demo-open';
-    openBtn.href = '#';
-    openBtn.textContent = '▶ Відкрити демо';
-    openBtn.addEventListener('click', function (e) {
-      e.preventDefault();
-      var iframeDiv = document.querySelector('#demo [loading="lazy"]');
-      if (iframeDiv) iframeDiv.closest('div').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      var obs = new IntersectionObserver(function (entries) {
+        if (entries[0].isIntersecting) { type(); obs.unobserve(el); }
+      }, { threshold: 0.5 });
+      obs.observe(el);
     });
-
-    // Restructure DOM
-    container.insertBefore(intro, descP);
-    textWrap.appendChild(descP);
-    textWrap.appendChild(openBtn);
-    intro.appendChild(textWrap);
-
-    // Build phone
-    var phone = document.createElement('div');
-    phone.className = 'phone-frame';
-    phone.setAttribute('aria-hidden', 'true');
-    phone.innerHTML =
-      '<div class="phone-notch"></div>' +
-      '<div class="phone-screen">' +
-        '<div class="ph-label">Executive overview · МТД</div>' +
-        '<div class="ph-val">₴1 284K</div>' +
-        '<div class="ph-delta">+12.4%</div>' +
-        '<div class="ph-label" style="margin-top:10px">Виконання плану</div>' +
-        '<div class="ph-bar-track"><div class="ph-bar-fill"></div></div>' +
-        '<div style="font-size:7px;color:rgba(244,239,229,.22);text-align:right;margin-bottom:8px">76%</div>' +
-        '<div class="ph-metrics">' +
-          '<div class="ph-metric">' +
-            '<div class="ph-label">Маржа</div>' +
-            '<div class="ph-metric-val">34.2%</div>' +
-            '<div class="ph-metric-sub">+1.2pp</div>' +
-          '</div>' +
-          '<div class="ph-metric">' +
-            '<div class="ph-label">Зам/день</div>' +
-            '<div class="ph-metric-val">847</div>' +
-            '<div class="ph-metric-sub" style="color:#e05c50">−3.1%</div>' +
-          '</div>' +
-        '</div>' +
-        '<div class="ph-focus">' +
-          '<div class="ph-label" style="margin-bottom:5px">Фокус тижня</div>' +
-          '<div class="ph-focus-item">Маржа A впала на 2.1pp</div>' +
-          '<div class="ph-focus-item">Логістика: 2 постачальника</div>' +
-          '<div class="ph-focus-item">KPI закриття: 87%</div>' +
-        '</div>' +
-        '<div class="ph-footer">Nóvellum Analytics · Power BI</div>' +
-      '</div>';
-
-    intro.appendChild(phone);
-
-    var io = new IntersectionObserver(function (entries) {
-      if (!entries[0].isIntersecting) return;
-      phone.classList.add('is-visible');
-      io.unobserve(phone);
-    }, { threshold: 0.15 });
-    io.observe(phone);
-  }
-
-  // ── 6. TYPEWRITER (#value section) ───────────────────────────
-  function initTypewriter() {
-    var valueSection = document.querySelector('#value .section-title > div');
-    if (!valueSection) return;
-    var h2 = valueSection.querySelector('h2');
-    if (!h2) return;
-
-    var wrap = document.createElement('div');
-    wrap.className = 'section-tw-wrap';
-    var tw = document.createElement('span');
-    tw.className = 'section-tw-line';
-    tw.textContent = 'Power BI · E-commerce · Retail';
-    var cur = document.createElement('span');
-    cur.className = 'tw-cursor2';
-    cur.setAttribute('aria-hidden', 'true');
-    wrap.appendChild(tw); wrap.appendChild(cur);
-    h2.after(wrap);
-
-    var words = ['Power BI · E-commerce · Retail', 'Google Sheets · PostgreSQL · 1С', 'Будь-яке джерело даних'];
-    var idx = 0;
-    setInterval(function () {
-      idx = (idx + 1) % words.length;
-      tw.style.opacity = '0';
-      setTimeout(function () { tw.textContent = words[idx]; tw.style.opacity = '1'; }, 220);
-    }, 2800);
   }
 
   // ── 7. FLYING TOOL PILLS (#pricing) ──────────────────────────
@@ -339,6 +237,20 @@
       io.unobserve(orbit);
     }, { threshold: 0.15 });
     io.observe(orbit);
+  }
+
+  // ── 7. PRODUCTS TOOLS ORBIT (#toolsOrbit) ────────────────────
+  function initProductsOrbit() {
+    var el = document.getElementById('toolsOrbit');
+    if (!el) return;
+    var obs = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      el.querySelectorAll('.tool-pill-abs').forEach(function (pill, i) {
+        setTimeout(function () { pill.classList.add('flown'); }, i * 60);
+      });
+      obs.unobserve(el);
+    }, { threshold: 0.3 });
+    obs.observe(el);
   }
 
 })();
