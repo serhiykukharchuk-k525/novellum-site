@@ -4,34 +4,27 @@
    phone mockup, typewriter, flying icons.
    ============================================================ */
 
-/* ── STACKING ── */
+/* ── STACKING ──
+   Canvas sits fixed behind everything at z-index:3, just above the noise
+   texture (body::after, z-index:2). Header/sticky-tg/exit-overlay/mobile-nav
+   already carry their own inline z-index (50/100/200/90) which is well
+   above the canvas — only main/footer need raising here so page content
+   isn't painted behind it. */
 body > main,
 body > footer {
   position: relative;
-  z-index: 10001;
-}
-body > header { z-index: 10002 !important; }
-/* .sticky-tg / .exit-overlay / .mobile-nav already have position:fixed
-   set inline — only raise z-index here, do NOT touch position or it
-   breaks their fixed placement. */
-.sticky-tg,
-.exit-overlay,
-.mobile-nav {
-  z-index: 10003 !important;
+  z-index: 10;
 }
 
-/* ── PARTICLE CANVAS ──
-   Canvas is inserted right after .hero and positioned absolute so it
-   starts only once the first screen has been scrolled past, spanning
-   the rest of the document (DNA Capital style). Top/height are set
-   inline by animations.js. */
+/* ── PARTICLE CANVAS (DNA Capital style — full-viewport background) ──
+   Fixed across the whole site (hero included); sections render above it
+   via the z-index stack above. Top/height are set inline by animations.js. */
 #novellum-canvas {
-  position: absolute !important;
-  left: 0;
-  width: 100%;
-  z-index: 0;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 3 !important;
   pointer-events: none !important;
-  opacity: 0.75;
+  opacity: 0.8;
 }
 
 /* ── HERO TRUST STRIP ── */
@@ -154,13 +147,14 @@ body > header { z-index: 10002 !important; }
   letter-spacing: .02em;
 }
 .phone-v-fade {
+  /* short fade so it blends the screen's bottom edge without covering the
+     "E-COMMERCE · RETAIL · SAAS · LOGISTICS" footer line inside .live-dash */
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  height: 200px;
+  height: 60px;
   background: linear-gradient(
     to top,
     var(--bg, #1A2E28) 0%,
-    rgba(26,46,40,.75) 45%,
     transparent 100%
   );
   border-radius: 0 0 40px 40px;
@@ -180,65 +174,53 @@ body > header { z-index: 10002 !important; }
   .phone-v-frame { border-radius: 36px; border-width: 7px; }
 }
 
-/* ── ANIMATED BORDER BUTTON ──
+/* ── ANIMATED BORDER BUTTON (rotating conic-gradient segment) ──
    .button.primary already has its own ::after (static shimmer line) with
    higher specificity (.button.primary::after) than .button--anim::after,
    which silently overrode our animated background — that's why the
    border looked static. All visual props below carry !important so this
    rule always wins regardless of which other button classes are present. */
-@property --grad-angle {
-  syntax: '<angle>';
-  initial-value: 0deg;
-  inherits: false;
-}
-@keyframes btnRotate {
-  from { --grad-angle: 0deg; }
-  to   { --grad-angle: 360deg; }
-}
 .button--anim {
   position: relative;
+  z-index: 0;
   isolation: isolate;
-  border-color: transparent !important;
-  background-clip: padding-box;
-  color: var(--fg, #F4EFE5) !important;
+  border: none !important;
+}
+.button--anim::before {
+  /* recreates the button's own background so the ring trick below doesn't
+     paint over .button.primary's bronze fill on buttons that use both
+     classes — "inherit" forces the parent's computed background here even
+     though background isn't normally an inherited property. */
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  border-radius: inherit !important;
+  background: inherit !important;
+  z-index: -1 !important;
 }
 .button--anim::after {
   content: '' !important;
   position: absolute !important;
-  inset: -1.5px !important;
+  inset: -1px !important;
   border-radius: inherit !important;
-  background: linear-gradient(
-    var(--grad-angle, 0deg),
-    rgba(212,184,134,0) 0%,
-    rgba(212,184,134,0) 35%,
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    transparent 40%,
     rgba(212,184,134,.9) 50%,
-    rgba(212,184,134,0) 65%,
-    rgba(212,184,134,0) 100%
+    transparent 60%,
+    transparent 100%
   ) !important;
   -webkit-mask: none !important;
   mask: none !important;
-  animation: btnRotate 2.5s linear infinite !important;
+  animation: rotateBorder 3s linear infinite !important;
   opacity: 1 !important;
   pointer-events: none !important;
-  z-index: -1 !important;
+  z-index: -2 !important;
 }
-.button--anim::before {
-  content: '';
-  position: absolute;
-  inset: 1px;
-  border-radius: inherit;
-  background: var(--bg-deep, #0F1F1C);
-  z-index: -1;
-}
-@supports not (background: conic-gradient(red, blue)) {
-  .button--anim::after {
-    background: rgba(212,184,134,.3) !important;
-    animation: btnFallback 2s ease-in-out infinite !important;
-  }
-  @keyframes btnFallback {
-    0%,100% { opacity: .3; }
-    50%     { opacity: .8; }
-  }
+@keyframes rotateBorder {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
 /* ── 3D PHONE (#demo) ── */
@@ -586,8 +568,9 @@ body > header { z-index: 10002 !important; }
   color: rgba(212,184,134,.7);
 }
 @media (max-width: 768px) {
+  /* no room on the sides on mobile — icons fly up/down instead of left/right */
   .src-icon.flown {
-    transform: translateX(calc(-50% + var(--tx, 0px) * .45)) translateY(calc(-50% + var(--ty, 0px) * .45));
+    transform: translateX(-50%) translateY(calc(-50% + var(--ty-mob, 0px)));
   }
 }
 
@@ -611,12 +594,12 @@ body > header { z-index: 10002 !important; }
   .ph-val { font-size: 17px; }
 }
 
-/* ── PARTNER CASES ── */
+/* ── PARTNER CASES / CARD TEXT UNIFORMITY (index.html + partners.html) ── */
 .partner-case p,
 .partners-cases .card p,
 [class*="card"] p,
 [class*="case"] p {
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.65;
   color: var(--text-muted);
 }
@@ -625,5 +608,5 @@ body > header { z-index: 10002 !important; }
 [class*="case"] h3 {
   font-size: 16px;
   font-weight: 700;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }

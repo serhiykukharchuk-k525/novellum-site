@@ -17,10 +17,9 @@
     }
   });
 
-  // ── 1. PARTICLE FIELD (DNA Capital style — starts after hero) ─
+  // ── 1. PARTICLE FIELD (DNA Capital style — fixed full-viewport bg) ─
   function initParticleField() {
     var heroEl = document.querySelector('.hero');
-    var mainEl = document.querySelector('body > main');
     var canvas = document.createElement('canvas');
     canvas.id = 'novellum-canvas';
     if (heroEl && heroEl.parentNode) {
@@ -30,31 +29,25 @@
     }
     var ctx = canvas.getContext('2d');
     var W, H, ratio;
-    var N = isMobile ? 80 : 200;
+    var N = isMobile ? 80 : 180;
     var CONNECT_DIST = isMobile ? 55 : 80;
     var particles = [];
 
     function resize() {
-      var topOffset = heroEl ? heroEl.offsetHeight : 0;
-      var docH = (mainEl || document.body).scrollHeight - topOffset;
       W = window.innerWidth;
-      H = Math.max(docH, window.innerHeight);
-      ratio = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
-      canvas.style.top = topOffset + 'px';
-      canvas.style.height = H + 'px';
+      H = window.innerHeight;
+      ratio = Math.min(window.devicePixelRatio || 1, isMobile ? 1 : 1.5);
       canvas.width = W * ratio;
       canvas.height = H * ratio;
       ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
     }
     resize();
     window.addEventListener('resize', resize, { passive: true });
-    window.addEventListener('load', resize);
-    setTimeout(resize, 600);
 
     for (var i = 0; i < N; i++) {
       particles.push({
         x: Math.random() * window.innerWidth,
-        y: Math.random() * H,
+        y: Math.random() * window.innerHeight,
         vx: (Math.random() - .5) * .22,
         vy: (Math.random() - .5) * .22,
         r: .5 + Math.random(),
