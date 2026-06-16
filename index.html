@@ -1166,6 +1166,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .for-whom-content{max-width:680px;margin-top:18px}
     .for-whom-content p{color:var(--text-muted);line-height:1.75}
 
+    /* ── Obstacles grid — always 3 cols on desktop ── */
+    #obstacles .grid-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    @media (max-width: 768px) {
+      #obstacles .grid-3 { grid-template-columns: 1fr; }
+    }
+
     /* ── Demo iframe (mobile) ── */
     @media (max-width: 768px) {
       #demo iframe { height: 400px; }
@@ -1217,7 +1225,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <a href="#process">Процес</a>
         <a href="#pricing">Аналітика</a>
         <a href="partners.html">Партнерство</a>
-        <a href="#contact">Контакт</a>
+        <a href="#contact">Контакти</a>
       </nav>
 
       <div class="nav-cta">
@@ -1238,7 +1246,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a href="#process">Процес</a>
     <a href="#pricing">Аналітика</a>
     <a href="partners.html">Партнерство</a>
-    <a href="#contact">Контакт</a>
+    <a href="#contact">Контакти</a>
     <a class="button primary mobile-nav-tg" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Написати в Telegram</a>
   </nav>
 
@@ -1686,7 +1694,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="section-title reveal">
           <div>
             <div class="pill">Продукти</div>
-            <h2 class="title-accent">Аналітика і персональні нагадування.</h2>
+            <h2 class="title-accent">Аналітика для управлінських рішень.</h2>
           </div>
           <p>Два продукти, які закривають різні задачі управлінського дня.</p>
         </div>
