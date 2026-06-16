@@ -496,7 +496,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
 
     section{padding:var(--section-pad) 0}
-    section[id]{scroll-margin-top:72px}
+    section[id]{scroll-margin-top:68px}
     section.divider{position:relative}
     section.divider::after{
       content:"";
@@ -1230,7 +1230,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </nav>
 
       <div class="nav-cta">
-        <a class="button secondary" href="#contact">Написати</a>
+        <a class="button secondary button--anim" href="#contact">Написати</a>
         <a class="button primary" href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener">LinkedIn →</a>
       </div>
       <button class="hamburger" id="hamburgerBtn" aria-label="Відкрити меню" aria-expanded="false">
@@ -1269,8 +1269,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <p>Ключові показники, фінансова динаміка і дедлайни — в одному дашборді. Без ручних звірок і додаткових пояснень.</p>
 
           <div class="nav-cta">
-            <a class="button primary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Написати в Telegram</a>
-            <a class="button secondary button--animated-border" href="#process">Переглянути процес</a>
+            <a class="button primary" href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener">Написати в LinkedIn →</a>
+            <a class="button secondary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Telegram</a>
+            <a class="button secondary button--anim" href="#process">Переглянути процес</a>
           </div>
 
           <div class="hero-trust-strip">
@@ -1281,10 +1282,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
 
         <div class="hero-visual" style="position:relative;z-index:1">
-          <div class="phone-wrap-v">
-            <div class="phone-body-v">
-              <div class="phone-notch-v"></div>
-              <div class="phone-status-v"><span>9:41</span><span>▶ ▶▶</span></div>
+          <div class="phone-v-wrap">
+            <div class="phone-v-frame">
+              <div class="phone-v-notch"></div>
+              <div class="phone-v-statusbar"><span>9:41</span><span style="display:flex;gap:4px;align-items:center;font-size:10px">▶ ▶▶</span></div>
           <div class="live-dash" aria-label="Live dashboard preview">
             <div class="live-dash-header">
               <div>
@@ -1359,9 +1360,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
             <div class="live-dash-footer">E-COMMERCE · RETAIL · SAAS · LOGISTICS</div>
           </div>
-            </div><!-- /phone-body-v -->
-            <div class="phone-fade-v"></div>
-          </div><!-- /phone-wrap-v -->
+            </div><!-- /phone-v-frame -->
+            <div class="phone-v-fade"></div>
+          </div><!-- /phone-v-wrap -->
         </div>
       </div>
 
@@ -1564,8 +1565,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             Після першого місяця роботи — один дашборд на Power BI з 11 показниками. Ручні звірки прибрано, власник бачить актуальну картину за 5 хвилин без жодного дзвінка.
           </p>
           <div style="margin-top:26px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
-            <a class="button primary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Написати в Telegram</a>
-            <a class="button secondary" href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener">LinkedIn</a>
+            <a class="button primary" href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener">Написати в LinkedIn →</a>
+            <a class="button secondary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">або Telegram</a>
             <span style="font-size:12px;color:var(--text-soft)">Працюємо під NDA · всі деталі в розмові</span>
           </div>
         </div>
@@ -1693,7 +1694,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               </div>
             </div>
             <p class="calc-note">Ongoing Nóvellum — від $1 500/міс. Коли ручна робота коштує більше — система окупається і дає час назад.</p>
-            <a class="button primary" href="#contact" style="width:100%;justify-content:center">Запитати деталі</a>
+            <a class="button primary button--anim" href="#contact" style="width:100%;justify-content:center">Запитати деталі</a>
           </div>
         </div>
       </div>
@@ -1833,8 +1834,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
 
         <div style="margin-top:32px;text-align:center;display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
-          <a class="button primary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Написати в Telegram — почати аудит</a>
-          <a class="button secondary" href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="button primary" href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener">Написати в LinkedIn →</a>
+          <a class="button secondary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">або Telegram</a>
         </div>
       </div>
     </section>
@@ -1852,32 +1853,55 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           Реальна структура управлінського дашборду на анонімізованих даних.
           Можна клікати, фільтрувати, дивитись логіку побудови.
         </p>
-        <div class="phone-3d-wrap" id="phone3d">
+        <div class="phone-3d-outer" id="phone3dDemo">
           <div class="phone-3d-scene">
             <div class="phone-3d-body">
-              <div class="phone-3d-btn-r t1"></div>
-              <div class="phone-3d-btn-r t2"></div>
-              <div class="phone-3d-btn-l"></div>
+              <div class="phone-3d-side-btn t1"></div>
+              <div class="phone-3d-side-btn t2"></div>
+              <div class="phone-3d-vol-btn"></div>
               <div class="phone-3d-screen">
-                <div class="phone-3d-content">
-                  <div style="font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(244,239,229,.3);margin-bottom:8px">EXECUTIVE OVERVIEW · LIVE</div>
-                  <div style="font-size:28px;font-weight:700;color:#F4EFE5;letter-spacing:-.02em;margin-bottom:4px">₴1&nbsp;284&nbsp;560</div>
-                  <div style="font-size:11px;color:#4caf6e;font-weight:600;margin-bottom:12px">+12.4% vs минулий тиждень</div>
-                  <svg width="100%" height="44" viewBox="0 0 300 44" preserveAspectRatio="none">
-                    <defs><linearGradient id="pg3d" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#D4B886" stop-opacity=".3"/><stop offset="100%" stop-color="#D4B886" stop-opacity="0"/></linearGradient></defs>
-                    <path d="M0 36 L30 30 L60 32 L90 24 L120 27 L150 19 L180 22 L210 14 L240 17 L270 9 L300 5" stroke="#D4B886" stroke-width="1.5" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
-                    <path d="M0 36 L30 30 L60 32 L90 24 L120 27 L150 19 L180 22 L210 14 L240 17 L270 9 L300 5 L300 44 L0 44Z" fill="url(#pg3d)"/>
+                <div class="p3d-status">
+                  <span>9:41</span>
+                  <span>▶ ▶▶</span>
+                </div>
+                <div class="p3d-content">
+                  <div class="p3d-eyebrow">EXECUTIVE OVERVIEW · LIVE</div>
+                  <div class="p3d-revenue">₴1&nbsp;284&nbsp;560</div>
+                  <div class="p3d-delta pos">+12.4% vs минулий тиждень</div>
+                  <svg width="100%" height="48" viewBox="0 0 300 48" preserveAspectRatio="none" style="margin:10px 0">
+                    <defs>
+                      <linearGradient id="pg3d" x1="0" x2="0" y1="0" y2="1">
+                        <stop offset="0%" stop-color="#D4B886" stop-opacity=".35"/>
+                        <stop offset="100%" stop-color="#D4B886" stop-opacity="0"/>
+                      </linearGradient>
+                    </defs>
+                    <path d="M0 40 L30 35 L60 37 L90 28 L120 31 L150 22 L180 25 L210 16 L240 19 L270 10 L300 6"
+                      stroke="#D4B886" stroke-width="1.5" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+                    <path d="M0 40 L30 35 L60 37 L90 28 L120 31 L150 22 L180 25 L210 16 L240 19 L270 10 L300 6 L300 48 L0 48Z"
+                      fill="url(#pg3d)"/>
                   </svg>
-                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px">
-                    <div style="background:rgba(255,255,255,.04);border-radius:6px;padding:8px">
-                      <div style="font-size:7px;color:rgba(244,239,229,.3);margin-bottom:2px;letter-spacing:.08em">МАРЖА</div>
-                      <div style="font-size:16px;font-weight:700;color:#F4EFE5">34.2%</div>
-                      <div style="font-size:9px;color:#4caf6e">+1.2pp</div>
+                  <div class="p3d-metrics">
+                    <div class="p3d-metric">
+                      <div class="p3d-metric-label">МАРЖА</div>
+                      <div class="p3d-metric-val">34.2%</div>
+                      <div class="p3d-metric-delta pos">+1.2pp</div>
                     </div>
-                    <div style="background:rgba(255,255,255,.04);border-radius:6px;padding:8px">
-                      <div style="font-size:7px;color:rgba(244,239,229,.3);margin-bottom:2px;letter-spacing:.08em">ПЛАН</div>
-                      <div style="font-size:16px;font-weight:700;color:#F4EFE5">76%</div>
-                      <div style="font-size:9px;color:#D4B886">виконано</div>
+                    <div class="p3d-metric">
+                      <div class="p3d-metric-label">ПЛАН</div>
+                      <div class="p3d-metric-val">76%</div>
+                      <div class="p3d-metric-delta">виконано</div>
+                    </div>
+                  </div>
+                  <div class="p3d-bars">
+                    <div class="p3d-bar-row">
+                      <span>Виконання плану</span>
+                      <div class="p3d-track"><div class="p3d-fill" style="width:76%"></div></div>
+                      <span>76%</span>
+                    </div>
+                    <div class="p3d-bar-row">
+                      <span>Актуальність</span>
+                      <div class="p3d-track"><div class="p3d-fill" style="width:100%;background:#4caf6e"></div></div>
+                      <span style="color:#4caf6e">онлайн</span>
                     </div>
                   </div>
                 </div>

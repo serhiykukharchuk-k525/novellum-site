@@ -25,7 +25,7 @@
     var ctx = canvas.getContext('2d');
     var W, H;
     var N = isMobile ? 60 : 160;
-    var CONNECT_DIST = isMobile ? 45 : 65;
+    var CONNECT_DIST = isMobile ? 44 : 65;
     var particles = [];
 
     function resize() {
@@ -255,9 +255,9 @@
     obs.observe(el);
   }
 
-  // ── 8. 3D PHONE (#phone3d) ────────────────────────────────────
+  // ── 8. 3D PHONE (#phone3dDemo) ───────────────────────────────
   function initPhone3d() {
-    var el = document.getElementById('phone3d');
+    var el = document.getElementById('phone3dDemo');
     if (!el) return;
     var obs = new IntersectionObserver(function (entries) {
       if (!entries[0].isIntersecting) return;
