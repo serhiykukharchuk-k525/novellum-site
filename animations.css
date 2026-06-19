@@ -197,7 +197,7 @@ body > footer {
 .button--anim:hover::before {
   opacity: 1;
   background-position: 110% 110%;
-  transition: opacity 0s, background-position 1s linear 0s;
+  transition: opacity 0s, background-position .55s linear 0s;
 }
 
 /* ── 3D PHONE (#demo) ── */
