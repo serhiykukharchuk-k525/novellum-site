@@ -174,8 +174,7 @@ body > footer {
 }
 
 /* ── SHIMMER CTA BUTTON ──
-   A diagonal "shine" sweep plays once per cycle, then pauses for the rest
-   of the cycle before repeating. Hovering replays the same sweep instantly. */
+   No idle animation — the diagonal "shine" sweep only plays on hover. */
 .button--anim {
   position: relative;
   overflow: visible;
@@ -191,7 +190,6 @@ body > footer {
   mix-blend-mode: overlay;
   pointer-events: none;
   z-index: 3;
-  animation: shineSweep 14s ease-in-out infinite;
 }
 .button--anim:hover::before {
   animation: shineSweep 1.1s ease-in-out 1;
@@ -645,6 +643,7 @@ body > footer {
     line-height: 1.35;
     min-height: 2.7em;
     overflow: hidden;
+    margin-top: 12px;
   }
 }
 
