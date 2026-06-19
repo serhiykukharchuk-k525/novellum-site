@@ -264,6 +264,26 @@
       obs.unobserve(el);
     }, { threshold: 0.3 });
     obs.observe(el);
+
+    if (isMobile) return;
+    var maxShift = 14;
+    var targetX = 0, targetY = 0, curX = 0, curY = 0;
+    window.addEventListener('mousemove', function (e) {
+      var r = el.getBoundingClientRect();
+      var cx = r.left + r.width / 2;
+      var cy = r.top + r.height / 2;
+      targetX = ((e.clientX - cx) / (r.width / 2)) * maxShift;
+      targetY = ((e.clientY - cy) / (r.height / 2)) * maxShift;
+    }, { passive: true });
+
+    function tick() {
+      curX += (targetX - curX) * 0.08;
+      curY += (targetY - curY) * 0.08;
+      el.style.setProperty('--px', curX.toFixed(2) + 'px');
+      el.style.setProperty('--py', curY.toFixed(2) + 'px');
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
   }
 
   // ── 8. 3D PHONE (#phone3dDemo) ───────────────────────────────

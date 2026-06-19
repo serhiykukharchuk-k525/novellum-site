@@ -173,10 +173,10 @@ body > footer {
   .phone-v-frame { border-radius: 36px; border-width: 7px; }
 }
 
-/* ── SHIMMER CTA BUTTON (soft glowing smudge traveling along the border) ──
-   A wide, blurred highlight glides along the button's own border outline
-   (CSS motion path pinned to border-box), so it visually hugs the
-   rectangle/pill shape of the button as a soft sheen rather than a dot. */
+/* ── SHIMMER CTA BUTTON (thin line traveling along the border) ──
+   A thin glowing line segment glides along the button's own border
+   outline (CSS motion path pinned to border-box), rotating to follow the
+   path tangent so it hugs straight edges and corners alike. */
 .button--anim {
   position: relative;
   overflow: visible;
@@ -186,18 +186,17 @@ body > footer {
   position: absolute !important;
   top: 0 !important;
   left: 0 !important;
-  width: 46px !important;
-  height: 10px !important;
-  margin: -5px 0 0 -23px !important;
-  border-radius: 50% !important;
-  background: radial-gradient(closest-side, rgba(244,239,229,.9), rgba(212,184,134,.55) 55%, transparent 100%) !important;
-  filter: blur(3px) !important;
-  box-shadow: 0 0 16px 4px rgba(212,184,134,.5) !important;
+  width: 26px !important;
+  height: 2px !important;
+  margin: -1px 0 0 -13px !important;
+  border-radius: 2px !important;
+  background: linear-gradient(90deg, transparent, #F4EFE5 50%, transparent) !important;
+  box-shadow: 0 0 6px 1px rgba(212,184,134,.65) !important;
   offset-path: border-box !important;
-  offset-rotate: 0deg !important;
+  offset-rotate: auto !important;
   offset-distance: 0% !important;
-  animation: borderTravel 3.2s linear infinite !important;
-  opacity: .9 !important;
+  animation: borderTravel 2.8s linear infinite !important;
+  opacity: .95 !important;
   pointer-events: none !important;
   z-index: 2 !important;
 }
@@ -515,31 +514,16 @@ body > footer {
 .tool-pill.fly-in { opacity: 1; transform: translateX(0) translateY(0); }
 .tool-pill:hover { border-color: rgba(212,184,134,.28); color: rgba(244,239,229,.72); }
 
-/* ── ICONS ORBIT (#products Nóvellum Analytics — circular layout) ──
-   Desktop: icons sit on a horizontal ellipse around a center hub, partially
-   bleeding past the container edge (ventriloc.ca style). Mobile: orbit
-   rotated 90° — icons distributed along the vertical axis so nothing
-   overflows the viewport width. */
-.icons-orbit {
-  position: relative;
-  max-width: 640px;
-  height: 320px;
-  margin: 48px auto 0;
-  overflow: visible;
+/* ── ICONS ORBIT (#products Nóvellum Analytics) ──
+   Icons fly out around the (narrower) product card itself: desktop —
+   beside its left/right edges on a flat ellipse; mobile — above/below it
+   on a tall ellipse, so nothing overflows the viewport width. Icons also
+   drift slightly with the mouse via --px/--py, set in JS. */
+.product-orbit-wrap {
+  --px: 0px;
+  --py: 0px;
 }
-.orbit-hub {
-  position: absolute;
-  left: 50%; top: 50%;
-  transform: translate(-50%, -50%);
-  width: 56px; height: 56px;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(212,184,134,.08);
-  border: 1px solid rgba(212,184,134,.25);
-  box-shadow: 0 0 30px rgba(212,184,134,.15);
-  z-index: 2;
-}
-.icons-orbit .src-icon {
+.product-orbit-wrap .src-icon {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -558,9 +542,9 @@ body > footer {
   pointer-events: none;
   z-index: 1;
 }
-.icons-orbit .src-icon.flown {
+.product-orbit-wrap .src-icon.flown {
   opacity: 1;
-  transform: translate(calc(-50% + var(--dx, 0px)), calc(-50% + var(--dy, 0px)));
+  transform: translate(calc(-50% + var(--dx, 0px) + var(--px, 0px)), calc(-50% + var(--dy, 0px) + var(--py, 0px)));
   animation: orbit-float-d 4.5s ease-in-out var(--delay, 0s) infinite;
 }
 .src-text-icon {
@@ -569,17 +553,16 @@ body > footer {
   color: rgba(212,184,134,.7);
 }
 @keyframes orbit-float-d {
-  0%, 100% { transform: translate(calc(-50% + var(--dx, 0px)), calc(-50% + var(--dy, 0px))) scale(1); }
-  50% { transform: translate(calc(-50% + var(--dx, 0px)), calc(-50% + var(--dy, 0px) - 8px)) scale(1.06); }
+  0%, 100% { transform: translate(calc(-50% + var(--dx, 0px) + var(--px, 0px)), calc(-50% + var(--dy, 0px) + var(--py, 0px))) scale(1); }
+  50% { transform: translate(calc(-50% + var(--dx, 0px) + var(--px, 0px)), calc(-50% + var(--dy, 0px) + var(--py, 0px) - 8px)) scale(1.06); }
 }
 @keyframes orbit-float-m {
-  0%, 100% { transform: translate(calc(-50% + var(--mx, 0px)), calc(-50% + var(--my, 0px))) scale(1); }
-  50% { transform: translate(calc(-50% + var(--mx, 0px)), calc(-50% + var(--my, 0px) - 8px)) scale(1.06); }
+  0%, 100% { transform: translate(calc(-50% + var(--mx, 0px) + var(--px, 0px)), calc(-50% + var(--my, 0px) + var(--py, 0px))) scale(1); }
+  50% { transform: translate(calc(-50% + var(--mx, 0px) + var(--px, 0px)), calc(-50% + var(--my, 0px) + var(--py, 0px) - 8px)) scale(1.06); }
 }
 @media (max-width: 768px) {
-  .icons-orbit { height: 380px; max-width: 280px; }
-  .icons-orbit .src-icon.flown {
-    transform: translate(calc(-50% + var(--mx, 0px)), calc(-50% + var(--my, 0px)));
+  .product-orbit-wrap .src-icon.flown {
+    transform: translate(calc(-50% + var(--mx, 0px) + var(--px, 0px)), calc(-50% + var(--my, 0px) + var(--py, 0px)));
     animation-name: orbit-float-m;
   }
 }
