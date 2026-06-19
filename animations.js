@@ -16,16 +16,56 @@
       initPhone3d();
     }
     initDemoFrameScale();
+    initCalcHintAlign();
   });
 
+  // ── 0a. CALCULATOR HINT ALIGNMENT (desktop) ──────────────────
+  // Aligns the first hint paragraph's bottom edge with the bottom of the
+  // "Запитати деталі" button in the neighboring results column.
+  function initCalcHintAlign() {
+    var hint = document.getElementById('calcHintFirst');
+    var btn = document.getElementById('calcDetailsBtn');
+    if (!hint || !btn) return;
+
+    function update() {
+      if (window.innerWidth < 768) {
+        hint.style.marginTop = '';
+        return;
+      }
+      hint.style.marginTop = '14px';
+      var hintTop = hint.getBoundingClientRect().top;
+      var btnBottom = btn.getBoundingClientRect().bottom;
+      var hintHeight = hint.getBoundingClientRect().height;
+      var targetTop = btnBottom - hintHeight;
+      var delta = targetTop - hintTop;
+      var currentMargin = parseFloat(hint.style.marginTop) || 14;
+      hint.style.marginTop = Math.max(14, currentMargin + delta) + 'px';
+    }
+    update();
+    window.addEventListener('resize', update, { passive: true });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(update);
+  }
+
   // ── 0b. DEMO IFRAME SCALE (mobile) ───────────────────────────
+  // Stretches the wrapper to the full viewport width (breaking out of the
+  // container's side padding) using pixel measurements rather than vw, so
+  // there's no clipping from vw/scrollbar rounding mismatches.
   function initDemoFrameScale() {
     var wrap = document.getElementById('demoFrameWrap');
     if (!wrap || !isMobile) return;
     var NATIVE_W = 980, NATIVE_H = 600;
 
     function update() {
-      var w = wrap.clientWidth;
+      wrap.style.width = '';
+      wrap.style.marginLeft = '';
+      wrap.style.marginRight = '';
+      var rect = wrap.getBoundingClientRect();
+      var viewportW = window.innerWidth;
+      wrap.style.width = viewportW + 'px';
+      wrap.style.marginLeft = -rect.left + 'px';
+      wrap.style.marginRight = -(viewportW - rect.right) + 'px';
+
+      var w = viewportW;
       if (!w) return;
       var scale = w / NATIVE_W;
       wrap.style.setProperty('--demo-scale', scale.toFixed(4));
