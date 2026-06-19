@@ -174,9 +174,11 @@ body > footer {
 }
 
 /* ── SHIMMER CTA BUTTON (thin line traveling along the border) ──
-   A thin glowing line segment glides along the button's own border
-   outline (CSS motion path pinned to border-box), rotating to follow the
-   path tangent so it hugs straight edges and corners alike. */
+   offset-path: border-box has no Safari support, which made the previous
+   version look static there. A rotating conic-gradient masked to a thin
+   ring around the button works everywhere mask-composite is supported
+   (all current browsers) and animates via plain transform, so it always
+   visibly travels. */
 .button--anim {
   position: relative;
   overflow: visible;
@@ -184,25 +186,21 @@ body > footer {
 .button--anim::after {
   content: '' !important;
   position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 16px !important;
-  height: 1.5px !important;
-  margin: -.75px 0 0 -8px !important;
-  border-radius: 2px !important;
-  background: linear-gradient(90deg, transparent, #F4EFE5 50%, transparent) !important;
-  box-shadow: 0 0 5px 1px rgba(212,184,134,.6) !important;
-  offset-path: border-box !important;
-  offset-rotate: auto !important;
-  offset-distance: 0% !important;
+  inset: -1.5px !important;
+  border-radius: inherit !important;
+  padding: 1.5px !important;
+  background: conic-gradient(from 0deg, transparent 0deg 300deg, #F4EFE5 326deg, transparent 352deg) !important;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0) !important;
+  -webkit-mask-composite: xor !important;
+  mask-composite: exclude !important;
+  filter: drop-shadow(0 0 4px rgba(212,184,134,.65)) !important;
   animation: borderTravel 2.8s linear infinite !important;
   opacity: .95 !important;
   pointer-events: none !important;
   z-index: 2 !important;
 }
 @keyframes borderTravel {
-  from { offset-distance: 0%; }
-  to   { offset-distance: 100%; }
+  to { transform: rotate(360deg); }
 }
 
 /* ── 3D PHONE (#demo) ── */
@@ -513,6 +511,20 @@ body > footer {
 }
 .tool-pill.fly-in { opacity: 1; transform: translateX(0) translateY(0); }
 .tool-pill:hover { border-color: rgba(212,184,134,.28); color: rgba(244,239,229,.72); }
+@media (max-width: 768px) {
+  .tools-orbit {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+  .tool-pill {
+    font-size: 9.5px;
+    padding: 6px 4px;
+    text-align: center;
+    white-space: normal;
+    line-height: 1.25;
+  }
+}
 
 /* ── ICONS ORBIT (#products Nóvellum Analytics) ──
    Icons fly out around the (narrower) product card itself: desktop —
@@ -547,9 +559,8 @@ body > footer {
     width: 52px;
     height: 52px;
   }
-  .product-orbit-wrap .src-icon img {
-    width: 26px;
-    height: 26px;
+  .product-orbit-wrap .src-icon .src-text-icon {
+    font-size: 12px;
   }
 }
 .product-orbit-wrap .src-icon.flown {
@@ -558,8 +569,9 @@ body > footer {
   animation: orbit-float-d 4.5s ease-in-out var(--delay, 0s) infinite;
 }
 .src-text-icon {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 800;
+  letter-spacing: -.02em;
   color: rgba(212,184,134,.7);
 }
 @keyframes orbit-float-d {
@@ -570,9 +582,16 @@ body > footer {
   0%, 100% { transform: translate(calc(-50% + var(--mx, 0px) + var(--px, 0px)), calc(-50% + var(--my, 0px) + var(--py, 0px))) scale(1); }
   50% { transform: translate(calc(-50% + var(--mx, 0px) + var(--px, 0px)), calc(-50% + var(--my, 0px) + var(--py, 0px) - 8px)) scale(1.06); }
 }
+/* Mobile: top group anchors to the card's top edge and drifts upward
+   (toward the title above), bottom group anchors to the card's bottom
+   edge and drifts downward — so icons hug the section closely instead
+   of needing large reserved empty space. */
 @media (max-width: 768px) {
-  .product-orbit-wrap {
-    padding: 320px 0;
+  .product-orbit-wrap .src-icon.grp-a {
+    top: 0;
+  }
+  .product-orbit-wrap .src-icon.grp-b {
+    top: 100%;
   }
   .product-orbit-wrap .src-icon.flown {
     transform: translate(calc(-50% + var(--mx, 0px) + var(--px, 0px)), calc(-50% + var(--my, 0px) + var(--py, 0px)));
@@ -608,7 +627,6 @@ body > footer {
 @media (max-width: 768px) {
   .typewriter-word {
     display: inline-block;
-    min-width: 11ch;
     white-space: nowrap;
   }
   .section-typewriter,
@@ -618,7 +636,9 @@ body > footer {
     max-width: 100%;
     white-space: normal;
     overflow-wrap: break-word;
-    min-height: 2.6em;
+    font-size: 11px !important;
+    line-height: 1.35;
+    min-height: 2.7em;
     overflow: hidden;
   }
 }
@@ -630,6 +650,11 @@ body > footer {
   .sticky-tg-close { min-width: 44px; min-height: 44px; }
   .accordion-header { min-height: 44px; }
   .calc-field input[type=range] { min-height: 44px; }
+}
+
+/* ── MOBILE: smaller section sub-text under headings ── */
+@media (max-width: 768px) {
+  .section-title p { font-size: 13px; }
 }
 
 /* ── PARTNER CASES / CARD TEXT UNIFORMITY (index.html + partners.html) ── */

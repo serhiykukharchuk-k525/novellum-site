@@ -266,14 +266,16 @@
     obs.observe(el);
 
     if (isMobile) return;
-    var maxShift = 14;
+    var maxShift = 10;
     var targetX = 0, targetY = 0, curX = 0, curY = 0;
     window.addEventListener('mousemove', function (e) {
       var r = el.getBoundingClientRect();
       var cx = r.left + r.width / 2;
       var cy = r.top + r.height / 2;
-      targetX = ((e.clientX - cx) / (r.width / 2)) * maxShift;
-      targetY = ((e.clientY - cy) / (r.height / 2)) * maxShift;
+      var ratioX = Math.max(-1, Math.min(1, (e.clientX - cx) / (r.width / 2)));
+      var ratioY = Math.max(-1, Math.min(1, (e.clientY - cy) / (r.height / 2)));
+      targetX = ratioX * maxShift;
+      targetY = ratioY * maxShift;
     }, { passive: true });
 
     function tick() {
