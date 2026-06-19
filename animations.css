@@ -16,15 +16,15 @@ body > footer {
   z-index: 10;
 }
 
-/* ── PARTICLE CANVAS (DNA Capital style — full-viewport background) ──
+/* ── PARTICLE CANVAS (DNA Capital style — full-viewport WebGL background) ──
    Fixed across the whole site (hero included); sections render above it
-   via the z-index stack above. Top/height are set inline by animations.js. */
+   via the z-index stack above. This is a Three.js WebGL canvas (alpha:true)
+   sized/rendered by animations.js — opacity is controlled per-material there. */
 #novellum-canvas {
   position: fixed !important;
   inset: 0 !important;
   z-index: 3 !important;
   pointer-events: none !important;
-  opacity: 0.8;
 }
 
 /* ── HERO TRUST STRIP ── */
