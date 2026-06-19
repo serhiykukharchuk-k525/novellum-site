@@ -17,72 +17,124 @@
     }
   });
 
-  // ── 1. PARTICLE FIELD (DNA Capital style — fixed full-viewport bg) ─
+  // ── 1. PARTICLE FIELD (DNA Capital style — fixed full-viewport WebGL bg) ─
+  // Loaded as a dynamic ES module import so the rest of animations.js can
+  // stay a plain script; Three.js itself is fetched from a CDN at runtime.
   function initParticleField() {
-    var heroEl = document.querySelector('.hero');
     var canvas = document.createElement('canvas');
     canvas.id = 'novellum-canvas';
+    var heroEl = document.querySelector('.hero');
     if (heroEl && heroEl.parentNode) {
       heroEl.parentNode.insertBefore(canvas, heroEl.nextSibling);
     } else {
       document.body.prepend(canvas);
     }
-    var ctx = canvas.getContext('2d');
-    var W, H, ratio;
-    var N = isMobile ? 80 : 180;
-    var CONNECT_DIST = isMobile ? 55 : 80;
-    var particles = [];
 
-    function resize() {
-      W = window.innerWidth;
-      H = window.innerHeight;
-      ratio = Math.min(window.devicePixelRatio || 1, isMobile ? 1 : 1.5);
-      canvas.width = W * ratio;
-      canvas.height = H * ratio;
-      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-    }
-    resize();
-    window.addEventListener('resize', resize, { passive: true });
+    import('https://unpkg.com/three@0.160.1/build/three.module.js').then(function (THREE) {
+      var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+      var scene = new THREE.Scene();
+      var camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.z = 60;
 
-    for (var i = 0; i < N; i++) {
-      particles.push({
-        x: Math.random() * window.innerWidth,
-        y: Math.random() * window.innerHeight,
-        vx: (Math.random() - .5) * .22,
-        vy: (Math.random() - .5) * .22,
-        r: .5 + Math.random(),
-        a: .06 + Math.random() * .12,
-      });
-    }
+      var W, H;
+      function resize() {
+        W = window.innerWidth; H = window.innerHeight;
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1 : 1.6));
+        renderer.setSize(W, H);
+        camera.aspect = W / H;
+        camera.updateProjectionMatrix();
+      }
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
 
-    function tick() {
-      ctx.clearRect(0, 0, W, H);
-      for (var i = 0; i < N; i++) {
-        var p = particles[i];
-        p.x += p.vx; p.y += p.vy;
-        if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
-        if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(212,184,134,' + p.a.toFixed(3) + ')';
-        ctx.fill();
-        for (var j = i + 1; j < N; j++) {
-          var q = particles[j];
-          var dx = p.x - q.x, dy = p.y - q.y;
-          var d = Math.sqrt(dx * dx + dy * dy);
-          if (d < CONNECT_DIST) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(q.x, q.y);
-            ctx.strokeStyle = 'rgba(212,184,134,' + (0.14 * (1 - d / CONNECT_DIST)).toFixed(3) + ')';
-            ctx.lineWidth = .5;
-            ctx.stroke();
-          }
+      // soft round glow sprite, reused by every particle layer
+      var spriteCanvas = document.createElement('canvas');
+      spriteCanvas.width = spriteCanvas.height = 64;
+      var sctx = spriteCanvas.getContext('2d');
+      var grad = sctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+      grad.addColorStop(0, 'rgba(255,255,255,1)');
+      grad.addColorStop(0.4, 'rgba(255,255,255,.5)');
+      grad.addColorStop(1, 'rgba(255,255,255,0)');
+      sctx.fillStyle = grad;
+      sctx.fillRect(0, 0, 64, 64);
+      var sprite = new THREE.CanvasTexture(spriteCanvas);
+
+      var group = new THREE.Group();
+      scene.add(group);
+
+      var curveCount = isMobile ? 2 : 4;
+      var pointsPerCurve = isMobile ? 220 : 480;
+      var spread = isMobile ? 38 : 70;
+
+      function buildCurve() {
+        var pts = [];
+        var segments = 5;
+        for (var i = 0; i <= segments; i++) {
+          pts.push(new THREE.Vector3(
+            (Math.random() - .5) * spread * 2,
+            (i / segments - .5) * spread * 2.2,
+            (Math.random() - .5) * 40
+          ));
         }
+        return new THREE.CatmullRomCurve3(pts);
+      }
+
+      var layers = [];
+      for (var c = 0; c < curveCount; c++) {
+        var curve = buildCurve();
+        var samples = curve.getSpacedPoints(pointsPerCurve);
+        var positions = new Float32Array(samples.length * 3);
+        for (var i = 0; i < samples.length; i++) {
+          positions[i * 3] = samples[i].x + (Math.random() - .5) * 1.4;
+          positions[i * 3 + 1] = samples[i].y + (Math.random() - .5) * 1.4;
+          positions[i * 3 + 2] = samples[i].z + (Math.random() - .5) * 1.4;
+        }
+        var geo = new THREE.BufferGeometry();
+        geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+        var isGold = c % 2 === 0;
+        var mat = new THREE.PointsMaterial({
+          size: isGold ? 0.55 : 0.32,
+          map: sprite,
+          color: isGold ? 0xD4B886 : 0xF4EFE5,
+          transparent: true,
+          opacity: isGold ? 0.85 : 0.35,
+          depthWrite: false,
+          blending: THREE.AdditiveBlending,
+          sizeAttenuation: true,
+        });
+
+        var points = new THREE.Points(geo, mat);
+        points.userData.speed = 0.04 + Math.random() * 0.06;
+        points.userData.offset = Math.random() * Math.PI * 2;
+        group.add(points);
+        layers.push(points);
+      }
+
+      var mouseX = 0, mouseY = 0;
+      window.addEventListener('mousemove', function (e) {
+        mouseX = (e.clientX / W - .5);
+        mouseY = (e.clientY / H - .5);
+      }, { passive: true });
+
+      function tick() {
+        var t = performance.now() / 1000;
+        group.rotation.y = Math.sin(t * 0.04) * 0.18;
+        group.rotation.x = Math.cos(t * 0.03) * 0.06;
+        layers.forEach(function (p) {
+          p.position.y = ((t * p.userData.speed * 30 + p.userData.offset * 10) % (spread * 2.2)) - spread * 1.1;
+        });
+        camera.position.x += (mouseX * 14 - camera.position.x) * 0.02;
+        camera.position.y += (-mouseY * 10 - camera.position.y) * 0.02;
+        camera.lookAt(0, 0, 0);
+        renderer.render(scene, camera);
+        requestAnimationFrame(tick);
       }
       requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
+    }).catch(function () {
+      // CDN unreachable / WebGL unsupported — leave the page background plain.
+      canvas.remove();
+    });
   }
 
   // ── 2. HERO TRUST STRIP STAGGER ──────────────────────────────
