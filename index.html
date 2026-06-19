@@ -333,18 +333,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
 
     .hero-grid{
-      display:flex;
-      flex-direction:column;
+      display:grid;gap:40px;
+      grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
       align-items:center;
-      gap:36px;
-      text-align:center;
       position:relative;
     }
     .hero-content{
-      max-width:680px;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
+      position:relative;
+      z-index:1;
     }
     .hero-industries{
       font-size:12px;
@@ -352,6 +348,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       text-transform:uppercase;
       color:var(--text-soft);
       font-weight:600;
+      text-align:center;
+      margin-top:14px;
     }
     .hero h1{
       font-size:clamp(28px,3.2vw,44px);
@@ -373,8 +371,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       margin-bottom:18px;
       max-width:62ch;
     }
-    .hero-cta{justify-content:center}
-    .hero-trust-strip{justify-content:center}
     .hero-btn-linkedin .btn-icon{display:none}
 
     .hero-visual{
@@ -1297,6 +1293,35 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <section class="hero" id="top">
       <div class="hero-deco-n" aria-hidden="true">N</div>
       <div class="container hero-grid">
+        <div class="hero-content" style="position:relative;z-index:1">
+          <div class="pill"><span class="dot"></span>Для власників і керівників</div>
+
+          <h1 class="title-accent">
+            Бізнес має бути <span class="accent-word typewriter-word">зрозумілим</span><span class="tw-cursor" aria-hidden="true"></span> без додаткових пояснень.
+          </h1>
+
+          <div class="hero-subtitle">
+            Ми будуємо <span class="accent-word">аналітику</span>, яка показує реальну картину бізнесу і підтримує якість управлінських рішень.
+          </div>
+
+          <p>Ключові показники, фінансова динаміка і дедлайни — в одному дашборді. Без ручних звірок і додаткових пояснень.</p>
+
+          <div class="nav-cta hero-cta">
+            <a class="button primary hero-btn-linkedin" href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener">
+              <img class="btn-icon" src="https://cdn.simpleicons.org/linkedin/0F1F1C" width="16" height="16" alt="" aria-hidden="true">
+              <span class="btn-label">Написати в LinkedIn →</span>
+            </a>
+            <a class="button secondary hero-btn-telegram" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Telegram</a>
+            <a class="button secondary button--anim" href="#process">Переглянути процес</a>
+          </div>
+
+          <div class="hero-trust-strip">
+            <div class="hero-trust-item"><span>NDA</span><span>Конфіденційно</span></div>
+            <div class="hero-trust-item"><span>Аудит</span><span>7 днів</span></div>
+            <div class="hero-trust-item"><span>Паралельно</span><span>5 проєктів max</span></div>
+          </div>
+        </div>
+
         <div class="hero-visual" style="position:relative;z-index:1">
           <div class="phone-v-wrap">
             <div class="phone-v-frame">
@@ -1377,37 +1402,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div><!-- /phone-v-frame -->
             <div class="phone-v-fade"></div>
           </div><!-- /phone-v-wrap -->
-        </div>
 
-        <div class="hero-industries reveal" aria-hidden="false">E-COMMERCE · RETAIL · SAAS · LOGISTICS</div>
-
-        <div class="hero-content" style="position:relative;z-index:1">
-          <div class="pill"><span class="dot"></span>Для власників і керівників</div>
-
-          <h1 class="title-accent">
-            Бізнес має бути <span class="accent-word typewriter-word">зрозумілим</span><span class="tw-cursor" aria-hidden="true"></span> без додаткових пояснень.
-          </h1>
-
-          <div class="hero-subtitle">
-            Ми будуємо <span class="accent-word">аналітику</span>, яка показує реальну картину бізнесу і підтримує якість управлінських рішень.
-          </div>
-
-          <p>Ключові показники, фінансова динаміка і дедлайни — в одному дашборді. Без ручних звірок і додаткових пояснень.</p>
-
-          <div class="nav-cta hero-cta">
-            <a class="button primary hero-btn-linkedin" href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener">
-              <img class="btn-icon" src="https://cdn.simpleicons.org/linkedin/0F1F1C" width="16" height="16" alt="" aria-hidden="true">
-              <span class="btn-label">Написати в LinkedIn →</span>
-            </a>
-            <a class="button secondary hero-btn-telegram" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Telegram</a>
-            <a class="button secondary button--anim" href="#process">Переглянути процес</a>
-          </div>
-
-          <div class="hero-trust-strip">
-            <div class="hero-trust-item"><span>NDA</span><span>Конфіденційно</span></div>
-            <div class="hero-trust-item"><span>Аудит</span><span>7 днів</span></div>
-            <div class="hero-trust-item"><span>Паралельно</span><span>5 проєктів max</span></div>
-          </div>
+          <div class="hero-industries reveal" aria-hidden="false">E-COMMERCE · RETAIL · SAAS · LOGISTICS</div>
         </div>
       </div>
 
