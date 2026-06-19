@@ -60,7 +60,7 @@
       wrap.style.marginLeft = '';
       wrap.style.marginRight = '';
       var rect = wrap.getBoundingClientRect();
-      var viewportW = window.innerWidth;
+      var viewportW = document.documentElement.clientWidth;
       wrap.style.width = viewportW + 'px';
       wrap.style.marginLeft = -rect.left + 'px';
       wrap.style.marginRight = -(viewportW - rect.right) + 'px';
