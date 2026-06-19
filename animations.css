@@ -174,36 +174,11 @@ body > footer {
 }
 
 /* ── SHIMMER CTA BUTTON ──
-   A small glowing dot travels around the actual rounded-rect perimeter of
-   the button via offset-path: path("..."), with the path string computed
-   per-button in JS (initButtonBeam in animations.js) from its live
-   width/height. Unlike offset-path: border-box (no Safari support), an
-   explicit path() string works in all current browsers, so the beam
-   visibly travels along the real border instead of spinning in a circle.
-   A second, independent diagonal "shine" sweep plays every few seconds. */
+   A diagonal "shine" sweep plays once per cycle, then pauses for the rest
+   of the cycle before repeating. */
 .button--anim {
   position: relative;
   overflow: visible;
-}
-.button--anim::after {
-  content: '' !important;
-  position: absolute !important;
-  top: 0 !important; left: 0 !important;
-  width: 7px !important; height: 7px !important;
-  margin: -3.5px !important;
-  border-radius: 50% !important;
-  background: #F4EFE5 !important;
-  box-shadow: 0 0 8px 2px rgba(212,184,134,.85) !important;
-  offset-path: var(--beam-path, none) !important;
-  offset-distance: 0% !important;
-  offset-rotate: 0deg !important;
-  animation: beamRun 3.2s linear infinite !important;
-  opacity: .95 !important;
-  pointer-events: none !important;
-  z-index: 4 !important;
-}
-@keyframes beamRun {
-  to { offset-distance: 100%; }
 }
 .button--anim::before {
   content: '';
@@ -216,11 +191,11 @@ body > footer {
   mix-blend-mode: overlay;
   pointer-events: none;
   z-index: 3;
-  animation: shineSweep 5s ease-in-out infinite;
+  animation: shineSweep 9s ease-in-out infinite;
 }
 @keyframes shineSweep {
   0%   { background-position: -130% -130%; }
-  18%  { background-position: 130% 130%; }
+  20%  { background-position: 130% 130%; }
   100% { background-position: 130% 130%; }
 }
 
@@ -651,8 +626,6 @@ body > footer {
   .hero h1 {
     font-size: clamp(22px, 6.2vw, 28px);
     min-height: 2.24em;
-    display: flex;
-    align-items: center;
   }
   .typewriter-word {
     display: inline-block;
@@ -667,7 +640,7 @@ body > footer {
     overflow-wrap: break-word;
     font-size: 9px !important;
     line-height: 1.35;
-    min-height: 2.4em;
+    min-height: 2.7em;
     overflow: hidden;
   }
 }

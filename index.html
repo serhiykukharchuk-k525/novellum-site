@@ -677,9 +677,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       overflow:visible;
       max-width:100%;
     }
-    @media (max-width:768px){
-      section#products .container{ overflow-x:hidden; }
-    }
+    section#products{ overflow-x:hidden; }
     @media (min-width:769px){
       .product-orbit-wrap .product{ max-width:560px; margin:0 auto; }
     }
@@ -776,9 +774,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       gap:16px;
       grid-template-columns:repeat(2, minmax(0, 1fr));
     }
+    .how-grid .card{display:flex;flex-direction:column;justify-content:center}
     @media (min-width: 980px){
       .how-grid{grid-template-columns:repeat(3, minmax(0, 1fr));}
-      .how-grid .card{padding:18px}
+      .how-grid .card{padding:18px;justify-content:flex-start}
       .how-grid .card h3{font-size:15px;margin-bottom:8px}
       .how-grid .card p{font-size:13px;line-height:1.55}
     }
@@ -1103,12 +1102,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .calc-grid{
       display:grid;gap:24px;
       grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-      align-items:start;
+      align-items:stretch;
     }
     .calc-col{ display:flex; flex-direction:column; }
     .calc-hint{
       font-size:13px;color:var(--text-muted);line-height:1.55;
       margin-top:14px;
+    }
+    @media (min-width: 768px){
+      .calc-col:first-child .calc-hint{
+        text-align:center;
+        margin-top:auto;
+        padding-top:34px;
+        max-width:88%;
+        margin-left:auto;margin-right:auto;
+      }
     }
     .calc-box{
       display:flex;flex-direction:column;
@@ -1242,13 +1250,29 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
        looks crisp and fully laid out instead of squeezed. */
     .demo-frame-iframe{ width:100%; height:600px; border:0; display:block; }
     @media (max-width: 768px) {
-      .demo-frame-wrap{ position:relative; height:var(--demo-scaled-h, 380px); }
+      .demo-frame-wrap{
+        position:relative;
+        height:var(--demo-scaled-h, 380px);
+        width:100vw;
+        margin-left:calc(50% - 50vw);
+        margin-right:calc(50% - 50vw);
+        border-radius:0;
+      }
       .demo-frame-iframe{
         width:980px; height:600px;
         position:absolute; top:0; left:0;
         transform:scale(var(--demo-scale, .38));
         transform-origin:top left;
       }
+      .demo-frame-open-link{
+        display:inline-flex; align-items:center; gap:6px;
+        margin:10px 0 24px;
+        font-size:13px; color:var(--bronze);
+        text-decoration:underline; text-underline-offset:3px;
+      }
+    }
+    @media (min-width: 769px) {
+      .demo-frame-open-link{ display:none; }
     }
 
     /* ── Hero mobile CTA: drop Telegram, keep LinkedIn as a normal labeled button ── */
@@ -1826,28 +1850,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             /REMINDER BOT -->
           </div>
 
-          <div class="src-icon grp-a" style="--dx:300px;--dy:-30px;--mx:-130px;--my:-32px;--delay:0s" data-delay="0" aria-label="Power BI">
+          <div class="src-icon grp-a" style="--dx:340px;--dy:-20px;--mx:-150px;--my:-20px;--delay:0s" data-delay="0" aria-label="Power BI">
             <svg class="src-svg-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="13" width="4" height="8" rx="1" fill="currentColor"/><rect x="10" y="8" width="4" height="13" rx="1" fill="currentColor"/><rect x="17" y="4" width="4" height="17" rx="1" fill="currentColor"/></svg>
           </div>
-          <div class="src-icon grp-a" style="--dx:220px;--dy:80px;--mx:-50px;--my:-46px;--delay:.15s" data-delay="80" aria-label="Excel">
+          <div class="src-icon grp-a" style="--dx:280px;--dy:55px;--mx:-70px;--my:-26px;--delay:.15s" data-delay="80" aria-label="Excel">
             <svg class="src-svg-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18" stroke="currentColor" stroke-width="1.2"/></svg>
           </div>
-          <div class="src-icon grp-a" style="--dx:0px;--dy:120px;--mx:50px;--my:-46px;--delay:.3s" data-delay="160" aria-label="Google Sheets">
+          <div class="src-icon grp-a" style="--dx:120px;--dy:75px;--mx:70px;--my:-26px;--delay:.3s" data-delay="160" aria-label="Google Sheets">
             <svg class="src-svg-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.6"/><path d="M4 10h16M4 15h16M10 4v16" stroke="currentColor" stroke-width="1.2"/></svg>
           </div>
-          <div class="src-icon grp-a" style="--dx:-220px;--dy:80px;--mx:130px;--my:-32px;--delay:.45s" data-delay="240" aria-label="Bitrix24">
+          <div class="src-icon grp-a" style="--dx:-280px;--dy:55px;--mx:150px;--my:-20px;--delay:.45s" data-delay="240" aria-label="Bitrix24">
             <svg class="src-svg-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="3.2" stroke="currentColor" stroke-width="1.6"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
           </div>
-          <div class="src-icon grp-b" style="--dx:-300px;--dy:30px;--mx:-130px;--my:32px;--delay:.6s" data-delay="40" aria-label="PostgreSQL">
+          <div class="src-icon grp-b" style="--dx:-340px;--dy:20px;--mx:-150px;--my:20px;--delay:.6s" data-delay="40" aria-label="PostgreSQL">
             <svg class="src-svg-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3" stroke="currentColor" stroke-width="1.6"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6" stroke="currentColor" stroke-width="1.6"/><path d="M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3" stroke="currentColor" stroke-width="1.6"/></svg>
           </div>
-          <div class="src-icon grp-b" style="--dx:-220px;--dy:-80px;--mx:-50px;--my:46px;--delay:.75s" data-delay="120" aria-label="MySQL">
+          <div class="src-icon grp-b" style="--dx:-280px;--dy:-55px;--mx:-70px;--my:26px;--delay:.75s" data-delay="120" aria-label="MySQL">
             <svg class="src-svg-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="9" cy="12" r="5" stroke="currentColor" stroke-width="1.6"/><circle cx="15" cy="12" r="5" stroke="currentColor" stroke-width="1.6"/></svg>
           </div>
-          <div class="src-icon grp-b" style="--dx:0px;--dy:-120px;--mx:50px;--my:46px;--delay:.9s" data-delay="200" aria-label="Shopify">
+          <div class="src-icon grp-b" style="--dx:120px;--dy:-75px;--mx:70px;--my:26px;--delay:.9s" data-delay="200" aria-label="Shopify">
             <svg class="src-svg-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 8a3 3 0 0 1 6 0" stroke="currentColor" stroke-width="1.6"/></svg>
           </div>
-          <div class="src-icon grp-b" style="--dx:220px;--dy:-80px;--mx:130px;--my:32px;--delay:1.05s" data-delay="280" aria-label="1С">
+          <div class="src-icon grp-b" style="--dx:280px;--dy:-55px;--mx:150px;--my:20px;--delay:1.05s" data-delay="280" aria-label="1С">
             <svg class="src-svg-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 21V9l5-3v3l5-3v15" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 21V12h6v9" stroke="currentColor" stroke-width="1.6"/></svg>
           </div>
         </div>
@@ -2014,6 +2038,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             style="display:block;width:100%;border:none">
           </iframe>
         </div>
+        <a class="demo-frame-open-link" href="https://app.powerbi.com/view?r=eyJrIjoiYjM2MDJjMTEtNTk5Yi00MWM2LWExNzEtNTJhYTY5ZGFkZDcyIiwidCI6Ijc1Y2QyZWIwLWJlYWUtNGMzMS1hODYyLTQzNmQ5M2RmMmUzOCIsImMiOjl9" target="_blank" rel="noopener">Переглянути на повний екран в новій вкладці →</a>
         <p class="reveal" style="color:var(--text-muted);margin-bottom:18px">Хочете такий само для свого бізнесу?</p>
         <div class="reveal" style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
           <a href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener" class="button primary">Написати в LinkedIn →</a>
