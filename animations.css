@@ -185,14 +185,17 @@ body > footer {
   inset: 0;
   border-radius: inherit;
   background: linear-gradient(120deg, transparent 35%, rgba(255,255,255,.45) 50%, transparent 65%);
+  background-repeat: no-repeat;
   background-size: 250% 250%;
   background-position: -130% -130%;
   mix-blend-mode: overlay;
   pointer-events: none;
   z-index: 3;
+  opacity: 0;
 }
 .button--anim:hover::before {
-  animation: shineSweep 1.1s ease-in-out 1;
+  opacity: 1;
+  animation: shineSweep 2s ease-in-out 1;
 }
 @keyframes shineSweep {
   0%   { background-position: -130% -130%; }
@@ -581,20 +584,10 @@ body > footer {
   0%, 100% { transform: translate(calc(-50% + var(--mx, 0px) + var(--px, 0px)), calc(-50% + var(--my, 0px) + var(--py, 0px))) scale(1); }
   50% { transform: translate(calc(-50% + var(--mx, 0px) + var(--px, 0px)), calc(-50% + var(--my, 0px) + var(--py, 0px) - 8px)) scale(1.06); }
 }
-/* Mobile: top group anchors to the card's top edge and drifts upward
-   (toward the title above), bottom group anchors to the card's bottom
-   edge and drifts downward — so icons hug the section closely instead
-   of needing large reserved empty space. */
+/* Mobile: no orbit fly-out — icons are hidden, only the product card shows. */
 @media (max-width: 768px) {
-  .product-orbit-wrap .src-icon.grp-a {
-    top: 0;
-  }
-  .product-orbit-wrap .src-icon.grp-b {
-    top: 100%;
-  }
-  .product-orbit-wrap .src-icon.flown {
-    transform: translate(calc(-50% + var(--mx, 0px) + var(--px, 0px)), calc(-50% + var(--my, 0px) + var(--py, 0px)));
-    animation-name: orbit-float-m;
+  .product-orbit-wrap .src-icon {
+    display: none;
   }
 }
 
