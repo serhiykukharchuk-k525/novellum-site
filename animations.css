@@ -186,12 +186,12 @@ body > footer {
   position: absolute !important;
   top: 0 !important;
   left: 0 !important;
-  width: 26px !important;
-  height: 2px !important;
-  margin: -1px 0 0 -13px !important;
+  width: 16px !important;
+  height: 1.5px !important;
+  margin: -.75px 0 0 -8px !important;
   border-radius: 2px !important;
   background: linear-gradient(90deg, transparent, #F4EFE5 50%, transparent) !important;
-  box-shadow: 0 0 6px 1px rgba(212,184,134,.65) !important;
+  box-shadow: 0 0 5px 1px rgba(212,184,134,.6) !important;
   offset-path: border-box !important;
   offset-rotate: auto !important;
   offset-distance: 0% !important;
@@ -542,6 +542,16 @@ body > footer {
   pointer-events: none;
   z-index: 1;
 }
+@media (min-width: 769px) {
+  .product-orbit-wrap .src-icon {
+    width: 52px;
+    height: 52px;
+  }
+  .product-orbit-wrap .src-icon img {
+    width: 26px;
+    height: 26px;
+  }
+}
 .product-orbit-wrap .src-icon.flown {
   opacity: 1;
   transform: translate(calc(-50% + var(--dx, 0px) + var(--px, 0px)), calc(-50% + var(--dy, 0px) + var(--py, 0px)));
@@ -561,6 +571,9 @@ body > footer {
   50% { transform: translate(calc(-50% + var(--mx, 0px) + var(--px, 0px)), calc(-50% + var(--my, 0px) + var(--py, 0px) - 8px)) scale(1.06); }
 }
 @media (max-width: 768px) {
+  .product-orbit-wrap {
+    padding: 320px 0;
+  }
   .product-orbit-wrap .src-icon.flown {
     transform: translate(calc(-50% + var(--mx, 0px) + var(--px, 0px)), calc(-50% + var(--my, 0px) + var(--py, 0px)));
     animation-name: orbit-float-m;

@@ -666,7 +666,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .product-orbit-wrap{
       position:relative;
       overflow:visible;
-      max-width:100vw;
+      max-width:100%;
+    }
+    @media (max-width:768px){
+      section#products .container{ overflow-x:hidden; }
     }
     @media (min-width:769px){
       .product-orbit-wrap .product{ max-width:560px; margin:0 auto; }
@@ -1090,15 +1093,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .calc-grid{
       display:grid;gap:24px;
       grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-      align-items:start;
+      align-items:stretch;
     }
     .calc-box{
+      display:flex;flex-direction:column;
       background:var(--glass);border:1px solid rgba(255,255,255,.12);
       border-radius:var(--radius-md);padding:28px;
       box-shadow:var(--glass-glow);
       backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
       position:relative;overflow:hidden;
     }
+    .calc-grid .calc-box:first-child{ justify-content:space-between; }
     .calc-box::before{
       content:"";position:absolute;left:0;right:0;top:0;height:2px;
       background:var(--top-accent);opacity:.9;
@@ -1123,11 +1128,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .calc-result-sub{font-size:.83rem;color:var(--text-muted);margin-top:4px}
     .calc-note{font-size:.78rem;color:var(--text-soft);line-height:1.55;margin-bottom:18px}
 
-    /* ── Deliverables ── */
+    /* ── Deliverables — 1 row on desktop, never 3+1 ── */
     .deliverables-grid{
       display:grid;gap:14px;
-      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      grid-template-columns:repeat(4,1fr);
       margin-top:24px;
+    }
+    @media (max-width:1100px){
+      .deliverables-grid{ grid-template-columns:repeat(2,1fr); }
+    }
+    @media (max-width:560px){
+      .deliverables-grid{ grid-template-columns:1fr; }
     }
     .deliverable-item{
       display:flex;align-items:flex-start;gap:14px;
@@ -1214,12 +1225,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       #demo iframe { height: 400px; }
     }
 
-    /* ── Hero mobile CTA: drop Telegram, icon-only LinkedIn ── */
+    /* ── Hero mobile CTA: drop Telegram, keep LinkedIn as a normal labeled button ── */
     @media (max-width: 768px) {
       .hero-btn-telegram{display:none}
-      .hero-btn-linkedin{width:44px;height:44px;padding:0;border-radius:50%}
-      .hero-btn-linkedin .btn-label{display:none}
-      .hero-btn-linkedin .btn-icon{display:inline-block}
     }
   </style>
   <link rel="stylesheet" href="animations.css">
@@ -1782,28 +1790,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             /REMINDER BOT -->
           </div>
 
-          <div class="src-icon" style="--dx:340px;--dy:0px;--mx:46px;--my:0px;--delay:0s" data-delay="0">
-            <img src="https://cdn.simpleicons.org/microsoftpowerbi/D4B886" width="22" height="22" alt="Power BI"/>
+          <div class="src-icon" style="--dx:400px;--dy:0px;--mx:-90px;--my:-300px;--delay:0s" data-delay="0">
+            <img src="https://cdn.simpleicons.org/powerbi/D4B886" width="26" height="26" alt="Power BI"/>
           </div>
-          <div class="src-icon" style="--dx:240px;--dy:64px;--mx:33px;--my:107px;--delay:.15s" data-delay="80">
-            <img src="https://cdn.simpleicons.org/microsoftexcel/D4B886" width="22" height="22" alt="Excel"/>
+          <div class="src-icon" style="--dx:280px;--dy:75px;--mx:-30px;--my:-250px;--delay:.15s" data-delay="80">
+            <img src="https://cdn.simpleicons.org/microsoftexcel/D4B886" width="26" height="26" alt="Excel"/>
           </div>
-          <div class="src-icon" style="--dx:0px;--dy:90px;--mx:0px;--my:170px;--delay:.3s" data-delay="160">
-            <img src="https://cdn.simpleicons.org/googlesheets/D4B886" width="22" height="22" alt="Google Sheets"/>
+          <div class="src-icon" style="--dx:0px;--dy:105px;--mx:30px;--my:-300px;--delay:.3s" data-delay="160">
+            <img src="https://cdn.simpleicons.org/googlesheets/D4B886" width="26" height="26" alt="Google Sheets"/>
           </div>
-          <div class="src-icon" style="--dx:-240px;--dy:64px;--mx:-33px;--my:107px;--delay:.45s" data-delay="240">
-            <img src="https://cdn.simpleicons.org/bitrix24/D4B886" width="22" height="22" alt="Bitrix24"/>
+          <div class="src-icon" style="--dx:-280px;--dy:75px;--mx:90px;--my:-250px;--delay:.45s" data-delay="240">
+            <span class="src-text-icon">B24</span>
           </div>
-          <div class="src-icon" style="--dx:-340px;--dy:0px;--mx:-46px;--my:0px;--delay:.6s" data-delay="40">
-            <img src="https://cdn.simpleicons.org/postgresql/D4B886" width="22" height="22" alt="PostgreSQL"/>
+          <div class="src-icon" style="--dx:-400px;--dy:0px;--mx:-90px;--my:250px;--delay:.6s" data-delay="40">
+            <img src="https://cdn.simpleicons.org/postgresql/D4B886" width="26" height="26" alt="PostgreSQL"/>
           </div>
-          <div class="src-icon" style="--dx:-240px;--dy:-64px;--mx:-33px;--my:-107px;--delay:.75s" data-delay="120">
-            <img src="https://cdn.simpleicons.org/mysql/D4B886" width="22" height="22" alt="MySQL"/>
+          <div class="src-icon" style="--dx:-280px;--dy:-75px;--mx:-30px;--my:300px;--delay:.75s" data-delay="120">
+            <img src="https://cdn.simpleicons.org/mysql/D4B886" width="26" height="26" alt="MySQL"/>
           </div>
-          <div class="src-icon" style="--dx:0px;--dy:-90px;--mx:0px;--my:-170px;--delay:.9s" data-delay="200">
-            <img src="https://cdn.simpleicons.org/shopify/D4B886" width="22" height="22" alt="Shopify"/>
+          <div class="src-icon" style="--dx:0px;--dy:-105px;--mx:30px;--my:250px;--delay:.9s" data-delay="200">
+            <img src="https://cdn.simpleicons.org/shopify/D4B886" width="26" height="26" alt="Shopify"/>
           </div>
-          <div class="src-icon" style="--dx:240px;--dy:-64px;--mx:33px;--my:-107px;--delay:1.05s" data-delay="280">
+          <div class="src-icon" style="--dx:280px;--dy:-75px;--mx:90px;--my:300px;--delay:1.05s" data-delay="280">
             <span class="src-text-icon">1С</span>
           </div>
         </div>
