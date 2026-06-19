@@ -17,7 +17,10 @@
     }
   });
 
-  // ── 1. PARTICLE FIELD (DNA Capital style — fixed full-viewport bg) ─
+  // ── 1. DNA HELIX BACKGROUND (fixed full-viewport bg) ─────────
+  // Two sine-offset strands of glowing "nucleotide" dots running the full
+  // viewport height, faint perpendicular base-pair rungs between them, plus
+  // a sparse layer of slow ambient particles drifting behind everything.
   function initParticleField() {
     var heroEl = document.querySelector('.hero');
     var canvas = document.createElement('canvas');
@@ -29,9 +32,6 @@
     }
     var ctx = canvas.getContext('2d');
     var W, H, ratio;
-    var N = isMobile ? 80 : 180;
-    var CONNECT_DIST = isMobile ? 55 : 80;
-    var particles = [];
 
     function resize() {
       W = window.innerWidth;
@@ -44,44 +44,71 @@
     resize();
     window.addEventListener('resize', resize, { passive: true });
 
-    for (var i = 0; i < N; i++) {
-      particles.push({
+    var AMP = isMobile ? 34 : 60;
+    var FREQ = 0.012;
+    var STEP = 16;
+    var DRIFT_SPEED = isMobile ? 0 : 0.10; // wave drift disabled on mobile
+    var helixShift = 0;
+    var NUCLEOTIDE_R = 1.7;
+
+    var AMBIENT_N = Math.round((isMobile ? 28 : 70)); // ~60% fewer on mobile
+    var ambient = [];
+    for (var i = 0; i < AMBIENT_N; i++) {
+      ambient.push({
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
-        vx: (Math.random() - .5) * .22,
-        vy: (Math.random() - .5) * .22,
-        r: .5 + Math.random(),
-        a: .06 + Math.random() * .12,
+        vx: (Math.random() - .5) * .15,
+        vy: (Math.random() - .5) * .15,
+        r: .5 + Math.random() * 1.2,
+        a: .03 + Math.random() * .09,
       });
     }
 
     function tick() {
       ctx.clearRect(0, 0, W, H);
-      for (var i = 0; i < N; i++) {
-        var p = particles[i];
+      helixShift -= DRIFT_SPEED;
+
+      var midX = W / 2;
+      for (var y = -STEP; y <= H + STEP; y += STEP) {
+        var phase = (y + helixShift) * FREQ;
+        var x1 = midX + Math.sin(phase) * AMP;
+        var x2 = midX + Math.sin(phase + Math.PI) * AMP;
+
+        if (Math.floor(y / STEP) % 3 === 0) {
+          ctx.beginPath();
+          ctx.moveTo(x1, y);
+          ctx.lineTo(x2, y);
+          ctx.strokeStyle = 'rgba(244,239,229,.05)';
+          ctx.lineWidth = .6;
+          ctx.stroke();
+        }
+
+        var glowA = Math.min(.35, .18 + .17 * Math.abs(Math.sin(phase)));
+        drawDot(x1, y, NUCLEOTIDE_R, glowA);
+        drawDot(x2, y, NUCLEOTIDE_R, glowA);
+      }
+
+      for (var j = 0; j < AMBIENT_N; j++) {
+        var p = ambient[j];
         p.x += p.vx; p.y += p.vy;
         if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
         if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(212,184,134,' + p.a.toFixed(3) + ')';
+        ctx.fillStyle = 'rgba(244,239,229,' + Math.min(.15, p.a).toFixed(3) + ')';
         ctx.fill();
-        for (var j = i + 1; j < N; j++) {
-          var q = particles[j];
-          var dx = p.x - q.x, dy = p.y - q.y;
-          var d = Math.sqrt(dx * dx + dy * dy);
-          if (d < CONNECT_DIST) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(q.x, q.y);
-            ctx.strokeStyle = 'rgba(212,184,134,' + (0.14 * (1 - d / CONNECT_DIST)).toFixed(3) + ')';
-            ctx.lineWidth = .5;
-            ctx.stroke();
-          }
-        }
       }
+
       requestAnimationFrame(tick);
     }
+
+    function drawDot(x, y, r, a) {
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(212,184,134,' + a.toFixed(3) + ')';
+      ctx.fill();
+    }
+
     requestAnimationFrame(tick);
   }
 
@@ -252,15 +279,14 @@
   }
 
   // ── 7. SOURCES ORBIT (#sourcesOrbit) ─────────────────────────
+  // Stagger is driven entirely by CSS (--i custom property), so this just
+  // flips the class once the orbit scrolls into view.
   function initSourcesOrbit() {
     var el = document.getElementById('sourcesOrbit');
     if (!el) return;
     var obs = new IntersectionObserver(function (entries) {
       if (!entries[0].isIntersecting) return;
-      el.querySelectorAll('.src-icon').forEach(function (ic) {
-        var delay = parseInt(ic.dataset.delay) || 0;
-        setTimeout(function () { ic.classList.add('flown'); }, delay);
-      });
+      el.querySelectorAll('.src-icon').forEach(function (ic) { ic.classList.add('flown'); });
       obs.unobserve(el);
     }, { threshold: 0.3 });
     obs.observe(el);
