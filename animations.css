@@ -173,40 +173,35 @@ body > footer {
   .phone-v-frame { border-radius: 36px; border-width: 7px; }
 }
 
-/* ── SHIMMER CTA BUTTON (traveling light point around the border) ──
-   A thin ring is masked to the button's outline (same trick as
-   .button.primary::after), but the conic-gradient is mostly transparent
-   except for a narrow bright arc — so it reads as a single point of gold
-   light orbiting the button rather than a static border. */
+/* ── SHIMMER CTA BUTTON (traveling light point along the border frame) ──
+   A small dot travels along the button's own border outline (CSS motion
+   path pinned to border-box) rather than orbiting in a circle, so it
+   visually hugs the rectangle/pill shape of the button. */
 .button--anim {
   position: relative;
-  overflow: hidden;
-  border: none !important;
+  overflow: visible;
 }
 .button--anim::after {
   content: '' !important;
   position: absolute !important;
-  inset: -1px !important;
-  border-radius: inherit !important;
-  padding: 1px;
-  background: conic-gradient(
-    from 0deg,
-    transparent 0%,
-    transparent 91%,
-    #D4B886 96%,
-    transparent 100%
-  ) !important;
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0) !important;
-  -webkit-mask-composite: xor !important;
-  mask-composite: exclude !important;
-  animation: shimmerRotate 2.5s linear infinite !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 7px !important;
+  height: 7px !important;
+  margin: -3.5px !important;
+  border-radius: 50% !important;
+  background: #D4B886 !important;
+  box-shadow: 0 0 8px 2px rgba(212,184,134,.75) !important;
+  offset-path: border-box !important;
+  offset-distance: 0% !important;
+  animation: borderTravel 2.5s linear infinite !important;
   opacity: .95 !important;
   pointer-events: none !important;
-  z-index: 1 !important;
+  z-index: 2 !important;
 }
-@keyframes shimmerRotate {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+@keyframes borderTravel {
+  from { offset-distance: 0%; }
+  to   { offset-distance: 100%; }
 }
 
 /* ── 3D PHONE (#demo) ── */
