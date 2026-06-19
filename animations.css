@@ -625,6 +625,12 @@ body > footer {
    block of space and disabling reflow keeps neighbors in place while the
    typing animation keeps running. */
 @media (max-width: 768px) {
+  .hero h1 {
+    font-size: clamp(22px, 6.2vw, 28px);
+    min-height: 2.24em;
+    display: flex;
+    align-items: center;
+  }
   .typewriter-word {
     display: inline-block;
     white-space: nowrap;
