@@ -195,7 +195,7 @@ body > footer {
 }
 .button--anim:hover::before {
   opacity: 1;
-  animation: shineSweep 2s ease-in-out 1;
+  animation: shineSweep 1s linear 1;
 }
 @keyframes shineSweep {
   0%   { background-position: -130% -130%; }
@@ -550,7 +550,7 @@ body > footer {
   backdrop-filter: blur(8px);
   opacity: 0;
   transform: translate(-50%, -50%);
-  transition: transform 1s cubic-bezier(.34,1.3,.64,1), opacity .7s ease;
+  transition: transform 1.8s cubic-bezier(.16,.84,.32,1) .15s, opacity 1.2s ease .15s;
   pointer-events: none;
   z-index: 5;
 }
