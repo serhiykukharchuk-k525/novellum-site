@@ -375,6 +375,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       max-width:62ch;
     }
     .hero-btn-linkedin .btn-icon{display:inline-block;vertical-align:middle;margin-right:6px}
+    .btn-icon-text{
+      display:inline-flex;align-items:center;justify-content:center;
+      width:18px;height:18px;border-radius:4px;
+      font-size:9px;font-weight:800;letter-spacing:-.02em;
+      background:#D4B886;color:#0F1F1C;
+      vertical-align:middle;flex-shrink:0;
+    }
+    .sticky-tg-icon .btn-icon-text{width:auto;height:auto;background:none;color:#D4B886;font-size:11px}
+    .btn-icon-text--dark{background:#0F1F1C;color:#D4B886}
 
     .hero-visual{
       background:var(--glass);
@@ -1103,7 +1112,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
       position:relative;overflow:hidden;
     }
-    .calc-grid .calc-box:first-child{ justify-content:space-between; }
     .calc-box::before{
       content:"";position:absolute;left:0;right:0;top:0;height:2px;
       background:var(--top-accent);opacity:.9;
@@ -1242,10 +1250,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a class="button primary sticky-tg-full" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer" style="font-size:13px;padding:9px 16px">Написати в Telegram →</a>
     <a class="button secondary sticky-tg-full" href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener" style="font-size:13px;padding:9px 16px">LinkedIn</a>
     <a class="sticky-tg-icon" href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener" aria-label="LinkedIn">
-      <img src="https://cdn.simpleicons.org/linkedin/D4B886" width="24" height="24" alt="" aria-hidden="true">
+      <span class="btn-icon-text" aria-hidden="true">in</span>
     </a>
     <a class="sticky-tg-icon" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
-      <img src="https://cdn.simpleicons.org/telegram/D4B886" width="24" height="24" alt="" aria-hidden="true">
+      <span class="btn-icon-text" aria-hidden="true">TG</span>
     </a>
     <button class="sticky-tg-close" id="stickyTgClose" aria-label="Закрити">✕</button>
   </div>
@@ -1327,7 +1335,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <div class="nav-cta hero-cta">
             <a class="button primary hero-btn-linkedin" href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener">
-              <img class="btn-icon" src="https://cdn.simpleicons.org/linkedin/0F1F1C" width="16" height="16" alt="" aria-hidden="true">
+              <span class="btn-icon btn-icon-text btn-icon-text--dark" aria-hidden="true">in</span>
               <span class="btn-label">Написати в LinkedIn →</span>
             </a>
             <a class="button secondary hero-btn-telegram" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Telegram</a>
@@ -1482,9 +1490,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </section>
 
     <section class="brand-strip">
-      <div class="container">
-        <h4>Сфери, з якими працюємо</h4>
-      </div>
       <div class="brand-logos-wrap">
         <div class="brand-logos-track">
           <div class="logo-pill">E-commerce</div>
@@ -1718,7 +1723,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="pill">Калькулятор</div>
             <h2 class="title-accent">Скільки коштують ручні звірки?</h2>
           </div>
-          <p>Введіть параметри — побачите, у скільки обходяться ручні процеси щомісяця.</p>
         </div>
 
         <div class="calc-grid">
@@ -1735,6 +1739,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <label>Ваша ставка як управлінця <span class="range-val" data-for="calcRate" data-unit=" $/год">50 $/год</span></label>
               <input type="range" id="calcRate" min="5" max="150" value="50" step="5" />
             </div>
+            <p style="font-size:13px;color:var(--text-muted);line-height:1.55;margin-top:auto;padding-top:18px">Введіть параметри — побачите, у скільки обходяться ручні процеси щомісяця.</p>
           </div>
 
           <div class="calc-box reveal">
@@ -1790,28 +1795,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             /REMINDER BOT -->
           </div>
 
-          <div class="src-icon" style="--dx:400px;--dy:0px;--mx:-90px;--my:-300px;--delay:0s" data-delay="0">
-            <img src="https://cdn.simpleicons.org/powerbi/D4B886" width="26" height="26" alt="Power BI"/>
+          <div class="src-icon grp-a" style="--dx:460px;--dy:0px;--mx:-150px;--my:-20px;--delay:0s" data-delay="0">
+            <span class="src-text-icon">BI</span>
           </div>
-          <div class="src-icon" style="--dx:280px;--dy:75px;--mx:-30px;--my:-250px;--delay:.15s" data-delay="80">
-            <img src="https://cdn.simpleicons.org/microsoftexcel/D4B886" width="26" height="26" alt="Excel"/>
+          <div class="src-icon grp-a" style="--dx:320px;--dy:90px;--mx:-60px;--my:-55px;--delay:.15s" data-delay="80">
+            <span class="src-text-icon">XLS</span>
           </div>
-          <div class="src-icon" style="--dx:0px;--dy:105px;--mx:30px;--my:-300px;--delay:.3s" data-delay="160">
-            <img src="https://cdn.simpleicons.org/googlesheets/D4B886" width="26" height="26" alt="Google Sheets"/>
+          <div class="src-icon grp-a" style="--dx:0px;--dy:130px;--mx:60px;--my:-55px;--delay:.3s" data-delay="160">
+            <span class="src-text-icon">GS</span>
           </div>
-          <div class="src-icon" style="--dx:-280px;--dy:75px;--mx:90px;--my:-250px;--delay:.45s" data-delay="240">
+          <div class="src-icon grp-a" style="--dx:-320px;--dy:90px;--mx:150px;--my:-20px;--delay:.45s" data-delay="240">
             <span class="src-text-icon">B24</span>
           </div>
-          <div class="src-icon" style="--dx:-400px;--dy:0px;--mx:-90px;--my:250px;--delay:.6s" data-delay="40">
-            <img src="https://cdn.simpleicons.org/postgresql/D4B886" width="26" height="26" alt="PostgreSQL"/>
+          <div class="src-icon grp-b" style="--dx:-460px;--dy:0px;--mx:-150px;--my:20px;--delay:.6s" data-delay="40">
+            <span class="src-text-icon">PG</span>
           </div>
-          <div class="src-icon" style="--dx:-280px;--dy:-75px;--mx:-30px;--my:300px;--delay:.75s" data-delay="120">
-            <img src="https://cdn.simpleicons.org/mysql/D4B886" width="26" height="26" alt="MySQL"/>
+          <div class="src-icon grp-b" style="--dx:-320px;--dy:-90px;--mx:-60px;--my:55px;--delay:.75s" data-delay="120">
+            <span class="src-text-icon">SQL</span>
           </div>
-          <div class="src-icon" style="--dx:0px;--dy:-105px;--mx:30px;--my:250px;--delay:.9s" data-delay="200">
-            <img src="https://cdn.simpleicons.org/shopify/D4B886" width="26" height="26" alt="Shopify"/>
+          <div class="src-icon grp-b" style="--dx:0px;--dy:-130px;--mx:60px;--my:55px;--delay:.9s" data-delay="200">
+            <span class="src-text-icon">Shop</span>
           </div>
-          <div class="src-icon" style="--dx:280px;--dy:-75px;--mx:90px;--my:300px;--delay:1.05s" data-delay="280">
+          <div class="src-icon grp-b" style="--dx:320px;--dy:-90px;--mx:150px;--my:20px;--delay:1.05s" data-delay="280">
             <span class="src-text-icon">1С</span>
           </div>
         </div>
