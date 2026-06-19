@@ -199,7 +199,6 @@ body > footer {
 }
 @keyframes shineSweep {
   0%   { background-position: -130% -130%; }
-  17%  { background-position: 130% 130%; }
   100% { background-position: 130% 130%; }
 }
 
