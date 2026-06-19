@@ -59,57 +59,93 @@
       sctx.fillRect(0, 0, 64, 64);
       var sprite = new THREE.CanvasTexture(spriteCanvas);
 
-      var group = new THREE.Group();
-      scene.add(group);
-
-      var curveCount = isMobile ? 2 : 4;
-      var pointsPerCurve = isMobile ? 220 : 480;
-      var spread = isMobile ? 38 : 70;
-
-      function buildCurve() {
-        var pts = [];
-        var segments = 5;
-        for (var i = 0; i <= segments; i++) {
-          pts.push(new THREE.Vector3(
-            (Math.random() - .5) * spread * 2,
-            (i / segments - .5) * spread * 2.2,
-            (Math.random() - .5) * 40
-          ));
-        }
-        return new THREE.CatmullRomCurve3(pts);
+      // ── sparse starfield (faint, scattered, near-static) ──
+      var starCount = isMobile ? 160 : 420;
+      var starPositions = new Float32Array(starCount * 3);
+      var starColors = new Float32Array(starCount * 3);
+      var goldC = new THREE.Color(0xD4B886);
+      var creamC = new THREE.Color(0xF4EFE5);
+      for (var s = 0; s < starCount; s++) {
+        starPositions[s * 3] = (Math.random() - .5) * 160;
+        starPositions[s * 3 + 1] = (Math.random() - .5) * 140;
+        starPositions[s * 3 + 2] = (Math.random() - .5) * 80 - 10;
+        var sc = Math.random() < 0.5 ? goldC : creamC;
+        var b = 0.3 + Math.random() * 0.5;
+        starColors[s * 3] = sc.r * b;
+        starColors[s * 3 + 1] = sc.g * b;
+        starColors[s * 3 + 2] = sc.b * b;
       }
+      var starGeo = new THREE.BufferGeometry();
+      starGeo.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
+      starGeo.setAttribute('color', new THREE.BufferAttribute(starColors, 3));
+      var starMat = new THREE.PointsMaterial({
+        size: 0.5,
+        map: sprite,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.55,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+        sizeAttenuation: true,
+      });
+      var starField = new THREE.Points(starGeo, starMat);
+      scene.add(starField);
 
-      var layers = [];
-      for (var c = 0; c < curveCount; c++) {
-        var curve = buildCurve();
-        var samples = curve.getSpacedPoints(pointsPerCurve);
-        var positions = new Float32Array(samples.length * 3);
-        for (var i = 0; i < samples.length; i++) {
-          positions[i * 3] = samples[i].x + (Math.random() - .5) * 1.4;
-          positions[i * 3 + 1] = samples[i].y + (Math.random() - .5) * 1.4;
-          positions[i * 3 + 2] = samples[i].z + (Math.random() - .5) * 1.4;
+      // ── twisted hourglass particle funnel (the DNA Capital centerpiece) ──
+      var segU = isMobile ? 90 : 150;
+      var segV = isMobile ? 26 : 56;
+      var lengthScale = isMobile ? 34 : 52;
+      var maxRadius = isMobile ? 11 : 19;
+      var twistTurns = 1.15;
+
+      var vertCount = (segU + 1) * segV;
+      var tubePositions = new Float32Array(vertCount * 3);
+      var tubeColors = new Float32Array(vertCount * 3);
+      var idx = 0;
+      for (var ui = 0; ui <= segU; ui++) {
+        var u = ui / segU;          // 0..1 along the funnel's length
+        var centered = u - 0.5;     // -0.5..0.5, 0 = pinch point
+        var radius = maxRadius * Math.pow(Math.abs(centered) * 2, 1.4);
+        var twistAngle = centered * twistTurns * Math.PI * 2;
+        var brightness = 1 - Math.min(1, Math.abs(centered) * 2.1);
+        for (var vi = 0; vi < segV; vi++) {
+          var phi = (vi / segV) * Math.PI * 2;
+          var jitter = (Math.random() - .5) * 0.6;
+          var x = (radius + jitter) * Math.cos(phi + twistAngle);
+          var z = (radius + jitter) * Math.sin(phi + twistAngle);
+          var y = centered * lengthScale;
+          tubePositions[idx * 3] = x;
+          tubePositions[idx * 3 + 1] = y;
+          tubePositions[idx * 3 + 2] = z;
+
+          // bright cream core near the pinch, fading out to bronze/gold
+          var mixed = creamC.clone().lerp(goldC, Math.min(1, Math.abs(centered) * 2.4));
+          var bb = 0.25 + brightness * 0.9;
+          tubeColors[idx * 3] = mixed.r * bb;
+          tubeColors[idx * 3 + 1] = mixed.g * bb;
+          tubeColors[idx * 3 + 2] = mixed.b * bb;
+          idx++;
         }
-        var geo = new THREE.BufferGeometry();
-        geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-
-        var isGold = c % 2 === 0;
-        var mat = new THREE.PointsMaterial({
-          size: isGold ? 0.55 : 0.32,
-          map: sprite,
-          color: isGold ? 0xD4B886 : 0xF4EFE5,
-          transparent: true,
-          opacity: isGold ? 0.85 : 0.35,
-          depthWrite: false,
-          blending: THREE.AdditiveBlending,
-          sizeAttenuation: true,
-        });
-
-        var points = new THREE.Points(geo, mat);
-        points.userData.speed = 0.04 + Math.random() * 0.06;
-        points.userData.offset = Math.random() * Math.PI * 2;
-        group.add(points);
-        layers.push(points);
       }
+      var tubeGeo = new THREE.BufferGeometry();
+      tubeGeo.setAttribute('position', new THREE.BufferAttribute(tubePositions, 3));
+      tubeGeo.setAttribute('color', new THREE.BufferAttribute(tubeColors, 3));
+      var tubeMat = new THREE.PointsMaterial({
+        size: isMobile ? 0.42 : 0.5,
+        map: sprite,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.92,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+        sizeAttenuation: true,
+      });
+      var funnel = new THREE.Points(tubeGeo, tubeMat);
+      funnel.rotation.z = Math.PI / 2.4;
+      var funnelGroup = new THREE.Group();
+      funnelGroup.add(funnel);
+      funnelGroup.position.x = isMobile ? 0 : 14;
+      scene.add(funnelGroup);
 
       var mouseX = 0, mouseY = 0;
       window.addEventListener('mousemove', function (e) {
@@ -119,13 +155,11 @@
 
       function tick() {
         var t = performance.now() / 1000;
-        group.rotation.y = Math.sin(t * 0.04) * 0.18;
-        group.rotation.x = Math.cos(t * 0.03) * 0.06;
-        layers.forEach(function (p) {
-          p.position.y = ((t * p.userData.speed * 30 + p.userData.offset * 10) % (spread * 2.2)) - spread * 1.1;
-        });
-        camera.position.x += (mouseX * 14 - camera.position.x) * 0.02;
-        camera.position.y += (-mouseY * 10 - camera.position.y) * 0.02;
+        funnelGroup.rotation.y = t * 0.12;
+        funnelGroup.rotation.x = Math.sin(t * 0.15) * 0.12;
+        starField.rotation.y = t * 0.005;
+        camera.position.x += (mouseX * 10 - camera.position.x) * 0.02;
+        camera.position.y += (-mouseY * 7 - camera.position.y) * 0.02;
         camera.lookAt(0, 0, 0);
         renderer.render(scene, camera);
         requestAnimationFrame(tick);
