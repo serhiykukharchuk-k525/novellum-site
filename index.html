@@ -1174,10 +1174,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       #obstacles .grid-3 { grid-template-columns: 1fr; }
     }
 
-    /* ── Demo iframe (mobile) ── */
-    @media (max-width: 768px) {
-      #demo iframe { height: 400px; }
-    }
   </style>
   <link rel="stylesheet" href="animations.css">
 </head>
@@ -1188,8 +1184,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="sticky-tg" id="stickyTg">
   <p>Маєте питання? Напишіть — відповімо протягом дня.</p>
   <div class="sticky-tg-right">
-    <a class="button primary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer" style="font-size:13px;padding:9px 16px">Написати в Telegram →</a>
-    <a class="button secondary" href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener" style="font-size:13px;padding:9px 16px">LinkedIn</a>
+    <a class="button primary sticky-tg-link" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer" style="font-size:13px;padding:9px 16px" aria-label="Написати в Telegram">
+      <img class="sticky-tg-icon" src="https://cdn.simpleicons.org/telegram/0F1F1C" width="16" height="16" alt="" aria-hidden="true">
+      <span class="sticky-tg-text">Написати в Telegram →</span>
+    </a>
+    <a class="button secondary sticky-tg-link" href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener" style="font-size:13px;padding:9px 16px" aria-label="LinkedIn">
+      <img class="sticky-tg-icon" src="https://cdn.simpleicons.org/linkedin/D4B886" width="16" height="16" alt="" aria-hidden="true">
+      <span class="sticky-tg-text">LinkedIn</span>
+    </a>
     <button class="sticky-tg-close" id="stickyTgClose" aria-label="Закрити">✕</button>
   </div>
 </div>
@@ -1268,9 +1270,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <p>Ключові показники, фінансова динаміка і дедлайни — в одному дашборді. Без ручних звірок і додаткових пояснень.</p>
 
-          <div class="nav-cta">
-            <a class="button primary" href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener">Написати в LinkedIn →</a>
-            <a class="button secondary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Telegram</a>
+          <div class="nav-cta hero-cta">
+            <a class="button primary hero-cta-linkedin" href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener" aria-label="Написати в LinkedIn">
+              <img class="hero-cta-linkedin-icon" src="https://cdn.simpleicons.org/linkedin/0F1F1C" width="18" height="18" alt="" aria-hidden="true">
+              <span class="hero-cta-linkedin-text">Написати в LinkedIn →</span>
+            </a>
+            <a class="button secondary hero-cta-telegram" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Telegram</a>
             <a class="button secondary button--anim" href="#process">Переглянути процес</a>
           </div>
 
@@ -1730,28 +1735,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
 
         <div class="sources-orbit" id="sourcesOrbit">
-          <div class="src-icon src-l" style="--tx:-380px;--ty:-80px;--ty-mob:-100px" data-delay="0">
+          <div class="orbit-hub" aria-hidden="true">
+            <img src="assets/logo/novellum-mark.svg" alt="" width="28" height="28">
+          </div>
+          <div class="src-icon" style="--i:0;--tx:0px;--ty:-200px;--tx-mob:0px;--ty-mob:-130px">
             <img src="https://cdn.simpleicons.org/microsoftpowerbi/D4B886" width="22" height="22" alt="Power BI"/>
           </div>
-          <div class="src-icon src-l" style="--tx:-420px;--ty:20px;--ty-mob:-150px" data-delay="80">
+          <div class="src-icon" style="--i:1;--tx:141px;--ty:-141px;--tx-mob:19px;--ty-mob:-92px">
             <img src="https://cdn.simpleicons.org/microsoftexcel/D4B886" width="22" height="22" alt="Excel"/>
           </div>
-          <div class="src-icon src-l" style="--tx:-360px;--ty:-180px;--ty-mob:-200px" data-delay="160">
+          <div class="src-icon" style="--i:2;--tx:200px;--ty:0px;--tx-mob:58px;--ty-mob:0px">
             <img src="https://cdn.simpleicons.org/googlesheets/D4B886" width="22" height="22" alt="Google Sheets"/>
           </div>
-          <div class="src-icon src-l" style="--tx:-400px;--ty:120px;--ty-mob:-80px" data-delay="240">
+          <div class="src-icon" style="--i:3;--tx:141px;--ty:141px;--tx-mob:19px;--ty-mob:92px">
             <img src="https://cdn.simpleicons.org/bitrix24/D4B886" width="22" height="22" alt="Bitrix24"/>
           </div>
-          <div class="src-icon src-r" style="--tx:380px;--ty:-80px;--ty-mob:80px" data-delay="40">
+          <div class="src-icon" style="--i:4;--tx:0px;--ty:200px;--tx-mob:0px;--ty-mob:130px">
             <img src="https://cdn.simpleicons.org/postgresql/D4B886" width="22" height="22" alt="PostgreSQL"/>
           </div>
-          <div class="src-icon src-r" style="--tx:420px;--ty:20px;--ty-mob:130px" data-delay="120">
+          <div class="src-icon" style="--i:5;--tx:-141px;--ty:141px;--tx-mob:-19px;--ty-mob:92px">
             <img src="https://cdn.simpleicons.org/mysql/D4B886" width="22" height="22" alt="MySQL"/>
           </div>
-          <div class="src-icon src-r" style="--tx:360px;--ty:-180px;--ty-mob:180px" data-delay="200">
+          <div class="src-icon" style="--i:6;--tx:-200px;--ty:0px;--tx-mob:-58px;--ty-mob:0px">
             <img src="https://cdn.simpleicons.org/shopify/D4B886" width="22" height="22" alt="Shopify"/>
           </div>
-          <div class="src-icon src-r" style="--tx:400px;--ty:120px;--ty-mob:100px" data-delay="280">
+          <div class="src-icon" style="--i:7;--tx:-141px;--ty:-141px;--tx-mob:-19px;--ty-mob:-92px">
             <span class="src-text-icon">1С</span>
           </div>
         </div>
@@ -1903,8 +1911,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
         -->
-        <div class="reveal" style="border:1px solid rgba(212,184,134,.2);border-radius:12px;overflow:hidden;margin-bottom:24px">
+        <div class="reveal" style="border:1px solid rgba(212,184,134,.2);border-radius:12px;overflow:hidden;margin-bottom:16px">
+          <img class="demo-preview-img" src="assets/demo-screenshot.png" alt="Демо дашборд Power BI — попередній перегляд" loading="lazy" decoding="async">
           <iframe
+            class="demo-iframe"
             title="Nóvellum Demo Dashboard"
             width="100%"
             height="600"
@@ -1917,6 +1927,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             style="display:block;width:100%;border:none">
           </iframe>
         </div>
+        <a class="demo-open-link reveal" href="https://app.powerbi.com/view?r=eyJrIjoiYjM2MDJjMTEtNTk5Yi00MWM2LWExNzEtNTJhYTY5ZGFkZDcyIiwidCI6Ijc1Y2QyZWIwLWJlYWUtNGMzMS1hODYyLTQzNmQ5M2RmMmUzOCIsImMiOjl9" target="_blank" rel="noopener">Відкрити демо →</a>
         <p class="reveal" style="color:var(--text-muted);margin-bottom:18px">Хочете такий само для свого бізнесу?</p>
         <div class="reveal" style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
           <a href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener" class="button primary">Написати в LinkedIn →</a>
