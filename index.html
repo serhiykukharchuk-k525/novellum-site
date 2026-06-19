@@ -111,11 +111,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
 
     *{box-sizing:border-box;margin:0;padding:0}
+    html{overflow-x:hidden;width:100%}
     body{
       font-family:"Manrope",system-ui,sans-serif;
       color:var(--text);
       line-height:1.65;
       overflow-x:hidden;
+      width:100%;
+      max-width:100vw;
 
       /* More expressive background */
       background: var(--bg);
@@ -371,7 +374,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       margin-bottom:18px;
       max-width:62ch;
     }
-    .hero-btn-linkedin .btn-icon{display:none}
+    .hero-btn-linkedin .btn-icon{display:inline-block;vertical-align:middle;margin-right:6px}
 
     .hero-visual{
       background:var(--glass);
@@ -660,6 +663,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       border-color:rgba(26,46,40,.45);
     }
 
+    .product-orbit-wrap{
+      position:relative;
+      overflow:visible;
+      max-width:100vw;
+    }
+    @media (min-width:769px){
+      .product-orbit-wrap .product{ max-width:560px; margin:0 auto; }
+    }
     .product{
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
@@ -1751,51 +1762,48 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <p class="section-typewriter" data-typewriter='["Power BI · Power Platform · Google Sheets", "Підключення до будь-яких джерел даних", "Від аудиту до live дашборду"]'></p>
         </div>
 
-        <div class="product">
-          <div>
-            <h3>Nóvellum Analytics</h3>
-            <p>Будуємо дашборд на Power BI і підтримуємо його актуальність в сервісному режимі. Підключаємось до будь-яких джерел — від Google Sheets до корпоративних баз даних.</p>
-            <ul>
-              <li><span class="status-icon">📌</span>Ключові показники для власника</li>
-              <li><span class="status-icon">🔎</span>Верифікація цифр</li>
-              <li><span class="status-icon">🗂</span>План змін через backlog</li>
-            </ul>
+        <div class="product-orbit-wrap" id="sourcesOrbit">
+          <div class="product">
+            <div>
+              <h3>Nóvellum Analytics</h3>
+              <p>Будуємо дашборд на Power BI і підтримуємо його актуальність в сервісному режимі. Підключаємось до будь-яких джерел — від Google Sheets до корпоративних баз даних.</p>
+              <ul>
+                <li><span class="status-icon">📌</span>Ключові показники для власника</li>
+                <li><span class="status-icon">🔎</span>Верифікація цифр</li>
+                <li><span class="status-icon">🗂</span>План змін через backlog</li>
+              </ul>
+            </div>
+
+            <!-- REMINDER BOT — тимчасово вимкнено
+            <div>
+              <h3>Nóvellum Reminder</h3>
+              <p>Telegram-бот для особистих нагадувань про зустрічі, дзвінки та події. <a href="reminder.html" style="color:var(--bronze);text-decoration:underline;text-underline-offset:3px">Детальніше →</a></p>
+            </div>
+            /REMINDER BOT -->
           </div>
 
-          <!-- REMINDER BOT — тимчасово вимкнено
-          <div>
-            <h3>Nóvellum Reminder</h3>
-            <p>Telegram-бот для особистих нагадувань про зустрічі, дзвінки та події. <a href="reminder.html" style="color:var(--bronze);text-decoration:underline;text-underline-offset:3px">Детальніше →</a></p>
-          </div>
-          /REMINDER BOT -->
-        </div>
-
-        <div class="icons-orbit" id="sourcesOrbit">
-          <div class="orbit-hub" aria-hidden="true">
-            <img src="assets/logo/novellum-mark.svg" width="28" height="28" alt="" />
-          </div>
-          <div class="src-icon" style="--dx:220px;--dy:0px;--mx:44px;--my:0px;--delay:0s" data-delay="0">
+          <div class="src-icon" style="--dx:340px;--dy:0px;--mx:46px;--my:0px;--delay:0s" data-delay="0">
             <img src="https://cdn.simpleicons.org/microsoftpowerbi/D4B886" width="22" height="22" alt="Power BI"/>
           </div>
-          <div class="src-icon" style="--dx:156px;--dy:91px;--mx:31px;--my:102px;--delay:.15s" data-delay="80">
+          <div class="src-icon" style="--dx:240px;--dy:64px;--mx:33px;--my:107px;--delay:.15s" data-delay="80">
             <img src="https://cdn.simpleicons.org/microsoftexcel/D4B886" width="22" height="22" alt="Excel"/>
           </div>
-          <div class="src-icon" style="--dx:0px;--dy:128px;--mx:0px;--my:144px;--delay:.3s" data-delay="160">
+          <div class="src-icon" style="--dx:0px;--dy:90px;--mx:0px;--my:170px;--delay:.3s" data-delay="160">
             <img src="https://cdn.simpleicons.org/googlesheets/D4B886" width="22" height="22" alt="Google Sheets"/>
           </div>
-          <div class="src-icon" style="--dx:-156px;--dy:91px;--mx:-31px;--my:102px;--delay:.45s" data-delay="240">
+          <div class="src-icon" style="--dx:-240px;--dy:64px;--mx:-33px;--my:107px;--delay:.45s" data-delay="240">
             <img src="https://cdn.simpleicons.org/bitrix24/D4B886" width="22" height="22" alt="Bitrix24"/>
           </div>
-          <div class="src-icon" style="--dx:-220px;--dy:0px;--mx:-44px;--my:0px;--delay:.6s" data-delay="40">
+          <div class="src-icon" style="--dx:-340px;--dy:0px;--mx:-46px;--my:0px;--delay:.6s" data-delay="40">
             <img src="https://cdn.simpleicons.org/postgresql/D4B886" width="22" height="22" alt="PostgreSQL"/>
           </div>
-          <div class="src-icon" style="--dx:-156px;--dy:-91px;--mx:-31px;--my:-102px;--delay:.75s" data-delay="120">
+          <div class="src-icon" style="--dx:-240px;--dy:-64px;--mx:-33px;--my:-107px;--delay:.75s" data-delay="120">
             <img src="https://cdn.simpleicons.org/mysql/D4B886" width="22" height="22" alt="MySQL"/>
           </div>
-          <div class="src-icon" style="--dx:0px;--dy:-128px;--mx:0px;--my:-144px;--delay:.9s" data-delay="200">
+          <div class="src-icon" style="--dx:0px;--dy:-90px;--mx:0px;--my:-170px;--delay:.9s" data-delay="200">
             <img src="https://cdn.simpleicons.org/shopify/D4B886" width="22" height="22" alt="Shopify"/>
           </div>
-          <div class="src-icon" style="--dx:156px;--dy:-91px;--mx:31px;--my:-102px;--delay:1.05s" data-delay="280">
+          <div class="src-icon" style="--dx:240px;--dy:-64px;--mx:33px;--my:-107px;--delay:1.05s" data-delay="280">
             <span class="src-text-icon">1С</span>
           </div>
         </div>
