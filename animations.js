@@ -14,8 +14,53 @@
       initFlyingIcons();
       initSourcesOrbit();
       initPhone3d();
+      initButtonBeam();
     }
+    initDemoFrameScale();
   });
+
+  // ── 0b. DEMO IFRAME SCALE (mobile) ───────────────────────────
+  function initDemoFrameScale() {
+    var wrap = document.getElementById('demoFrameWrap');
+    if (!wrap || !isMobile) return;
+    var NATIVE_W = 980, NATIVE_H = 600;
+
+    function update() {
+      var w = wrap.clientWidth;
+      if (!w) return;
+      var scale = w / NATIVE_W;
+      wrap.style.setProperty('--demo-scale', scale.toFixed(4));
+      wrap.style.setProperty('--demo-scaled-h', Math.round(NATIVE_H * scale) + 'px');
+    }
+    update();
+    window.addEventListener('resize', update, { passive: true });
+  }
+
+  // ── 0. BUTTON BORDER BEAM (computes a real rounded-rect motion path) ─
+  function initButtonBeam() {
+    var btns = document.querySelectorAll('.button--anim');
+    if (!btns.length) return;
+
+    function update() {
+      btns.forEach(function (btn) {
+        var w = btn.offsetWidth, h = btn.offsetHeight;
+        if (!w || !h) return;
+        var r = h / 2;
+        var d = 'M ' + r + ',0 H ' + (w - r) +
+          ' A ' + r + ',' + r + ' 0 0 1 ' + w + ',' + r +
+          ' V ' + (h - r) +
+          ' A ' + r + ',' + r + ' 0 0 1 ' + (w - r) + ',' + h +
+          ' H ' + r +
+          ' A ' + r + ',' + r + ' 0 0 1 0,' + (h - r) +
+          ' V ' + r +
+          ' A ' + r + ',' + r + ' 0 0 1 ' + r + ',0 Z';
+        btn.style.setProperty('--beam-path', 'path("' + d + '")');
+      });
+    }
+    update();
+    window.addEventListener('resize', update, { passive: true });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(update);
+  }
 
   // ── 1. PARTICLE FIELD (DNA Capital style — fixed full-viewport bg) ─
   function initParticleField() {

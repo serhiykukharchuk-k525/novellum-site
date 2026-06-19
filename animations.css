@@ -173,12 +173,14 @@ body > footer {
   .phone-v-frame { border-radius: 36px; border-width: 7px; }
 }
 
-/* ── SHIMMER CTA BUTTON (thin line traveling along the border) ──
-   offset-path: border-box has no Safari support, which made the previous
-   version look static there. A rotating conic-gradient masked to a thin
-   ring around the button works everywhere mask-composite is supported
-   (all current browsers) and animates via plain transform, so it always
-   visibly travels. */
+/* ── SHIMMER CTA BUTTON ──
+   A small glowing dot travels around the actual rounded-rect perimeter of
+   the button via offset-path: path("..."), with the path string computed
+   per-button in JS (initButtonBeam in animations.js) from its live
+   width/height. Unlike offset-path: border-box (no Safari support), an
+   explicit path() string works in all current browsers, so the beam
+   visibly travels along the real border instead of spinning in a circle.
+   A second, independent diagonal "shine" sweep plays every few seconds. */
 .button--anim {
   position: relative;
   overflow: visible;
@@ -186,21 +188,40 @@ body > footer {
 .button--anim::after {
   content: '' !important;
   position: absolute !important;
-  inset: -1.5px !important;
-  border-radius: inherit !important;
-  padding: 1.5px !important;
-  background: conic-gradient(from 0deg, transparent 0deg 300deg, #F4EFE5 326deg, transparent 352deg) !important;
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0) !important;
-  -webkit-mask-composite: xor !important;
-  mask-composite: exclude !important;
-  filter: drop-shadow(0 0 4px rgba(212,184,134,.65)) !important;
-  animation: borderTravel 2.8s linear infinite !important;
+  top: 0 !important; left: 0 !important;
+  width: 7px !important; height: 7px !important;
+  margin: -3.5px !important;
+  border-radius: 50% !important;
+  background: #F4EFE5 !important;
+  box-shadow: 0 0 8px 2px rgba(212,184,134,.85) !important;
+  offset-path: var(--beam-path, none) !important;
+  offset-distance: 0% !important;
+  offset-rotate: 0deg !important;
+  animation: beamRun 3.2s linear infinite !important;
   opacity: .95 !important;
   pointer-events: none !important;
-  z-index: 2 !important;
+  z-index: 4 !important;
 }
-@keyframes borderTravel {
-  to { transform: rotate(360deg); }
+@keyframes beamRun {
+  to { offset-distance: 100%; }
+}
+.button--anim::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(120deg, transparent 35%, rgba(255,255,255,.45) 50%, transparent 65%);
+  background-size: 250% 250%;
+  background-position: -130% -130%;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 3;
+  animation: shineSweep 5s ease-in-out infinite;
+}
+@keyframes shineSweep {
+  0%   { background-position: -130% -130%; }
+  18%  { background-position: 130% 130%; }
+  100% { background-position: 130% 130%; }
 }
 
 /* ── 3D PHONE (#demo) ── */
@@ -539,28 +560,30 @@ body > footer {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(212,184,134,.15);
-  border-radius: 10px;
-  background: rgba(212,184,134,.05);
+  border: 1px solid rgba(212,184,134,.25);
+  border-radius: 12px;
+  background: rgba(17,27,24,.92);
+  box-shadow: 0 10px 26px rgba(0,0,0,.45);
   backdrop-filter: blur(8px);
   opacity: 0;
   transform: translate(-50%, -50%);
   transition: transform 1s cubic-bezier(.34,1.3,.64,1), opacity .7s ease;
   pointer-events: none;
-  z-index: 1;
+  z-index: 5;
 }
 @media (min-width: 769px) {
   .product-orbit-wrap .src-icon {
-    width: 52px;
-    height: 52px;
+    width: 54px;
+    height: 54px;
   }
-  .product-orbit-wrap .src-icon .src-text-icon {
-    font-size: 12px;
+  .product-orbit-wrap .src-icon .src-svg-icon {
+    width: 24px;
+    height: 24px;
   }
 }
 .product-orbit-wrap .src-icon.flown {
@@ -568,11 +591,11 @@ body > footer {
   transform: translate(calc(-50% + var(--dx, 0px) + var(--px, 0px)), calc(-50% + var(--dy, 0px) + var(--py, 0px)));
   animation: orbit-float-d 4.5s ease-in-out var(--delay, 0s) infinite;
 }
-.src-text-icon {
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: -.02em;
-  color: rgba(212,184,134,.7);
+.src-svg-icon {
+  width: 20px;
+  height: 20px;
+  color: #D4B886;
+  flex-shrink: 0;
 }
 @keyframes orbit-float-d {
   0%, 100% { transform: translate(calc(-50% + var(--dx, 0px) + var(--px, 0px)), calc(-50% + var(--dy, 0px) + var(--py, 0px))) scale(1); }
@@ -642,9 +665,9 @@ body > footer {
     max-width: 100%;
     white-space: normal;
     overflow-wrap: break-word;
-    font-size: 11px !important;
+    font-size: 9px !important;
     line-height: 1.35;
-    min-height: 2.7em;
+    min-height: 2.4em;
     overflow: hidden;
   }
 }
