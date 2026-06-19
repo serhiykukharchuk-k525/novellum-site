@@ -111,7 +111,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
 
     *{box-sizing:border-box;margin:0;padding:0}
-    html{overflow-x:hidden;width:100%}
+    html{width:100%}
     body{
       font-family:"Manrope",system-ui,sans-serif;
       color:var(--text);
@@ -774,10 +774,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       gap:16px;
       grid-template-columns:repeat(2, minmax(0, 1fr));
     }
-    .how-grid .card{display:flex;flex-direction:column;justify-content:center}
+    @media (max-width: 979px){
+      .how-grid .card{padding:16px}
+      .how-grid .card h3{font-size:14px;margin-bottom:7px}
+      .how-grid .card p{font-size:12.5px;line-height:1.5}
+    }
     @media (min-width: 980px){
       .how-grid{grid-template-columns:repeat(3, minmax(0, 1fr));}
-      .how-grid .card{padding:18px;justify-content:flex-start}
+      .how-grid .card{padding:18px}
       .how-grid .card h3{font-size:15px;margin-bottom:8px}
       .how-grid .card p{font-size:13px;line-height:1.55}
     }
@@ -1112,8 +1116,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     @media (min-width: 768px){
       .calc-col:first-child .calc-hint{
         text-align:center;
-        margin-top:auto;
-        padding-top:34px;
         max-width:88%;
         margin-left:auto;margin-right:auto;
       }
@@ -1253,9 +1255,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       .demo-frame-wrap{
         position:relative;
         height:var(--demo-scaled-h, 380px);
-        width:100vw;
-        margin-left:calc(50% - 50vw);
-        margin-right:calc(50% - 50vw);
         border-radius:0;
       }
       .demo-frame-iframe{
@@ -1792,7 +1791,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <input type="range" id="calcRate" min="5" max="150" value="50" step="5" />
               </div>
             </div>
-            <p class="calc-hint">Введіть параметри — побачите, у скільки обходяться ручні процеси щомісяця.</p>
+            <p class="calc-hint" id="calcHintFirst">Введіть параметри — побачите, у скільки обходяться ручні процеси щомісяця.</p>
           </div>
 
           <div class="calc-col">
@@ -1812,7 +1811,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                   <div style="font-size:20px;font-weight:800;color:var(--bronze);letter-spacing:-.02em" id="calcRoi">1.0 <span style="font-size:12px;font-weight:400">міс</span></div>
                 </div>
               </div>
-              <a class="button primary button--anim" href="#contact" style="width:100%;justify-content:center;margin-top:18px">Запитати деталі</a>
+              <a id="calcDetailsBtn" class="button primary button--anim" href="#contact" style="width:100%;justify-content:center;margin-top:18px">Запитати деталі</a>
             </div>
             <p class="calc-hint">Ongoing Nóvellum — від $1 500/міс. Коли ручна робота коштує більше — система окупається і дає час назад.</p>
           </div>
@@ -1850,28 +1849,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             /REMINDER BOT -->
           </div>
 
-          <div class="src-icon grp-a" style="--dx:340px;--dy:-20px;--mx:-150px;--my:-20px;--delay:0s" data-delay="0" aria-label="Power BI">
+          <div class="src-icon grp-a" style="--dx:clamp(200px, 30vw, 340px);--dy:-20px;--mx:-150px;--my:-34px;--delay:0s" data-delay="0" aria-label="Power BI">
             <svg class="src-svg-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="13" width="4" height="8" rx="1" fill="currentColor"/><rect x="10" y="8" width="4" height="13" rx="1" fill="currentColor"/><rect x="17" y="4" width="4" height="17" rx="1" fill="currentColor"/></svg>
           </div>
-          <div class="src-icon grp-a" style="--dx:280px;--dy:55px;--mx:-70px;--my:-26px;--delay:.15s" data-delay="80" aria-label="Excel">
+          <div class="src-icon grp-a" style="--dx:clamp(165px, 25vw, 280px);--dy:55px;--mx:-70px;--my:-34px;--delay:.15s" data-delay="80" aria-label="Excel">
             <svg class="src-svg-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18" stroke="currentColor" stroke-width="1.2"/></svg>
           </div>
-          <div class="src-icon grp-a" style="--dx:120px;--dy:75px;--mx:70px;--my:-26px;--delay:.3s" data-delay="160" aria-label="Google Sheets">
+          <div class="src-icon grp-a" style="--dx:clamp(80px, 11vw, 120px);--dy:75px;--mx:70px;--my:-34px;--delay:.3s" data-delay="160" aria-label="Google Sheets">
             <svg class="src-svg-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.6"/><path d="M4 10h16M4 15h16M10 4v16" stroke="currentColor" stroke-width="1.2"/></svg>
           </div>
-          <div class="src-icon grp-a" style="--dx:-280px;--dy:55px;--mx:150px;--my:-20px;--delay:.45s" data-delay="240" aria-label="Bitrix24">
+          <div class="src-icon grp-a" style="--dx:clamp(-280px, -25vw, -165px);--dy:55px;--mx:150px;--my:-30px;--delay:.45s" data-delay="240" aria-label="Bitrix24">
             <svg class="src-svg-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="3.2" stroke="currentColor" stroke-width="1.6"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
           </div>
-          <div class="src-icon grp-b" style="--dx:-340px;--dy:20px;--mx:-150px;--my:20px;--delay:.6s" data-delay="40" aria-label="PostgreSQL">
+          <div class="src-icon grp-b" style="--dx:clamp(-340px, -30vw, -200px);--dy:20px;--mx:-150px;--my:34px;--delay:.6s" data-delay="40" aria-label="PostgreSQL">
             <svg class="src-svg-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3" stroke="currentColor" stroke-width="1.6"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6" stroke="currentColor" stroke-width="1.6"/><path d="M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3" stroke="currentColor" stroke-width="1.6"/></svg>
           </div>
-          <div class="src-icon grp-b" style="--dx:-280px;--dy:-55px;--mx:-70px;--my:26px;--delay:.75s" data-delay="120" aria-label="MySQL">
+          <div class="src-icon grp-b" style="--dx:clamp(-280px, -25vw, -165px);--dy:-55px;--mx:-70px;--my:34px;--delay:.75s" data-delay="120" aria-label="MySQL">
             <svg class="src-svg-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="9" cy="12" r="5" stroke="currentColor" stroke-width="1.6"/><circle cx="15" cy="12" r="5" stroke="currentColor" stroke-width="1.6"/></svg>
           </div>
-          <div class="src-icon grp-b" style="--dx:120px;--dy:-75px;--mx:70px;--my:26px;--delay:.9s" data-delay="200" aria-label="Shopify">
+          <div class="src-icon grp-b" style="--dx:clamp(80px, 11vw, 120px);--dy:-75px;--mx:70px;--my:34px;--delay:.9s" data-delay="200" aria-label="Shopify">
             <svg class="src-svg-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 8a3 3 0 0 1 6 0" stroke="currentColor" stroke-width="1.6"/></svg>
           </div>
-          <div class="src-icon grp-b" style="--dx:280px;--dy:-55px;--mx:150px;--my:20px;--delay:1.05s" data-delay="280" aria-label="1С">
+          <div class="src-icon grp-b" style="--dx:clamp(165px, 25vw, 280px);--dy:-55px;--mx:150px;--my:30px;--delay:1.05s" data-delay="280" aria-label="1С">
             <svg class="src-svg-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 21V9l5-3v3l5-3v15" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 21V12h6v9" stroke="currentColor" stroke-width="1.6"/></svg>
           </div>
         </div>
