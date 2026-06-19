@@ -17,7 +17,10 @@
     }
   });
 
-  // ── 1. PARTICLE FIELD (DNA Capital style — fixed full-viewport bg) ─
+  // ── 1. DNA HELIX BACKGROUND (dnacapital.com style — fixed full-viewport bg) ─
+  // Two offset sine strands run the height of the viewport with glowing
+  // particles traveling along them, thin "base pair" rungs between the
+  // strands, and a sparse field of ambient drifting particles behind it all.
   function initParticleField() {
     var heroEl = document.querySelector('.hero');
     var canvas = document.createElement('canvas');
@@ -29,9 +32,18 @@
     }
     var ctx = canvas.getContext('2d');
     var W, H, ratio;
-    var N = isMobile ? 80 : 180;
-    var CONNECT_DIST = isMobile ? 55 : 80;
-    var particles = [];
+
+    var helixAmp = isMobile ? 50 : 110;
+    var helixFreq = 0.012;
+    var helixSpeed = .25;
+    var rungStep = isMobile ? 46 : 30;
+    var strandStep = isMobile ? 7 : 4;
+    var nodeCount = isMobile ? 7 : 14;
+    var ambientN = isMobile ? 24 : 60;
+    var ambientConnectDist = isMobile ? 45 : 70;
+
+    var ambient = [];
+    var nodesA = [], nodesB = [];
 
     function resize() {
       W = window.innerWidth;
@@ -44,44 +56,112 @@
     resize();
     window.addEventListener('resize', resize, { passive: true });
 
-    for (var i = 0; i < N; i++) {
-      particles.push({
+    for (var i = 0; i < ambientN; i++) {
+      ambient.push({
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
-        vx: (Math.random() - .5) * .22,
-        vy: (Math.random() - .5) * .22,
+        vx: (Math.random() - .5) * .15,
+        vy: (Math.random() - .5) * .15,
         r: .5 + Math.random(),
-        a: .06 + Math.random() * .12,
+        a: .03 + Math.random() * .12,
       });
+    }
+    for (var n = 0; n < nodeCount; n++) {
+      nodesA.push({ phase: (n / nodeCount) * window.innerHeight, speed: .25 + Math.random() * .2 });
+      nodesB.push({ phase: ((n + .5) / nodeCount) * window.innerHeight, speed: .25 + Math.random() * .2 });
+    }
+
+    function strandX(centerX, y, t, offset) {
+      return centerX + Math.sin(y * helixFreq + t * helixSpeed + offset) * helixAmp;
     }
 
     function tick() {
+      var t = performance.now() / 1000;
       ctx.clearRect(0, 0, W, H);
-      for (var i = 0; i < N; i++) {
-        var p = particles[i];
+
+      // ambient drifting particles, with sparse constellation links
+      for (var i = 0; i < ambientN; i++) {
+        var p = ambient[i];
         p.x += p.vx; p.y += p.vy;
         if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
         if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(212,184,134,' + p.a.toFixed(3) + ')';
+        ctx.fillStyle = 'rgba(244,239,229,' + p.a.toFixed(3) + ')';
         ctx.fill();
-        for (var j = i + 1; j < N; j++) {
-          var q = particles[j];
+        for (var j = i + 1; j < ambientN; j++) {
+          var q = ambient[j];
           var dx = p.x - q.x, dy = p.y - q.y;
           var d = Math.sqrt(dx * dx + dy * dy);
-          if (d < CONNECT_DIST) {
+          if (d < ambientConnectDist) {
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(q.x, q.y);
-            ctx.strokeStyle = 'rgba(212,184,134,' + (0.14 * (1 - d / CONNECT_DIST)).toFixed(3) + ')';
+            ctx.strokeStyle = 'rgba(244,239,229,' + (0.05 * (1 - d / ambientConnectDist)).toFixed(3) + ')';
             ctx.lineWidth = .5;
             ctx.stroke();
           }
         }
       }
+
+      // gentle diagonal drift of the whole helix
+      var centerX = W / 2 + Math.sin(t * 0.05) * 24;
+      var driftY = (t * 6) % rungStep;
+
+      // base pairs between the two strands
+      ctx.lineWidth = .6;
+      for (var y = -driftY; y <= H; y += rungStep) {
+        var ax = strandX(centerX, y, t, 0);
+        var bx = strandX(centerX, y, t, Math.PI);
+        ctx.beginPath();
+        ctx.moveTo(ax, y);
+        ctx.lineTo(bx, y);
+        ctx.strokeStyle = 'rgba(212,184,134,.12)';
+        ctx.stroke();
+      }
+
+      // the two strands themselves
+      ctx.beginPath();
+      for (var y1 = 0; y1 <= H; y1 += strandStep) {
+        var sx1 = strandX(centerX, y1, t, 0);
+        y1 === 0 ? ctx.moveTo(sx1, y1) : ctx.lineTo(sx1, y1);
+      }
+      ctx.strokeStyle = 'rgba(212,184,134,.32)';
+      ctx.lineWidth = 1.1;
+      ctx.stroke();
+
+      ctx.beginPath();
+      for (var y2 = 0; y2 <= H; y2 += strandStep) {
+        var sx2 = strandX(centerX, y2, t, Math.PI);
+        y2 === 0 ? ctx.moveTo(sx2, y2) : ctx.lineTo(sx2, y2);
+      }
+      ctx.strokeStyle = 'rgba(212,184,134,.22)';
+      ctx.lineWidth = 1.1;
+      ctx.stroke();
+
+      // glowing nucleotide particles traveling along each strand
+      drawNodes(nodesA, 0);
+      drawNodes(nodesB, Math.PI);
+
       requestAnimationFrame(tick);
     }
+
+    function drawNodes(nodes, offset) {
+      for (var i = 0; i < nodes.length; i++) {
+        var node = nodes[i];
+        node.phase = (node.phase + node.speed) % H;
+        var y = node.phase;
+        var x = strandX(W / 2, y, performance.now() / 1000, offset);
+        ctx.beginPath();
+        ctx.arc(x, y, 2, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(212,184,134,.9)';
+        ctx.shadowColor = 'rgba(212,184,134,.55)';
+        ctx.shadowBlur = 6;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+    }
+
     requestAnimationFrame(tick);
   }
 
@@ -95,6 +175,7 @@
 
   // ── 3. PROCESS WAVE ──────────────────────────────────────────
   function initProcessWave() {
+    if (isMobile) return; // disabled on mobile to keep the DNA bg smooth
     var sec = document.querySelector('#process');
     if (!sec) return;
 
@@ -115,7 +196,6 @@
       { amp: 10, freq: .025, speed: .80, yBase: .76, alpha: .08 },
       { amp:  7, freq: .033, speed: 1.1, yBase: .90, alpha: .06 },
     ];
-    if (isMobile) waves = [waves[0]];
 
     function draw() {
       var t = performance.now() / 1000;
@@ -251,7 +331,7 @@
     io.observe(orbit);
   }
 
-  // ── 7. SOURCES ORBIT (#sourcesOrbit) ─────────────────────────
+  // ── 7. ICONS ORBIT (#sourcesOrbit — circular layout fly-in) ──
   function initSourcesOrbit() {
     var el = document.getElementById('sourcesOrbit');
     if (!el) return;

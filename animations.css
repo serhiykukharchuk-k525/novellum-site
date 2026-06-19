@@ -147,8 +147,7 @@ body > footer {
   letter-spacing: .02em;
 }
 .phone-v-fade {
-  /* short fade so it blends the screen's bottom edge without covering the
-     "E-COMMERCE · RETAIL · SAAS · LOGISTICS" footer line inside .live-dash */
+  /* short fade so it blends the screen's bottom edge smoothly */
   position: absolute;
   bottom: 0; left: 0; right: 0;
   height: 60px;
@@ -174,51 +173,38 @@ body > footer {
   .phone-v-frame { border-radius: 36px; border-width: 7px; }
 }
 
-/* ── ANIMATED BORDER BUTTON (rotating conic-gradient segment) ──
-   .button.primary already has its own ::after (static shimmer line) with
-   higher specificity (.button.primary::after) than .button--anim::after,
-   which silently overrode our animated background — that's why the
-   border looked static. All visual props below carry !important so this
-   rule always wins regardless of which other button classes are present. */
+/* ── SHIMMER CTA BUTTON (traveling light point around the border) ──
+   A thin ring is masked to the button's outline (same trick as
+   .button.primary::after), but the conic-gradient is mostly transparent
+   except for a narrow bright arc — so it reads as a single point of gold
+   light orbiting the button rather than a static border. */
 .button--anim {
   position: relative;
-  z-index: 0;
-  isolation: isolate;
+  overflow: hidden;
   border: none !important;
-}
-.button--anim::before {
-  /* recreates the button's own background so the ring trick below doesn't
-     paint over .button.primary's bronze fill on buttons that use both
-     classes — "inherit" forces the parent's computed background here even
-     though background isn't normally an inherited property. */
-  content: '' !important;
-  position: absolute !important;
-  inset: 0 !important;
-  border-radius: inherit !important;
-  background: inherit !important;
-  z-index: -1 !important;
 }
 .button--anim::after {
   content: '' !important;
   position: absolute !important;
   inset: -1px !important;
   border-radius: inherit !important;
+  padding: 1px;
   background: conic-gradient(
     from 0deg,
     transparent 0%,
-    transparent 40%,
-    rgba(212,184,134,.9) 50%,
-    transparent 60%,
+    transparent 91%,
+    #D4B886 96%,
     transparent 100%
   ) !important;
-  -webkit-mask: none !important;
-  mask: none !important;
-  animation: rotateBorder 3s linear infinite !important;
-  opacity: 1 !important;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0) !important;
+  -webkit-mask-composite: xor !important;
+  mask-composite: exclude !important;
+  animation: shimmerRotate 2.5s linear infinite !important;
+  opacity: .95 !important;
   pointer-events: none !important;
-  z-index: -2 !important;
+  z-index: 1 !important;
 }
-@keyframes rotateBorder {
+@keyframes shimmerRotate {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
 }
@@ -532,14 +518,31 @@ body > footer {
 .tool-pill.fly-in { opacity: 1; transform: translateX(0) translateY(0); }
 .tool-pill:hover { border-color: rgba(212,184,134,.28); color: rgba(244,239,229,.72); }
 
-/* ── SOURCES ORBIT (#products — icon fly-out, no labels) ── */
-.sources-orbit {
+/* ── ICONS ORBIT (#products Nóvellum Analytics — circular layout) ──
+   Desktop: icons sit on a horizontal ellipse around a center hub, partially
+   bleeding past the container edge (ventriloc.ca style). Mobile: orbit
+   rotated 90° — icons distributed along the vertical axis so nothing
+   overflows the viewport width. */
+.icons-orbit {
   position: relative;
-  height: 60px;
-  margin-top: 32px;
+  max-width: 600px;
+  height: 280px;
+  margin: 40px auto 0;
   overflow: visible;
 }
-.src-icon {
+.orbit-hub {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(212,184,134,.08);
+  border: 1px solid rgba(212,184,134,.25);
+  box-shadow: 0 0 30px rgba(212,184,134,.15);
+  z-index: 2;
+}
+.icons-orbit .src-icon {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -553,24 +556,34 @@ body > footer {
   background: rgba(212,184,134,.05);
   backdrop-filter: blur(8px);
   opacity: 0;
-  transform: translateX(-50%) translateY(-50%);
-  transition: transform .9s cubic-bezier(.34,1.3,.64,1), opacity .6s ease;
+  transform: translate(-50%, -50%);
+  transition: transform 1s cubic-bezier(.34,1.3,.64,1), opacity .7s ease;
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
 }
-.src-icon.flown {
+.icons-orbit .src-icon.flown {
   opacity: 1;
-  transform: translateX(calc(-50% + var(--tx, 0px))) translateY(calc(-50% + var(--ty, 0px)));
+  transform: translate(calc(-50% + var(--dx, 0px)), calc(-50% + var(--dy, 0px)));
+  animation: orbit-float-d 4.5s ease-in-out var(--delay, 0s) infinite;
 }
 .src-text-icon {
   font-size: 12px;
   font-weight: 800;
   color: rgba(212,184,134,.7);
 }
+@keyframes orbit-float-d {
+  0%, 100% { transform: translate(calc(-50% + var(--dx, 0px)), calc(-50% + var(--dy, 0px))) scale(1); }
+  50% { transform: translate(calc(-50% + var(--dx, 0px)), calc(-50% + var(--dy, 0px) - 8px)) scale(1.06); }
+}
+@keyframes orbit-float-m {
+  0%, 100% { transform: translate(calc(-50% + var(--mx, 0px)), calc(-50% + var(--my, 0px))) scale(1); }
+  50% { transform: translate(calc(-50% + var(--mx, 0px)), calc(-50% + var(--my, 0px) - 8px)) scale(1.06); }
+}
 @media (max-width: 768px) {
-  /* no room on the sides on mobile — icons fly up/down instead of left/right */
-  .src-icon.flown {
-    transform: translateX(-50%) translateY(calc(-50% + var(--ty-mob, 0px)));
+  .icons-orbit { height: 380px; max-width: 280px; }
+  .icons-orbit .src-icon.flown {
+    transform: translate(calc(-50% + var(--mx, 0px)), calc(-50% + var(--my, 0px)));
+    animation-name: orbit-float-m;
   }
 }
 
@@ -592,6 +605,38 @@ body > footer {
   .phone-frame-h { border-radius: 16px; border-width: 5px; }
   .phone-frame { width: 180px; height: 360px; border-radius: 26px; }
   .ph-val { font-size: 17px; }
+}
+
+/* ── TYPEWRITER MOBILE LAYOUT FIX ──
+   Character-by-character typing was changing the element's rendered width
+   on each keystroke, shifting whatever sits next to it. Reserving a fixed
+   block of space and disabling reflow keeps neighbors in place while the
+   typing animation keeps running. */
+@media (max-width: 768px) {
+  .typewriter-word {
+    display: inline-block;
+    min-width: 11ch;
+    white-space: nowrap;
+  }
+  .section-typewriter,
+  [data-typewriter] {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: break-word;
+    min-height: 2.6em;
+    overflow: hidden;
+  }
+}
+
+/* ── RESPONSIVE AUDIT (320px–430px) ── */
+@media (max-width: 480px) {
+  .hero-trust-strip { gap: 16px; }
+  .nav-cta a.button, .nav-cta button.button { min-height: 44px; }
+  .sticky-tg-close { min-width: 44px; min-height: 44px; }
+  .accordion-header { min-height: 44px; }
+  .calc-field input[type=range] { min-height: 44px; }
 }
 
 /* ── PARTNER CASES / CARD TEXT UNIFORMITY (index.html + partners.html) ── */
