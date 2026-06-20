@@ -75,7 +75,7 @@
     window.addEventListener('resize', update, { passive: true });
   }
 
-  // ── 1. PARTICLE FIELD (Three.js infinite noise-driven cloud — 1:1 port) ──
+  // ── 1. PARTICLE FIELD (Three.js infinite cloud + grid-collapse — v11 port) ─
   function initParticleField() {
     if (typeof THREE === 'undefined') return;
 
@@ -94,9 +94,11 @@
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-    var CAM_START = 80;
-    var CAM_END = 20;
-    var HERO_VH = 0;
+    var CAM_START = 55;
+    var CAM_END = -260;
+    var CAM_SLOW = 0.45;
+    var CLOUD_DEPTH = 320;
+
     camera.position.z = CAM_START;
 
     function resize() {
@@ -123,30 +125,43 @@
       return 70 * (n0 + n1 + n2);
     }
 
-    var COUNT = isMobile ? 16000 : 35000;
-    var SPREAD = 130;
-    var CLOUD_DEPTH = 200;
+    var COUNT = isMobile ? 10000 : 22000;
+    var SPREAD = 90;
+    var GRID_N = 22, GRID_STEP = 9, GRID_COUNT = GRID_N * GRID_N * GRID_N;
 
     var geo = new THREE.BufferGeometry();
     var positions = new Float32Array(COUNT * 3);
     var base = new Float32Array(COUNT * 3);
+    var gridTarget = new Float32Array(GRID_COUNT * 3);
+    var baseColors = new Float32Array(COUNT * 3);
     var colors = new Float32Array(COUNT * 3);
     var sizes = new Float32Array(COUNT);
 
-    var c1 = new THREE.Color('#D4B886');
-    var c2 = new THREE.Color('#4a8c6a');
-    var c3 = new THREE.Color('#F4EFE5');
+    var c1 = new THREE.Color('#D4B886'), c2 = new THREE.Color('#4a8c6a'), c3 = new THREE.Color('#F4EFE5'), cGrid = new THREE.Color('#D4B886');
+
+    var gHalf = (GRID_N - 1) * GRID_STEP / 2;
+    for (var gi = 0; gi < GRID_N; gi++) {
+      for (var gj = 0; gj < GRID_N; gj++) {
+        for (var gk = 0; gk < GRID_N; gk++) {
+          var idx = gi * GRID_N * GRID_N + gj * GRID_N + gk;
+          gridTarget[idx * 3] = gi * GRID_STEP - gHalf;
+          gridTarget[idx * 3 + 1] = gj * GRID_STEP - gHalf;
+          gridTarget[idx * 3 + 2] = gk * GRID_STEP - gHalf;
+        }
+      }
+    }
 
     for (var i = 0; i < COUNT; i++) {
-      var x = (Math.random() - 0.5) * SPREAD;
-      var y = (Math.random() - 0.5) * SPREAD;
+      var x = (Math.random() - 0.5) * SPREAD, y = (Math.random() - 0.5) * SPREAD;
       var z = CAM_START - CLOUD_DEPTH * 0.5 + Math.random() * CLOUD_DEPTH;
       positions[i * 3] = base[i * 3] = x;
       positions[i * 3 + 1] = base[i * 3 + 1] = y;
       positions[i * 3 + 2] = base[i * 3 + 2] = z;
       var t = Math.random();
       var col = t < 0.1 ? c1 : t < 0.25 ? c3 : c2;
-      colors[i * 3] = col.r; colors[i * 3 + 1] = col.g; colors[i * 3 + 2] = col.b;
+      colors[i * 3] = baseColors[i * 3] = col.r;
+      colors[i * 3 + 1] = baseColors[i * 3 + 1] = col.g;
+      colors[i * 3 + 2] = baseColors[i * 3 + 2] = col.b;
       sizes[i] = Math.random() * 1.2 + 0.3;
     }
 
@@ -155,15 +170,14 @@
     geo.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
     var mat = new THREE.ShaderMaterial({
-      vertexColors: true, transparent: true, depthWrite: false,
-      blending: THREE.AdditiveBlending,
+      vertexColors: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
       vertexShader: [
         'attribute float size; varying vec3 vColor; varying float vViewZ;',
         'void main() {',
         '  vColor = color;',
         '  vec4 mv = modelViewMatrix * vec4(position, 1.0);',
         '  vViewZ = -mv.z;',
-        '  gl_PointSize = size * (220.0 / -mv.z);',
+        '  gl_PointSize = size * (300.0 / -mv.z);',
         '  gl_Position = projectionMatrix * mv;',
         '}',
       ].join('\n'),
@@ -173,70 +187,125 @@
         '  float d = length(gl_PointCoord - 0.5);',
         '  if (d > 0.5) discard;',
         '  float a = 1.0 - smoothstep(0.2, 0.5, d);',
-        '  float nearFade = smoothstep(2.0, 12.0, vViewZ);',
-        '  gl_FragColor = vec4(vColor, a * 0.85 * nearFade);',
+        '  float nf = smoothstep(1.0, 8.0, vViewZ);',
+        '  gl_FragColor = vec4(vColor, a * 0.85 * nf);',
         '}',
       ].join('\n'),
     });
 
     var points = new THREE.Points(geo, mat);
     scene.add(points);
+    var colAttr = geo.attributes.color;
+
+    var nearestNode = new Int32Array(GRID_COUNT);
+    (function () {
+      var step = GRID_STEP, N = GRID_N, half = (N - 1) * step / 2;
+      for (var i = 0; i < GRID_COUNT; i++) {
+        var px = base[i * 3], py = base[i * 3 + 1];
+        var gi2 = Math.max(0, Math.min(N - 1, Math.round((px + half) / step)));
+        var gj2 = Math.max(0, Math.min(N - 1, Math.round((py + half) / step)));
+        var gk2 = i % N;
+        nearestNode[i] = gi2 * N * N + gj2 * N + gk2;
+      }
+    })();
+
+    var frozenStart = new Float32Array(GRID_COUNT * 3);
+    var frozenReady = false;
+
+    var startY = 0, endY = 0, sectionsReady = false;
+    function cacheSections() {
+      var s = document.getElementById('obstacles'), e = document.getElementById('products');
+      if (s && e) { startY = s.offsetTop; endY = e.offsetTop; sectionsReady = true; }
+    }
+    window.addEventListener('load', cacheSections);
+    setTimeout(cacheSections, 400);
 
     var mx = 0, my = 0, tx = 0, ty = 0;
     document.addEventListener('mousemove', function (e) {
-      mx = (e.clientX / window.innerWidth - 0.5) * 2;
-      my = (e.clientY / window.innerHeight - 0.5) * 2;
+      mx = (e.clientX / window.innerWidth - .5) * 2; my = (e.clientY / window.innerHeight - .5) * 2;
     }, { passive: true });
     document.addEventListener('touchmove', function (e) {
-      mx = (e.touches[0].clientX / window.innerWidth - 0.5) * 2;
-      my = (e.touches[0].clientY / window.innerHeight - 0.5) * 2;
+      mx = (e.touches[0].clientX / window.innerWidth - .5) * 2; my = (e.touches[0].clientY / window.innerHeight - .5) * 2;
     }, { passive: true });
-
     var rawScroll = 0;
     window.addEventListener('scroll', function () { rawScroll = window.scrollY; }, { passive: true });
 
     var clock = 0;
-    var camZ = CAM_START;
-
     function tick() {
       requestAnimationFrame(tick);
       clock += 0.0004;
+      var totalH = Math.max(1, document.body.scrollHeight - window.innerHeight);
+      var pct = Math.min(rawScroll / totalH, 1);
 
-      var vh = window.innerHeight;
-      var totalH = document.body.scrollHeight - vh;
-      var heroOffset = HERO_VH * vh;
-      var scrollAfterHero = Math.max(0, rawScroll - heroOffset);
-      var scrollableAfterHero = Math.max(1, totalH - heroOffset);
-      var pct = Math.min(scrollAfterHero / scrollableAfterHero, 1);
-
-      var slowFactor = 1;
-      var targetZ = CAM_START + (CAM_END - CAM_START) * pct * slowFactor;
-      camZ += (targetZ - camZ) * 0.12;
+      var camZ = CAM_START + (CAM_END - CAM_START) * pct;
       camera.position.z = camZ;
 
-      var half = CLOUD_DEPTH * 0.5;
-      var pos = geo.attributes.position.array;
+      var g = sectionsReady
+        ? Math.max(0, Math.min(1, (rawScroll - startY) / Math.max(1, endY - startY)))
+        : 0;
+
+      var pos = geo.attributes.position.array, colArr = colAttr.array;
+      var dz = camZ - CAM_START, half = CLOUD_DEPTH * 0.5;
+
+      if (g === 0 && frozenReady) frozenReady = false;
 
       for (var i = 0; i < COUNT; i++) {
-        var bx = base[i * 3], by = base[i * 3 + 1];
-        var bz = base[i * 3 + 2];
-        var dz = camZ - CAM_START;
-        var shiftedZ = bz + dz * slowFactor;
-
-        if (shiftedZ > camZ + 8) base[i * 3 + 2] -= CLOUD_DEPTH;
-        if (shiftedZ < camZ - half - 10) base[i * 3 + 2] += CLOUD_DEPTH;
-
-        var bz2 = base[i * 3 + 2];
+        var bx = base[i * 3], by = base[i * 3 + 1]; var bz = base[i * 3 + 2];
         var n = noise(bx * 0.012 + clock, by * 0.012 + clock * 0.7) * 4;
+        var shiftedZ = bz + dz * CAM_SLOW;
+        if (shiftedZ > camZ + 8) {
+          base[i * 3 + 2] -= CLOUD_DEPTH; bz = base[i * 3 + 2];
+          if (i < GRID_COUNT && frozenReady) frozenStart[i * 3 + 2] -= CLOUD_DEPTH;
+        }
+        if (shiftedZ < camZ - half - 10) {
+          base[i * 3 + 2] += CLOUD_DEPTH; bz = base[i * 3 + 2];
+          if (i < GRID_COUNT && frozenReady) frozenStart[i * 3 + 2] += CLOUD_DEPTH;
+        }
+        var cloudZ = bz + dz * CAM_SLOW;
 
-        pos[i * 3] = bx + n * 0.6;
-        pos[i * 3 + 1] = by + n * 0.4;
-        pos[i * 3 + 2] = bz2 + dz * slowFactor + n * 0.3;
+        if (i < GRID_COUNT) {
+          var ni = nearestNode[i];
+          var gx = gridTarget[ni * 3];
+          var gy = gridTarget[ni * 3 + 1];
+
+          if (g === 0) {
+            pos[i * 3] = bx + n * 0.6; pos[i * 3 + 1] = by + n * 0.4; pos[i * 3 + 2] = cloudZ + n * 0.3;
+          } else if (g < 1) {
+            if (!frozenReady) {
+              for (var j = 0; j < GRID_COUNT; j++) {
+                var bxj = base[j * 3], byj = base[j * 3 + 1], bzj = base[j * 3 + 2];
+                var nj = noise(bxj * 0.012 + clock, byj * 0.012 + clock * 0.7) * 4;
+                frozenStart[j * 3] = bxj + nj * 0.6;
+                frozenStart[j * 3 + 1] = byj + nj * 0.4;
+                frozenStart[j * 3 + 2] = bzj + dz * CAM_SLOW + nj * 0.3;
+              }
+              frozenReady = true;
+            }
+            var sx = frozenStart[i * 3], sy = frozenStart[i * 3 + 1], sz = frozenStart[i * 3 + 2];
+            var gz = cloudZ;
+            pos[i * 3] = sx * (1 - g) + gx * g;
+            pos[i * 3 + 1] = sy * (1 - g) + gy * g;
+            pos[i * 3 + 2] = sz * (1 - g) + gz * g;
+          } else {
+            var snapX = Math.round(bx / GRID_STEP) * GRID_STEP;
+            var snapY = Math.round(by / GRID_STEP) * GRID_STEP;
+            pos[i * 3] = snapX;
+            pos[i * 3 + 1] = snapY;
+            pos[i * 3 + 2] = cloudZ;
+          }
+
+          colArr[i * 3] = baseColors[i * 3] * (1 - g) + cGrid.r * g;
+          colArr[i * 3 + 1] = baseColors[i * 3 + 1] * (1 - g) + cGrid.g * g;
+          colArr[i * 3 + 2] = baseColors[i * 3 + 2] * (1 - g) + cGrid.b * g;
+        } else {
+          pos[i * 3] = bx + n * 0.6; pos[i * 3 + 1] = by + n * 0.4; pos[i * 3 + 2] = cloudZ + n * 0.3;
+          colArr[i * 3] = baseColors[i * 3]; colArr[i * 3 + 1] = baseColors[i * 3 + 1]; colArr[i * 3 + 2] = baseColors[i * 3 + 2];
+        }
       }
       geo.attributes.position.needsUpdate = true;
+      colAttr.needsUpdate = true;
 
-      tx += (mx - tx) * 0.04;
-      ty += (my - ty) * 0.04;
+      tx += (mx - tx) * 0.04; ty += (my - ty) * 0.04;
       var pScale = Math.max(0.3, 1 - pct * 0.5);
       points.rotation.y = tx * 0.18 * pScale + clock * 0.06;
       points.rotation.x = -ty * 0.12 * pScale;
