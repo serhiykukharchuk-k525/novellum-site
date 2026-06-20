@@ -96,7 +96,7 @@
 
     var CAM_START = 80;
     var CAM_END = 20;
-    var HERO_VH = 1.0;
+    var HERO_VH = 0;
     camera.position.z = CAM_START;
 
     function resize() {
@@ -123,7 +123,7 @@
       return 70 * (n0 + n1 + n2);
     }
 
-    var COUNT = isMobile ? 10000 : 22000;
+    var COUNT = isMobile ? 16000 : 35000;
     var SPREAD = 130;
     var CLOUD_DEPTH = 200;
 
@@ -209,7 +209,7 @@
       var scrollableAfterHero = Math.max(1, totalH - heroOffset);
       var pct = Math.min(scrollAfterHero / scrollableAfterHero, 1);
 
-      var slowFactor = 0.45;
+      var slowFactor = 1;
       var targetZ = CAM_START + (CAM_END - CAM_START) * pct * slowFactor;
       camZ += (targetZ - camZ) * 0.12;
       camera.position.z = camZ;
