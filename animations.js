@@ -75,8 +75,10 @@
     window.addEventListener('resize', update, { passive: true });
   }
 
-  // ── 1. PARTICLE FIELD (DNA Capital style — fixed full-viewport bg) ─
+  // ── 1. PARTICLE FIELD (Three.js infinite cloud + connected constellation) ─
   function initParticleField() {
+    if (typeof THREE === 'undefined') return;
+
     var heroEl = document.querySelector('.hero');
     var canvas = document.createElement('canvas');
     canvas.id = 'novellum-canvas';
@@ -85,59 +87,157 @@
     } else {
       document.body.prepend(canvas);
     }
-    var ctx = canvas.getContext('2d');
-    var W, H, ratio;
-    var N = isMobile ? 80 : 180;
-    var CONNECT_DIST = isMobile ? 55 : 80;
-    var particles = [];
+
+    var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: false });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1 : 1.5));
+
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, .1, 300);
+
+    var CLOUD_DEPTH = 200;
+    var SPREAD = 130;
+    var CAM_START = 80, CAM_END = 20;
 
     function resize() {
-      W = window.innerWidth;
-      H = window.innerHeight;
-      ratio = Math.min(window.devicePixelRatio || 1, isMobile ? 1 : 1.5);
-      canvas.width = W * ratio;
-      canvas.height = H * ratio;
-      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
     }
     resize();
     window.addEventListener('resize', resize, { passive: true });
 
+    // ── dense cloud layer (no connections, gives depth/atmosphere) ──
+    var CLOUD_N = isMobile ? 1800 : 4500;
+    var cloudGeo = new THREE.BufferGeometry();
+    var cloudPos = new Float32Array(CLOUD_N * 3);
+    for (var i = 0; i < CLOUD_N; i++) {
+      cloudPos[i * 3] = (Math.random() - .5) * SPREAD;
+      cloudPos[i * 3 + 1] = (Math.random() - .5) * SPREAD;
+      cloudPos[i * 3 + 2] = Math.random() * CLOUD_DEPTH - CAM_START;
+    }
+    cloudGeo.setAttribute('position', new THREE.BufferAttribute(cloudPos, 3));
+    var cloudMat = new THREE.PointsMaterial({
+      color: 0xd4b886,
+      size: isMobile ? 0.55 : 0.65,
+      transparent: true,
+      opacity: .35,
+      sizeAttenuation: true,
+      depthWrite: false,
+    });
+    var cloud = new THREE.Points(cloudGeo, cloudMat);
+    scene.add(cloud);
+
+    // ── sparse constellation layer (connected by lines, near camera) ──
+    var N = isMobile ? 80 : 180;
+    var CONNECT_DIST = isMobile ? 9 : 12;
+    var STAGE_DEPTH = 40;
+    var nodes = [];
+    var nodeGeo = new THREE.BufferGeometry();
+    var nodePos = new Float32Array(N * 3);
     for (var i = 0; i < N; i++) {
-      particles.push({
-        x: Math.random() * window.innerWidth,
-        y: Math.random() * window.innerHeight,
-        vx: (Math.random() - .5) * .22,
-        vy: (Math.random() - .5) * .22,
-        r: .5 + Math.random(),
-        a: .06 + Math.random() * .12,
-      });
+      var node = {
+        x: (Math.random() - .5) * 60,
+        y: (Math.random() - .5) * 40,
+        z: Math.random() * STAGE_DEPTH,
+        vx: (Math.random() - .5) * .02,
+        vy: (Math.random() - .5) * .02,
+      };
+      nodes.push(node);
+      nodePos[i * 3] = node.x;
+      nodePos[i * 3 + 1] = node.y;
+      nodePos[i * 3 + 2] = node.z - CAM_START;
+    }
+    nodeGeo.setAttribute('position', new THREE.BufferAttribute(nodePos, 3));
+    var nodeMat = new THREE.PointsMaterial({
+      color: 0xd4b886,
+      size: isMobile ? 1.1 : 1.3,
+      transparent: true,
+      opacity: .65,
+      sizeAttenuation: true,
+      depthWrite: false,
+    });
+    var nodePoints = new THREE.Points(nodeGeo, nodeMat);
+    scene.add(nodePoints);
+
+    var maxLineSegs = N * 6;
+    var linePos = new Float32Array(maxLineSegs * 2 * 3);
+    var lineAlpha = new Float32Array(maxLineSegs * 2);
+    var lineGeo = new THREE.BufferGeometry();
+    lineGeo.setAttribute('position', new THREE.BufferAttribute(linePos, 3));
+    lineGeo.setAttribute('alpha', new THREE.BufferAttribute(lineAlpha, 1));
+    var lineMat = new THREE.ShaderMaterial({
+      transparent: true,
+      depthWrite: false,
+      uniforms: { color: { value: new THREE.Color(0xd4b886) } },
+      vertexShader: 'attribute float alpha; varying float vAlpha; void main(){ vAlpha = alpha; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
+      fragmentShader: 'uniform vec3 color; varying float vAlpha; void main(){ gl_FragColor = vec4(color, vAlpha); }',
+    });
+    var lines = new THREE.LineSegments(lineGeo, lineMat);
+    scene.add(lines);
+
+    // ── scroll-driven camera dolly across the whole page ──
+    var camZ = CAM_START;
+    function scrollProgress() {
+      var doc = document.documentElement;
+      var max = (doc.scrollHeight - window.innerHeight) || 1;
+      return Math.max(0, Math.min(1, window.scrollY / max));
     }
 
     function tick() {
-      ctx.clearRect(0, 0, W, H);
+      var p = scrollProgress();
+      camZ = CAM_START + (CAM_END - CAM_START) * p;
+      camera.position.z = camZ;
+
+      // recycle cloud particles that fall behind the camera back to the far end
+      var posAttr = cloud.geometry.attributes.position.array;
+      for (var i = 0; i < CLOUD_N; i++) {
+        var idx = i * 3 + 2;
+        if (posAttr[idx] > camZ - 1) posAttr[idx] -= CLOUD_DEPTH;
+        if (posAttr[idx] < camZ - CLOUD_DEPTH - 1) posAttr[idx] += CLOUD_DEPTH;
+      }
+      cloud.geometry.attributes.position.needsUpdate = true;
+
+      // drift + recycle constellation nodes, rebuild line segments
+      var np = nodePoints.geometry.attributes.position.array;
       for (var i = 0; i < N; i++) {
-        var p = particles[i];
-        p.x += p.vx; p.y += p.vy;
-        if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
-        if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(212,184,134,' + p.a.toFixed(3) + ')';
-        ctx.fill();
-        for (var j = i + 1; j < N; j++) {
-          var q = particles[j];
-          var dx = p.x - q.x, dy = p.y - q.y;
-          var d = Math.sqrt(dx * dx + dy * dy);
+        var n = nodes[i];
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < -30) n.x = 30; if (n.x > 30) n.x = -30;
+        if (n.y < -20) n.y = 20; if (n.y > 20) n.y = -20;
+        if (n.z < camZ - 1) n.z += STAGE_DEPTH;
+        if (n.z > camZ + STAGE_DEPTH - 1) n.z -= STAGE_DEPTH;
+        np[i * 3] = n.x;
+        np[i * 3 + 1] = n.y;
+        np[i * 3 + 2] = n.z - CAM_START;
+      }
+      nodePoints.geometry.attributes.position.needsUpdate = true;
+
+      var segCount = 0;
+      for (var i = 0; i < N && segCount < maxLineSegs; i++) {
+        for (var j = i + 1; j < N && segCount < maxLineSegs; j++) {
+          var a = nodes[i], b = nodes[j];
+          var dx = a.x - b.x, dy = a.y - b.y, dz = a.z - b.z;
+          var d = Math.sqrt(dx * dx + dy * dy + dz * dz);
           if (d < CONNECT_DIST) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(q.x, q.y);
-            ctx.strokeStyle = 'rgba(212,184,134,' + (0.14 * (1 - d / CONNECT_DIST)).toFixed(3) + ')';
-            ctx.lineWidth = .5;
-            ctx.stroke();
+            var base = segCount * 2 * 3;
+            linePos[base] = a.x; linePos[base + 1] = a.y; linePos[base + 2] = a.z - CAM_START;
+            linePos[base + 3] = b.x; linePos[base + 4] = b.y; linePos[base + 5] = b.z - CAM_START;
+            var al = 0.5 * (1 - d / CONNECT_DIST);
+            lineAlpha[segCount * 2] = al;
+            lineAlpha[segCount * 2 + 1] = al;
+            segCount++;
           }
         }
       }
+      for (var k = segCount; k < maxLineSegs; k++) {
+        lineAlpha[k * 2] = 0;
+        lineAlpha[k * 2 + 1] = 0;
+      }
+      lineGeo.attributes.position.needsUpdate = true;
+      lineGeo.attributes.alpha.needsUpdate = true;
+      lineGeo.setDrawRange(0, segCount * 2);
+
+      renderer.render(scene, camera);
       requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
