@@ -75,7 +75,7 @@
     window.addEventListener('resize', update, { passive: true });
   }
 
-  // ── 1. PARTICLE FIELD (Three.js infinite cloud + connected constellation) ─
+  // ── 1. PARTICLE FIELD (Three.js infinite noise-driven cloud — 1:1 port) ──
   function initParticleField() {
     if (typeof THREE === 'undefined') return;
 
@@ -88,15 +88,16 @@
       document.body.prepend(canvas);
     }
 
-    var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: false });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1 : 1.5));
+    var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 
     var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, .1, 300);
+    var camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-    var CLOUD_DEPTH = 200;
-    var SPREAD = 130;
-    var CAM_START = 80, CAM_END = 20;
+    var CAM_START = 80;
+    var CAM_END = 20;
+    var HERO_VH = 1.0;
+    camera.position.z = CAM_START;
 
     function resize() {
       renderer.setSize(window.innerWidth, window.innerHeight);
@@ -106,139 +107,141 @@
     resize();
     window.addEventListener('resize', resize, { passive: true });
 
-    // ── dense cloud layer (no connections, gives depth/atmosphere) ──
-    var CLOUD_N = isMobile ? 1800 : 4500;
-    var cloudGeo = new THREE.BufferGeometry();
-    var cloudPos = new Float32Array(CLOUD_N * 3);
-    for (var i = 0; i < CLOUD_N; i++) {
-      cloudPos[i * 3] = (Math.random() - .5) * SPREAD;
-      cloudPos[i * 3 + 1] = (Math.random() - .5) * SPREAD;
-      cloudPos[i * 3 + 2] = Math.random() * CLOUD_DEPTH - CAM_START;
+    function noise(x, y) {
+      var F2 = 0.5 * (Math.sqrt(3) - 1), G2 = (3 - Math.sqrt(3)) / 6;
+      var s = (x + y) * F2, i = Math.floor(x + s), j = Math.floor(y + s);
+      var t = (i + j) * G2, x0 = x - (i - t), y0 = y - (j - t);
+      var i1 = x0 > y0 ? 1 : 0, j1 = x0 > y0 ? 0 : 1;
+      var x1 = x0 - i1 + G2, y1 = y0 - j1 + G2, x2 = x0 - 1 + 2 * G2, y2 = y0 - 1 + 2 * G2;
+      function g(ix, iy, dx, dy) {
+        var h = (ix * 1031 + iy * 2999) & 7;
+        return [1, 1, -1, -1, 1, -1, 1, -1][h] * dx + [1, -1, 1, -1, -1, 1, 1, -1][h] * dy;
+      }
+      var t0 = 0.5 - x0 * x0 - y0 * y0, n0 = t0 < 0 ? 0 : t0 * t0 * t0 * t0 * g(i, j, x0, y0);
+      var t1 = 0.5 - x1 * x1 - y1 * y1, n1 = t1 < 0 ? 0 : t1 * t1 * t1 * t1 * g(i + i1, j + j1, x1, y1);
+      var t2 = 0.5 - x2 * x2 - y2 * y2, n2 = t2 < 0 ? 0 : t2 * t2 * t2 * t2 * g(i + 1, j + 1, x2, y2);
+      return 70 * (n0 + n1 + n2);
     }
-    cloudGeo.setAttribute('position', new THREE.BufferAttribute(cloudPos, 3));
-    var cloudMat = new THREE.PointsMaterial({
-      color: 0xd4b886,
-      size: isMobile ? 0.55 : 0.65,
-      transparent: true,
-      opacity: .35,
-      sizeAttenuation: true,
-      depthWrite: false,
-    });
-    var cloud = new THREE.Points(cloudGeo, cloudMat);
-    scene.add(cloud);
 
-    // ── sparse constellation layer (connected by lines, near camera) ──
-    var N = isMobile ? 80 : 180;
-    var CONNECT_DIST = isMobile ? 9 : 12;
-    var STAGE_DEPTH = 40;
-    var nodes = [];
-    var nodeGeo = new THREE.BufferGeometry();
-    var nodePos = new Float32Array(N * 3);
-    for (var i = 0; i < N; i++) {
-      var node = {
-        x: (Math.random() - .5) * 60,
-        y: (Math.random() - .5) * 40,
-        z: Math.random() * STAGE_DEPTH,
-        vx: (Math.random() - .5) * .02,
-        vy: (Math.random() - .5) * .02,
-      };
-      nodes.push(node);
-      nodePos[i * 3] = node.x;
-      nodePos[i * 3 + 1] = node.y;
-      nodePos[i * 3 + 2] = node.z - CAM_START;
+    var COUNT = isMobile ? 10000 : 22000;
+    var SPREAD = 130;
+    var CLOUD_DEPTH = 200;
+
+    var geo = new THREE.BufferGeometry();
+    var positions = new Float32Array(COUNT * 3);
+    var base = new Float32Array(COUNT * 3);
+    var colors = new Float32Array(COUNT * 3);
+    var sizes = new Float32Array(COUNT);
+
+    var c1 = new THREE.Color('#D4B886');
+    var c2 = new THREE.Color('#4a8c6a');
+    var c3 = new THREE.Color('#F4EFE5');
+
+    for (var i = 0; i < COUNT; i++) {
+      var x = (Math.random() - 0.5) * SPREAD;
+      var y = (Math.random() - 0.5) * SPREAD;
+      var z = CAM_START - CLOUD_DEPTH * 0.5 + Math.random() * CLOUD_DEPTH;
+      positions[i * 3] = base[i * 3] = x;
+      positions[i * 3 + 1] = base[i * 3 + 1] = y;
+      positions[i * 3 + 2] = base[i * 3 + 2] = z;
+      var t = Math.random();
+      var col = t < 0.1 ? c1 : t < 0.25 ? c3 : c2;
+      colors[i * 3] = col.r; colors[i * 3 + 1] = col.g; colors[i * 3 + 2] = col.b;
+      sizes[i] = Math.random() * 1.2 + 0.3;
     }
-    nodeGeo.setAttribute('position', new THREE.BufferAttribute(nodePos, 3));
-    var nodeMat = new THREE.PointsMaterial({
-      color: 0xd4b886,
-      size: isMobile ? 1.1 : 1.3,
-      transparent: true,
-      opacity: .65,
-      sizeAttenuation: true,
-      depthWrite: false,
-    });
-    var nodePoints = new THREE.Points(nodeGeo, nodeMat);
-    scene.add(nodePoints);
 
-    var maxLineSegs = N * 6;
-    var linePos = new Float32Array(maxLineSegs * 2 * 3);
-    var lineAlpha = new Float32Array(maxLineSegs * 2);
-    var lineGeo = new THREE.BufferGeometry();
-    lineGeo.setAttribute('position', new THREE.BufferAttribute(linePos, 3));
-    lineGeo.setAttribute('alpha', new THREE.BufferAttribute(lineAlpha, 1));
-    var lineMat = new THREE.ShaderMaterial({
-      transparent: true,
-      depthWrite: false,
-      uniforms: { color: { value: new THREE.Color(0xd4b886) } },
-      vertexShader: 'attribute float alpha; varying float vAlpha; void main(){ vAlpha = alpha; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
-      fragmentShader: 'uniform vec3 color; varying float vAlpha; void main(){ gl_FragColor = vec4(color, vAlpha); }',
-    });
-    var lines = new THREE.LineSegments(lineGeo, lineMat);
-    scene.add(lines);
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    geo.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
-    // ── scroll-driven camera dolly across the whole page ──
+    var mat = new THREE.ShaderMaterial({
+      vertexColors: true, transparent: true, depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      vertexShader: [
+        'attribute float size; varying vec3 vColor; varying float vViewZ;',
+        'void main() {',
+        '  vColor = color;',
+        '  vec4 mv = modelViewMatrix * vec4(position, 1.0);',
+        '  vViewZ = -mv.z;',
+        '  gl_PointSize = size * (220.0 / -mv.z);',
+        '  gl_Position = projectionMatrix * mv;',
+        '}',
+      ].join('\n'),
+      fragmentShader: [
+        'varying vec3 vColor; varying float vViewZ;',
+        'void main() {',
+        '  float d = length(gl_PointCoord - 0.5);',
+        '  if (d > 0.5) discard;',
+        '  float a = 1.0 - smoothstep(0.2, 0.5, d);',
+        '  float nearFade = smoothstep(2.0, 12.0, vViewZ);',
+        '  gl_FragColor = vec4(vColor, a * 0.85 * nearFade);',
+        '}',
+      ].join('\n'),
+    });
+
+    var points = new THREE.Points(geo, mat);
+    scene.add(points);
+
+    var mx = 0, my = 0, tx = 0, ty = 0;
+    document.addEventListener('mousemove', function (e) {
+      mx = (e.clientX / window.innerWidth - 0.5) * 2;
+      my = (e.clientY / window.innerHeight - 0.5) * 2;
+    }, { passive: true });
+    document.addEventListener('touchmove', function (e) {
+      mx = (e.touches[0].clientX / window.innerWidth - 0.5) * 2;
+      my = (e.touches[0].clientY / window.innerHeight - 0.5) * 2;
+    }, { passive: true });
+
+    var rawScroll = 0;
+    window.addEventListener('scroll', function () { rawScroll = window.scrollY; }, { passive: true });
+
+    var clock = 0;
     var camZ = CAM_START;
-    function scrollProgress() {
-      var doc = document.documentElement;
-      var max = (doc.scrollHeight - window.innerHeight) || 1;
-      return Math.max(0, Math.min(1, window.scrollY / max));
-    }
 
     function tick() {
-      var p = scrollProgress();
-      camZ = CAM_START + (CAM_END - CAM_START) * p;
+      requestAnimationFrame(tick);
+      clock += 0.0004;
+
+      var vh = window.innerHeight;
+      var totalH = document.body.scrollHeight - vh;
+      var heroOffset = HERO_VH * vh;
+      var scrollAfterHero = Math.max(0, rawScroll - heroOffset);
+      var scrollableAfterHero = Math.max(1, totalH - heroOffset);
+      var pct = Math.min(scrollAfterHero / scrollableAfterHero, 1);
+
+      var slowFactor = 0.45;
+      var targetZ = CAM_START + (CAM_END - CAM_START) * pct * slowFactor;
+      camZ += (targetZ - camZ) * 0.12;
       camera.position.z = camZ;
 
-      // recycle cloud particles that fall behind the camera back to the far end
-      var posAttr = cloud.geometry.attributes.position.array;
-      for (var i = 0; i < CLOUD_N; i++) {
-        var idx = i * 3 + 2;
-        if (posAttr[idx] > camZ - 1) posAttr[idx] -= CLOUD_DEPTH;
-        if (posAttr[idx] < camZ - CLOUD_DEPTH - 1) posAttr[idx] += CLOUD_DEPTH;
-      }
-      cloud.geometry.attributes.position.needsUpdate = true;
+      var half = CLOUD_DEPTH * 0.5;
+      var pos = geo.attributes.position.array;
 
-      // drift + recycle constellation nodes, rebuild line segments
-      var np = nodePoints.geometry.attributes.position.array;
-      for (var i = 0; i < N; i++) {
-        var n = nodes[i];
-        n.x += n.vx; n.y += n.vy;
-        if (n.x < -30) n.x = 30; if (n.x > 30) n.x = -30;
-        if (n.y < -20) n.y = 20; if (n.y > 20) n.y = -20;
-        if (n.z < camZ - 1) n.z += STAGE_DEPTH;
-        if (n.z > camZ + STAGE_DEPTH - 1) n.z -= STAGE_DEPTH;
-        np[i * 3] = n.x;
-        np[i * 3 + 1] = n.y;
-        np[i * 3 + 2] = n.z - CAM_START;
-      }
-      nodePoints.geometry.attributes.position.needsUpdate = true;
+      for (var i = 0; i < COUNT; i++) {
+        var bx = base[i * 3], by = base[i * 3 + 1];
+        var bz = base[i * 3 + 2];
+        var dz = camZ - CAM_START;
+        var shiftedZ = bz + dz * slowFactor;
 
-      var segCount = 0;
-      for (var i = 0; i < N && segCount < maxLineSegs; i++) {
-        for (var j = i + 1; j < N && segCount < maxLineSegs; j++) {
-          var a = nodes[i], b = nodes[j];
-          var dx = a.x - b.x, dy = a.y - b.y, dz = a.z - b.z;
-          var d = Math.sqrt(dx * dx + dy * dy + dz * dz);
-          if (d < CONNECT_DIST) {
-            var base = segCount * 2 * 3;
-            linePos[base] = a.x; linePos[base + 1] = a.y; linePos[base + 2] = a.z - CAM_START;
-            linePos[base + 3] = b.x; linePos[base + 4] = b.y; linePos[base + 5] = b.z - CAM_START;
-            var al = 0.5 * (1 - d / CONNECT_DIST);
-            lineAlpha[segCount * 2] = al;
-            lineAlpha[segCount * 2 + 1] = al;
-            segCount++;
-          }
-        }
+        if (shiftedZ > camZ + 8) base[i * 3 + 2] -= CLOUD_DEPTH;
+        if (shiftedZ < camZ - half - 10) base[i * 3 + 2] += CLOUD_DEPTH;
+
+        var bz2 = base[i * 3 + 2];
+        var n = noise(bx * 0.012 + clock, by * 0.012 + clock * 0.7) * 4;
+
+        pos[i * 3] = bx + n * 0.6;
+        pos[i * 3 + 1] = by + n * 0.4;
+        pos[i * 3 + 2] = bz2 + dz * slowFactor + n * 0.3;
       }
-      for (var k = segCount; k < maxLineSegs; k++) {
-        lineAlpha[k * 2] = 0;
-        lineAlpha[k * 2 + 1] = 0;
-      }
-      lineGeo.attributes.position.needsUpdate = true;
-      lineGeo.attributes.alpha.needsUpdate = true;
-      lineGeo.setDrawRange(0, segCount * 2);
+      geo.attributes.position.needsUpdate = true;
+
+      tx += (mx - tx) * 0.04;
+      ty += (my - ty) * 0.04;
+      var pScale = Math.max(0.3, 1 - pct * 0.5);
+      points.rotation.y = tx * 0.18 * pScale + clock * 0.06;
+      points.rotation.x = -ty * 0.12 * pScale;
 
       renderer.render(scene, camera);
-      requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
   }
