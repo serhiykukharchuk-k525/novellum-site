@@ -109,74 +109,124 @@
     resize();
     window.addEventListener('resize', resize, { passive: true });
 
-    var GX = [1, 1, -1, -1, 1, -1, 1, -1], GY = [1, -1, 1, -1, -1, 1, 1, -1];
-    function noiseGrad(ix, iy, dx, dy) {
-      var h = (ix * 1031 + iy * 2999) & 7;
-      return GX[h] * dx + GY[h] * dy;
-    }
-    function noise(x, y) {
-      var F2 = 0.5 * (Math.sqrt(3) - 1), G2 = (3 - Math.sqrt(3)) / 6;
-      var s = (x + y) * F2, i = Math.floor(x + s), j = Math.floor(y + s);
-      var t = (i + j) * G2, x0 = x - (i - t), y0 = y - (j - t);
-      var i1 = x0 > y0 ? 1 : 0, j1 = x0 > y0 ? 0 : 1;
-      var x1 = x0 - i1 + G2, y1 = y0 - j1 + G2, x2 = x0 - 1 + 2 * G2, y2 = y0 - 1 + 2 * G2;
-      var t0 = 0.5 - x0 * x0 - y0 * y0, n0 = t0 < 0 ? 0 : t0 * t0 * t0 * t0 * noiseGrad(i, j, x0, y0);
-      var t1 = 0.5 - x1 * x1 - y1 * y1, n1 = t1 < 0 ? 0 : t1 * t1 * t1 * t1 * noiseGrad(i + i1, j + j1, x1, y1);
-      var t2 = 0.5 - x2 * x2 - y2 * y2, n2 = t2 < 0 ? 0 : t2 * t2 * t2 * t2 * noiseGrad(i + 1, j + 1, x2, y2);
-      return 70 * (n0 + n1 + n2);
-    }
-
     var COUNT = isMobile ? 7000 : 16000;
     var SPREAD = 90;
     var GRID_N = 22, GRID_STEP = 9, GRID_COUNT = GRID_N * GRID_N * GRID_N;
+    var CAM_HALF = CLOUD_DEPTH * 0.5;
 
     var geo = new THREE.BufferGeometry();
     var positions = new Float32Array(COUNT * 3);
-    var base = new Float32Array(COUNT * 3);
-    var gridTarget = new Float32Array(GRID_COUNT * 3);
+    var gridTargets = new Float32Array(COUNT * 3);
+    var isGridArr = new Float32Array(COUNT);
     var baseColors = new Float32Array(COUNT * 3);
-    var colors = new Float32Array(COUNT * 3);
     var sizes = new Float32Array(COUNT);
 
-    var c1 = new THREE.Color('#D4B886'), c2 = new THREE.Color('#4a8c6a'), c3 = new THREE.Color('#F4EFE5'), cGrid = new THREE.Color('#D4B886');
+    var c1 = new THREE.Color('#D4B886'), c2 = new THREE.Color('#4a8c6a'), c3 = new THREE.Color('#F4EFE5');
 
     var gHalf = (GRID_N - 1) * GRID_STEP / 2;
-    for (var gi = 0; gi < GRID_N; gi++) {
-      for (var gj = 0; gj < GRID_N; gj++) {
-        for (var gk = 0; gk < GRID_N; gk++) {
-          var idx = gi * GRID_N * GRID_N + gj * GRID_N + gk;
-          gridTarget[idx * 3] = gi * GRID_STEP - gHalf;
-          gridTarget[idx * 3 + 1] = gj * GRID_STEP - gHalf;
-          gridTarget[idx * 3 + 2] = gk * GRID_STEP - gHalf;
-        }
-      }
+    function nearestGridXY(px, py) {
+      var gi2 = Math.max(0, Math.min(GRID_N - 1, Math.round((px + gHalf) / GRID_STEP)));
+      var gj2 = Math.max(0, Math.min(GRID_N - 1, Math.round((py + gHalf) / GRID_STEP)));
+      return [gi2 * GRID_STEP - gHalf, gj2 * GRID_STEP - gHalf];
     }
 
     for (var i = 0; i < COUNT; i++) {
       var x = (Math.random() - 0.5) * SPREAD, y = (Math.random() - 0.5) * SPREAD;
       var z = CAM_START - CLOUD_DEPTH * 0.5 + Math.random() * CLOUD_DEPTH;
-      positions[i * 3] = base[i * 3] = x;
-      positions[i * 3 + 1] = base[i * 3 + 1] = y;
-      positions[i * 3 + 2] = base[i * 3 + 2] = z;
+      positions[i * 3] = x;
+      positions[i * 3 + 1] = y;
+      positions[i * 3 + 2] = z;
       var t = Math.random();
       var col = t < 0.1 ? c1 : t < 0.25 ? c3 : c2;
-      colors[i * 3] = baseColors[i * 3] = col.r;
-      colors[i * 3 + 1] = baseColors[i * 3 + 1] = col.g;
-      colors[i * 3 + 2] = baseColors[i * 3 + 2] = col.b;
+      baseColors[i * 3] = col.r;
+      baseColors[i * 3 + 1] = col.g;
+      baseColors[i * 3 + 2] = col.b;
       sizes[i] = Math.random() * 1.2 + 0.3;
+
+      if (i < GRID_COUNT) {
+        isGridArr[i] = 1;
+        var gxy = nearestGridXY(x, y);
+        var gk = i % GRID_N;
+        gridTargets[i * 3] = gxy[0];
+        gridTargets[i * 3 + 1] = gxy[1];
+        gridTargets[i * 3 + 2] = gk * GRID_STEP - gHalf;
+      }
     }
 
     geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    geo.setAttribute('color', new THREE.BufferAttribute(baseColors, 3));
     geo.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+    geo.setAttribute('gridTarget', new THREE.BufferAttribute(gridTargets, 3));
+    geo.setAttribute('isGrid', new THREE.BufferAttribute(isGridArr, 1));
+
+    var cGrid = new THREE.Color('#D4B886');
 
     var mat = new THREE.ShaderMaterial({
-      vertexColors: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+      uniforms: {
+        uClock: { value: 0 },
+        uFrozenClock: { value: 0 },
+        uDz: { value: 0 },
+        uFrozenDz: { value: 0 },
+        uCamZ: { value: CAM_START },
+        uFrozenCamZ: { value: CAM_START },
+        uG: { value: 0 },
+        uColorGrid: { value: new THREE.Vector3(cGrid.r, cGrid.g, cGrid.b) },
+      },
+      transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
       vertexShader: [
-        'attribute float size; varying vec3 vColor; varying float vViewZ;',
+        'attribute float size; attribute vec3 gridTarget; attribute float isGrid;',
+        'uniform float uClock, uFrozenClock, uDz, uFrozenDz, uCamZ, uFrozenCamZ, uG;',
+        'uniform vec3 uColorGrid;',
+        'varying vec3 vColor; varying float vViewZ;',
+        'const float CAM_START = ' + CAM_START.toFixed(1) + ';',
+        'const float CAM_SLOW = ' + CAM_SLOW.toFixed(3) + ';',
+        'const float CLOUD_DEPTH = ' + CLOUD_DEPTH.toFixed(1) + ';',
+        'const float CAM_HALF = ' + CAM_HALF.toFixed(1) + ';',
+        'const float GRID_STEP = ' + GRID_STEP.toFixed(1) + ';',
+        'float gmod(float x, float y) { return x - y * floor(x / y); }',
+        'vec2 grad2(float ix, float iy) {',
+        '  float h = fract(sin(ix * 127.1 + iy * 311.7) * 43758.5453);',
+        '  float a = h * 6.2831853;',
+        '  return vec2(cos(a), sin(a));',
+        '}',
+        'float noise(float x, float y) {',
+        '  float F2 = 0.5 * (sqrt(3.0) - 1.0), G2 = (3.0 - sqrt(3.0)) / 6.0;',
+        '  float s = (x + y) * F2, i = floor(x + s), j = floor(y + s);',
+        '  float t = (i + j) * G2, x0 = x - (i - t), y0 = y - (j - t);',
+        '  float i1 = x0 > y0 ? 1.0 : 0.0, j1 = x0 > y0 ? 0.0 : 1.0;',
+        '  float x1 = x0 - i1 + G2, y1 = y0 - j1 + G2, x2 = x0 - 1.0 + 2.0 * G2, y2 = y0 - 1.0 + 2.0 * G2;',
+        '  float t0 = 0.5 - x0 * x0 - y0 * y0, n0 = t0 < 0.0 ? 0.0 : pow(t0, 4.0) * dot(grad2(i, j), vec2(x0, y0));',
+        '  float t1 = 0.5 - x1 * x1 - y1 * y1, n1 = t1 < 0.0 ? 0.0 : pow(t1, 4.0) * dot(grad2(i + i1, j + j1), vec2(x1, y1));',
+        '  float t2 = 0.5 - x2 * x2 - y2 * y2, n2 = t2 < 0.0 ? 0.0 : pow(t2, 4.0) * dot(grad2(i + 1.0, j + 1.0), vec2(x2, y2));',
+        '  return 70.0 * (n0 + n1 + n2);',
+        '}',
+        'vec3 wander(vec3 base, float clock_, float dz, float camZ) {',
+        '  float n = noise(base.x * 0.012 + clock_, base.y * 0.012 + clock_ * 0.7) * 4.0;',
+        '  float shifted = base.z + dz * CAM_SLOW;',
+        '  float wrapped = gmod(shifted - camZ + CAM_HALF, CLOUD_DEPTH) - CAM_HALF;',
+        '  float cloudZ = camZ + wrapped;',
+        '  return vec3(base.x + n * 0.6, base.y + n * 0.4, cloudZ + n * 0.3);',
+        '}',
         'void main() {',
-        '  vColor = color;',
-        '  vec4 mv = modelViewMatrix * vec4(position, 1.0);',
+        '  vec3 live = wander(position, uClock, uDz, uCamZ);',
+        '  vec3 finalPos = live;',
+        '  float gridMix = 0.0;',
+        '  if (isGrid > 0.5) {',
+        '    if (uG > 0.0001) {',
+        '      vec3 frozen = wander(position, uFrozenClock, uFrozenDz, uFrozenCamZ);',
+        '      vec3 gridPos = vec3(gridTarget.x, gridTarget.y, live.z);',
+        '      if (uG >= 0.9999) {',
+        '        float snapX = floor(position.x / GRID_STEP + 0.5) * GRID_STEP;',
+        '        float snapY = floor(position.y / GRID_STEP + 0.5) * GRID_STEP;',
+        '        finalPos = vec3(snapX, snapY, live.z);',
+        '      } else {',
+        '        finalPos = mix(frozen, gridPos, uG);',
+        '      }',
+        '      gridMix = uG;',
+        '    }',
+        '  }',
+        '  vColor = mix(color, uColorGrid, gridMix);',
+        '  vec4 mv = modelViewMatrix * vec4(finalPos, 1.0);',
         '  vViewZ = -mv.z;',
         '  gl_PointSize = size * (300.0 / -mv.z);',
         '  gl_Position = projectionMatrix * mv;',
@@ -193,25 +243,10 @@
         '}',
       ].join('\n'),
     });
+    mat.vertexColors = true;
 
     var points = new THREE.Points(geo, mat);
     scene.add(points);
-    var colAttr = geo.attributes.color;
-
-    var nearestNode = new Int32Array(GRID_COUNT);
-    (function () {
-      var step = GRID_STEP, N = GRID_N, half = (N - 1) * step / 2;
-      for (var i = 0; i < GRID_COUNT; i++) {
-        var px = base[i * 3], py = base[i * 3 + 1];
-        var gi2 = Math.max(0, Math.min(N - 1, Math.round((px + half) / step)));
-        var gj2 = Math.max(0, Math.min(N - 1, Math.round((py + half) / step)));
-        var gk2 = i % N;
-        nearestNode[i] = gi2 * N * N + gj2 * N + gk2;
-      }
-    })();
-
-    var frozenStart = new Float32Array(GRID_COUNT * 3);
-    var frozenReady = false;
 
     var startY = 0, endY = 0, sectionsReady = false;
     function cacheSections() {
@@ -228,10 +263,12 @@
     document.addEventListener('touchmove', function (e) {
       mx = (e.touches[0].clientX / window.innerWidth - .5) * 2; my = (e.touches[0].clientY / window.innerHeight - .5) * 2;
     }, { passive: true });
-    var rawScroll = 0;
+    var rawScroll = window.scrollY || 0;
     window.addEventListener('scroll', function () { rawScroll = window.scrollY; }, { passive: true });
 
     var clock = 0;
+    var prevG = 0;
+    var u = mat.uniforms;
     function tick() {
       requestAnimationFrame(tick);
       clock += 0.0004;
@@ -240,71 +277,23 @@
 
       var camZ = CAM_START + (CAM_END - CAM_START) * pct;
       camera.position.z = camZ;
+      var dz = camZ - CAM_START;
 
       var g = sectionsReady
         ? Math.max(0, Math.min(1, (rawScroll - startY) / Math.max(1, endY - startY)))
         : 0;
 
-      var pos = geo.attributes.position.array, colArr = colAttr.array;
-      var dz = camZ - CAM_START, half = CLOUD_DEPTH * 0.5;
-
-      if (g === 0 && frozenReady) frozenReady = false;
-
-      for (var i = 0; i < COUNT; i++) {
-        var bx = base[i * 3], by = base[i * 3 + 1]; var bz = base[i * 3 + 2];
-        var n = noise(bx * 0.012 + clock, by * 0.012 + clock * 0.7) * 4;
-        var shiftedZ = bz + dz * CAM_SLOW;
-        if (shiftedZ > camZ + 8) {
-          base[i * 3 + 2] -= CLOUD_DEPTH; bz = base[i * 3 + 2];
-          if (i < GRID_COUNT && frozenReady) frozenStart[i * 3 + 2] -= CLOUD_DEPTH;
-        }
-        if (shiftedZ < camZ - half - 10) {
-          base[i * 3 + 2] += CLOUD_DEPTH; bz = base[i * 3 + 2];
-          if (i < GRID_COUNT && frozenReady) frozenStart[i * 3 + 2] += CLOUD_DEPTH;
-        }
-        var cloudZ = bz + dz * CAM_SLOW;
-
-        if (i < GRID_COUNT) {
-          var ni = nearestNode[i];
-          var gx = gridTarget[ni * 3];
-          var gy = gridTarget[ni * 3 + 1];
-
-          if (g === 0) {
-            pos[i * 3] = bx + n * 0.6; pos[i * 3 + 1] = by + n * 0.4; pos[i * 3 + 2] = cloudZ + n * 0.3;
-          } else if (g < 1) {
-            if (!frozenReady) {
-              for (var j = 0; j < GRID_COUNT; j++) {
-                var bxj = base[j * 3], byj = base[j * 3 + 1], bzj = base[j * 3 + 2];
-                var nj = noise(bxj * 0.012 + clock, byj * 0.012 + clock * 0.7) * 4;
-                frozenStart[j * 3] = bxj + nj * 0.6;
-                frozenStart[j * 3 + 1] = byj + nj * 0.4;
-                frozenStart[j * 3 + 2] = bzj + dz * CAM_SLOW + nj * 0.3;
-              }
-              frozenReady = true;
-            }
-            var sx = frozenStart[i * 3], sy = frozenStart[i * 3 + 1], sz = frozenStart[i * 3 + 2];
-            var gz = cloudZ;
-            pos[i * 3] = sx * (1 - g) + gx * g;
-            pos[i * 3 + 1] = sy * (1 - g) + gy * g;
-            pos[i * 3 + 2] = sz * (1 - g) + gz * g;
-          } else {
-            var snapX = Math.round(bx / GRID_STEP) * GRID_STEP;
-            var snapY = Math.round(by / GRID_STEP) * GRID_STEP;
-            pos[i * 3] = snapX;
-            pos[i * 3 + 1] = snapY;
-            pos[i * 3 + 2] = cloudZ;
-          }
-
-          colArr[i * 3] = baseColors[i * 3] * (1 - g) + cGrid.r * g;
-          colArr[i * 3 + 1] = baseColors[i * 3 + 1] * (1 - g) + cGrid.g * g;
-          colArr[i * 3 + 2] = baseColors[i * 3 + 2] * (1 - g) + cGrid.b * g;
-        } else {
-          pos[i * 3] = bx + n * 0.6; pos[i * 3 + 1] = by + n * 0.4; pos[i * 3 + 2] = cloudZ + n * 0.3;
-          colArr[i * 3] = baseColors[i * 3]; colArr[i * 3 + 1] = baseColors[i * 3 + 1]; colArr[i * 3 + 2] = baseColors[i * 3 + 2];
-        }
+      if (prevG <= 0 && g > 0) {
+        u.uFrozenClock.value = clock;
+        u.uFrozenDz.value = dz;
+        u.uFrozenCamZ.value = camZ;
       }
-      geo.attributes.position.needsUpdate = true;
-      colAttr.needsUpdate = true;
+      prevG = g;
+
+      u.uClock.value = clock;
+      u.uDz.value = dz;
+      u.uCamZ.value = camZ;
+      u.uG.value = g;
 
       tx += (mx - tx) * 0.04; ty += (my - ty) * 0.04;
       var pScale = Math.max(0.3, 1 - pct * 0.5);
