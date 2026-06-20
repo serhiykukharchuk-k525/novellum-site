@@ -89,7 +89,7 @@
     }
 
     var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: false, powerPreference: 'high-performance' });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1 : 2));
 
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -109,7 +109,7 @@
     resize();
     window.addEventListener('resize', resize, { passive: true });
 
-    var COUNT = isMobile ? 7000 : 16000;
+    var COUNT = isMobile ? 3000 : 16000;
     var SPREAD = 90;
     var GRID_N = 22, GRID_STEP = 9, GRID_COUNT = GRID_N * GRID_N * GRID_N;
     var CAM_HALF = CLOUD_DEPTH * 0.5;
@@ -228,7 +228,7 @@
         '  vColor = mix(color, uColorGrid, gridMix);',
         '  vec4 mv = modelViewMatrix * vec4(finalPos, 1.0);',
         '  vViewZ = -mv.z;',
-        '  gl_PointSize = size * (300.0 / -mv.z);',
+        '  gl_PointSize = min(size * (300.0 / -mv.z), 30.0);',
         '  gl_Position = projectionMatrix * mv;',
         '}',
       ].join('\n'),
