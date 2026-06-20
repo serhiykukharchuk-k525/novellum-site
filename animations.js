@@ -88,8 +88,8 @@
       document.body.prepend(canvas);
     }
 
-    var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: false, powerPreference: 'high-performance' });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2));
 
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -109,23 +109,24 @@
     resize();
     window.addEventListener('resize', resize, { passive: true });
 
+    var GX = [1, 1, -1, -1, 1, -1, 1, -1], GY = [1, -1, 1, -1, -1, 1, 1, -1];
+    function noiseGrad(ix, iy, dx, dy) {
+      var h = (ix * 1031 + iy * 2999) & 7;
+      return GX[h] * dx + GY[h] * dy;
+    }
     function noise(x, y) {
       var F2 = 0.5 * (Math.sqrt(3) - 1), G2 = (3 - Math.sqrt(3)) / 6;
       var s = (x + y) * F2, i = Math.floor(x + s), j = Math.floor(y + s);
       var t = (i + j) * G2, x0 = x - (i - t), y0 = y - (j - t);
       var i1 = x0 > y0 ? 1 : 0, j1 = x0 > y0 ? 0 : 1;
       var x1 = x0 - i1 + G2, y1 = y0 - j1 + G2, x2 = x0 - 1 + 2 * G2, y2 = y0 - 1 + 2 * G2;
-      function g(ix, iy, dx, dy) {
-        var h = (ix * 1031 + iy * 2999) & 7;
-        return [1, 1, -1, -1, 1, -1, 1, -1][h] * dx + [1, -1, 1, -1, -1, 1, 1, -1][h] * dy;
-      }
-      var t0 = 0.5 - x0 * x0 - y0 * y0, n0 = t0 < 0 ? 0 : t0 * t0 * t0 * t0 * g(i, j, x0, y0);
-      var t1 = 0.5 - x1 * x1 - y1 * y1, n1 = t1 < 0 ? 0 : t1 * t1 * t1 * t1 * g(i + i1, j + j1, x1, y1);
-      var t2 = 0.5 - x2 * x2 - y2 * y2, n2 = t2 < 0 ? 0 : t2 * t2 * t2 * t2 * g(i + 1, j + 1, x2, y2);
+      var t0 = 0.5 - x0 * x0 - y0 * y0, n0 = t0 < 0 ? 0 : t0 * t0 * t0 * t0 * noiseGrad(i, j, x0, y0);
+      var t1 = 0.5 - x1 * x1 - y1 * y1, n1 = t1 < 0 ? 0 : t1 * t1 * t1 * t1 * noiseGrad(i + i1, j + j1, x1, y1);
+      var t2 = 0.5 - x2 * x2 - y2 * y2, n2 = t2 < 0 ? 0 : t2 * t2 * t2 * t2 * noiseGrad(i + 1, j + 1, x2, y2);
       return 70 * (n0 + n1 + n2);
     }
 
-    var COUNT = isMobile ? 10000 : 22000;
+    var COUNT = isMobile ? 7000 : 16000;
     var SPREAD = 90;
     var GRID_N = 22, GRID_STEP = 9, GRID_COUNT = GRID_N * GRID_N * GRID_N;
 
