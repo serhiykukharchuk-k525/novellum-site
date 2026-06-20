@@ -228,7 +228,7 @@
         '  vColor = mix(color, uColorGrid, gridMix);',
         '  vec4 mv = modelViewMatrix * vec4(finalPos, 1.0);',
         '  vViewZ = -mv.z;',
-        '  gl_PointSize = min(size * (300.0 / -mv.z), 30.0);',
+        '  gl_PointSize = vViewZ > 0.5 ? min(size * (300.0 / vViewZ), 30.0) : 0.0;',
         '  gl_Position = projectionMatrix * mv;',
         '}',
       ].join('\n'),
