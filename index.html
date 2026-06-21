@@ -280,7 +280,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       -webkit-background-clip:initial;
       background-clip:initial;
       color:var(--text);
-      text-shadow:none;
+      text-shadow:0 2px 22px rgba(0,0,0,.45);
+      position:relative;
+    }
+    /* Soft radial vignette behind section headings — lifts contrast against
+       the particle background without a hard-edged card/box. */
+    .title-accent::before{
+      content:"";
+      position:absolute;
+      left:50%;top:50%;
+      transform:translate(-50%,-50%);
+      width:130%;height:200%;
+      background:radial-gradient(ellipse at center, rgba(0,0,0,.32), transparent 70%);
+      z-index:-1;
+      pointer-events:none;
     }
     .accent-word{
       color:rgba(230,232,235,1);
@@ -546,7 +559,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       line-height:1.12;
       letter-spacing:-.015em;
     }
-    .section-title p{color:var(--text-muted);max-width:520px}
+    .section-title p{color:var(--text-muted);max-width:520px;text-shadow:0 1px 14px rgba(0,0,0,.4)}
 
     .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--gap)}
     .grid-4{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px}
@@ -561,6 +574,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       -webkit-backdrop-filter:blur(14px);
       position:relative;
       overflow:hidden;
+    }
+    /* Pricing cards carry the decision-making content — a soft bronze glow
+       draws focus without changing opacity (keeps the glass uniform across
+       the page, avoiding a tiled/boxy look). */
+    .pricing-card{
+      border-color:rgba(212,184,134,.22);
+      box-shadow:var(--glass-glow), 0 0 60px -20px rgba(212,184,134,.35);
     }
     .card::before,.signature::before,.timeline-item::before,.pricing-card::before{
       content:"";
@@ -1233,9 +1253,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .section-eyebrow{
       font-size:12px;letter-spacing:.14em;text-transform:uppercase;
       color:var(--bronze);font-weight:700;margin-bottom:10px;
+      text-shadow:0 1px 12px rgba(0,0,0,.4);
     }
     .for-whom-content{max-width:680px;margin-top:18px}
-    .for-whom-content p{color:var(--text-muted);line-height:1.75}
+    .for-whom-content p{color:var(--text-muted);line-height:1.75;text-shadow:0 1px 14px rgba(0,0,0,.4)}
+    .section-typewriter{text-shadow:0 1px 12px rgba(0,0,0,.4)}
 
     /* ── Obstacles grid — always 3 cols on desktop ── */
     #obstacles .grid-3 {
