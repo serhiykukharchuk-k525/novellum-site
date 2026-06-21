@@ -25,7 +25,6 @@ body > footer {
   inset: 0 !important;
   z-index: 3 !important;
   pointer-events: none !important;
-  filter: blur(1.5px);
 }
 
 /* ── HERO TRUST STRIP ── */
