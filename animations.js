@@ -136,7 +136,7 @@
       positions[i * 3 + 1] = y;
       positions[i * 3 + 2] = z;
       var t = Math.random();
-      var col = t < 0.1 ? c1 : t < 0.25 ? c3 : c2;
+      var col = t < 0.04 ? c1 : t < 0.1 ? c3 : c2;
       baseColors[i * 3] = col.r;
       baseColors[i * 3 + 1] = col.g;
       baseColors[i * 3 + 2] = col.b;
@@ -231,7 +231,7 @@
         '  if (d > 0.5) discard;',
         '  float a = 1.0 - smoothstep(0.2, 0.5, d);',
         '  float nf = smoothstep(1.0, 8.0, vViewZ);',
-        '  gl_FragColor = vec4(vColor, a * 0.85 * nf);',
+        '  gl_FragColor = vec4(vColor, a * 0.6 * nf);',
         '}',
       ].join('\n'),
     });
