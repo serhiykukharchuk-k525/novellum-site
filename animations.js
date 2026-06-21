@@ -33,11 +33,10 @@
         return;
       }
       hint.style.marginTop = '14px';
-      var hintTop = hint.getBoundingClientRect().top;
+      var hintRect = hint.getBoundingClientRect();
       var btnBottom = btn.getBoundingClientRect().bottom;
-      var hintHeight = hint.getBoundingClientRect().height;
-      var targetTop = btnBottom - hintHeight;
-      var delta = targetTop - hintTop;
+      var targetTop = btnBottom - hintRect.height;
+      var delta = targetTop - hintRect.top;
       var currentMargin = parseFloat(hint.style.marginTop) || 14;
       hint.style.marginTop = Math.max(14, currentMargin + delta) + 'px';
     }
@@ -380,12 +379,15 @@
     var tlItems = tlDiv.querySelectorAll('.timeline-item');
     var dots = [];
 
-    // Measure after layout settles
+    // Measure after layout settles. Read all offsets first, then write/append
+    // in a separate pass so the loop doesn't force a reflow per iteration.
     requestAnimationFrame(function () {
-      tlItems.forEach(function (item) {
+      var tops = [];
+      tlItems.forEach(function (item) { tops.push(item.offsetTop); });
+      tlItems.forEach(function (item, i) {
         var dot = document.createElement('div');
         dot.className = 'tl-dot';
-        dot.style.top = (item.offsetTop + 16) + 'px';
+        dot.style.top = (tops[i] + 16) + 'px';
         wrapper.appendChild(dot);
         dots.push(dot);
       });
