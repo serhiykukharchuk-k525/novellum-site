@@ -173,12 +173,13 @@
         uCamZ: { value: CAM_START },
         uFrozenCamZ: { value: CAM_START },
         uG: { value: 0 },
+        uLockCamZ: { value: CAM_START },
         uColorGrid: { value: new THREE.Vector3(cGrid.r, cGrid.g, cGrid.b) },
       },
       transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
       vertexShader: [
         'attribute float size; attribute vec3 gridTarget; attribute float isGrid;',
-        'uniform float uClock, uFrozenClock, uDz, uFrozenDz, uCamZ, uFrozenCamZ, uG;',
+        'uniform float uClock, uFrozenClock, uDz, uFrozenDz, uCamZ, uFrozenCamZ, uG, uLockCamZ;',
         'uniform vec3 uColorGrid;',
         'varying vec3 vColor; varying float vViewZ;',
         'const float CAM_START = ' + CAM_START.toFixed(1) + ';',
@@ -218,7 +219,8 @@
         '  if (isGrid > 0.5) {',
         '    if (uG > 0.0001) {',
         '      vec3 frozen = wander(position, uFrozenClock, uFrozenDz, uFrozenCamZ);',
-        '      float infiniteZ = uCamZ + gmod(gridTarget.z - uCamZ + GRID_HALF, GRID_PERIOD) - GRID_HALF;',
+        '      float driftZ = uCamZ - uLockCamZ;',
+        '      float infiniteZ = frozen.z + gmod(driftZ + GRID_HALF, GRID_PERIOD) - GRID_HALF;',
         '      float infMix = smoothstep(0.97, 1.0, uG);',
         '      vec3 gridPos = vec3(gridTarget.x, gridTarget.y, mix(frozen.z, infiniteZ, infMix));',
         '      finalPos = mix(frozen, gridPos, uG);',
@@ -274,6 +276,7 @@
 
     var clock = 0;
     var prevG = 0;
+    var prevLockG = 0;
     var u = mat.uniforms;
     function tick() {
       requestAnimationFrame(tick);
@@ -295,6 +298,11 @@
         u.uFrozenCamZ.value = camZ;
       }
       prevG = g;
+
+      if (prevLockG < 0.97 && g >= 0.97) {
+        u.uLockCamZ.value = camZ;
+      }
+      prevLockG = g;
 
       u.uClock.value = clock;
       u.uDz.value = dz;
