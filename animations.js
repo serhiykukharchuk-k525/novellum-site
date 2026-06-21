@@ -5,7 +5,7 @@
   var isMobile = window.innerWidth < 768;
 
   window.addEventListener('DOMContentLoaded', function () {
-    if (!prefersReduced) initParticleField();
+    // if (!prefersReduced) initParticleField(); // disabled while we work on readability — implementation kept for later
     if (!prefersReduced) {
       initHeroTrustStagger();
       // initProcessWave(); // disabled to reduce main-thread/rAF contention with particle background
