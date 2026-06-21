@@ -112,7 +112,7 @@
     resize();
     window.addEventListener('resize', resize, { passive: true });
 
-    var COUNT = isMobile ? 1200 : 6000;
+    var COUNT = isMobile ? 800 : 4000;
     var SPREAD = 90;
     var GRID_N = 22, GRID_STEP = 9, GRID_COUNT = GRID_N * GRID_N * GRID_N;
     var CAM_HALF = CLOUD_DEPTH * 0.5;
@@ -216,7 +216,7 @@
         '  if (isGrid > 0.5) {',
         '    if (uG > 0.0001) {',
         '      vec3 frozen = wander(position, uFrozenClock, uFrozenDz, uFrozenCamZ);',
-        '      vec3 gridPos = vec3(gridTarget.x, gridTarget.y, live.z);',
+        '      vec3 gridPos = vec3(gridTarget.x, gridTarget.y, frozen.z);',
         '      finalPos = mix(frozen, gridPos, uG);',
         '      gridMix = uG;',
         '    }',
