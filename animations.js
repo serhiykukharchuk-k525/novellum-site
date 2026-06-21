@@ -112,7 +112,7 @@
     resize();
     window.addEventListener('resize', resize, { passive: true });
 
-    var COUNT = isMobile ? 800 : 4000;
+    var COUNT = isMobile ? 500 : 2800;
     var SPREAD = 90;
     var GRID_N = 22, GRID_STEP = 9, GRID_COUNT = GRID_N * GRID_N * GRID_N;
     var CAM_HALF = CLOUD_DEPTH * 0.5;
@@ -250,10 +250,10 @@
     points.frustumCulled = false;
     scene.add(points);
 
-    var startY = 0, endY = 0, sectionsReady = false;
+    var startY = 0, sectionsReady = false;
     function cacheSections() {
-      var s = document.getElementById('obstacles'), e = document.getElementById('products');
-      if (s && e) { startY = s.offsetTop; endY = e.offsetTop; sectionsReady = true; }
+      var s = document.getElementById('process');
+      if (s) { startY = s.offsetTop; sectionsReady = true; }
     }
     window.addEventListener('load', cacheSections);
     setTimeout(cacheSections, 400);
@@ -282,7 +282,7 @@
       var dz = camZ - CAM_START;
 
       var g = sectionsReady
-        ? Math.max(0, Math.min(1, (rawScroll - startY) / Math.max(1, endY - startY)))
+        ? Math.max(0, Math.min(1, (rawScroll - startY) / Math.max(1, totalH - startY)))
         : 0;
 
       if (prevG <= 0 && g > 0) {
