@@ -104,7 +104,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     body{
       font-family:"Manrope",system-ui,sans-serif;
       color:var(--text);
-      line-height:1.65;
+      line-height:1.7;
+      letter-spacing:.01em;
       overflow-x:hidden;
       background: var(--bg);
       position:relative;
@@ -253,7 +254,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       -webkit-background-clip:initial;
       background-clip:initial;
       color:var(--text);
-      text-shadow:none;
+      text-shadow:0 2px 22px rgba(0,0,0,.45);
+      position:relative;
     }
     .accent-word{
       color:rgba(244,239,229,1);
@@ -324,7 +326,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       line-height:1.12;
       letter-spacing:-.015em;
     }
-    .section-title p{color:var(--text-muted);max-width:520px}
+    .section-title p{color:var(--text-muted);max-width:520px;text-shadow:0 1px 14px rgba(0,0,0,.4)}
 
     .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--gap)}
     .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--gap)}
