@@ -8,7 +8,7 @@
     if (!prefersReduced) initParticleField();
     if (!prefersReduced) {
       initHeroTrustStagger();
-      initProcessWave();
+      // initProcessWave(); // disabled to reduce main-thread/rAF contention with particle background
       initTimelineEnhancements();
       initTypewriters();
       initFlyingIcons();
@@ -485,27 +485,8 @@
     }, { threshold: 0.3 });
     obs.observe(el);
 
-    if (isMobile) return;
-    var maxShift = 10;
-    var targetX = 0, targetY = 0, curX = 0, curY = 0;
-    window.addEventListener('mousemove', function (e) {
-      var r = el.getBoundingClientRect();
-      var cx = r.left + r.width / 2;
-      var cy = r.top + r.height / 2;
-      var ratioX = Math.max(-1, Math.min(1, (e.clientX - cx) / (r.width / 2)));
-      var ratioY = Math.max(-1, Math.min(1, (e.clientY - cy) / (r.height / 2)));
-      targetX = ratioX * maxShift;
-      targetY = ratioY * maxShift;
-    }, { passive: true });
-
-    function tick() {
-      curX += (targetX - curX) * 0.08;
-      curY += (targetY - curY) * 0.08;
-      el.style.setProperty('--px', curX.toFixed(2) + 'px');
-      el.style.setProperty('--py', curY.toFixed(2) + 'px');
-      requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
+    // Mousemove parallax tick disabled to reduce main-thread/rAF contention
+    // with the particle background (fly-in animation above is unaffected).
   }
 
   // ── 8. 3D PHONE (#phone3dDemo) ───────────────────────────────
