@@ -27,6 +27,17 @@ body > footer {
   pointer-events: none !important;
 }
 
+/* Flat darkening overlay between the particle canvas and section content —
+   no blur (that softened the particles too much last time), just opacity
+   to lift text contrast uniformly across the page. */
+#novellum-readability-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.14);
+}
+
 /* ── HERO TRUST STRIP ── */
 .hero-trust-strip {
   display: flex;
