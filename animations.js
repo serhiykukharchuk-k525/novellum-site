@@ -173,21 +173,21 @@
         uCamZ: { value: CAM_START },
         uFrozenCamZ: { value: CAM_START },
         uG: { value: 0 },
+        uLockClock: { value: 0 },
+        uLockDz: { value: 0 },
         uLockCamZ: { value: CAM_START },
         uColorGrid: { value: new THREE.Vector3(cGrid.r, cGrid.g, cGrid.b) },
       },
       transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
       vertexShader: [
         'attribute float size; attribute vec3 gridTarget; attribute float isGrid;',
-        'uniform float uClock, uFrozenClock, uDz, uFrozenDz, uCamZ, uFrozenCamZ, uG, uLockCamZ;',
+        'uniform float uClock, uFrozenClock, uDz, uFrozenDz, uCamZ, uFrozenCamZ, uG, uLockClock, uLockDz, uLockCamZ;',
         'uniform vec3 uColorGrid;',
         'varying vec3 vColor; varying float vViewZ;',
         'const float CAM_START = ' + CAM_START.toFixed(1) + ';',
         'const float CAM_SLOW = ' + CAM_SLOW.toFixed(3) + ';',
         'const float CLOUD_DEPTH = ' + CLOUD_DEPTH.toFixed(1) + ';',
         'const float CAM_HALF = ' + CAM_HALF.toFixed(1) + ';',
-        'const float GRID_PERIOD = ' + (GRID_N * GRID_STEP).toFixed(1) + ';',
-        'const float GRID_HALF = ' + gHalf.toFixed(1) + ';',
         'float gmod(float x, float y) { return x - y * floor(x / y); }',
         'vec2 grad2(float ix, float iy) {',
         '  float h = fract(sin(ix * 127.1 + iy * 311.7) * 43758.5453);',
@@ -219,8 +219,9 @@
         '  if (isGrid > 0.5) {',
         '    if (uG > 0.0001) {',
         '      vec3 frozen = wander(position, uFrozenClock, uFrozenDz, uFrozenCamZ);',
-        '      float driftZ = uCamZ - uLockCamZ;',
-        '      float infiniteZ = frozen.z + gmod(driftZ + GRID_HALF, GRID_PERIOD) - GRID_HALF;',
+        '      vec3 lockFlow = wander(gridTarget, uLockClock, uLockDz, uLockCamZ);',
+        '      vec3 liveFlow = wander(gridTarget, uClock, uDz, uCamZ);',
+        '      float infiniteZ = frozen.z + (liveFlow.z - lockFlow.z);',
         '      float infMix = smoothstep(0.97, 1.0, uG);',
         '      vec3 gridPos = vec3(gridTarget.x, gridTarget.y, mix(frozen.z, infiniteZ, infMix));',
         '      finalPos = mix(frozen, gridPos, uG);',
@@ -300,6 +301,8 @@
       prevG = g;
 
       if (prevLockG < 0.97 && g >= 0.97) {
+        u.uLockClock.value = clock;
+        u.uLockDz.value = dz;
         u.uLockCamZ.value = camZ;
       }
       prevLockG = g;
