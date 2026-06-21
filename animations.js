@@ -112,7 +112,7 @@
     resize();
     window.addEventListener('resize', resize, { passive: true });
 
-    var COUNT = isMobile ? 3000 : 16000;
+    var COUNT = isMobile ? 1800 : 9000;
     var SPREAD = 90;
     var GRID_N = 22, GRID_STEP = 9, GRID_COUNT = GRID_N * GRID_N * GRID_N;
     var CAM_HALF = CLOUD_DEPTH * 0.5;
