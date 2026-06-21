@@ -28,6 +28,19 @@ body > footer {
   filter: blur(1.5px);
 }
 
+/* Overlay between the particle canvas (z-index 3) and section content,
+   adding a soft blur + slight darkening to lift text contrast without
+   blurring the particles themselves. */
+#novellum-readability-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  background: rgba(0, 0, 0, 0.08);
+}
+
 /* ── HERO TRUST STRIP ── */
 .hero-trust-strip {
   display: flex;
