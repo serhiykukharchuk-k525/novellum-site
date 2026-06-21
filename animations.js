@@ -112,7 +112,7 @@
     resize();
     window.addEventListener('resize', resize, { passive: true });
 
-    var COUNT = isMobile ? 500 : 2800;
+    var COUNT = isMobile ? 800 : 4000;
     var SPREAD = 90;
     var GRID_N = 22, GRID_STEP = 9, GRID_COUNT = GRID_N * GRID_N * GRID_N;
     var CAM_HALF = CLOUD_DEPTH * 0.5;
@@ -185,6 +185,8 @@
         'const float CAM_SLOW = ' + CAM_SLOW.toFixed(3) + ';',
         'const float CLOUD_DEPTH = ' + CLOUD_DEPTH.toFixed(1) + ';',
         'const float CAM_HALF = ' + CAM_HALF.toFixed(1) + ';',
+        'const float GRID_PERIOD = ' + (GRID_N * GRID_STEP).toFixed(1) + ';',
+        'const float GRID_HALF = ' + gHalf.toFixed(1) + ';',
         'float gmod(float x, float y) { return x - y * floor(x / y); }',
         'vec2 grad2(float ix, float iy) {',
         '  float h = fract(sin(ix * 127.1 + iy * 311.7) * 43758.5453);',
@@ -216,7 +218,9 @@
         '  if (isGrid > 0.5) {',
         '    if (uG > 0.0001) {',
         '      vec3 frozen = wander(position, uFrozenClock, uFrozenDz, uFrozenCamZ);',
-        '      vec3 gridPos = vec3(gridTarget.x, gridTarget.y, frozen.z);',
+        '      float infiniteZ = uCamZ + gmod(gridTarget.z - uCamZ + GRID_HALF, GRID_PERIOD) - GRID_HALF;',
+        '      float infMix = smoothstep(0.97, 1.0, uG);',
+        '      vec3 gridPos = vec3(gridTarget.x, gridTarget.y, mix(frozen.z, infiniteZ, infMix));',
         '      finalPos = mix(frozen, gridPos, uG);',
         '      gridMix = uG;',
         '    }',
@@ -250,10 +254,10 @@
     points.frustumCulled = false;
     scene.add(points);
 
-    var startY = 0, sectionsReady = false;
+    var startY = 0, endY = 0, sectionsReady = false;
     function cacheSections() {
-      var s = document.getElementById('process');
-      if (s) { startY = s.offsetTop; sectionsReady = true; }
+      var s = document.getElementById('obstacles'), e = document.getElementById('products');
+      if (s && e) { startY = s.offsetTop; endY = e.offsetTop; sectionsReady = true; }
     }
     window.addEventListener('load', cacheSections);
     setTimeout(cacheSections, 400);
@@ -282,7 +286,7 @@
       var dz = camZ - CAM_START;
 
       var g = sectionsReady
-        ? Math.max(0, Math.min(1, (rawScroll - startY) / Math.max(1, totalH - startY)))
+        ? Math.max(0, Math.min(1, (rawScroll - startY) / Math.max(1, endY - startY)))
         : 0;
 
       if (prevG <= 0 && g > 0) {
