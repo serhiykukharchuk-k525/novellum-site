@@ -246,6 +246,12 @@
     mat.vertexColors = true;
 
     var points = new THREE.Points(geo, mat);
+    // The vertex shader displaces particles far from their stored attribute
+    // positions (infinite Z-recycling, grid collapse), so the auto-computed
+    // bounding sphere doesn't track the actually-rendered positions. Without
+    // this, Three.js's frustum culling eventually decides the whole object
+    // is offscreen as the camera dollies away and skips the draw call entirely.
+    points.frustumCulled = false;
     scene.add(points);
 
     var startY = 0, endY = 0, sectionsReady = false;
