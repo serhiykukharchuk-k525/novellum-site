@@ -81,14 +81,10 @@
     var heroEl = document.querySelector('.hero');
     var canvas = document.createElement('canvas');
     canvas.id = 'novellum-canvas';
-    var overlay = document.createElement('div');
-    overlay.id = 'novellum-readability-overlay';
     if (heroEl && heroEl.parentNode) {
       heroEl.parentNode.insertBefore(canvas, heroEl.nextSibling);
-      canvas.parentNode.insertBefore(overlay, canvas.nextSibling);
     } else {
       document.body.prepend(canvas);
-      canvas.parentNode.insertBefore(overlay, canvas.nextSibling);
     }
 
     var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: false, powerPreference: 'high-performance' });
