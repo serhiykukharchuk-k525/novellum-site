@@ -430,6 +430,33 @@
       // inline-block's own width collapses near 0 and every string would
       // wrap character-by-character, wildly inflating the measured height.
       var elStyle = getComputedStyle(el);
+      var containerWidth = el.parentElement.clientWidth;
+
+      // Also fix el's own width up front (clamped to the container) —
+      // otherwise the inline-block recomputes its shrink-to-fit width on
+      // every single keystroke, causing a constant micro-reflow/jitter
+      // as it types, even when the final reserved height never changes.
+      var nowrapProbe = document.createElement('div');
+      nowrapProbe.style.visibility = 'hidden';
+      nowrapProbe.style.position = 'absolute';
+      nowrapProbe.style.pointerEvents = 'none';
+      nowrapProbe.style.whiteSpace = 'nowrap';
+      nowrapProbe.style.font = elStyle.font;
+      nowrapProbe.style.letterSpacing = elStyle.letterSpacing;
+      nowrapProbe.style.textTransform = elStyle.textTransform;
+      el.parentNode.insertBefore(nowrapProbe, el);
+      var maxNowrapWidth = 0;
+      texts.forEach(function (t) {
+        nowrapProbe.textContent = t;
+        maxNowrapWidth = Math.max(maxNowrapWidth, nowrapProbe.offsetWidth);
+      });
+      nowrapProbe.remove();
+      // +2px safety margin: offsetWidth rounding can otherwise land the
+      // wrap-constrained probe just under the no-wrap width, forcing an
+      // unwanted 2nd line for the exact-fit longest string.
+      var fixedWidth = Math.min(Math.ceil(maxNowrapWidth) + 10, containerWidth);
+      if (fixedWidth) el.style.width = fixedWidth + 'px';
+
       var probe = document.createElement('div');
       probe.style.visibility = 'hidden';
       probe.style.position = 'absolute';
@@ -438,7 +465,7 @@
       probe.style.font = elStyle.font;
       probe.style.letterSpacing = elStyle.letterSpacing;
       probe.style.textTransform = elStyle.textTransform;
-      probe.style.width = el.parentElement.clientWidth + 'px';
+      probe.style.width = (fixedWidth || containerWidth) + 'px';
       el.parentNode.insertBefore(probe, el);
       var maxHeight = 0;
       texts.forEach(function (t) {

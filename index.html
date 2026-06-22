@@ -1289,7 +1289,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     /* ── Value section signature grid — always even 2x2, never an
        auto-fit 3+1 wrap that leaves the last card stranded alone ── */
     #value .grid-4 {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(4, 1fr);
+    }
+    @media (max-width: 1024px) {
+      #value .grid-4 { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 600px) {
       #value .grid-4 { grid-template-columns: 1fr; }
