@@ -1059,8 +1059,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     /* ── Typewriter cursor ── */
     .typewriter-word{transition:opacity .22s ease}
     .tw-cursor{
-      display:inline-block;width:1px;height:.72em;
-      background:var(--brass);margin-left:2px;vertical-align:baseline;
+      display:inline-block;width:2px;height:.82em;
+      background:var(--brass);margin-left:2px;vertical-align:middle;
       animation:cur-blink .85s steps(1) infinite;
     }
     @keyframes cur-blink{0%,100%{opacity:1}50%{opacity:0}}
@@ -2482,6 +2482,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     var twIdx = 0;
     var twEl = document.querySelector('.typewriter-word');
     if (twEl) {
+      // Reserve width for the widest word so swapping words never reflows
+      // the heading (which otherwise shifts the whole line/title height).
+      var twProbe = document.createElement('span');
+      twProbe.style.visibility = 'hidden';
+      twProbe.style.position = 'absolute';
+      twProbe.style.whiteSpace = 'nowrap';
+      twProbe.style.font = getComputedStyle(twEl).font;
+      twProbe.style.letterSpacing = getComputedStyle(twEl).letterSpacing;
+      document.body.appendChild(twProbe);
+      var twMaxWidth = 0;
+      twWords.forEach(function(w) {
+        twProbe.textContent = w;
+        twMaxWidth = Math.max(twMaxWidth, twProbe.offsetWidth);
+      });
+      twProbe.remove();
+      if (twMaxWidth) {
+        twEl.style.display = 'inline-block';
+        twEl.style.minWidth = twMaxWidth + 'px';
+      }
+
       setInterval(function() {
         twIdx = (twIdx + 1) % twWords.length;
         twEl.style.opacity = '0';
