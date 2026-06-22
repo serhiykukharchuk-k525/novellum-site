@@ -1058,6 +1058,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     /* ── Typewriter cursor ── */
     .typewriter-word{transition:opacity .22s ease}
+    .tw-wrap{display:inline-block;text-align:left}
     .tw-cursor{
       display:inline-block;width:2px;height:.82em;
       background:var(--brass);margin-left:2px;vertical-align:middle;
@@ -1418,7 +1419,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="pill"><span class="dot"></span>Для власників і керівників</div>
 
           <h1 class="title-accent">
-            Бізнес має бути <span class="accent-word typewriter-word">зрозумілим</span><span class="tw-cursor" aria-hidden="true"></span> без додаткових пояснень.
+            Бізнес має бути <span class="tw-wrap"><span class="accent-word typewriter-word">зрозумілим</span><span class="tw-cursor" aria-hidden="true"></span></span> без додаткових пояснень.
           </h1>
 
           <div class="hero-subtitle">
@@ -2497,9 +2498,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         twMaxWidth = Math.max(twMaxWidth, twProbe.offsetWidth);
       });
       twProbe.remove();
-      if (twMaxWidth) {
-        twEl.style.display = 'inline-block';
-        twEl.style.minWidth = twMaxWidth + 'px';
+      var twWrap = twEl.closest('.tw-wrap');
+      if (twMaxWidth && twWrap) {
+        twWrap.style.minWidth = twMaxWidth + 'px';
       }
 
       setInterval(function() {

@@ -466,8 +466,11 @@
         setTimeout(type, deleting ? 40 : 60);
       }
 
+      // Delay past the .reveal slide-up transition (.6s, triggered at a
+      // lower threshold) so typing doesn't start while the section is
+      // still animating into place — avoids a visible jolt.
       var obs = new IntersectionObserver(function (entries) {
-        if (entries[0].isIntersecting) { type(); obs.unobserve(el); }
+        if (entries[0].isIntersecting) { setTimeout(type, 650); obs.unobserve(el); }
       }, { threshold: 0.5 });
       obs.observe(el);
     });
