@@ -124,7 +124,7 @@
     var baseColors = new Float32Array(COUNT * 3);
     var sizes = new Float32Array(COUNT);
 
-    var c1 = new THREE.Color('#D4B886'), c2 = new THREE.Color('#4a8c6a'), c3 = new THREE.Color('#F4EFE5');
+    var c1 = new THREE.Color('#D4B886'), c2 = new THREE.Color('#2e5a44'), c3 = new THREE.Color('#F4EFE5');
 
     var gHalf = (GRID_N - 1) * GRID_STEP / 2;
     function nearestGridXY(px, py) {
@@ -140,7 +140,7 @@
       positions[i * 3 + 1] = y;
       positions[i * 3 + 2] = z;
       var t = Math.random();
-      var col = t < 0.04 ? c1 : t < 0.1 ? c3 : c2;
+      var col = t < 0.01 ? c1 : t < 0.02 ? c3 : c2;
       baseColors[i * 3] = col.r;
       baseColors[i * 3 + 1] = col.g;
       baseColors[i * 3 + 2] = col.b;
