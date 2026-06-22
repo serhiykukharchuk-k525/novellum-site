@@ -232,7 +232,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       font-size:12px;letter-spacing:.08em;text-transform:uppercase;
       border:none;
       color:var(--bronze);
-      background:transparent;
+      background:rgba(255,255,255,.03);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
     }
     .pill .dot{
       width:8px;height:8px;border-radius:50%;
@@ -329,12 +331,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--gap)}
 
     .card,.pricing-card{
-      background:transparent;
+      background:rgba(255,255,255,.02);
       border:none;
       border-radius:var(--radius-md);
       box-shadow:none;
       position:relative;
       overflow:hidden;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
     }
     .card::before,.pricing-card::before{
       content:"";
@@ -348,7 +352,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .pricing-card{
       padding:24px;
       display:grid;gap:10px;
-      background:transparent;
     }
     .price{font-size:14px;color:var(--text-muted)}
     .terms{font-size:12px;color:var(--text-soft)}
@@ -358,7 +361,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .pricing-card .terms{font-size:15px;line-height:1.65;color:var(--text-muted)}
 
     .cta{
-      background:transparent;
+      background:rgba(255,255,255,.02);
       border-radius:var(--radius-lg);
       padding:40px;
       border:none;
@@ -368,6 +371,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       box-shadow:none;
       position:relative;
       overflow:hidden;
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
     }
     .cta::before{
       content:"";
@@ -397,9 +402,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       border:none;
       border-radius:14px;
       padding:12px 14px;
-      background:transparent;
+      background:rgba(255,255,255,.03);
       color:var(--text-muted);
       display:none;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
     }
     .form-message.success{color:var(--text)}
     .form-message.error{color:var(--text-muted)}

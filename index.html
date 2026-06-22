@@ -257,8 +257,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       font-size:12px;letter-spacing:.08em;text-transform:uppercase;
       border:none;
       color:var(--accent-2);
-      background:transparent;
+      background:rgba(255,255,255,.03);
       box-shadow:none;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
     }
     .pill .dot{
       width:8px;height:8px;border-radius:50%;
@@ -553,12 +555,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--gap)}
 
     .card,.signature,.timeline-item,.pricing-card{
-      background:transparent;
+      background:rgba(255,255,255,.02);
       border:none;
       border-radius:var(--radius-md);
       box-shadow:none;
       position:relative;
       overflow:hidden;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
     }
     /* Pricing cards carry the decision-making content — a soft bronze glow
        draws focus without changing opacity (keeps the glass uniform across
@@ -611,7 +615,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       padding:0 0 18px;
     }
     .snap-card{
-      background:transparent;
+      background:rgba(255,255,255,.02);
       border:none;
       border-radius:14px;
       padding:14px 16px;
@@ -619,6 +623,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       box-shadow:none;
       position:relative;
       overflow:hidden;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
     }
     .snap-card::before{
       content:"";
@@ -663,7 +669,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       text-align:center;
       color:var(--text-muted);
       font-weight:700;font-size:12px;
-      background:transparent;
+      background:rgba(255,255,255,.02);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
       transition:transform .3s ease;
     }
     .logo-pill:hover{
@@ -686,12 +694,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       gap:28px;
       align-items:start;
       padding:30px;
-      background: transparent;
+      background: rgba(255,255,255,.02);
       border-radius:20px;
       border:none;
       box-shadow:none;
       position:relative;
       overflow:hidden;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
     }
     .product::before{
       content:"";
@@ -706,8 +716,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .timeline-item{
       display:grid;gap:6px;
       padding:16px 18px;
-      background:transparent;
+      background:rgba(255,255,255,.02);
       border-color:transparent;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
     }
     .timeline-item span{
       color:rgba(207,214,223,.90);
@@ -722,7 +734,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       padding:6px 10px;border-radius:999px;
       border:none;
       color:var(--text-muted);
-      background:transparent;
+      background:rgba(255,255,255,.04);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
     }
     .format-badge.brass{border-color:transparent}
     .pricing-card h3{padding-right:72px}
@@ -789,9 +803,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       border:none;
       border-radius:14px;
       padding:16px 18px;
-      background:transparent;
+      background:rgba(255,255,255,.02);
       position:relative;
       overflow:hidden;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
     }
     .accordion-item::before{
       content:"";
@@ -808,7 +824,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .accordion-item.active .accordion-body{display:block}
 
     .cta{
-      background: transparent;
+      background: rgba(255,255,255,.02);
       border-radius:var(--radius-lg);
       padding:40px;
       border:none;
@@ -818,6 +834,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       box-shadow:none;
       position:relative;
       overflow:hidden;
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
     }
     .cta::before{
       content:"";
@@ -855,9 +873,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       border:none;
       border-radius:14px;
       padding:12px 14px;
-      background:transparent;
+      background:rgba(255,255,255,.03);
       color:var(--text-muted);
       display:none;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
     }
     .form-message.success{color:var(--text)}
     .form-message.error{color:var(--text-muted)}
@@ -1119,10 +1139,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
     .calc-box{
       display:flex;flex-direction:column;
-      background:transparent;border:none;
+      background:rgba(255,255,255,.02);border:none;
       border-radius:var(--radius-md);padding:28px;
       box-shadow:none;
       position:relative;overflow:hidden;
+      backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
     }
     .calc-box::before{
       content:"";position:absolute;left:0;right:0;top:0;height:2px;
@@ -1138,8 +1159,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
     .calc-field input[type=range]:focus{box-shadow:none;border-color:transparent}
     .calc-result-box{
-      background:transparent;border:none;
+      background:rgba(255,255,255,.03);border:none;
       border-radius:14px;padding:20px 22px;margin-bottom:18px;
+      backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
     }
     .calc-result-num{
       font-size:clamp(32px,4vw,44px);font-weight:800;
@@ -1162,9 +1184,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
     .deliverable-item{
       display:flex;align-items:flex-start;gap:14px;
-      background:transparent;border:none;
+      background:rgba(255,255,255,.02);border:none;
       border-radius:14px;padding:18px;
       position:relative;overflow:hidden;
+      backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
     }
     .deliverable-item::before{
       content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
@@ -1187,9 +1210,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       margin-top:24px;
     }
     .not-for-item{
-      padding:20px;background:transparent;
+      padding:20px;background:rgba(255,255,255,.02);
       border:none;border-radius:14px;
       position:relative;
+      backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
     }
     .not-for-icon{font-size:20px;margin-bottom:8px}
     .not-for-item strong{display:block;margin-bottom:5px}
@@ -1200,9 +1224,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       display:flex;align-items:center;gap:14px;
       margin-top:22px;
       padding:16px 20px;
-      background:transparent;
+      background:rgba(255,255,255,.02);
       border:none;
       border-radius:14px;
+      backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
     }
     .urgency-strip p{margin:0;color:var(--text-muted);font-size:.9rem}
     .urgency-strip a{color:var(--text);text-decoration:underline;text-underline-offset:3px}
