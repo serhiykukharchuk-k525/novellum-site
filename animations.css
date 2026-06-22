@@ -461,21 +461,14 @@ body > footer {
   color: #D4B886 !important;
   margin-bottom: 16px;
   min-height: 18px;
-  display: inline-flex;
-  align-items: baseline;
-}
-.section-typewriter::after {
-  content: "";
   display: inline-block;
-  width: 1px;
-  height: .85em;
-  margin-left: 3px;
-  background: rgba(212,184,134,.6);
+  border-right: 2px solid rgba(212,184,134,.6);
+  padding-right: 2px;
   animation: cursorBlink .8s step-end infinite;
 }
 @keyframes cursorBlink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  0%, 100% { border-color: rgba(212,184,134,.6); }
+  50% { border-color: transparent; }
 }
 
 /* ── SECTION TYPEWRITER (legacy) ── */
