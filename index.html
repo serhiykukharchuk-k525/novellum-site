@@ -121,8 +121,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       width:100%;
       max-width:100vw;
 
-      /* More expressive background */
+      /* Fixed depth gradient — stays put while glass-panel content scrolls over it */
       background: var(--bg);
+      background-attachment: fixed;
       position:relative;
     }
     /* subtle grid texture */
@@ -141,6 +142,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     img{max-width:100%;display:block}
     a{color:inherit;text-decoration:none}
     .container{width:min(1160px,92vw);margin:0 auto}
+
+    /* ── Glass surface ──
+       Fixed background stays still; this panel scrolls with the content,
+       giving the impression content rides on a glass plane above it. */
+    .glass-panel{
+      background:rgba(26,46,40,.06);
+      backdrop-filter:blur(22px) saturate(1.15);
+      -webkit-backdrop-filter:blur(22px) saturate(1.15);
+      border:1px solid rgba(255,255,255,.08);
+      border-top-color:rgba(255,255,255,.16);
+      border-radius:24px;
+      box-shadow:var(--glass-glow), inset 0 1px 0 rgba(255,255,255,.05);
+      padding:48px clamp(24px,4vw,56px);
+    }
 
     /* Sticky only top header */
     body > header{
@@ -1518,7 +1533,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <!-- СЕКЦІЯ: Для кого це — додано -->
     <section id="for-whom" class="divider">
-      <div class="container">
+      <div class="container glass-panel">
         <p class="section-eyebrow reveal">Для кого це</p>
         <h2 class="title-accent reveal">Наш клієнт — власник МСБ що масштабується.</h2>
         <div class="for-whom-content reveal">
@@ -1599,7 +1614,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </section>
 
     <section id="value" class="divider">
-      <div class="container">
+      <div class="container glass-panel">
         <div class="section-title reveal">
           <div>
             <div class="pill">Цінність</div>
@@ -1654,7 +1669,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <!-- СЕКЦІЯ: Що заважає — додано -->
     <section id="obstacles" class="divider">
-      <div class="container">
+      <div class="container glass-panel">
         <div class="section-title reveal">
           <div>
             <p class="section-eyebrow">Чому це не вирішується самостійно</p>
@@ -1691,7 +1706,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </section>
 
     <section id="social-proof" class="divider">
-      <div class="container">
+      <div class="container glass-panel">
         <div class="card lift reveal" style="max-width:760px;margin:0 auto;padding:36px 48px">
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap">
             <div class="pill">Анонімний кейс</div>
@@ -1713,7 +1728,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </section>
 
     <section id="formats" class="divider">
-      <div class="container">
+      <div class="container glass-panel">
         <div class="section-title reveal">
           <div>
             <div class="pill">Формати</div>
@@ -1791,7 +1806,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 
     <section id="calculator" class="divider">
-      <div class="container">
+      <div class="container glass-panel">
         <div class="section-title reveal">
           <div>
             <div class="pill">Калькулятор</div>
@@ -1844,7 +1859,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </section>
 
     <section id="products" class="divider">
-      <div class="container">
+      <div class="container glass-panel">
         <div class="section-title reveal">
           <div>
             <div class="pill">Продукт</div>
@@ -1896,7 +1911,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </section>
 
     <section id="process" class="divider">
-      <div class="container">
+      <div class="container glass-panel">
         <div class="section-title reveal">
           <div>
             <div class="pill">Процес і результат</div>
@@ -1971,7 +1986,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <!-- СЕКЦІЯ: Демо дашборд — додано -->
     <section id="demo" class="divider">
-      <div class="container">
+      <div class="container glass-panel">
         <div class="section-title reveal">
           <div>
             <p class="section-eyebrow">Демо</p>
@@ -2064,7 +2079,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </section>
 
     <section id="pricing" class="divider">
-      <div class="container">
+      <div class="container glass-panel">
         <div class="section-title reveal">
           <div>
             <div class="pill">Аналітика</div>
@@ -2104,7 +2119,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <!-- СЕКЦІЯ "Для кого ми не підійдемо" — закоментовано
     <section id="not-for" class="divider">
-      <div class="container">
+      <div class="container glass-panel">
         <div class="section-title reveal">
           <div>
             <div class="pill">Чесно</div>
@@ -2147,7 +2162,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     /not-for -->
 
     <section id="faq" class="divider">
-      <div class="container">
+      <div class="container glass-panel">
         <div class="section-title reveal">
           <div>
             <div class="pill">FAQ</div>
@@ -2197,7 +2212,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </section>
 
     <section id="contact">
-      <div class="container">
+      <div class="container glass-panel">
         <div class="cta">
           <div style="position:relative">
             <div class="pill"><span class="dot"></span>Контакти</div>
