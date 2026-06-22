@@ -425,12 +425,20 @@
 
       // Reserve height for the tallest of the rotating strings up front,
       // so wrapping to a 2nd line mid-type never shifts content below it.
-      var probe = el.cloneNode();
+      // The probe must be measured against the *container's* width, not
+      // el's own width — el starts out empty (no text yet), so an
+      // inline-block's own width collapses near 0 and every string would
+      // wrap character-by-character, wildly inflating the measured height.
+      var elStyle = getComputedStyle(el);
+      var probe = document.createElement('div');
       probe.style.visibility = 'hidden';
       probe.style.position = 'absolute';
       probe.style.pointerEvents = 'none';
-      probe.style.minHeight = '0';
-      probe.style.width = getComputedStyle(el).width;
+      probe.style.whiteSpace = 'normal';
+      probe.style.font = elStyle.font;
+      probe.style.letterSpacing = elStyle.letterSpacing;
+      probe.style.textTransform = elStyle.textTransform;
+      probe.style.width = el.parentElement.clientWidth + 'px';
       el.parentNode.insertBefore(probe, el);
       var maxHeight = 0;
       texts.forEach(function (t) {
