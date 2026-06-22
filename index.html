@@ -144,8 +144,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     /* Sticky only top header */
     body > header{
-      position:sticky;top:0;
-      background:rgba(15,31,28,.45);
+      position:sticky;top:-1px;
+      background:rgba(15,31,28,.62);
       backdrop-filter:blur(14px);
       -webkit-backdrop-filter:blur(14px);
       z-index:50;
@@ -912,11 +912,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       background:rgba(212,184,134,.08);
     }
 
-    .lift{transition:transform .35s ease,box-shadow .35s ease,border-color .35s ease, filter .35s ease}
+    .lift{transition:transform .35s ease, filter .35s ease}
     .lift:hover{
       transform:translateY(-7px);
-      box-shadow:0 40px 90px rgba(0,0,0,.62);
-      border-color:rgba(212,184,134,.20);
       filter:saturate(1.04);
     }
     .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
@@ -1044,12 +1042,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     /* ── Hover glow on cards ── */
     .card,.signature{--mx:50%;--my:50%}
-    .card::after,.signature::after{
-      content:"";position:absolute;inset:0;border-radius:inherit;
-      background:radial-gradient(280px circle at var(--mx) var(--my),rgba(212,184,134,.06),transparent 65%);
-      pointer-events:none;opacity:0;transition:opacity .35s ease;
-    }
-    .card:hover::after,.signature:hover::after{opacity:1}
 
     /* ── Sticky Telegram bar ── */
     .sticky-tg{
