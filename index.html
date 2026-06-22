@@ -1058,7 +1058,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     /* ── Typewriter cursor ── */
     .typewriter-word{transition:opacity .22s ease}
-    .tw-wrap{display:inline-block;text-align:left}
+    .tw-wrap{display:inline-block;text-align:left;transition:opacity .22s ease}
     .tw-cursor{
       display:inline-block;width:2px;height:.82em;
       background:var(--brass);margin-left:2px;vertical-align:middle;
@@ -2517,10 +2517,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       setInterval(function() {
         twIdx = (twIdx + 1) % twWords.length;
-        twEl.style.opacity = '0';
+        (twWrap || twEl).style.opacity = '0';
         setTimeout(function() {
           twEl.textContent = twWords[twIdx];
-          twEl.style.opacity = '1';
+          (twWrap || twEl).style.opacity = '1';
         }, 230);
       }, 2800);
     }

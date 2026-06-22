@@ -473,7 +473,15 @@
         maxHeight = Math.max(maxHeight, probe.offsetHeight);
       });
       probe.remove();
-      if (maxHeight) el.style.minHeight = maxHeight + 'px';
+      // Fix height outright (not just min-height) with a rounding buffer
+      // and clip overflow — any sub-pixel wrap difference between
+      // intermediate substrings otherwise nudges the box by a fraction of
+      // a pixel on every keystroke, which on real device pixel ratios
+      // rounds to a visible 1px shake of everything below it.
+      if (maxHeight) {
+        el.style.height = (Math.ceil(maxHeight) + 2) + 'px';
+        el.style.overflow = 'hidden';
+      }
 
       function type() {
         var cur = texts[idx];
