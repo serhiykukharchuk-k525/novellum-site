@@ -100,8 +100,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       --section-pad:72px;
 
       /* Glass */
-      --glass:rgba(15,31,28,.75);
-      --glass-2:rgba(10,24,22,.72);
+      --glass:rgba(26,46,40,.12);
+      --glass-2:rgba(26,46,40,.10);
       --glass-border:rgba(212,184,134,.10);
       --glass-border-2:rgba(212,184,134,.18);
       --glass-glow:0 18px 55px rgba(0,0,0,.58);
@@ -143,7 +143,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     a{color:inherit;text-decoration:none}
     .container{width:min(1160px,92vw);margin:0 auto}
 
-    /* ── Glass surface ──
+    /* ── Glass surface (prototype) ──
        Fixed background stays still; this panel scrolls with the content,
        giving the impression content rides on a glass plane above it. */
     .glass-panel{
@@ -159,11 +159,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     /* Sticky only top header */
     body > header{
-      position:sticky;top:-1px;
-      background:rgba(15,31,28,.62);
+      position:sticky;top:0;
+      background:rgba(15,31,28,.88);
       backdrop-filter:blur(14px);
       -webkit-backdrop-filter:blur(14px);
       z-index:50;
+      border-bottom:1px solid var(--border);
+    }
+    body > header::after{
+      content:"";
+      position:absolute;left:0;right:0;bottom:-1px;height:1px;
+      background:linear-gradient(90deg, transparent, rgba(26,46,40,.35), rgba(212,184,134,.18), transparent);
+      pointer-events:none;
     }
 
     .nav{
@@ -270,24 +277,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       display:inline-flex;align-items:center;gap:8px;
       padding:6px 14px;border-radius:var(--radius-pill);
       font-size:12px;letter-spacing:.08em;text-transform:uppercase;
-      border:none;
+      border:1px solid rgba(255,255,255,.12);
       color:var(--accent-2);
-      background:rgba(255,255,255,.03);
-      box-shadow:none;
-      backdrop-filter:blur(8px);
-      -webkit-backdrop-filter:blur(8px);
+      background:rgba(8,16,14,.55);
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
+      box-shadow:var(--shadow-inset);
     }
     .pill .dot{
       width:8px;height:8px;border-radius:50%;
       background:rgba(43,107,79,.98);
       box-shadow:0 0 0 6px rgba(43,107,79,.16), 0 0 28px rgba(43,107,79,.22);
-    }
-    .hero .pill{
-      border:1px solid rgba(255,255,255,.12);
-      background:rgba(8,16,14,.55);
-      backdrop-filter:blur(10px);
-      -webkit-backdrop-filter:blur(10px);
-      box-shadow:var(--shadow-inset);
     }
 
     /* Typographic accents */
@@ -570,20 +570,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--gap)}
 
     .card,.signature,.timeline-item,.pricing-card{
-      background:rgba(255,255,255,.02);
-      border:none;
+      background:var(--glass);
+      border:1px solid rgba(255,255,255,.12);
       border-radius:var(--radius-md);
-      box-shadow:none;
+      box-shadow:var(--glass-glow);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
       position:relative;
       overflow:hidden;
-      backdrop-filter:blur(8px);
-      -webkit-backdrop-filter:blur(8px);
     }
     /* Pricing cards carry the decision-making content — a soft bronze glow
        draws focus without changing opacity (keeps the glass uniform across
        the page, avoiding a tiled/boxy look). */
     .pricing-card{
-      box-shadow:none;
+      border-color:rgba(212,184,134,.22);
+      box-shadow:var(--glass-glow), 0 0 60px -20px rgba(212,184,134,.35);
     }
     .card::before,.signature::before,.timeline-item::before,.pricing-card::before{
       content:"";
@@ -598,8 +599,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     .signature{
       padding:22px;display:grid;gap:10px;
-      background:transparent;
-      border-color:transparent;
+      background:var(--glass);
+      border-color:var(--glass-border);
     }
     .signature strong{font-size:18px}
     .signature strong{ text-shadow:0 0 20px rgba(26,46,40,.16) }
@@ -620,8 +621,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     .snapshot{
       padding:24px 0 0;
-      background: transparent;
-      border-bottom:none;
+      background: rgba(30,53,48,.25);
+      border-bottom:1px solid var(--line);
     }
     .snapshot-grid{
       display:grid;
@@ -630,16 +631,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       padding:0 0 18px;
     }
     .snap-card{
-      background:rgba(255,255,255,.02);
-      border:none;
+      background:var(--glass);
+      border:1px solid rgba(255,255,255,.12);
       border-radius:14px;
       padding:14px 16px;
       display:grid;gap:6px;
-      box-shadow:none;
+      box-shadow:0 18px 55px rgba(0,0,0,.55);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
       position:relative;
       overflow:hidden;
-      backdrop-filter:blur(8px);
-      -webkit-backdrop-filter:blur(8px);
     }
     .snap-card::before{
       content:"";
@@ -663,9 +664,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     .brand-strip{
       padding:14px 0;
-      border-top:none;
-      border-bottom:none;
-      background:transparent;
+      border-top:1px solid var(--line);
+      border-bottom:1px solid var(--line);
+      background:rgba(30,53,48,.25);
     }
     .brand-strip h4{
       font-size:12px;color:var(--text-soft);
@@ -680,17 +681,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .logo-pill{
       padding:6px 14px;
       border-radius:var(--radius-pill);
-      border:none;
+      border:1px solid rgba(255,255,255,.12);
       text-align:center;
       color:var(--text-muted);
       font-weight:700;font-size:12px;
-      background:rgba(255,255,255,.02);
-      backdrop-filter:blur(8px);
-      -webkit-backdrop-filter:blur(8px);
-      transition:transform .3s ease;
+      background:rgba(8,16,14,.52);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+      transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;
     }
     .logo-pill:hover{
       transform:translateY(-2px);
+      box-shadow:0 18px 55px rgba(0,0,0,.55);
+      border-color:rgba(26,46,40,.45);
     }
 
     .product-orbit-wrap{
@@ -709,14 +712,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       gap:28px;
       align-items:start;
       padding:30px;
-      background: rgba(255,255,255,.02);
+      background: var(--glass);
       border-radius:20px;
-      border:none;
-      box-shadow:none;
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow:0 22px 64px rgba(0,0,0,.62);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
       position:relative;
       overflow:hidden;
-      backdrop-filter:blur(8px);
-      -webkit-backdrop-filter:blur(8px);
     }
     .product::before{
       content:"";
@@ -731,10 +734,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .timeline-item{
       display:grid;gap:6px;
       padding:16px 18px;
-      background:rgba(255,255,255,.02);
-      border-color:transparent;
-      backdrop-filter:blur(8px);
-      -webkit-backdrop-filter:blur(8px);
+      background:rgba(10,20,18,.62);
+      border-color:rgba(255,255,255,.10);
     }
     .timeline-item span{
       color:rgba(207,214,223,.90);
@@ -747,13 +748,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       position:absolute;top:18px;right:18px;
       font-size:11px;letter-spacing:.06em;text-transform:uppercase;
       padding:6px 10px;border-radius:999px;
-      border:none;
+      border:1px solid rgba(255,255,255,.12);
       color:var(--text-muted);
-      background:rgba(255,255,255,.04);
-      backdrop-filter:blur(8px);
-      -webkit-backdrop-filter:blur(8px);
+      background:rgba(0,0,0,.10);
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
     }
-    .format-badge.brass{border-color:transparent}
+    .format-badge.brass{border-color:rgba(212,184,134,.30)}
     .pricing-card h3{padding-right:72px}
     @media (max-width:480px){
       .format-badge{position:static;display:inline-flex;margin-bottom:10px}
@@ -815,14 +816,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     .accordion{display:grid;gap:14px}
     .accordion-item{
-      border:none;
+      border:1px solid rgba(255,255,255,.12);
       border-radius:14px;
       padding:16px 18px;
-      background:rgba(255,255,255,.02);
+      background:var(--glass);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
       position:relative;
       overflow:hidden;
-      backdrop-filter:blur(8px);
-      -webkit-backdrop-filter:blur(8px);
     }
     .accordion-item::before{
       content:"";
@@ -839,18 +840,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .accordion-item.active .accordion-body{display:block}
 
     .cta{
-      background: rgba(255,255,255,.02);
+      background: var(--glass-2);
       border-radius:var(--radius-lg);
       padding:40px;
-      border:none;
+      border:1px solid rgba(255,255,255,.12);
       display:grid;gap:24px;
       align-items:center;
       grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-      box-shadow:none;
+      box-shadow:0 40px 90px rgba(0,0,0,.65);
       position:relative;
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
       overflow:hidden;
-      backdrop-filter:blur(10px);
-      -webkit-backdrop-filter:blur(10px);
     }
     .cta::before{
       content:"";
@@ -885,24 +886,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     textarea{resize:vertical;min-height:110px}
 
     .form-message{
-      border:none;
+      border:1px solid rgba(255,255,255,.12);
       border-radius:14px;
       padding:12px 14px;
-      background:rgba(255,255,255,.03);
+      background:rgba(8,16,14,.72);
       color:var(--text-muted);
       display:none;
-      backdrop-filter:blur(8px);
-      -webkit-backdrop-filter:blur(8px);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
     }
-    .form-message.success{color:var(--text)}
-    .form-message.error{color:var(--text-muted)}
+    .form-message.success{border-color:rgba(61,107,92,.60);color:var(--text)}
+    .form-message.error{border-color:rgba(255,255,255,.14);color:var(--text-muted)}
 
     .footer{
       padding:44px 0 70px;
       color:var(--text-muted);
-      border-top:none;
+      border-top:1px solid var(--line);
       margin-top:40px;
-      background: transparent;
+      background: rgba(30,53,48,.25);
     }
     .footer-grid{
       display:grid;
@@ -936,9 +937,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       background:rgba(212,184,134,.08);
     }
 
-    .lift{transition:transform .35s ease, filter .35s ease}
+    .lift{transition:transform .35s ease,box-shadow .35s ease,border-color .35s ease, filter .35s ease}
     .lift:hover{
       transform:translateY(-7px);
+      box-shadow:0 40px 90px rgba(0,0,0,.62);
+      border-color:rgba(212,184,134,.20);
       filter:saturate(1.04);
     }
     .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
@@ -1066,18 +1069,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     /* ── Hover glow on cards ── */
     .card,.signature{--mx:50%;--my:50%}
+    .card::after,.signature::after{
+      content:"";position:absolute;inset:0;border-radius:inherit;
+      background:radial-gradient(280px circle at var(--mx) var(--my),rgba(212,184,134,.06),transparent 65%);
+      pointer-events:none;opacity:0;transition:opacity .35s ease;
+    }
+    .card:hover::after,.signature:hover::after{opacity:1}
 
     /* ── Sticky Telegram bar ── */
     .sticky-tg{
       position:fixed;bottom:0;left:0;right:0;z-index:100;
       background:rgba(14,17,22,.94);
       backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
-      border-top:none;
+      border-top:1px solid rgba(212,184,134,.18);
       padding:10px 20px;
       display:flex;align-items:center;justify-content:space-between;gap:14px;
       transform:translateY(100%);
       transition:transform .45s cubic-bezier(.34,1.56,.64,1);
-      box-shadow:none;
+      box-shadow:0 -6px 28px rgba(0,0,0,.48);
     }
     .sticky-tg.visible{transform:translateY(0)}
     .sticky-tg p{color:var(--text-muted);font-size:13px;margin:0}
@@ -1111,12 +1120,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
     .exit-overlay.visible{opacity:1;pointer-events:all}
     .exit-popup{
-      background:rgba(15,31,28,.92);
-      border:none;
+      background:var(--glass-2);
+      border:1px solid rgba(255,255,255,.14);
       border-radius:var(--radius-lg);
       padding:40px;max-width:430px;width:92vw;
       position:relative;
-      box-shadow:none;
+      box-shadow:0 40px 80px rgba(0,0,0,.65);
       backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
       transform:translateY(22px);
       transition:transform .38s cubic-bezier(.34,1.56,.64,1);
@@ -1154,11 +1163,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
     .calc-box{
       display:flex;flex-direction:column;
-      background:rgba(255,255,255,.02);border:none;
+      background:var(--glass);border:1px solid rgba(255,255,255,.12);
       border-radius:var(--radius-md);padding:28px;
-      box-shadow:none;
+      box-shadow:var(--glass-glow);
+      backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
       position:relative;overflow:hidden;
-      backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
     }
     .calc-box::before{
       content:"";position:absolute;left:0;right:0;top:0;height:2px;
@@ -1174,9 +1183,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
     .calc-field input[type=range]:focus{box-shadow:none;border-color:transparent}
     .calc-result-box{
-      background:rgba(255,255,255,.03);border:none;
+      background:rgba(212,184,134,.07);border:1px solid rgba(212,184,134,.20);
       border-radius:14px;padding:20px 22px;margin-bottom:18px;
-      backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
     }
     .calc-result-num{
       font-size:clamp(32px,4vw,44px);font-weight:800;
@@ -1199,10 +1207,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
     .deliverable-item{
       display:flex;align-items:flex-start;gap:14px;
-      background:rgba(255,255,255,.02);border:none;
+      background:var(--glass);border:1px solid rgba(255,255,255,.10);
       border-radius:14px;padding:18px;
       position:relative;overflow:hidden;
-      backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+      backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
     }
     .deliverable-item::before{
       content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
@@ -1225,10 +1233,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       margin-top:24px;
     }
     .not-for-item{
-      padding:20px;background:rgba(255,255,255,.02);
-      border:none;border-radius:14px;
+      padding:20px;background:rgba(10,20,18,.52);
+      border:1px solid rgba(255,255,255,.09);border-radius:14px;
       position:relative;
-      backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
     }
     .not-for-icon{font-size:20px;margin-bottom:8px}
     .not-for-item strong{display:block;margin-bottom:5px}
@@ -1239,10 +1246,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       display:flex;align-items:center;gap:14px;
       margin-top:22px;
       padding:16px 20px;
-      background:rgba(255,255,255,.02);
-      border:none;
+      background:rgba(212,184,134,.06);
+      border:1px solid rgba(212,184,134,.16);
       border-radius:14px;
-      backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
     }
     .urgency-strip p{margin:0;color:var(--text-muted);font-size:.9rem}
     .urgency-strip a{color:var(--text);text-decoration:underline;text-underline-offset:3px}
@@ -1755,7 +1761,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <li><span class="status-icon">✓</span>Формуємо управлінський дашборд на Power BI під ваш бізнес</li>
               <li><span class="status-icon">✓</span>Фіксуємо правила роботи з виконанням</li>
             </ul>
-            <p style="margin-top:16px;padding:12px 14px;border-radius:8px;font-size:.88rem;color:var(--text)">
+            <p style="margin-top:16px;padding:12px 14px;background:var(--brand-soft);border-left:3px solid var(--brass);border-radius:8px;font-size:.88rem;color:var(--text)">
               Після першого тижня — аудит завершено, показники погоджено, дашборд на Power BI в розробці.
             </p>
             <p class="terms">Працюємо під NDA.</p>
@@ -1777,7 +1783,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <li><span class="status-icon">✓</span>Верифікація ключових показників</li>
               <li><span class="status-icon">✓</span>План змін через backlog</li>
             </ul>
-            <p style="margin-top:16px;padding:12px 14px;border-radius:8px;font-size:.88rem;color:var(--text)">
+            <p style="margin-top:16px;padding:12px 14px;background:var(--brand-soft);border-left:3px solid var(--brass);border-radius:8px;font-size:.88rem;color:var(--text)">
               Щотижня ви отримуєте актуальну картину. Ручна робота — на нашому боці.
             </p>
             <p class="terms">Обсяг змін плануємо окремо.</p>
@@ -1841,11 +1847,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <div class="calc-result-sub">≈ <span id="calcResultHours">60</span> год ручної роботи на місяць</div>
               </div>
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px">
-                <div style="border-radius:12px;padding:12px 14px">
+                <div style="background:rgba(61,107,92,.12);border:1px solid rgba(61,107,92,.3);border-radius:12px;padding:12px 14px">
                   <div style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-soft);margin-bottom:4px">Економія / міс</div>
                   <div style="font-size:20px;font-weight:800;color:#6ab89a;letter-spacing:-.02em" id="calcSaved">$1&#8239;500</div>
                 </div>
-                <div style="border-radius:12px;padding:12px 14px">
+                <div style="background:rgba(212,184,134,.06);border:1px solid var(--border);border-radius:12px;padding:12px 14px">
                   <div style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-soft);margin-bottom:4px">Окупність</div>
                   <div style="font-size:20px;font-weight:800;color:var(--bronze);letter-spacing:-.02em" id="calcRoi">1.0 <span style="font-size:12px;font-weight:400">міс</span></div>
                 </div>
@@ -2055,7 +2061,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
         -->
-        <div class="reveal demo-frame-wrap" id="demoFrameWrap" style="border-radius:12px;overflow:hidden;margin-bottom:24px">
+        <div class="reveal demo-frame-wrap" id="demoFrameWrap" style="border:1px solid rgba(212,184,134,.2);border-radius:12px;overflow:hidden;margin-bottom:24px">
           <iframe
             class="demo-frame-iframe"
             title="Nóvellum Demo Dashboard"
@@ -2151,7 +2157,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
 
-        <div class="card reveal" style="margin-top:24px;text-align:center;padding:26px 32px">
+        <div class="card reveal" style="margin-top:24px;text-align:center;padding:26px 32px;background:rgba(212,184,134,.05);border-color:rgba(212,184,134,.18)">
           <p style="color:var(--text)">Якщо сумніваєтесь — просто напишіть. Більшість питань стають зрозумілими після першої розмови.</p>
           <div style="margin-top:16px">
             <a class="button primary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">Написати в Telegram</a>
@@ -2269,7 +2275,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <!-- <p><a href="legal/public-offer.pdf" target="_blank" rel="noopener noreferrer">Публічна оферта (Reminder Bot)</a></p> -->
       </div>
     </div>
-    <div class="container" style="margin-top:32px;padding-top:20px;padding-bottom:8px">
+    <div class="container" style="border-top:1px solid rgba(255,255,255,.06);margin-top:32px;padding-top:20px;padding-bottom:8px">
       <p style="font-size:.75rem;color:var(--text-soft);margin:0">© <span id="year"></span> ФОП Кухарчук Сергій Миколайович</p>
     </div>
   </footer>

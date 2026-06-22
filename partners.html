@@ -90,8 +90,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       --gap:20px;
       --section-pad:72px;
 
-      --glass:rgba(15,31,28,.75);
-      --glass-2:rgba(10,24,22,.72);
+      --glass:rgba(26,46,40,.12);
+      --glass-2:rgba(26,46,40,.10);
       --glass-border:rgba(212,184,134,.10);
       --glass-border-2:rgba(212,184,134,.18);
       --glass-glow:0 18px 55px rgba(0,0,0,.58);
@@ -138,11 +138,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
 
     body > header{
-      position:sticky;top:-1px;
-      background:rgba(15,31,28,.62);
+      position:sticky;top:0;
+      background:rgba(15,31,28,.88);
       backdrop-filter:blur(14px);
       -webkit-backdrop-filter:blur(14px);
       z-index:50;
+      border-bottom:1px solid var(--border);
+    }
+    body > header::after{
+      content:"";
+      position:absolute;left:0;right:0;bottom:-1px;height:1px;
+      background:var(--top-accent);
+      pointer-events:none;
     }
 
     .nav{
@@ -241,22 +248,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       display:inline-flex;align-items:center;gap:8px;
       padding:6px 14px;border-radius:var(--radius-pill);
       font-size:12px;letter-spacing:.08em;text-transform:uppercase;
-      border:none;
+      border:1px solid rgba(212,184,134,.18);
       color:var(--bronze);
-      background:rgba(255,255,255,.03);
-      backdrop-filter:blur(8px);
-      -webkit-backdrop-filter:blur(8px);
+      background:rgba(212,184,134,.08);
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
     }
     .pill .dot{
       width:8px;height:8px;border-radius:50%;
       background:rgba(43,107,79,.98);
       box-shadow:0 0 0 6px rgba(43,107,79,.16), 0 0 28px rgba(43,107,79,.22);
-    }
-    .hero .pill{
-      border:1px solid rgba(212,184,134,.18);
-      background:rgba(212,184,134,.08);
-      backdrop-filter:blur(10px);
-      -webkit-backdrop-filter:blur(10px);
     }
 
     .title-accent{
@@ -342,14 +343,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--gap)}
 
     .card,.pricing-card{
-      background:rgba(255,255,255,.02);
-      border:none;
+      background:var(--glass);
+      border:1px solid rgba(255,255,255,.12);
       border-radius:var(--radius-md);
-      box-shadow:none;
+      box-shadow:var(--glass-glow);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
       position:relative;
       overflow:hidden;
-      backdrop-filter:blur(8px);
-      -webkit-backdrop-filter:blur(8px);
     }
     .card::before,.pricing-card::before{
       content:"";
@@ -363,6 +364,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .pricing-card{
       padding:24px;
       display:grid;gap:10px;
+      background:rgba(10,20,18,.70);
+      border-color:rgba(212,184,134,.12);
     }
     .price{font-size:14px;color:var(--text-muted)}
     .terms{font-size:12px;color:var(--text-soft)}
@@ -372,18 +375,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .pricing-card .terms{font-size:15px;line-height:1.65;color:var(--text-muted)}
 
     .cta{
-      background:rgba(255,255,255,.02);
+      background:rgba(10,24,22,.80);
       border-radius:var(--radius-lg);
       padding:40px;
-      border:none;
+      border:1px solid rgba(255,255,255,.12);
       display:grid;gap:24px;
       align-items:center;
       grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-      box-shadow:none;
+      box-shadow:0 40px 90px rgba(0,0,0,.65);
       position:relative;
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
       overflow:hidden;
-      backdrop-filter:blur(10px);
-      -webkit-backdrop-filter:blur(10px);
     }
     .cta::before{
       content:"";
@@ -410,24 +413,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     textarea{resize:vertical;min-height:110px}
 
     .form-message{
-      border:none;
+      border:1px solid rgba(255,255,255,.12);
       border-radius:14px;
       padding:12px 14px;
-      background:rgba(255,255,255,.03);
+      background:rgba(8,16,14,.80);
       color:var(--text-muted);
       display:none;
-      backdrop-filter:blur(8px);
-      -webkit-backdrop-filter:blur(8px);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
     }
-    .form-message.success{color:var(--text)}
-    .form-message.error{color:var(--text-muted)}
+    .form-message.success{border-color:rgba(61,107,92,.60);color:var(--text)}
+    .form-message.error{border-color:rgba(255,255,255,.14);color:var(--text-muted)}
 
     .footer{
       padding:44px 0 70px;
       color:var(--text-muted);
-      border-top:none;
+      border-top:1px solid var(--line);
       margin-top:40px;
-      background: transparent;
+      background: var(--surface);
     }
     .footer-grid{
       display:grid;
@@ -445,9 +448,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .footer p{margin:6px 0}
     .footer a:hover{color:var(--text)}
 
-    .lift{transition:transform .35s ease, filter .35s ease}
+    .lift{transition:transform .35s ease,box-shadow .35s ease,border-color .35s ease, filter .35s ease}
     .lift:hover{
       transform:translateY(-7px);
+      box-shadow:0 40px 90px rgba(0,0,0,.62);
+      border-color:rgba(212,184,134,.20);
       filter:saturate(1.04);
     }
     .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
@@ -607,7 +612,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </section>
 
     <!-- БЛОК: Повний ланцюг — додано -->
-    <section style="padding:var(--section-pad,72px) 0">
+    <section style="padding:var(--section-pad,72px) 0;border-top:1px solid rgba(212,184,134,.12)">
       <div class="container glass-panel">
         <div class="section-title reveal">
           <div>
@@ -697,7 +702,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <!-- <p><a href="legal/public-offer.pdf" target="_blank" rel="noopener noreferrer">Публічна оферта (Reminder Bot)</a></p> -->
       </div>
     </div>
-    <div class="container" style="margin-top:32px;padding-top:20px;padding-bottom:8px">
+    <div class="container" style="border-top:1px solid rgba(255,255,255,.06);margin-top:32px;padding-top:20px;padding-bottom:8px">
       <p style="font-size:.75rem;color:var(--text-soft);margin:0">© <span id="year"></span> ФОП Кухарчук Сергій Миколайович</p>
     </div>
   </footer>
