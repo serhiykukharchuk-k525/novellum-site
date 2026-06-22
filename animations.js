@@ -423,6 +423,23 @@
       try { texts = JSON.parse(el.dataset.typewriter); } catch (e) { return; }
       var idx = 0, charIdx = 0, deleting = false;
 
+      // Reserve height for the tallest of the rotating strings up front,
+      // so wrapping to a 2nd line mid-type never shifts content below it.
+      var probe = el.cloneNode();
+      probe.style.visibility = 'hidden';
+      probe.style.position = 'absolute';
+      probe.style.pointerEvents = 'none';
+      probe.style.minHeight = '0';
+      probe.style.width = getComputedStyle(el).width;
+      el.parentNode.insertBefore(probe, el);
+      var maxHeight = 0;
+      texts.forEach(function (t) {
+        probe.textContent = t;
+        maxHeight = Math.max(maxHeight, probe.offsetHeight);
+      });
+      probe.remove();
+      if (maxHeight) el.style.minHeight = maxHeight + 'px';
+
       function type() {
         var cur = texts[idx];
         if (!deleting) {
