@@ -35,7 +35,7 @@ body > footer {
   inset: 0;
   z-index: 4;
   pointer-events: none;
-  background: rgba(0, 0, 0, 0.26);
+  background: rgba(0, 0, 0, 0.14);
 }
 
 /* ── HERO TRUST STRIP ── */
