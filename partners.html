@@ -127,8 +127,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .container{width:min(1160px,92vw);margin:0 auto}
 
     body > header{
-      position:sticky;top:0;
-      background:rgba(15,31,28,.45);
+      position:sticky;top:-1px;
+      background:rgba(15,31,28,.62);
       backdrop-filter:blur(14px);
       -webkit-backdrop-filter:blur(14px);
       z-index:50;
@@ -427,11 +427,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .footer p{margin:6px 0}
     .footer a:hover{color:var(--text)}
 
-    .lift{transition:transform .35s ease,box-shadow .35s ease,border-color .35s ease, filter .35s ease}
+    .lift{transition:transform .35s ease, filter .35s ease}
     .lift:hover{
       transform:translateY(-7px);
-      box-shadow:0 40px 90px rgba(0,0,0,.62);
-      border-color:rgba(212,184,134,.20);
       filter:saturate(1.04);
     }
     .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
