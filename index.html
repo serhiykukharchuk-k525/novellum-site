@@ -603,6 +603,35 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .signature strong{font-size:18px}
     .signature strong{ text-shadow:0 0 20px rgba(26,46,40,.16) }
 
+    /* ── Narrative list — card-free vertical list of points ── */
+    .narrative-list{display:flex;flex-direction:column;max-width:680px}
+    .narrative-item{
+      display:grid;grid-template-columns:48px 1fr;gap:20px;
+      padding:20px 0;
+      border-bottom:1px solid rgba(255,255,255,.10);
+    }
+    .narrative-num{
+      font-size:16px;font-weight:600;letter-spacing:.04em;
+      color:var(--brass);opacity:.85;
+    }
+    .narrative-item h3{margin-bottom:6px}
+    .narrative-item p{color:var(--text-muted);margin:0}
+
+    /* ── Paragraph grid — card-free 2-column list of points ── */
+    .paragraph-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px 36px;max-width:880px}
+    .paragraph-item h3{
+      font-size:15px;margin-bottom:6px;
+      display:flex;align-items:center;gap:10px;
+    }
+    .paragraph-item h3::before{
+      content:"";display:inline-block;width:16px;height:2px;
+      background:var(--brass);flex-shrink:0;
+    }
+    .paragraph-item p{color:var(--text-muted);margin:0;font-size:.92rem}
+    @media (max-width:768px){
+      .paragraph-grid{grid-template-columns:1fr}
+    }
+
     .pricing-card{padding:24px;display:grid;gap:14px;overflow:visible}
     .price{font-size:30px;font-weight:800;letter-spacing:-.01em}
     .pricing-card ul{list-style:none;display:grid;gap:10px;color:var(--text-muted)}
@@ -1648,37 +1677,55 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <p>Ми збираємо дані так, щоб картина бізнесу була зрозуміла з першого погляду — без підготовки і пояснень.</p>
         </div>
 
-        <div class="grid-3">
-          <div class="card lift reveal">
-            <h3>Одна картина</h3>
-            <p>Без десятків таблиць і розрізнених файлів.</p>
+        <div class="narrative-list" style="margin-top:8px">
+          <div class="narrative-item reveal">
+            <span class="narrative-num">01</span>
+            <div>
+              <h3>Одна картина</h3>
+              <p>Без десятків таблиць і розрізнених файлів.</p>
+            </div>
           </div>
-          <div class="card lift reveal">
-            <h3>Одна версія цифр</h3>
-            <p>Щоб рішення не залежали від різних трактувань.</p>
+          <div class="narrative-item reveal">
+            <span class="narrative-num">02</span>
+            <div>
+              <h3>Одна версія цифр</h3>
+              <p>Щоб рішення не залежали від різних трактувань.</p>
+            </div>
           </div>
-          <div class="card lift reveal">
-            <h3>Виконання в полі зору</h3>
-            <p>Дедлайни та статуси видно так само чітко, як фінанси.</p>
+          <div class="narrative-item reveal">
+            <span class="narrative-num">03</span>
+            <div>
+              <h3>Виконання в полі зору</h3>
+              <p>Дедлайни та статуси видно так само чітко, як фінанси.</p>
+            </div>
           </div>
-        </div>
-
-        <div class="grid-4" style="margin-top:24px">
-          <div class="signature lift reveal">
-            <strong>10–15 ключових KPI</strong>
-            <p>Фокус на тому, що справді керує бізнесом.</p>
+          <div class="narrative-item reveal">
+            <span class="narrative-num">04</span>
+            <div>
+              <h3>10–15 ключових KPI</h3>
+              <p>Фокус на тому, що справді керує бізнесом.</p>
+            </div>
           </div>
-          <div class="signature lift reveal">
-            <strong>Один дашборд</strong>
-            <p>Фінанси, продажі, операції — в одному місці.</p>
+          <div class="narrative-item reveal">
+            <span class="narrative-num">05</span>
+            <div>
+              <h3>Один дашборд</h3>
+              <p>Фінанси, продажі, операції — в одному місці.</p>
+            </div>
           </div>
-          <div class="signature lift reveal">
-            <strong>Відповідальність видима</strong>
-            <p>Щоб не шукати відповідальних у чатах і на зустрічах.</p>
+          <div class="narrative-item reveal">
+            <span class="narrative-num">06</span>
+            <div>
+              <h3>Відповідальність видима</h3>
+              <p>Щоб не шукати відповідальних у чатах і на зустрічах.</p>
+            </div>
           </div>
-          <div class="signature lift reveal">
-            <strong>Менше уточнень</strong>
-            <p>Коли все видно в одному місці, не треба витрачати ранок на уточнення і дзвінки.</p>
+          <div class="narrative-item reveal" style="border-bottom:none">
+            <span class="narrative-num">07</span>
+            <div>
+              <h3>Менше уточнень</h3>
+              <p>Коли все видно в одному місці, не треба витрачати ранок на уточнення і дзвінки.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -1693,28 +1740,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <h2 class="title-accent">Що заважає зробити це своїми силами.</h2>
           </div>
         </div>
-        <div class="grid-3" style="margin-top:8px">
-          <div class="card lift reveal">
+        <div class="paragraph-grid" style="margin-top:8px">
+          <div class="paragraph-item reveal">
             <h3>Не зрозуміло які KPI важливі</h3>
             <p>Немає розуміння які показники справді керують бізнесом — вимірюють все підряд.</p>
           </div>
-          <div class="card lift reveal">
+          <div class="paragraph-item reveal">
             <h3>Облік хаотичний</h3>
             <p>Дані в різних місцях — Excel, CRM, 1С, чати. Зведення займає дні.</p>
           </div>
-          <div class="card lift reveal">
+          <div class="paragraph-item reveal">
             <h3>Немає часу розбиратись</h3>
             <p>Все горить. Аналітика відкладається до кращих часів — які не настають.</p>
           </div>
-          <div class="card lift reveal">
+          <div class="paragraph-item reveal">
             <h3>Фрілансер зробив і зник</h3>
             <p>Дашборд є, але застарів. Ніхто не підтримує — використовувати страшно.</p>
           </div>
-          <div class="card lift reveal">
+          <div class="paragraph-item reveal">
             <h3>IT і бізнес говорять різними мовами</h3>
             <p>IT не розуміє бізнес-логіку. Бізнес не може сформулювати задачу технічно.</p>
           </div>
-          <div class="card lift reveal">
+          <div class="paragraph-item reveal">
             <h3>Страх що не будуть використовувати</h3>
             <p>Зроблять — а команда повернеться до Excel. Гроші витрачені, результат нульовий.</p>
           </div>
