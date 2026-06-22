@@ -459,16 +459,10 @@ body > footer {
   letter-spacing: .12em;
   text-transform: uppercase;
   color: #D4B886 !important;
+  margin-top: 14px;
   margin-bottom: 16px;
   min-height: 18px;
   display: inline-block;
-  border-right: 2px solid rgba(212,184,134,.6);
-  padding-right: 2px;
-  animation: cursorBlink .8s step-end infinite;
-}
-@keyframes cursorBlink {
-  0%, 100% { border-color: rgba(212,184,134,.6); }
-  50% { border-color: transparent; }
 }
 
 /* ── SECTION TYPEWRITER (legacy) ── */
