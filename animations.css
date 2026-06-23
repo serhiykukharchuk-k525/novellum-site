@@ -133,7 +133,7 @@ body > footer {
   box-shadow: 0 50px 100px rgba(0,0,0,.75);
   overflow: hidden;
   position: relative;
-  aspect-ratio: 495 / 1034;
+  aspect-ratio: 495 / 854;
 }
 .phone-v-statusbar {
   display: flex;
@@ -148,17 +148,19 @@ body > footer {
   z-index: 2;
 }
 .phone-v-fade {
-  /* short fade so it blends the screen's bottom edge smoothly */
+  /* hides the cropped bottom edge of the phone photo with a fake chin/bezel */
   position: absolute;
-  bottom: 6%; left: 0; right: 0;
-  height: 60px;
+  bottom: 0; left: 0; right: 0;
+  height: 110px;
   background: linear-gradient(
     to top,
-    var(--bg, #1A2E28) 0%,
+    #0d0d0d 0%,
+    #0d0d0d 30%,
     transparent 100%
   );
+  border-radius: 0 0 48px 48px;
   pointer-events: none;
-  z-index: 4;
+  z-index: 6;
 }
 .phone-v-shell {
   position: absolute;
