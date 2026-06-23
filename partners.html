@@ -2,25 +2,6 @@
 <html lang="uk">
 
 <head>
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-NGTBVNVX');</script>
-<!-- End Google Tag Manager -->
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NGTBVNVX"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7SBGJB4TH4"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-7SBGJB4TH4');
-</script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Nóvellum — партнерство</title>
@@ -340,30 +321,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--gap)}
     .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--gap)}
 
-    .card,.pricing-card{
-      background:var(--glass);
-      border:1px solid rgba(255,255,255,.12);
-      border-radius:var(--radius-md);
-      box-shadow:var(--glass-glow);
-      backdrop-filter:blur(14px);
-      -webkit-backdrop-filter:blur(14px);
+    .card{
+      padding:0 0 22px;
+      border-bottom:1px solid rgba(255,255,255,.12);
       position:relative;
-      overflow:hidden;
     }
-    .card::before,.pricing-card::before{
-      content:"";
-      position:absolute;left:0;right:0;top:0;height:2px;
-      background:var(--top-accent);
-      opacity:.90;
-    }
-    .card{padding:22px}
     .card h3,.pricing-card h3{margin-bottom:8px;font-size:16px;font-weight:700}
     .card p{color:var(--text-muted)}
     .pricing-card{
-      padding:24px;
-      display:grid;gap:10px;
-      background:rgba(10,20,18,.70);
-      border-color:rgba(212,184,134,.12);
+      padding:0;
+      display:grid;gap:14px;
+      position:relative;
+    }
+    @media (min-width:769px){
+      .pricing-card:not(:first-child){border-left:1px solid rgba(255,255,255,.12);padding-left:40px}
     }
     .price{font-size:14px;color:var(--text-muted)}
     .terms{font-size:12px;color:var(--text-soft)}
@@ -373,42 +344,29 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .pricing-card .terms{font-size:15px;line-height:1.65;color:var(--text-muted)}
 
     .cta{
-      background:rgba(10,24,22,.80);
-      border-radius:var(--radius-lg);
-      padding:40px;
-      border:1px solid rgba(255,255,255,.12);
+      padding:0;
       display:grid;gap:24px;
       align-items:center;
       grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-      box-shadow:0 40px 90px rgba(0,0,0,.65);
       position:relative;
-      backdrop-filter:blur(16px);
-      -webkit-backdrop-filter:blur(16px);
-      overflow:hidden;
     }
-    .cta::before{
-      content:"";
-      position:absolute;left:18px;right:18px;top:12px;
-      height:2px;border-radius:999px;
-      background:var(--top-accent);
-      opacity:.95;
-    }
-    .cta form{display:grid;gap:12px}
+    .cta form{display:grid;gap:18px;position:relative}
     input,textarea{
-      background:rgba(10,20,18,.68);
-      border:1px solid rgba(255,255,255,.10);
-      border-radius:12px;
-      padding:12px 14px;
+      background:none;
+      border:none;
+      border-bottom:1px solid rgba(255,255,255,.18);
+      border-radius:0;
+      padding:10px 2px;
       color:var(--text);
       font-family:inherit;
       outline:none;
-      transition:border-color .2s ease, box-shadow .2s ease;
+      transition:border-color .2s ease;
     }
     input:focus,textarea:focus{
-      border-color:rgba(212,184,134,.55);
-      box-shadow:0 0 0 3px rgba(212,184,134,.12);
+      border-color:rgba(212,184,134,.65);
+      box-shadow:none;
     }
-    textarea{resize:vertical;min-height:110px}
+    textarea{resize:vertical;min-height:90px}
 
     .form-message{
       border:1px solid rgba(255,255,255,.12);
@@ -483,10 +441,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </head>
 
 <body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NFX46QXS"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
   <header>
     <div class="container nav">
       <a class="logo" href="index.html">
@@ -643,7 +597,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </section>
 
     <section id="contact">
-      <div class="container glass-panel">
+      <div class="container" style="padding:48px clamp(24px,4vw,56px)">
         <div class="cta">
           <div>
             <div class="pill"><span class="dot"></span>Контакти</div>
