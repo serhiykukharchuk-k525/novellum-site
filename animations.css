@@ -133,34 +133,26 @@ body > footer {
   box-shadow: 0 50px 100px rgba(0,0,0,.75);
   overflow: hidden;
   position: relative;
-  aspect-ratio: 495 / 792;
+  aspect-ratio: 914 / 1797;
+}
+.phone-v-screen {
+  /* matches the transparent screen area cut into the phone photo */
+  position: absolute;
+  top: 7%; bottom: 3.2%; left: 8.2%; right: 7%;
+  overflow: hidden;
+  border-radius: 28px;
+  z-index: 2;
 }
 .phone-v-statusbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 40px 30px 4px;
+  padding: 6px 10px 4px;
   font-size: 12px;
   font-weight: 600;
   color: rgba(255,255,255,.5);
   letter-spacing: .02em;
   position: relative;
-  z-index: 2;
-}
-.phone-v-fade {
-  /* hides the cropped bottom edge of the phone photo with a fake chin/bezel */
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 80px;
-  background: linear-gradient(
-    to top,
-    #0d0d0d 0%,
-    #0d0d0d 35%,
-    transparent 100%
-  );
-  border-radius: 0 0 48px 48px;
-  pointer-events: none;
-  z-index: 6;
 }
 .phone-v-shell {
   position: absolute;
@@ -170,7 +162,6 @@ body > footer {
   object-fit: contain;
   pointer-events: none;
   z-index: 5;
-  filter: grayscale(1) brightness(.45);
 }
 .hero-visual {
   padding: 0 !important;
