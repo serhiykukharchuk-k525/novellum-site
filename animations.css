@@ -135,48 +135,32 @@ body > footer {
   position: relative;
   aspect-ratio: 914 / 1550;
 }
-.phone-v-screen {
-  /* matches the transparent screen area cut into the phone photo */
-  position: absolute;
-  top: 8.1%; bottom: 5.6%; left: 7.9%; right: 7.2%;
-  overflow: hidden;
+.phone-v-statusbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 30px 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,.5);
+  letter-spacing: .02em;
+  position: relative;
   z-index: 2;
 }
-.phone-v-time, .phone-v-icons {
-  /* sit in the flat niches beside the camera pill, like a real status bar */
-  position: absolute;
-  top: 4.1%; height: 4%;
-  display: flex;
-  align-items: center;
-  font-size: 11px;
-  font-weight: 600;
-  color: rgba(255,255,255,.55);
-  letter-spacing: .02em;
-  z-index: 3;
-}
-.phone-v-time {
-  left: 9.4%; width: 17.9%;
-  justify-content: flex-start;
-}
-.phone-v-icons {
-  left: 73.3%; width: 17.7%;
-  justify-content: flex-end;
-  gap: 4px;
-  font-size: 10px;
-}
 .phone-v-fade {
-  /* hides the cropped bottom edge with a fake dark chin */
+  /* hides the cropped bottom edge of the phone photo with a fake chin/bezel */
   position: absolute;
   bottom: 0; left: 0; right: 0;
   height: 9%;
   background: linear-gradient(
     to top,
     #0d0d0d 0%,
-    #0d0d0d 40%,
+    #0d0d0d 35%,
     transparent 100%
   );
+  border-radius: 0 0 48px 48px;
   pointer-events: none;
-  z-index: 4;
+  z-index: 6;
 }
 .phone-v-shell {
   position: absolute;
