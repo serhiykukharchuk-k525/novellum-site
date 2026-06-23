@@ -139,7 +139,7 @@ body > footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 40px 38px 4px 42px;
+  padding: 40px 30px 4px 34px;
   font-size: 12px;
   font-weight: 600;
   color: rgba(255,255,255,.5);
@@ -151,13 +151,11 @@ body > footer {
   /* hides the cropped bottom edge of the phone photo with a fake chin/bezel */
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  height: 17%;
+  height: 9%;
   background: linear-gradient(
     to top,
     #0d0d0d 0%,
-    #0d0d0d 22%,
-    rgba(13,13,13,.88) 42%,
-    rgba(13,13,13,.55) 68%,
+    #0d0d0d 35%,
     transparent 100%
   );
   border-radius: 0 0 48px 48px;
