@@ -533,8 +533,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       -webkit-backdrop-filter:blur(10px);
     }
 
-    section{padding:var(--section-pad) 0;border-top:1px solid rgba(212,184,134,.15)}
-    section:first-of-type{border-top:none}
+    section{padding:var(--section-pad) 0}
     section[id]{scroll-margin-top:68px}
     section.divider{position:relative}
     section.divider::after{
@@ -617,8 +616,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .narrative-item h3{margin-bottom:6px}
     .narrative-item p{color:var(--text-muted);margin:0}
 
-    /* ── Paragraph grid — card-free 2-column list of points ── */
-    .paragraph-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px 36px;max-width:880px}
+    /* ── Paragraph grid — card-free newspaper-style 2-column list ── */
+    .paragraph-grid{column-count:2;column-gap:36px;max-width:880px}
+    .paragraph-item{break-inside:avoid;margin-bottom:28px}
     .paragraph-item h3{
       font-size:15px;margin-bottom:6px;
       display:flex;align-items:center;gap:10px;
@@ -629,7 +629,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
     .paragraph-item p{color:var(--text-muted);margin:0;font-size:.92rem}
     @media (max-width:768px){
-      .paragraph-grid{grid-template-columns:1fr}
+      .paragraph-grid{column-count:1}
     }
 
     .pricing-card{padding:24px;display:grid;gap:14px;overflow:visible}
