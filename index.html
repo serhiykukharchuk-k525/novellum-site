@@ -2,28 +2,10 @@
 <html lang="uk">
 
 <head>
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-NGTBVNVX');</script>
-<!-- End Google Tag Manager -->
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NGTBVNVX"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7SBGJB4TH4"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-7SBGJB4TH4');
-</script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Nóvellum — Система управлінської стабільності</title>
+  <link rel="preload" href="/assets/fonts/manrope-cyrillic-ext.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/manrope-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="icon" href="assets/favicon/favicon.ico" media="(prefers-color-scheme: dark)">
@@ -771,18 +753,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       text-transform:uppercase;
     }
 
-    /* ── Card-free process timeline — vertical line with dot markers ── */
+    /* ── Card-free process timeline — animated hairline + dots (see .tl-* in animations.css) ── */
     .process-timeline{
       display:flex;flex-direction:column;gap:28px;
-      border-left:1px solid rgba(255,255,255,.14);
-      padding-left:26px;margin-top:8px;max-width:680px;
+      margin-top:8px;max-width:680px;
     }
     .process-step{position:relative}
-    .process-step::before{
-      content:"";position:absolute;left:-31px;top:5px;
-      width:8px;height:8px;border-radius:50%;
-      background:var(--brass);
-    }
     .process-step span{
       color:rgba(207,214,223,.90);
       font-size:11px;letter-spacing:.08em;text-transform:uppercase;
@@ -1427,10 +1403,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NFX46QXS"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
   <header>
     <div class="container nav">
       <a class="logo" href="#">
