@@ -139,7 +139,7 @@ body > footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 40px 30px 4px 34px;
+  padding: 40px 30px 4px;
   font-size: 12px;
   font-weight: 600;
   color: rgba(255,255,255,.5);
