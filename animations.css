@@ -133,7 +133,7 @@ body > footer {
   box-shadow: 0 50px 100px rgba(0,0,0,.75);
   overflow: hidden;
   position: relative;
-  aspect-ratio: 495 / 854;
+  aspect-ratio: 495 / 792;
 }
 .phone-v-statusbar {
   display: flex;
@@ -151,11 +151,11 @@ body > footer {
   /* hides the cropped bottom edge of the phone photo with a fake chin/bezel */
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  height: 110px;
+  height: 80px;
   background: linear-gradient(
     to top,
     #0d0d0d 0%,
-    #0d0d0d 30%,
+    #0d0d0d 35%,
     transparent 100%
   );
   border-radius: 0 0 48px 48px;
