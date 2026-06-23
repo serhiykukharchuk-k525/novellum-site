@@ -130,46 +130,45 @@ body > footer {
 .phone-v-frame {
   background: #0d0d0d;
   border-radius: 48px;
-  border: 9px solid #1e1e1e;
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,.08),
-    0 50px 100px rgba(0,0,0,.75),
-    inset 0 1px 0 rgba(255,255,255,.06);
+  box-shadow: 0 50px 100px rgba(0,0,0,.75);
   overflow: hidden;
   position: relative;
-}
-.phone-v-notch {
-  position: absolute;
-  top: 0; left: 50%;
-  transform: translateX(-50%);
-  width: 100px; height: 28px;
-  background: #0d0d0d;
-  border-radius: 0 0 20px 20px;
-  z-index: 5;
+  aspect-ratio: 495 / 1034;
 }
 .phone-v-statusbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 32px 22px 4px;
+  padding: 40px 30px 4px;
   font-size: 12px;
   font-weight: 600;
   color: rgba(255,255,255,.5);
   letter-spacing: .02em;
+  position: relative;
+  z-index: 2;
 }
 .phone-v-fade {
   /* short fade so it blends the screen's bottom edge smoothly */
   position: absolute;
-  bottom: 0; left: 0; right: 0;
+  bottom: 6%; left: 0; right: 0;
   height: 60px;
   background: linear-gradient(
     to top,
     var(--bg, #1A2E28) 0%,
     transparent 100%
   );
-  border-radius: 0 0 40px 40px;
   pointer-events: none;
   z-index: 4;
+}
+.phone-v-shell {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 5;
+  filter: grayscale(1) brightness(.45);
 }
 .hero-visual {
   padding: 0 !important;
