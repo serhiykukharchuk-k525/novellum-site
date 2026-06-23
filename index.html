@@ -548,7 +548,7 @@
     .grid-4{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:22px}
     .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--gap)}
 
-    .card,.signature,.timeline-item,.pricing-card{
+    .card,.signature{
       background:var(--glass);
       border:1px solid rgba(255,255,255,.12);
       border-radius:var(--radius-md);
@@ -558,14 +558,7 @@
       position:relative;
       overflow:hidden;
     }
-    /* Pricing cards carry the decision-making content — a soft bronze glow
-       draws focus without changing opacity (keeps the glass uniform across
-       the page, avoiding a tiled/boxy look). */
-    .pricing-card{
-      border-color:rgba(212,184,134,.22);
-      box-shadow:var(--glass-glow), 0 0 60px -20px rgba(212,184,134,.35);
-    }
-    .card::before,.signature::before,.timeline-item::before,.pricing-card::before{
+    .card::before,.signature::before{
       content:"";
       position:absolute;left:0;right:0;top:0;height:2px;
       background:var(--top-accent);
@@ -614,7 +607,12 @@
       .paragraph-grid{column-count:1}
     }
 
-    .pricing-card{padding:24px;display:grid;gap:14px;overflow:visible}
+    /* ── Card-free format columns — plain text, separated by a vertical rule ── */
+    .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--gap)}
+    .pricing-card{padding:0;display:grid;gap:14px;position:relative}
+    @media (min-width:769px){
+      .pricing-card:not(:first-child){border-left:1px solid rgba(255,255,255,.12);padding-left:40px}
+    }
     .price{font-size:30px;font-weight:800;letter-spacing:-.01em}
     .pricing-card ul{list-style:none;display:grid;gap:10px;color:var(--text-muted)}
     .status-icon{
@@ -739,20 +737,6 @@
     .product ul{list-style:none;display:grid;gap:12px;color:var(--text-muted)}
     .product li{display:flex;gap:10px}
 
-    .timeline{display:grid;gap:14px}
-    .timeline-item{
-      display:grid;gap:6px;
-      padding:16px 18px;
-      background:rgba(10,20,18,.62);
-      border-color:rgba(255,255,255,.10);
-    }
-    .timeline-item span{
-      color:rgba(207,214,223,.90);
-      font-size:11px;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-    }
-
     /* ── Card-free process timeline — animated hairline + dots (see .tl-* in animations.css) ── */
     .process-timeline{
       display:flex;flex-direction:column;gap:28px;
@@ -768,7 +752,7 @@
     .process-step p{color:var(--text-muted);margin:0}
 
     .format-badge{
-      position:absolute;top:18px;right:18px;
+      display:inline-flex;margin-bottom:6px;
       font-size:11px;letter-spacing:.06em;text-transform:uppercase;
       padding:6px 10px;border-radius:999px;
       border:1px solid rgba(255,255,255,.12);
@@ -778,11 +762,6 @@
       -webkit-backdrop-filter:blur(10px);
     }
     .format-badge.brass{border-color:rgba(212,184,134,.30)}
-    .pricing-card h3{padding-right:72px}
-    @media (max-width:480px){
-      .format-badge{position:static;display:inline-flex;margin-bottom:10px}
-      .pricing-card h3{padding-right:0}
-    }
     .format-track{
       margin-top:4px;
       display:flex;align-items:center;gap:10px;
@@ -837,23 +816,13 @@
     .reminder-sub{color:var(--text-muted);max-width:520px}
     .reminder-mini{margin-top:10px;color:var(--text-soft);font-size:12px}
 
-    .accordion{display:grid;gap:14px}
+    .accordion{display:grid}
     .accordion-item{
-      border:1px solid rgba(255,255,255,.12);
-      border-radius:14px;
-      padding:16px 18px;
-      background:var(--glass);
-      backdrop-filter:blur(14px);
-      -webkit-backdrop-filter:blur(14px);
+      border-bottom:1px solid rgba(255,255,255,.12);
+      padding:18px 0;
       position:relative;
-      overflow:hidden;
     }
-    .accordion-item::before{
-      content:"";
-      position:absolute;left:0;right:0;top:0;height:2px;
-      background:var(--top-accent);
-      opacity:.80;
-    }
+    .accordion-item:first-child{border-top:1px solid rgba(255,255,255,.12)}
     .accordion-header{
       display:flex;justify-content:space-between;align-items:center;
       cursor:pointer;font-weight:700;
@@ -863,50 +832,28 @@
     .accordion-item.active .accordion-body{display:block}
 
     .cta{
-      background: var(--glass-2);
-      border-radius:var(--radius-lg);
-      padding:40px;
-      border:1px solid rgba(255,255,255,.12);
       display:grid;gap:24px;
       align-items:center;
       grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-      box-shadow:0 40px 90px rgba(0,0,0,.65);
       position:relative;
-      backdrop-filter:blur(16px);
-      -webkit-backdrop-filter:blur(16px);
-      overflow:hidden;
     }
-    .cta::before{
-      content:"";
-      position:absolute;left:18px;right:18px;top:12px;
-      height:2px;border-radius:999px;
-      background:var(--top-accent);
-      opacity:.95;
-    }
-    .cta::after{
-      content:"";
-      position:absolute;inset:-2px;
-      border-radius:26px;
-      background: none;
-      pointer-events:none;
-      opacity:.8;
-    }
-    .cta form{display:grid;gap:12px; position:relative}
+    .cta form{display:grid;gap:18px; position:relative}
     input,textarea{
-      background:rgba(10,20,18,.62);
-      border:1px solid rgba(255,255,255,.12);
-      border-radius:12px;
-      padding:12px 14px;
+      background:none;
+      border:none;
+      border-bottom:1px solid rgba(255,255,255,.18);
+      border-radius:0;
+      padding:10px 2px;
       color:var(--text);
       font-family:inherit;
       outline:none;
-      transition:border-color .2s ease, box-shadow .2s ease;
+      transition:border-color .2s ease;
     }
     input:focus,textarea:focus{
-      border-color:rgba(212,184,134,.55);
-      box-shadow:0 0 0 3px rgba(212,184,134,.12);
+      border-color:rgba(212,184,134,.65);
+      box-shadow:none;
     }
-    textarea{resize:vertical;min-height:110px}
+    textarea{resize:vertical;min-height:90px}
 
     .form-message{
       border:1px solid rgba(255,255,255,.12);
@@ -1187,18 +1134,13 @@
     }
     .calc-box{
       display:flex;flex-direction:column;
-      background:var(--glass);border:1px solid rgba(255,255,255,.12);
-      border-radius:var(--radius-md);padding:28px;
-      box-shadow:var(--glass-glow);
-      backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-      position:relative;overflow:hidden;
+      padding:0;position:relative;
     }
-    .calc-box::before{
-      content:"";position:absolute;left:0;right:0;top:0;height:2px;
-      background:var(--top-accent);opacity:.9;
+    @media (min-width:769px){
+      .calc-col:not(:first-child) .calc-box{border-left:1px solid rgba(255,255,255,.12);padding-left:40px}
     }
-    .calc-field{margin-bottom:22px}
-    .calc-field:last-child{margin-bottom:0}
+    .calc-field{margin-bottom:22px;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,.10)}
+    .calc-field:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
     .calc-field label{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--text-muted);margin-bottom:10px}
     .calc-field .range-val{font-weight:700;color:var(--text);font-size:.9rem}
     .calc-field input[type=range]{
@@ -1207,12 +1149,11 @@
     }
     .calc-field input[type=range]:focus{box-shadow:none;border-color:transparent}
     .calc-result-box{
-      background:rgba(212,184,134,.07);border:1px solid rgba(212,184,134,.20);
-      border-radius:14px;padding:20px 22px;margin-bottom:18px;
+      padding:0;margin-bottom:18px;
     }
     .calc-result-num{
-      font-size:clamp(32px,4vw,44px);font-weight:800;
-      color:var(--text);letter-spacing:-.02em;line-height:1.1;
+      font-size:clamp(36px,4.4vw,50px);font-weight:800;
+      color:var(--brass);letter-spacing:-.02em;line-height:1.1;
     }
     .calc-result-sub{font-size:.83rem;color:var(--text-muted);margin-top:4px}
     .calc-note{font-size:.78rem;color:var(--text-soft);line-height:1.55;margin-bottom:18px}
@@ -2268,7 +2209,7 @@
     </section>
 
     <section id="contact">
-      <div class="container glass-panel">
+      <div class="container" style="padding:48px clamp(24px,4vw,56px)">
         <div class="cta">
           <div style="position:relative">
             <div class="pill"><span class="dot"></span>Контакти</div>
