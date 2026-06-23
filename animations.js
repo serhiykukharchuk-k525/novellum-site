@@ -376,7 +376,7 @@
 
   // ── 4. TIMELINE ENHANCEMENTS ─────────────────────────────────
   function initTimelineEnhancements() {
-    var tlDiv = document.querySelector('.timeline');
+    var tlDiv = document.querySelector('.process-timeline');
     if (!tlDiv) return;
 
     // Wrap in side-container for hairline + dots
@@ -389,7 +389,7 @@
     hairline.className = 'tl-hairline';
     wrapper.insertBefore(hairline, wrapper.firstChild);
 
-    var tlItems = tlDiv.querySelectorAll('.timeline-item');
+    var tlItems = tlDiv.querySelectorAll('.process-step');
     var dots = [];
 
     // Measure after layout settles. Read all offsets first, then write/append

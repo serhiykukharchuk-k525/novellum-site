@@ -771,18 +771,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       text-transform:uppercase;
     }
 
-    /* ── Card-free process timeline — vertical line with dot markers ── */
+    /* ── Card-free process timeline — animated hairline + dots (see .tl-* in animations.css) ── */
     .process-timeline{
       display:flex;flex-direction:column;gap:28px;
-      border-left:1px solid rgba(255,255,255,.14);
-      padding-left:26px;margin-top:8px;max-width:680px;
+      margin-top:8px;max-width:680px;
     }
     .process-step{position:relative}
-    .process-step::before{
-      content:"";position:absolute;left:-31px;top:5px;
-      width:8px;height:8px;border-radius:50%;
-      background:var(--brass);
-    }
     .process-step span{
       color:rgba(207,214,223,.90);
       font-size:11px;letter-spacing:.08em;text-transform:uppercase;
@@ -1427,10 +1421,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NFX46QXS"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
   <header>
     <div class="container nav">
       <a class="logo" href="#">
