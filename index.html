@@ -399,7 +399,7 @@
       background:rgba(8,12,14,.96);
       border-radius:18px;
       border:1px solid rgba(255,255,255,.07);
-      padding:16px 18px 12px;
+      padding:10px 16px 6px;
       box-shadow:0 28px 70px rgba(0,0,0,.75),0 0 0 1px rgba(212,184,134,.06);
       font-family:inherit;
       position:relative;
@@ -409,7 +409,7 @@
       background:linear-gradient(135deg,rgba(212,184,134,.04) 0%,transparent 50%);
       pointer-events:none;
     }
-    .live-dash-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
+    .live-dash-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px}
     .live-dash-eyebrow{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:rgba(244,239,229,.32);margin-bottom:2px}
     .live-dash-subtitle{font-size:14px;font-weight:700;color:#F4EFE5;letter-spacing:-.01em}
     .live-live-badge{display:flex;align-items:center;gap:5px;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#4caf6e;margin-top:1px}
@@ -422,28 +422,28 @@
     /* Revenue block */
     .live-rev-label{font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:rgba(244,239,229,.3);margin-bottom:4px}
     .live-rev-row{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-    .live-rev-val{font-size:28px;font-weight:800;color:#F4EFE5;letter-spacing:-.03em;transition:opacity .35s}
+    .live-rev-val{font-size:24px;font-weight:800;color:#F4EFE5;letter-spacing:-.03em;transition:opacity .35s}
     .live-rev-delta{font-size:12px;font-weight:600;color:#4caf6e}
     /* Sparkline */
-    .live-sparkline{display:block;width:100%;height:26px;margin:6px 0 10px;overflow:visible}
+    .live-sparkline{display:block;width:100%;height:22px;margin:4px 0 6px;overflow:visible}
     /* Metrics row */
-    .live-metrics-row{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(255,255,255,.06);padding-top:10px;gap:0}
+    .live-metrics-row{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(255,255,255,.06);padding-top:7px;gap:0}
     .live-metric-col{padding:0}
     .live-metric-col+.live-metric-col{border-left:1px solid rgba(255,255,255,.06);padding-left:18px}
     .live-metric-label{font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:rgba(244,239,229,.3);margin-bottom:3px}
-    .live-metric-val{font-size:20px;font-weight:800;color:#F4EFE5;letter-spacing:-.02em;transition:opacity .35s}
+    .live-metric-val{font-size:17px;font-weight:800;color:#F4EFE5;letter-spacing:-.02em;transition:opacity .35s}
     .live-metric-delta{font-size:11px;font-weight:600;margin-top:2px}
     .live-delta-pos{color:#4caf6e}
     .live-delta-neg{color:#e05c50}
     /* Progress bars */
-    .live-bars{border-top:1px solid rgba(255,255,255,.06);margin-top:10px;padding-top:10px;display:grid;gap:8px}
+    .live-bars{border-top:1px solid rgba(255,255,255,.06);margin-top:7px;padding-top:7px;display:grid;gap:6px}
     .live-bar-row-labels{display:flex;justify-content:space-between;font-size:9px;color:rgba(244,239,229,.35);margin-bottom:4px;letter-spacing:.02em}
     .live-bar-track{height:2px;background:rgba(212,184,134,.10);border-radius:2px;overflow:hidden}
     .live-bar-fill{height:100%;background:var(--bronze);border-radius:2px;transition:width 1.4s ease}
     /* Focus block */
-    .live-focus{border-top:1px solid rgba(255,255,255,.06);margin-top:10px;padding:10px 12px;background:rgba(255,255,255,.025);border-radius:8px}
-    .live-focus-header{font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:rgba(244,239,229,.3);margin-bottom:8px}
-    .live-focus-item{display:flex;align-items:center;gap:10px;font-size:11px;color:rgba(244,239,229,.68);padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+    .live-focus{border-top:1px solid rgba(255,255,255,.06);margin-top:7px;padding:7px 10px;background:rgba(255,255,255,.025);border-radius:8px}
+    .live-focus-header{font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:rgba(244,239,229,.3);margin-bottom:5px}
+    .live-focus-item{display:flex;align-items:center;gap:10px;font-size:11px;color:rgba(244,239,229,.68);padding:3px 0;border-bottom:1px solid rgba(255,255,255,.04)}
     .live-focus-item:last-child{border-bottom:none}
     .live-focus-num{font-size:9px;font-weight:700;color:rgba(244,239,229,.3);min-width:16px;flex-shrink:0}
     .live-focus-alert{width:5px;height:5px;border-radius:50%;background:#e05c50;flex-shrink:0;margin-left:auto}
@@ -1421,6 +1421,7 @@
           <div class="phone-v-wrap">
             <div class="phone-v-frame">
               <img class="phone-v-shell" src="/assets/iphone.png" alt="" />
+              <div class="phone-v-screen">
               <div class="phone-v-statusbar"><span>9:41</span><span style="display:flex;gap:4px;align-items:center;font-size:10px">▶ ▶▶</span></div>
           <div class="live-dash" aria-label="Live dashboard preview">
             <div class="live-dash-header">
@@ -1494,8 +1495,8 @@
               </div>
             </div>
           </div>
+              </div><!-- /phone-v-screen -->
             </div><!-- /phone-v-frame -->
-            <div class="phone-v-fade"></div>
           </div><!-- /phone-v-wrap -->
 
           <div class="hero-industries reveal" aria-hidden="false">E-COMMERCE · RETAIL · SAAS · LOGISTICS</div>
