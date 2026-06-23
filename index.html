@@ -771,6 +771,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       text-transform:uppercase;
     }
 
+    /* ── Card-free process timeline — vertical line with dot markers ── */
+    .process-timeline{
+      display:flex;flex-direction:column;gap:28px;
+      border-left:1px solid rgba(255,255,255,.14);
+      padding-left:26px;margin-top:8px;max-width:680px;
+    }
+    .process-step{position:relative}
+    .process-step::before{
+      content:"";position:absolute;left:-31px;top:5px;
+      width:8px;height:8px;border-radius:50%;
+      background:var(--brass);
+    }
+    .process-step span{
+      color:rgba(207,214,223,.90);
+      font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+      display:block;margin-bottom:4px;
+    }
+    .process-step h3{margin-bottom:6px}
+    .process-step p{color:var(--text-muted);margin:0}
+
     .format-badge{
       position:absolute;top:18px;right:18px;
       font-size:11px;letter-spacing:.06em;text-transform:uppercase;
@@ -1984,18 +2004,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <p>За перший тиждень проводимо аудит: визначаємо показники, розбираємось у даних і фіксуємо правила роботи. Дашборд будуємо після.</p>
         </div>
 
-        <div class="timeline">
-          <div class="timeline-item lift reveal">
+        <div class="process-timeline">
+          <div class="process-step reveal">
             <span>День 1–2</span>
             <h3>Ключові показники</h3>
             <p>Визначаємо, що саме потрібно бачити для прийняття рішень.</p>
           </div>
-          <div class="timeline-item lift reveal">
+          <div class="process-step reveal">
             <span>День 3–5</span>
             <h3>Аудит даних</h3>
             <p>Розбираємось у джерелах, перевіряємо логіку і якість даних.</p>
           </div>
-          <div class="timeline-item lift reveal">
+          <div class="process-step reveal">
             <span>День 6–7</span>
             <h3>Правила роботи</h3>
             <p>Фіксуємо, хто що оновлює і як вносяться зміни.</p>
