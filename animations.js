@@ -3,6 +3,7 @@
 
   var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var isMobile = window.innerWidth < 768;
+  var typewriterCanvas = null;
 
   window.addEventListener('DOMContentLoaded', function () {
     // Temporarily disabled — heavy on main thread, hurts page weight/perf.
@@ -424,56 +425,56 @@
       try { texts = JSON.parse(el.dataset.typewriter); } catch (e) { return; }
       var idx = 0, charIdx = 0, deleting = false;
 
-      // Reserve height for the tallest of the rotating strings up front,
-      // so wrapping to a 2nd line mid-type never shifts content below it.
-      // The probe must be measured against the *container's* width, not
-      // el's own width — el starts out empty (no text yet), so an
-      // inline-block's own width collapses near 0 and every string would
-      // wrap character-by-character, wildly inflating the measured height.
+      // Reserve width/height for the tallest of the rotating strings up
+      // front, so wrapping to a 2nd line mid-type never shifts content
+      // below it, and the inline-block doesn't recompute its shrink-to-fit
+      // width on every keystroke. Measured via <canvas>.measureText instead
+      // of DOM probes — same numbers, but no forced-reflow reads
+      // (offsetWidth/offsetHeight) during init.
       var elStyle = getComputedStyle(el);
       var containerWidth = el.parentElement.clientWidth;
+      var canvas = typewriterCanvas || (typewriterCanvas = document.createElement('canvas'));
+      var ctx = canvas.getContext('2d');
+      ctx.font = elStyle.font;
+      var letterSpacing = parseFloat(elStyle.letterSpacing) || 0;
 
-      // Also fix el's own width up front (clamped to the container) —
-      // otherwise the inline-block recomputes its shrink-to-fit width on
-      // every single keystroke, causing a constant micro-reflow/jitter
-      // as it types, even when the final reserved height never changes.
-      var nowrapProbe = document.createElement('div');
-      nowrapProbe.style.visibility = 'hidden';
-      nowrapProbe.style.position = 'absolute';
-      nowrapProbe.style.pointerEvents = 'none';
-      nowrapProbe.style.whiteSpace = 'nowrap';
-      nowrapProbe.style.font = elStyle.font;
-      nowrapProbe.style.letterSpacing = elStyle.letterSpacing;
-      nowrapProbe.style.textTransform = elStyle.textTransform;
-      el.parentNode.insertBefore(nowrapProbe, el);
+      function measureText(t) {
+        var w = ctx.measureText(t).width;
+        if (letterSpacing) w += letterSpacing * Math.max(0, t.length - 1);
+        return w;
+      }
+
       var maxNowrapWidth = 0;
       texts.forEach(function (t) {
-        nowrapProbe.textContent = t;
-        maxNowrapWidth = Math.max(maxNowrapWidth, nowrapProbe.offsetWidth);
+        maxNowrapWidth = Math.max(maxNowrapWidth, measureText(t));
       });
-      nowrapProbe.remove();
-      // +2px safety margin: offsetWidth rounding can otherwise land the
-      // wrap-constrained probe just under the no-wrap width, forcing an
-      // unwanted 2nd line for the exact-fit longest string.
+      // +10px safety margin: matches prior offsetWidth-rounding buffer.
       var fixedWidth = Math.min(Math.ceil(maxNowrapWidth) + 10, containerWidth);
       if (fixedWidth) el.style.width = fixedWidth + 'px';
 
-      var probe = document.createElement('div');
-      probe.style.visibility = 'hidden';
-      probe.style.position = 'absolute';
-      probe.style.pointerEvents = 'none';
-      probe.style.whiteSpace = 'normal';
-      probe.style.font = elStyle.font;
-      probe.style.letterSpacing = elStyle.letterSpacing;
-      probe.style.textTransform = elStyle.textTransform;
-      probe.style.width = (fixedWidth || containerWidth) + 'px';
-      el.parentNode.insertBefore(probe, el);
-      var maxHeight = 0;
+      // Greedy word-wrap against fixedWidth to count lines per string,
+      // mirroring how the DOM probe's `white-space:normal` would have
+      // wrapped it — then convert line count to height via line-height.
+      var wrapWidth = fixedWidth || containerWidth;
+      var lineHeight = parseFloat(elStyle.lineHeight);
+      if (isNaN(lineHeight)) lineHeight = parseFloat(elStyle.fontSize) * 1.2;
+      var maxLines = 1;
       texts.forEach(function (t) {
-        probe.textContent = t;
-        maxHeight = Math.max(maxHeight, probe.offsetHeight);
+        var words = t.split(' ');
+        var lines = 1, lineWidth = 0;
+        words.forEach(function (w, i) {
+          var piece = (lineWidth === 0 ? '' : ' ') + w;
+          var pieceWidth = measureText(piece);
+          if (lineWidth + pieceWidth > wrapWidth && lineWidth > 0) {
+            lines++;
+            lineWidth = measureText(w);
+          } else {
+            lineWidth += pieceWidth;
+          }
+        });
+        maxLines = Math.max(maxLines, lines);
       });
-      probe.remove();
+      var maxHeight = maxLines * lineHeight;
       // Fix height outright (not just min-height) with a rounding buffer
       // and clip overflow — any sub-pixel wrap difference between
       // intermediate substrings otherwise nudges the box by a fraction of
