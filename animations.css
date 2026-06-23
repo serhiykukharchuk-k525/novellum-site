@@ -151,13 +151,11 @@ body > footer {
   /* hides the cropped bottom edge of the phone photo with a fake chin/bezel */
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  height: 15%;
+  height: 6%;
   background: linear-gradient(
     to top,
     #0d0d0d 0%,
-    #0d0d0d 25%,
-    rgba(13,13,13,.85) 48%,
-    rgba(13,13,13,.45) 72%,
+    #0d0d0d 40%,
     transparent 100%
   );
   border-radius: 0 0 48px 48px;
