@@ -6,6 +6,7 @@
   var typewriterCanvas = null;
 
   window.addEventListener('DOMContentLoaded', function () {
+    if (!prefersReduced) initSmoothScroll();
     // Temporarily disabled — heavy on main thread, hurts page weight/perf.
     // Re-enable once optimized: if (!prefersReduced) initParticleField();
     if (!prefersReduced) {
@@ -20,6 +21,38 @@
     initDemoFrameScale();
     initCalcHintAlign();
   });
+
+  // ── 0. SMOOTH INERTIAL SCROLL (Lenis) ────────────────────────
+  // Gives the page the same weighted, eased scroll feel as sites like
+  // akaru.fr, instead of the browser's default 1:1 wheel scroll.
+  function initSmoothScroll() {
+    if (typeof window.Lenis !== 'function' || isMobile) return;
+
+    var lenis = new window.Lenis({
+      duration: 1.1,
+      easing: function (t) { return 1 - Math.pow(1 - t, 3); },
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 1.4
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+      var hash = link.getAttribute('href');
+      if (!hash || hash === '#') return;
+      link.addEventListener('click', function (e) {
+        var target = document.querySelector(hash);
+        if (!target) return;
+        e.preventDefault();
+        lenis.scrollTo(target, { duration: 1.2 });
+      });
+    });
+  }
 
   // ── 0a. CALCULATOR HINT ALIGNMENT (desktop) ──────────────────
   // Aligns the first hint paragraph's bottom edge with the bottom of the
