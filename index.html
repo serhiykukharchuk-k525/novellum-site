@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
+  <script>if(location.pathname==='/index.html')location.replace('/');</script>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Nóvellum — управлінська аналітика та дашборди Power BI для власників бізнесу</title>
   <meta name="description" content="Будуємо систему управлінської аналітики на Power BI для власників МСБ: один дашборд, одна версія цифр, аудит за 7 днів і сервісна підтримка. Робота під NDA.">
@@ -13,6 +14,7 @@
   <link rel="preload" href="/assets/fonts/manrope-cyrillic-ext.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/manrope-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preconnect" href="https://unpkg.com" crossorigin>
   <link rel="icon" href="assets/favicon/favicon.ico" media="(prefers-color-scheme: dark)">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png" media="(prefers-color-scheme: dark)">
   <link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png" media="(prefers-color-scheme: dark)">
@@ -1436,7 +1438,8 @@
       .case-cta-row span{ display:none; }
     }
   </style>
-  <link rel="stylesheet" href="animations.css">
+  <link rel="preload" href="animations.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="animations.css"></noscript>
   <!-- Google Tag Manager — REPLACE GTM-M32PB2ML with the real container ID before going live -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -2872,7 +2875,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     demoObserver.observe(demoSection);
   })();
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
 <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js" defer></script>
 <script src="animations.js" defer></script>
 
