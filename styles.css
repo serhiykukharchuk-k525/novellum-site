@@ -1303,9 +1303,14 @@
     .section-typewriter,[data-typewriter]{color:#D4B886!important}
     .section-typewriter{font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;margin-top:14px;margin-bottom:16px;min-height:18px;display:inline-block}
     .tool-pill{opacity:0}
-    .product-orbit-wrap .src-icon{opacity:0}
+    .product-orbit-wrap .src-icon{opacity:0;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
+    .tl-side-wrapper{position:relative;padding-left:26px}
+    .demo-intro{display:flex;gap:36px;align-items:flex-start;flex-wrap:wrap}
+    .demo-text{flex:1 1 280px}
+    .tools-orbit{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 32px}
     @media(max-width:768px){
       .hero h1{font-size:clamp(22px,6.2vw,28px);min-height:2.24em}
       .typewriter-word{display:inline-block;white-space:nowrap}
       .section-typewriter,[data-typewriter]{display:block;width:100%;max-width:100%;white-space:normal;overflow-wrap:break-word;font-size:9px!important;line-height:1.35;min-height:2.7em;overflow:hidden;margin-top:12px}
+      .tools-orbit{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
     }
