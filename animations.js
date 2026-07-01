@@ -539,6 +539,11 @@
       // Delay past the .reveal slide-up transition (.6s, triggered at a
       // lower threshold) so typing doesn't start while the section is
       // still animating into place — avoids a visible jolt.
+      // If the element was pre-filled in HTML (SEO fallback), resume from
+      // the end of the first string so the animation doesn't flash back to
+      // a single character before retyping — visually seamless.
+      if (el.textContent.trim() === texts[0]) charIdx = texts[0].length - 1;
+
       var obs = new IntersectionObserver(function (entries) {
         if (entries[0].isIntersecting) { setTimeout(type, 650); obs.unobserve(el); }
       }, { threshold: 0.5 });
