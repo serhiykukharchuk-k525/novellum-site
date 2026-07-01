@@ -459,7 +459,8 @@
       .logo .logo-mark{display:block;height:24px}
     }
   </style>
-  <link rel="stylesheet" href="animations.css">
+  <link rel="preload" href="animations.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="animations.css"></noscript>
 </head>
 
 <body>
@@ -771,7 +772,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 
-<script src="animations.js"></script>
+<script src="animations.js" defer></script>
 
 </body>
 </html>
