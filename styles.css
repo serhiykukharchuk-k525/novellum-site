@@ -1314,18 +1314,4 @@
       .tools-orbit{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
     }
 
-    /* ── Mobile: remove backdrop-filter to unblock FCP on CPU-throttled devices ──
-       backdrop-filter:blur() forces GPU compositing layers; on slow/emulated mobile
-       (Lighthouse Moto G Power 4x CPU throttle) this delays first paint significantly. */
-    @media (max-width:900px){
-      body > header{
-        backdrop-filter:none;
-        -webkit-backdrop-filter:none;
-        background:rgba(15,31,28,.97);
-      }
-      .pill{
-        backdrop-filter:none;
-        -webkit-backdrop-filter:none;
-      }
-    }
 
