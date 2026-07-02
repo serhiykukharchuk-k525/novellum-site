@@ -17,6 +17,7 @@
       initFlyingIcons();
       initSourcesOrbit();
       initPhone3d();
+      if (!isMobile) initTextParallax();
     }
     initDemoFrameScale();
     initCalcHintAlign();
@@ -622,6 +623,51 @@
       obs.unobserve(el);
     }, { threshold: 0.15 });
     obs.observe(el);
+  }
+
+  // ── 9. TEXT PARALLAX ─────────────────────────────────────────
+  // Elements move at a fraction of scroll speed, creating depth:
+  // numbers lag most, headings mid, labels least.
+  function initTextParallax() {
+    var layers = [
+      { sel: 'h2.title-accent',     factor: 0.13 },
+      { sel: '.section-eyebrow',    factor: 0.07 },
+      { sel: '.pill:not(.format-badge):not(.icon-pill)', factor: 0.07 },
+      { sel: '.narrative-num',      factor: 0.22 },
+    ];
+
+    var items = [];
+    layers.forEach(function (layer) {
+      document.querySelectorAll(layer.sel).forEach(function (el) {
+        if (el.closest('#hero, header, footer')) return;
+        el.style.willChange = 'transform';
+        items.push({ el: el, factor: layer.factor });
+      });
+    });
+
+    if (!items.length) return;
+
+    var vh = window.innerHeight;
+    var ticking = false;
+
+    function update() {
+      var half = vh * 0.5;
+      items.forEach(function (item) {
+        var rect   = item.el.getBoundingClientRect();
+        var center = rect.top + rect.height * 0.5;
+        var offset = (half - center) * item.factor;
+        item.el.style.transform = 'translateY(' + offset.toFixed(1) + 'px)';
+      });
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+
+    window.addEventListener('resize', function () { vh = window.innerHeight; });
+
+    update();
   }
 
 })();
