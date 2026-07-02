@@ -17,7 +17,6 @@
       initFlyingIcons();
       initSourcesOrbit();
       initPhone3d();
-      if (!isMobile) initTextParallax();
     }
     initDemoFrameScale();
     initCalcHintAlign();
@@ -625,49 +624,5 @@
     obs.observe(el);
   }
 
-  // ── 9. TEXT PARALLAX ─────────────────────────────────────────
-  // Elements move at a fraction of scroll speed, creating depth:
-  // numbers lag most, headings mid, labels least.
-  function initTextParallax() {
-    // Move the entire .section-title block (pill + h2 + subtitle) as one
-    // unit at ~80% of scroll speed. Everything inside drifts together so
-    // there is no internal spacing change — depth without layout disruption.
-    var MAX_PX  = 22;
-    var FACTOR  = 0.08;
-
-    var items = [];
-    document.querySelectorAll('.section-title').forEach(function (el) {
-      if (el.closest('.hero, header, footer, .sticky-tg')) return;
-      el.style.willChange = 'transform';
-      items.push(el);
-    });
-
-    if (!items.length) return;
-
-    var vh      = window.innerHeight;
-    var ticking = false;
-
-    function update() {
-      var half = vh * 0.5;
-      items.forEach(function (el) {
-        // Skip until reveal animation is done so we don't fight the transition
-        if (el.classList.contains('reveal') && !el.classList.contains('in-view')) return;
-        var rect   = el.getBoundingClientRect();
-        var center = rect.top + rect.height * 0.5;
-        var raw    = (half - center) * FACTOR;
-        var offset = Math.max(-MAX_PX, Math.min(MAX_PX, raw));
-        el.style.transform = 'translateY(' + offset.toFixed(1) + 'px)';
-      });
-      ticking = false;
-    }
-
-    window.addEventListener('scroll', function () {
-      if (!ticking) { ticking = true; requestAnimationFrame(update); }
-    }, { passive: true });
-
-    window.addEventListener('resize', function () { vh = window.innerHeight; });
-
-    update();
-  }
 
 })();
