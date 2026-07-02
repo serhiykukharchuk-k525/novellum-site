@@ -82,6 +82,7 @@
       max-width:100vw;
 
       background: var(--bg);
+      background-attachment: fixed;
       position:relative;
     }
     /* subtle grid texture */
@@ -1328,11 +1329,3 @@
       }
     }
 
-    /* ── Mobile: disable fixed-layer compositing to unblock FCP ──
-       body::before (grid texture, opacity:.22) and body::after (noise, opacity:.028)
-       use position:fixed + mix-blend-mode:overlay which forces GPU compositing layers.
-       On CPU-throttled Lighthouse mobile these delay first paint. Visually imperceptible. */
-    @media (max-width:900px){
-      body::before{display:none}
-      body::after{display:none}
-    }
