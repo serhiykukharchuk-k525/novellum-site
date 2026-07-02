@@ -629,11 +629,14 @@
   // Elements move at a fraction of scroll speed, creating depth:
   // numbers lag most, headings mid, labels least.
   function initTextParallax() {
+    // Keep factors small enough that max offset (≈ vh/2 × factor) never
+    // exceeds the element's own spacing — prevents adjacent text overlapping.
+    // narrative-num is excluded: it sits in a grid row next to text and
+    // drifting it independently causes layout collisions.
     var layers = [
-      { sel: 'h2.title-accent',     factor: 0.13 },
-      { sel: '.section-eyebrow',    factor: 0.07 },
-      { sel: '.pill:not(.format-badge):not(.icon-pill)', factor: 0.07 },
-      { sel: '.narrative-num',      factor: 0.22 },
+      { sel: 'h2.title-accent',     factor: 0.06 },
+      { sel: '.section-eyebrow',    factor: 0.04 },
+      { sel: '.pill:not(.format-badge):not(.icon-pill)', factor: 0.04 },
     ];
 
     var items = [];
