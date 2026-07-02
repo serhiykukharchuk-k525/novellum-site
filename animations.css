@@ -672,3 +672,70 @@ body > footer {
   font-weight: 700;
   margin-bottom: 8px;
 }
+
+/* ── HORIZONTAL PIN-SCROLL SECTIONS (desktop ≥ 900px) ──────────
+   #process: 3 steps shown side-by-side in a row.
+   #value / #pricing: track translates horizontally while the
+   glass-panel sticks until all cards have scrolled past. ──── */
+@media (min-width: 900px) {
+  /* #process: flex row layout for the 3 timeline steps */
+  #process .process-timeline {
+    flex-direction: row;
+    gap: 0;
+    max-width: none;
+  }
+  #process .process-step {
+    flex: 1 1 0;
+    padding-left: 28px;
+    border-left: 1px solid rgba(255,255,255,.12);
+  }
+  #process .process-step:first-child {
+    padding-left: 0;
+    border-left: none;
+  }
+
+  /* #value: narrative items become a horizontal scrolling track */
+  #value.hs-active .narrative-list {
+    overflow: hidden;
+    max-width: none;
+  }
+  #value.hs-active .narrative-list > .narrative-item {
+    flex: 0 0 280px;
+    border-bottom: none;
+    padding: 0 0 0 28px;
+    border-left: 1px solid rgba(255,255,255,.10);
+  }
+  #value.hs-active .narrative-list > .narrative-item:first-child {
+    padding-left: 0;
+    border-left: none;
+  }
+
+  /* #pricing: paragraph items become a horizontal scrolling track */
+  #pricing.hs-active .paragraph-grid {
+    overflow: hidden;
+    column-count: unset;
+    column-gap: unset;
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+  }
+  #pricing.hs-active .paragraph-grid > .paragraph-item {
+    flex: 0 0 280px;
+    margin-bottom: 0;
+    break-inside: unset;
+    padding-left: 28px;
+    border-left: 1px solid rgba(255,255,255,.10);
+  }
+  #pricing.hs-active .paragraph-grid > .paragraph-item:first-child {
+    padding-left: 0;
+    border-left: none;
+  }
+
+  /* Sticky glass panel while section pin-scrolls */
+  #value.hs-active .glass-panel,
+  #pricing.hs-active .glass-panel {
+    position: sticky;
+    top: 80px;
+    overflow: hidden;
+  }
+}
