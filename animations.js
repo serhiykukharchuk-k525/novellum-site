@@ -20,6 +20,7 @@
     }
     initDemoFrameScale();
     initCalcHintAlign();
+    if (window.innerWidth >= 900) initHorizontalSections();
   });
 
   // ── 0. SMOOTH INERTIAL SCROLL (Lenis) ────────────────────────
@@ -610,6 +611,74 @@
 
     // Mousemove parallax tick disabled to reduce main-thread/rAF contention
     // with the particle background (fly-in animation above is unaffected).
+  }
+
+  // ── 9. HORIZONTAL PIN-SCROLL SECTIONS ────────────────────────
+  function initHorizontalSections() {
+    // #process: 3 steps already go flex-row via CSS; just pre-show reveals.
+    var processSection = document.getElementById('process');
+    if (processSection) {
+      processSection.querySelectorAll('.process-step.reveal').forEach(function (el) {
+        el.classList.add('in-view');
+      });
+    }
+
+    // Pin-scroll for #value and #pricing
+    var configs = [
+      { id: 'value',   trackSel: '.narrative-list' },
+      { id: 'pricing', trackSel: '.paragraph-grid'  },
+    ];
+
+    configs.forEach(function (cfg) {
+      var section = document.getElementById(cfg.id);
+      if (!section) return;
+      var panel  = section.querySelector('.glass-panel');
+      var track  = section.querySelector(cfg.trackSel);
+      if (!panel || !track) return;
+
+      // Pre-show all reveal items so they don't wait for IntersectionObserver
+      section.querySelectorAll('.reveal').forEach(function (el) {
+        el.classList.add('in-view');
+      });
+
+      // Also make narrative-list a flex-row container (CSS class handles item styling)
+      track.style.display = 'flex';
+      track.style.flexDirection = 'row';
+      track.style.gap = '0';
+      track.style.willChange = 'transform';
+
+      section.classList.add('hs-active');
+
+      var overflow    = 0;
+      var extraHeight = 0;
+
+      function setup() {
+        section.style.paddingBottom = '';
+        var styles   = getComputedStyle(panel);
+        var contentW = panel.offsetWidth
+          - parseFloat(styles.paddingLeft)
+          - parseFloat(styles.paddingRight);
+        overflow = Math.max(0, track.scrollWidth - contentW);
+        if (overflow <= 0) return;
+        extraHeight = overflow * 0.9;
+        section.style.paddingBottom = extraHeight + 'px';
+      }
+
+      function onScroll() {
+        if (overflow <= 0) return;
+        var sectionTop = section.getBoundingClientRect().top + window.scrollY;
+        var pinStart   = sectionTop - 80; // when panel hits top:80px
+        var progress   = Math.max(0, Math.min(1,
+          (window.scrollY - pinStart) / extraHeight
+        ));
+        track.style.transform = 'translateX(-' + (progress * overflow) + 'px)';
+      }
+
+      setup();
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', function () { setup(); onScroll(); });
+    });
   }
 
   // ── 8. 3D PHONE (#phone3dDemo) ───────────────────────────────
