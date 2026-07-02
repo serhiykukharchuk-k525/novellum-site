@@ -673,14 +673,3 @@ body > footer {
   margin-bottom: 8px;
 }
 
-/* ── HORIZONTAL PIN-SCROLL SECTIONS (desktop ≥ 900px) ──────────
-   All critical layout (sticky, flex-row, item widths) applied via JS
-   because animations.css loads async. Only fallback/aesthetic overrides
-   live here. ──── */
-@media (min-width: 900px) {
-  /* Ensure tl-side-wrapper doesn't clip the bottom hairline */
-  #process .tl-side-wrapper {
-    padding-bottom: 24px;
-    overflow: visible;
-  }
-}
