@@ -1322,6 +1322,6 @@
         background:rgba(11,16,22,.96);
       }
       .hamburger{order:-1}
-      .nav-cta{display:none}
+      .nav-cta .button.secondary{display:none}
     }
 
