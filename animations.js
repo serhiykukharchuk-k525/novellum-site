@@ -629,44 +629,34 @@
   // Elements move at a fraction of scroll speed, creating depth:
   // numbers lag most, headings mid, labels least.
   function initTextParallax() {
-    var MAX_PX = 18; // hard cap: element never shifts more than this many px
-
-    var layers = [
-      { sel: 'h2.title-accent',  factor: 0.06 },
-      { sel: '.section-eyebrow', factor: 0.04 },
-      { sel: '.pill:not(.format-badge):not(.icon-pill):not(.logo-pill)', factor: 0.04 },
-    ];
+    // Move the entire .section-title block (pill + h2 + subtitle) as one
+    // unit at ~80% of scroll speed. Everything inside drifts together so
+    // there is no internal spacing change — depth without layout disruption.
+    var MAX_PX  = 22;
+    var FACTOR  = 0.08;
 
     var items = [];
-    layers.forEach(function (layer) {
-      document.querySelectorAll(layer.sel).forEach(function (el) {
-        // Exclude hero, header, footer, sticky overlays, and any other
-        // element that already has CSS transitions on transform (.reveal)
-        if (el.closest('.hero, header, footer, .sticky-tg, [data-overlay]')) return;
-        el.style.willChange = 'transform';
-        items.push({ el: el, factor: layer.factor });
-      });
+    document.querySelectorAll('.section-title').forEach(function (el) {
+      if (el.closest('.hero, header, footer, .sticky-tg')) return;
+      el.style.willChange = 'transform';
+      items.push(el);
     });
 
     if (!items.length) return;
 
-    var vh = window.innerHeight;
+    var vh      = window.innerHeight;
     var ticking = false;
 
     function update() {
       var half = vh * 0.5;
-      items.forEach(function (item) {
-        // Don't animate elements mid-reveal — wait until .in-view is present
-        // so we don't fight the CSS reveal transition
-        if (item.el.classList.contains('reveal') && !item.el.classList.contains('in-view')) {
-          return;
-        }
-        var rect   = item.el.getBoundingClientRect();
+      items.forEach(function (el) {
+        // Skip until reveal animation is done so we don't fight the transition
+        if (el.classList.contains('reveal') && !el.classList.contains('in-view')) return;
+        var rect   = el.getBoundingClientRect();
         var center = rect.top + rect.height * 0.5;
-        var raw    = (half - center) * item.factor;
-        // Clamp to MAX_PX so text never exits its section boundaries
+        var raw    = (half - center) * FACTOR;
         var offset = Math.max(-MAX_PX, Math.min(MAX_PX, raw));
-        item.el.style.transform = 'translateY(' + offset.toFixed(1) + 'px)';
+        el.style.transform = 'translateY(' + offset.toFixed(1) + 'px)';
       });
       ticking = false;
     }
