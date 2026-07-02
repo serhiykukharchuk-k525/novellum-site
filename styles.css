@@ -81,9 +81,7 @@
       width:100%;
       max-width:100vw;
 
-      /* Fixed depth gradient — stays put while glass-panel content scrolls over it */
       background: var(--bg);
-      background-attachment: fixed;
       position:relative;
     }
     /* subtle grid texture */
@@ -1328,4 +1326,13 @@
         backdrop-filter:none;
         -webkit-backdrop-filter:none;
       }
+    }
+
+    /* ── Mobile: disable fixed-layer compositing to unblock FCP ──
+       body::before (grid texture, opacity:.22) and body::after (noise, opacity:.028)
+       use position:fixed + mix-blend-mode:overlay which forces GPU compositing layers.
+       On CPU-throttled Lighthouse mobile these delay first paint. Visually imperceptible. */
+    @media (max-width:900px){
+      body::before{display:none}
+      body::after{display:none}
     }
