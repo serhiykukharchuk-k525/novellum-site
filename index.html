@@ -1333,12 +1333,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     var twEl = document.querySelector('.typewriter-word');
     if (twEl) {
       var twWrap = twEl.closest('.tw-wrap');
-      // Reserve width of the longest word so h1 never reflows between words
-      if (twWrap) {
-        twEl.textContent = twWords.reduce(function(a, b) { return a.length >= b.length ? a : b; });
-        twWrap.style.minWidth = twEl.offsetWidth + 'px';
-        twEl.textContent = twWords[0];
-      }
       setInterval(function() {
         twIdx = (twIdx + 1) % twWords.length;
         (twWrap || twEl).style.opacity = '0';
