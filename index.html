@@ -1163,6 +1163,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     var twEl = document.querySelector('.typewriter-word');
     if (twEl) {
       var twWrap = twEl.closest('.tw-wrap');
+      // Measure after fonts load so Manrope (font-display:optional) is used
+      document.fonts.ready.then(function() {
+        var prev = twEl.textContent;
+        twEl.textContent = twWords.reduce(function(a, b) { return a.length >= b.length ? a : b; });
+        if (twWrap) twWrap.style.minWidth = twEl.offsetWidth + 'px';
+        twEl.textContent = prev;
+      });
       setInterval(function() {
         twIdx = (twIdx + 1) % twWords.length;
         (twWrap || twEl).style.opacity = '0';
