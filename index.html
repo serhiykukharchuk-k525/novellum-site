@@ -1129,6 +1129,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </footer>
 
   <script>
+    // ── Hero trust strip: make visible immediately (avoid LCP delay from deferred animations.js) ──
+    document.querySelectorAll('.hero-trust-item').forEach(function(el){ el.classList.add('vis'); });
+
     // ── Globals: referenced across both script blocks ──
     const form = document.getElementById('contactForm');
     const submitBtn = document.getElementById('submitBtn');
