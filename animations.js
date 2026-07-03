@@ -17,7 +17,6 @@
       initFlyingIcons();
       initSourcesOrbit();
       initPhone3d();
-      initClipReveal();
     }
     initDemoFrameScale();
     initCalcHintAlign();
@@ -625,85 +624,5 @@
     obs.observe(el);
   }
 
-
-  // ── 9. CLIP REVEAL ───────────────────────────────────────────
-  // h2.title-accent and .pill elements slide up from behind an
-  // overflow:hidden mask — same technique as taotajima.jp.
-  // Each element is wrapped in a thin clip-div; the element itself
-  // starts at translateY(105%) and eases to 0 on intersection.
-  // The entire h2 (or pill) moves as one unit so no internal spacing
-  // ever shifts.
-  function initClipReveal() {
-    var EASING  = 'cubic-bezier(0.16, 1, 0.3, 1)';
-    var DURATION = '0.72s';
-
-    var SELECTORS = [
-      { sel: '.pill:not(.icon-pill):not(.logo-pill)', delay: 0   },
-      { sel: 'h2.title-accent',                       delay: 80  },
-      { sel: '.section-eyebrow',                      delay: 0   },
-    ];
-
-    var items = []; // { wrap, el, delay }
-
-    SELECTORS.forEach(function (cfg) {
-      document.querySelectorAll(cfg.sel).forEach(function (el) {
-        if (el.closest('.hero, header, footer, .sticky-tg')) return;
-        if (el.dataset.clipReveal) return;
-        el.dataset.clipReveal = '1';
-
-        // Build clip wrapper — display matches element so flex/block parents stay happy
-        var wrap = document.createElement('div');
-        var cs   = getComputedStyle(el);
-        var disp = cs.display;
-        // block-level elements keep block; inline-level get inline-block
-        wrap.style.display    = (disp === 'block' || disp === 'flex' || disp === 'grid') ? 'block' : 'inline-block';
-        wrap.style.overflow   = 'hidden';
-        // Absorb vertical margin so the wrapper doesn't collapse spacing
-        wrap.style.marginTop    = cs.marginTop;
-        wrap.style.marginBottom = cs.marginBottom;
-        el.style.marginTop    = '0';
-        el.style.marginBottom = '0';
-
-        el.parentNode.insertBefore(wrap, el);
-        wrap.appendChild(el);
-
-        // Opt element out of the generic .reveal system
-        if (el.classList.contains('reveal')) {
-          el.classList.remove('reveal');
-          el.style.opacity   = '1';
-          el.style.transform = 'none';
-        }
-
-        // Start hidden below the clip mask
-        el.style.transform    = 'translateY(108%)';
-        el.style.willChange   = 'transform';
-
-        items.push({ wrap: wrap, el: el, delay: cfg.delay });
-      });
-    });
-
-    if (!items.length) return;
-
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        // Find matching item
-        var matched = null;
-        for (var i = 0; i < items.length; i++) {
-          if (items[i].wrap === entry.target) { matched = items[i]; break; }
-        }
-        if (!matched) return;
-        var el    = matched.el;
-        var delay = matched.delay;
-        setTimeout(function () {
-          el.style.transition = 'transform ' + DURATION + ' ' + EASING;
-          el.style.transform  = 'translateY(0)';
-        }, delay);
-        io.unobserve(entry.target);
-      });
-    }, { threshold: 0.15 });
-
-    items.forEach(function (item) { io.observe(item.wrap); });
-  }
 
 })();
