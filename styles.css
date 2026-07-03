@@ -120,9 +120,7 @@
       -webkit-backdrop-filter:blur(14px);
       z-index:50;
       border-bottom:1px solid var(--border);
-      transition:transform .3s ease;
     }
-    body > header.header-hidden{transform:translateY(-100%)}
     body > header::after{
       content:"";
       position:absolute;left:0;right:0;bottom:-1px;height:1px;
@@ -971,8 +969,8 @@
     @media (max-width:840px){
       .nav{flex-wrap:wrap}
       .cta{padding:30px}
-      .logo .logo-horizontal{display:block;height:28px}
-      .logo .logo-mark{display:none}
+      .logo .logo-horizontal{display:none}
+      .logo .logo-mark{display:block;height:24px}
       .hero-scroll{display:none}
       .snapshot{padding-top:18px}
     }
