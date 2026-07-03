@@ -950,11 +950,11 @@
       padding:80px 24px 40px;
       visibility:hidden;opacity:0;
       transform:translateY(-10px) scale(0.98);
-      transition:opacity .26s ease,transform .26s ease,visibility 0s .26s;
+      transition:opacity .42s ease,transform .42s ease,visibility 0s .42s;
     }
     .mobile-nav.open{
       visibility:visible;opacity:1;transform:none;
-      transition:opacity .26s ease,transform .26s ease;
+      transition:opacity .42s ease,transform .42s ease;
     }
     .mobile-nav a{
       font-size:20px;font-weight:700;color:var(--text-muted);
