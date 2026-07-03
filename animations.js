@@ -20,6 +20,7 @@
     }
     initDemoFrameScale();
     initCalcHintAlign();
+    initHorizontalSections();
   });
 
   // ── 0. SMOOTH INERTIAL SCROLL (Lenis) ────────────────────────
@@ -54,7 +55,38 @@
     });
   }
 
-  // ── 0a. CALCULATOR HINT ALIGNMENT (desktop) ──────────────────
+  // ── 0a. HORIZONTAL SCROLL SECTIONS ───────────────────────────
+  function initHorizontalSections() {
+    var wraps = document.querySelectorAll('.hs-wrap');
+    if (!wraps.length) return;
+
+    var sections = [];
+    wraps.forEach(function (wrap) {
+      var track = wrap.querySelector('.hs-track');
+      var fills = wrap.querySelectorAll('.hs-progress .fill');
+      if (track) sections.push({ wrap: wrap, track: track, fills: fills });
+    });
+
+    function update() {
+      sections.forEach(function (s) {
+        var rect = s.wrap.getBoundingClientRect();
+        var scrollable = Math.max(1, s.wrap.offsetHeight - window.innerHeight);
+        var progress = Math.min(1, Math.max(0, -rect.top / scrollable));
+        var trackW = Math.max(0, s.track.scrollWidth - window.innerWidth);
+        s.track.style.transform = 'translate3d(' + (-progress * trackW) + 'px,0,0)';
+        var n = s.fills.length;
+        s.fills.forEach(function (fill, i) {
+          fill.style.transform = 'scaleX(' + Math.min(1, Math.max(0, progress * n - i)) + ')';
+        });
+      });
+    }
+
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
+    update();
+  }
+
+  // ── 0b. CALCULATOR HINT ALIGNMENT (desktop) ──────────────────
   // Aligns the first hint paragraph's bottom edge with the bottom of the
   // "Запитати деталі" button in the neighboring results column.
   function initCalcHintAlign() {
