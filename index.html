@@ -1129,16 +1129,124 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </footer>
 
   <script>
-    // ── Hero trust strip: make visible immediately (avoid LCP delay from deferred animations.js) ──
-    document.querySelectorAll('.hero-trust-item').forEach(function(el){ el.classList.add('vis'); });
+    // Reveal animations
+    const revealItems = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      revealItems.forEach((item) => revealObserver.observe(item));
+    } else {
+      revealItems.forEach((item) => item.classList.add('in-view'));
+    }
 
-    // ── Globals: referenced across both script blocks ──
-    const form = document.getElementById('contactForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const formMessage = document.getElementById('formMessage');
-    document.getElementById('year').textContent = new Date().getFullYear();
+    // Accordion
+    const accordionItems = document.querySelectorAll('.accordion-item');
+    accordionItems.forEach((item) => {
+      const header = item.querySelector('.accordion-header');
+      header.addEventListener('click', () => item.classList.toggle('active'));
+    });
 
-    // ── Hamburger: needs to be ready before first interaction ──
+    // Smooth anchor scroll
+    document.querySelectorAll('a[href^="#"]').forEach((link) => {
+      link.addEventListener('click', (event) => {
+        const targetId = link.getAttribute('href');
+        if (targetId && targetId.length > 1) {
+          const target = document.querySelector(targetId);
+          if (target) {
+            event.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      });
+    });
+
+    // Active nav state on scroll (IntersectionObserver)
+    const navLinks = Array.from(document.querySelectorAll('.nav-links a'))
+      .filter(a => (a.getAttribute('href') || '').startsWith('#'));
+    const sectionIds = navLinks.map(a => a.getAttribute('href')).filter(Boolean);
+    const sections = sectionIds.map(id => document.querySelector(id)).filter(Boolean);
+
+    if ('IntersectionObserver' in window && sections.length) {
+      const navObserver = new IntersectionObserver((entries) => {
+        const visible = entries
+          .filter(e => e.isIntersecting)
+          .sort((a, b) => (b.intersectionRatio - a.intersectionRatio))[0];
+        if (!visible) return;
+
+        navLinks.forEach(a => a.classList.remove('active'));
+        const active = navLinks.find(a => a.getAttribute('href') === '#' + visible.target.id);
+        if (active) active.classList.add('active');
+      }, { threshold: [0.2, 0.35, 0.5] });
+
+      sections.forEach(s => navObserver.observe(s));
+    }
+
+   
+  // Contact form → Google Apps Script (GitHub Pages friendly)
+  const form = document.getElementById('contactForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const formMessage = document.getElementById('formMessage');
+
+  function showMessage(type, text) {
+    formMessage.className = 'form-message ' + type;
+    formMessage.textContent = text;
+    formMessage.style.display = 'block';
+  }
+  function hideMessage() {
+    formMessage.style.display = 'none';
+    formMessage.textContent = '';
+    formMessage.className = 'form-message';
+  }
+
+  form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  hideMessage();
+
+  const webhook = (form.getAttribute('data-webhook') || '').trim();
+  if (!webhook) {
+    showMessage('error', 'Форма тимчасово недоступна. Напишіть на serhiy.kukharchuk@novellum.co.');
+    return;
+  }
+
+  // Беремо всі поля форми
+  const body = new URLSearchParams();
+  for (const [k, v] of new FormData(form).entries()) body.append(k, String(v || ''));
+
+  // Додаємо технічні
+  body.append('page', 'index');
+  body.append('clientTimestamp', new Date().toISOString());
+  body.append('userAgent', navigator.userAgent);
+  body.append('referrer', document.referrer || '');
+  body.append('origin', location.origin);
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Надсилаємо…';
+
+  try {
+    // no-cors: браузер не дасть читати відповідь, але запит піде
+    await fetch(webhook, {
+      method: 'POST',
+      mode: 'no-cors',
+      body
+    });
+
+    form.reset();
+    showMessage('success', 'Дякуємо. Повідомлення надіслано.');
+  } catch (err) {
+    showMessage('error', 'Не вдалося надіслати. Спробуйте ще раз або напишіть на serhiy.kukharchuk@novellum.co.');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Надіслати';
+  }
+});
+
+    // ── Hamburger menu ──
     var hamburgerBtn = document.getElementById('hamburgerBtn');
     var mobileNav = document.getElementById('mobileNav');
     var mobileNavClose = document.getElementById('mobileNavClose');
@@ -1160,313 +1268,309 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       });
     }
 
-    // ── Typewriter: above fold, fast to set up ──
+    // ── Progress bars animate on load ──
+    document.querySelectorAll('.dashboard .progress span').forEach(bar => {
+      const final = bar.style.width;
+      bar.style.width = '0%';
+      bar.style.transition = 'width 1.3s cubic-bezier(.4,0,.2,1)';
+      setTimeout(() => { bar.style.width = final; }, 500);
+    });
+
+    // ── Live dashboard plan bar animate on load ──
+    (function() {
+      var planBar = document.getElementById('dash-plan-bar');
+      if (planBar) {
+        var finalWidth = planBar.style.width || '76%';
+        planBar.style.width = '0%';
+        planBar.style.transition = 'width 1.4s cubic-bezier(.4,0,.2,1) 0.6s';
+        setTimeout(function() {
+          planBar.style.width = finalWidth;
+        }, 300);
+      }
+    })();
+
+    // ── Hover glow — cursor tracking ──
+    document.querySelectorAll('.card, .signature').forEach(el => {
+      el.addEventListener('mousemove', e => {
+        const r = el.getBoundingClientRect();
+        el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
+    });
+
+    // ── Count-up animation ──
+    function countUp(el, target, duration) {
+      duration = duration || 1400;
+      let start = null;
+      function fmt(n) {
+        return n >= 1000 ? Math.floor(n / 1000) + ' ' + String(n % 1000).padStart(3, '0') : String(n);
+      }
+      function step(ts) {
+        if (!start) start = ts;
+        var p = Math.min((ts - start) / duration, 1);
+        var ease = 1 - Math.pow(1 - p, 3);
+        el.textContent = fmt(Math.floor(ease * target));
+        if (p < 1) requestAnimationFrame(step);
+        else el.textContent = fmt(target);
+      }
+      requestAnimationFrame(step);
+    }
+    if ('IntersectionObserver' in window) {
+      var cuObs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) {
+            countUp(e.target, +e.target.dataset.target);
+            cuObs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.5 });
+      document.querySelectorAll('.countup').forEach(function(el) { cuObs.observe(el); });
+    }
+
+    // ── Typewriter in hero ──
     var twWords = ['зрозумілим', 'керованим', 'прозорим'];
     var twIdx = 0;
     var twEl = document.querySelector('.typewriter-word');
     if (twEl) {
       var twWrap = twEl.closest('.tw-wrap');
-      document.fonts.ready.then(function() {
-        var prev = twEl.textContent;
+      // Reserve width of the longest word so h1 never reflows between words
+      if (twWrap) {
         twEl.textContent = twWords.reduce(function(a, b) { return a.length >= b.length ? a : b; });
-        if (twWrap) twWrap.style.minWidth = twEl.offsetWidth + 'px';
-        twEl.textContent = prev;
-        setInterval(function() {
-          twIdx = (twIdx + 1) % twWords.length;
-          (twWrap || twEl).style.opacity = '0';
-          setTimeout(function() {
-            twEl.textContent = twWords[twIdx];
-            (twWrap || twEl).style.opacity = '1';
-          }, 230);
-        }, 2800);
-      });
+        twWrap.style.minWidth = twEl.offsetWidth + 'px';
+        twEl.textContent = twWords[0];
+      }
+      setInterval(function() {
+        twIdx = (twIdx + 1) % twWords.length;
+        (twWrap || twEl).style.opacity = '0';
+        setTimeout(function() {
+          twEl.textContent = twWords[twIdx];
+          (twWrap || twEl).style.opacity = '1';
+        }, 230);
+      }, 2800);
     }
 
-    // ── Chunk 1: observers, scroll handlers, form ──
-    setTimeout(function() {
-      // Reveal animations
-      const revealItems = document.querySelectorAll('.reveal');
-      if ('IntersectionObserver' in window) {
-        const revealObserver = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('in-view');
-              revealObserver.unobserve(entry.target);
-            }
-          });
-        }, { threshold: 0.15 });
-        revealItems.forEach((item) => revealObserver.observe(item));
-      } else {
-        revealItems.forEach((item) => item.classList.add('in-view'));
+    // ── Live dashboard animation ──
+    (function() {
+      var revEl = document.getElementById('dash-revenue');
+      var revDelta = document.getElementById('dash-rev-delta');
+      var marEl = document.getElementById('dash-margin');
+      var marDelta = document.getElementById('dash-margin-delta');
+      var ordEl = document.getElementById('dash-orders');
+      var ordDelta = document.getElementById('dash-orders-delta');
+      if (!revEl) return;
+      var pctEl = document.getElementById('dash-plan-pct');
+      var barEl = document.getElementById('dash-plan-bar');
+      var rev = 1284560, mar = 34.2, ord = 847, pct = 76;
+      var revBase = rev, marBase = mar, ordBase = ord;
+      function jitter(v, range) { return v * (1 + (Math.random() * 2 - 1) * range / 100); }
+      function fmtRev(v) {
+        var s = String(Math.round(v));
+        var res = '';
+        for (var i = 0; i < s.length; i++) {
+          if (i > 0 && (s.length - i) % 3 === 0) res += ' ';
+          res += s[i];
+        }
+        return '₴' + res;
       }
+      function fade(el) { el.style.opacity='.35'; setTimeout(function(){el.style.opacity='1';},280); }
+      // Revenue — every 2.3s
+      setInterval(function() {
+        var newRev = jitter(rev, 1);
+        var revPct = ((newRev - revBase) / revBase * 100).toFixed(1);
+        fade(revEl); rev = newRev;
+        revEl.textContent = fmtRev(rev);
+        if (revDelta) { revDelta.textContent = (revPct>=0?'+':'')+revPct+'%'; revDelta.className='live-rev-delta '+(revPct>=0?'live-delta-pos':'live-delta-neg'); }
+      }, 2300);
+      // Margin — every 3.1s
+      setInterval(function() {
+        var newMar = jitter(mar, 1);
+        var marPp = (newMar - marBase).toFixed(1);
+        fade(marEl); mar = newMar;
+        marEl.textContent = mar.toFixed(1) + '%';
+        if (marDelta) { marDelta.textContent = (marPp>=0?'+':'')+marPp+' pp'; marDelta.className='live-metric-delta '+(marPp>=0?'live-delta-pos':'live-delta-neg'); }
+      }, 3100);
+      // Orders — every 2.7s
+      setInterval(function() {
+        var newOrd = jitter(ord, 1);
+        var ordPct = ((newOrd - ordBase) / ordBase * 100).toFixed(1);
+        fade(ordEl); ord = newOrd;
+        ordEl.textContent = Math.round(ord);
+        if (ordDelta) { ordDelta.textContent = (ordPct>=0?'+':'')+ordPct+'%'; ordDelta.className='live-metric-delta '+(ordPct>=0?'live-delta-pos':'live-delta-neg'); }
+      }, 2700);
+      // Plan bar — every 4.1s
+      setInterval(function() {
+        pct = Math.min(99, Math.max(50, jitter(pct, 1)));
+        var p = Math.round(pct);
+        if (pctEl) pctEl.textContent = p + '%';
+        if (barEl) barEl.style.width = p + '%';
+      }, 4100);
+    })();
 
-      // Accordion
-      document.querySelectorAll('.accordion-item').forEach((item) => {
-        const header = item.querySelector('.accordion-header');
-        header.addEventListener('click', () => item.classList.toggle('active'));
-      });
+    // ── Sticky Telegram bar ──
+    var stickyTg = document.getElementById('stickyTg');
+    var heroSec = document.getElementById('top');
+    var contactSec = document.getElementById('contact');
+    if (stickyTg && heroSec && contactSec) {
+      var heroVisible = true, contactVisible = false;
+      var stickyObs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.target === heroSec) heroVisible = e.isIntersecting;
+          if (e.target === contactSec) contactVisible = e.isIntersecting;
+        });
+        if (heroVisible || contactVisible) stickyTg.classList.remove('visible');
+        else stickyTg.classList.add('visible');
+      }, { threshold: 0.1 });
+      stickyObs.observe(heroSec);
+      stickyObs.observe(contactSec);
+      var closeBtn = document.getElementById('stickyTgClose');
+      if (closeBtn) closeBtn.addEventListener('click', function() { stickyTg.remove(); });
+    }
 
-      // Smooth anchor scroll
-      document.querySelectorAll('a[href^="#"]').forEach((link) => {
-        link.addEventListener('click', (event) => {
-          const targetId = link.getAttribute('href');
-          if (targetId && targetId.length > 1) {
-            const target = document.querySelector(targetId);
-            if (target) {
-              event.preventDefault();
-              target.scrollIntoView({ behavior: 'smooth' });
-            }
+    // ── Exit-intent popup ──
+    var exitOverlay = document.getElementById('exitOverlay');
+    if (exitOverlay) {
+      var exitShown = sessionStorage.getItem('exitShown');
+      if (!exitShown) {
+        document.addEventListener('mouseleave', function(e) {
+          if (e.clientY < 15 && !sessionStorage.getItem('exitShown')) {
+            sessionStorage.setItem('exitShown', '1');
+            exitOverlay.classList.add('visible');
           }
         });
+      }
+      function closeExit() { exitOverlay.classList.remove('visible'); }
+      var ec = document.getElementById('exitClose');
+      var ec2 = document.getElementById('exitContinue');
+      if (ec) ec.addEventListener('click', closeExit);
+      if (ec2) ec2.addEventListener('click', closeExit);
+      exitOverlay.addEventListener('click', function(e) { if (e.target === exitOverlay) closeExit(); });
+    }
+
+    // ── Calculator ──
+    function updateCalc() {
+      var checks = +(document.getElementById('calcChecks') && document.getElementById('calcChecks').value) || 7;
+      var hours  = +(document.getElementById('calcHours')  && document.getElementById('calcHours').value)  || 8;
+      var rate   = +(document.getElementById('calcRate')   && document.getElementById('calcRate').value)   || 50;
+      var monthHours = Math.round((checks * 4) + (hours * 4));
+      var cost = Math.round(monthHours * rate / 5) * 5;
+      var saved = Math.max(0, cost - 1500);
+      var roiMonths = saved > 0 ? (1500 / saved).toFixed(1) : '∞';
+      var rEl = document.getElementById('calcResult');
+      var hEl = document.getElementById('calcResultHours');
+      var sEl = document.getElementById('calcSaved');
+      var roiEl = document.getElementById('calcRoi');
+      function fmt(v){return '$' + (v >= 1000 ? Math.floor(v/1000) + ' ' + String(v%1000).padStart(3,'0') : v);}
+      if (rEl) rEl.textContent = fmt(cost);
+      if (hEl) hEl.textContent = monthHours;
+      if (sEl) sEl.textContent = fmt(saved);
+      if (roiEl) roiEl.innerHTML = roiMonths + (roiMonths !== '∞' ? ' <span style="font-size:12px;font-weight:400">міс</span>' : '');
+      document.querySelectorAll('.range-val').forEach(function(el) {
+        var inp = document.getElementById(el.dataset.for);
+        if (inp) el.textContent = inp.value + (el.dataset.unit || '');
       });
+    }
+    document.querySelectorAll('.calc-field input[type=range]').forEach(function(s) {
+      s.addEventListener('input', updateCalc);
+    });
+    updateCalc();
 
-      // Active nav state on scroll
-      const navLinks = Array.from(document.querySelectorAll('.nav-links a'))
-        .filter(a => (a.getAttribute('href') || '').startsWith('#'));
-      const sectionIds = navLinks.map(a => a.getAttribute('href')).filter(Boolean);
-      const sections = sectionIds.map(id => document.querySelector(id)).filter(Boolean);
-      if ('IntersectionObserver' in window && sections.length) {
-        const navObserver = new IntersectionObserver((entries) => {
-          const visible = entries
-            .filter(e => e.isIntersecting)
-            .sort((a, b) => (b.intersectionRatio - a.intersectionRatio))[0];
-          if (!visible) return;
-          navLinks.forEach(a => a.classList.remove('active'));
-          const active = navLinks.find(a => a.getAttribute('href') === '#' + visible.target.id);
-          if (active) active.classList.add('active');
-        }, { threshold: [0.2, 0.35, 0.5] });
-        sections.forEach(s => navObserver.observe(s));
-      }
-
-      // Contact form
-      function showMessage(type, text) {
-        formMessage.className = 'form-message ' + type;
-        formMessage.textContent = text;
-        formMessage.style.display = 'block';
-      }
-      function hideMessage() {
-        formMessage.style.display = 'none';
-        formMessage.textContent = '';
-        formMessage.className = 'form-message';
-      }
-      form.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        hideMessage();
-        const webhook = (form.getAttribute('data-webhook') || '').trim();
-        if (!webhook) {
-          showMessage('error', 'Форма тимчасово недоступна. Напишіть на serhiy.kukharchuk@novellum.co.');
-          return;
-        }
-        const body = new URLSearchParams();
-        for (const [k, v] of new FormData(form).entries()) body.append(k, String(v || ''));
-        body.append('page', 'index');
-        body.append('clientTimestamp', new Date().toISOString());
-        body.append('userAgent', navigator.userAgent);
-        body.append('referrer', document.referrer || '');
-        body.append('origin', location.origin);
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Надсилаємо…';
-        try {
-          await fetch(webhook, { method: 'POST', mode: 'no-cors', body });
-          form.reset();
-          showMessage('success', 'Дякуємо. Повідомлення надіслано.');
-        } catch (err) {
-          showMessage('error', 'Не вдалося надіслати. Спробуйте ще раз або напишіть на serhiy.kukharchuk@novellum.co.');
-        } finally {
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'Надіслати';
-        }
-      });
-    }, 0);
-
-    // ── Chunk 2: below-fold features ──
-    setTimeout(function() {
-      // Progress bars
-      document.querySelectorAll('.dashboard .progress span').forEach(bar => {
-        const final = bar.style.width;
-        bar.style.width = '0%';
-        bar.style.transition = 'width 1.3s cubic-bezier(.4,0,.2,1)';
-        setTimeout(() => { bar.style.width = final; }, 500);
-      });
-
-      // Plan bar
-      (function() {
-        var planBar = document.getElementById('dash-plan-bar');
-        if (planBar) {
-          var finalWidth = planBar.style.width || '76%';
-          planBar.style.width = '0%';
-          planBar.style.transition = 'width 1.4s cubic-bezier(.4,0,.2,1) 0.6s';
-          setTimeout(function() { planBar.style.width = finalWidth; }, 300);
-        }
-      })();
-
-      // Hover glow
-      document.querySelectorAll('.card, .signature').forEach(el => {
-        el.addEventListener('mousemove', e => {
-          const r = el.getBoundingClientRect();
-          el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-          el.style.setProperty('--my', (e.clientY - r.top) + 'px');
-        });
-      });
-
-      // Count-up
-      function countUp(el, target, duration) {
-        duration = duration || 1400;
-        let start = null;
-        function fmt(n) {
-          return n >= 1000 ? Math.floor(n / 1000) + ' ' + String(n % 1000).padStart(3, '0') : String(n);
-        }
-        function step(ts) {
-          if (!start) start = ts;
-          var p = Math.min((ts - start) / duration, 1);
-          var ease = 1 - Math.pow(1 - p, 3);
-          el.textContent = fmt(Math.floor(ease * target));
-          if (p < 1) requestAnimationFrame(step);
-          else el.textContent = fmt(target);
-        }
-        requestAnimationFrame(step);
-      }
-      if ('IntersectionObserver' in window) {
-        var cuObs = new IntersectionObserver(function(entries) {
-          entries.forEach(function(e) {
-            if (e.isIntersecting) {
-              countUp(e.target, +e.target.dataset.target);
-              cuObs.unobserve(e.target);
-            }
-          });
-        }, { threshold: 0.5 });
-        document.querySelectorAll('.countup').forEach(function(el) { cuObs.observe(el); });
-      }
-
-      // Live dashboard animation
-      (function() {
-        var revEl = document.getElementById('dash-revenue');
-        var revDelta = document.getElementById('dash-rev-delta');
-        var marEl = document.getElementById('dash-margin');
-        var marDelta = document.getElementById('dash-margin-delta');
-        var ordEl = document.getElementById('dash-orders');
-        var ordDelta = document.getElementById('dash-orders-delta');
-        if (!revEl) return;
-        var pctEl = document.getElementById('dash-plan-pct');
-        var barEl = document.getElementById('dash-plan-bar');
-        var rev = 1284560, mar = 34.2, ord = 847, pct = 76;
-        var revBase = rev, marBase = mar, ordBase = ord;
-        function jitter(v, range) { return v * (1 + (Math.random() * 2 - 1) * range / 100); }
-        function fmtRev(v) {
-          var s = String(Math.round(v));
-          var res = '';
-          for (var i = 0; i < s.length; i++) {
-            if (i > 0 && (s.length - i) % 3 === 0) res += ' ';
-            res += s[i];
-          }
-          return '₴' + res;
-        }
-        function fade(el) { el.style.opacity='.35'; setTimeout(function(){el.style.opacity='1';},280); }
-        setInterval(function() {
-          var newRev = jitter(rev, 1);
-          var revPct = ((newRev - revBase) / revBase * 100).toFixed(1);
-          fade(revEl); rev = newRev;
-          revEl.textContent = fmtRev(rev);
-          if (revDelta) { revDelta.textContent = (revPct>=0?'+':'')+revPct+'%'; revDelta.className='live-rev-delta '+(revPct>=0?'live-delta-pos':'live-delta-neg'); }
-        }, 2300);
-        setInterval(function() {
-          var newMar = jitter(mar, 1);
-          var marPp = (newMar - marBase).toFixed(1);
-          fade(marEl); mar = newMar;
-          marEl.textContent = mar.toFixed(1) + '%';
-          if (marDelta) { marDelta.textContent = (marPp>=0?'+':'')+marPp+' pp'; marDelta.className='live-metric-delta '+(marPp>=0?'live-delta-pos':'live-delta-neg'); }
-        }, 3100);
-        setInterval(function() {
-          var newOrd = jitter(ord, 1);
-          var ordPct = ((newOrd - ordBase) / ordBase * 100).toFixed(1);
-          fade(ordEl); ord = newOrd;
-          ordEl.textContent = Math.round(ord);
-          if (ordDelta) { ordDelta.textContent = (ordPct>=0?'+':'')+ordPct+'%'; ordDelta.className='live-metric-delta '+(ordPct>=0?'live-delta-pos':'live-delta-neg'); }
-        }, 2700);
-        setInterval(function() {
-          pct = Math.min(99, Math.max(50, jitter(pct, 1)));
-          var p = Math.round(pct);
-          if (pctEl) pctEl.textContent = p + '%';
-          if (barEl) barEl.style.width = p + '%';
-        }, 4100);
-      })();
-
-      // Sticky Telegram bar
-      var stickyTg = document.getElementById('stickyTg');
-      var heroSec = document.getElementById('top');
-      var contactSec = document.getElementById('contact');
-      if (stickyTg && heroSec && contactSec) {
-        var heroVisible = true, contactVisible = false;
-        var stickyObs = new IntersectionObserver(function(entries) {
-          entries.forEach(function(e) {
-            if (e.target === heroSec) heroVisible = e.isIntersecting;
-            if (e.target === contactSec) contactVisible = e.isIntersecting;
-          });
-          if (heroVisible || contactVisible) stickyTg.classList.remove('visible');
-          else stickyTg.classList.add('visible');
-        }, { threshold: 0.1 });
-        stickyObs.observe(heroSec);
-        stickyObs.observe(contactSec);
-        var closeBtn = document.getElementById('stickyTgClose');
-        if (closeBtn) closeBtn.addEventListener('click', function() { stickyTg.remove(); });
-      }
-
-      // Exit-intent popup
-      var exitOverlay = document.getElementById('exitOverlay');
-      if (exitOverlay) {
-        var exitShown = sessionStorage.getItem('exitShown');
-        if (!exitShown) {
-          document.addEventListener('mouseleave', function(e) {
-            if (e.clientY < 15 && !sessionStorage.getItem('exitShown')) {
-              sessionStorage.setItem('exitShown', '1');
-              exitOverlay.classList.add('visible');
-            }
-          });
-        }
-        function closeExit() { exitOverlay.classList.remove('visible'); }
-        var ec = document.getElementById('exitClose');
-        var ec2 = document.getElementById('exitContinue');
-        if (ec) ec.addEventListener('click', closeExit);
-        if (ec2) ec2.addEventListener('click', closeExit);
-        exitOverlay.addEventListener('click', function(e) { if (e.target === exitOverlay) closeExit(); });
-      }
-
-      // Calculator
-      function updateCalc() {
-        var checks = +(document.getElementById('calcChecks') && document.getElementById('calcChecks').value) || 7;
-        var hours  = +(document.getElementById('calcHours')  && document.getElementById('calcHours').value)  || 8;
-        var rate   = +(document.getElementById('calcRate')   && document.getElementById('calcRate').value)   || 50;
-        var monthHours = Math.round((checks * 4) + (hours * 4));
-        var cost = Math.round(monthHours * rate / 5) * 5;
-        var saved = Math.max(0, cost - 1500);
-        var roiMonths = saved > 0 ? (1500 / saved).toFixed(1) : '∞';
-        var rEl = document.getElementById('calcResult');
-        var hEl = document.getElementById('calcResultHours');
-        var sEl = document.getElementById('calcSaved');
-        var roiEl = document.getElementById('calcRoi');
-        function fmt(v){return '$' + (v >= 1000 ? Math.floor(v/1000) + ' ' + String(v%1000).padStart(3,'0') : v);}
-        if (rEl) rEl.textContent = fmt(cost);
-        if (hEl) hEl.textContent = monthHours;
-        if (sEl) sEl.textContent = fmt(saved);
-        if (roiEl) roiEl.innerHTML = roiMonths + (roiMonths !== '∞' ? ' <span style="font-size:12px;font-weight:400">міс</span>' : '');
-        document.querySelectorAll('.range-val').forEach(function(el) {
-          var inp = document.getElementById(el.dataset.for);
-          if (inp) el.textContent = inp.value + (el.dataset.unit || '');
-        });
-      }
-      document.querySelectorAll('.calc-field input[type=range]').forEach(function(s) {
-        s.addEventListener('input', updateCalc);
-      });
-      updateCalc();
-    }, 0);
+    document.getElementById('year').textContent = new Date().getFullYear();
 
 </script>
 <script>
   // ── Event tracking → GTM dataLayer ──
+  // Pushes business-relevant interactions to window.dataLayer so they can be
+  // picked up as GA4 events inside Google Tag Manager (no GA4 ID needed here).
   window.dataLayer = window.dataLayer || [];
   function trackEvent(name, params) {
     window.dataLayer.push(Object.assign({ event: name }, params || {}));
   }
+
+  // CTA buttons (everywhere except the contact form submit, tracked separately)
+  document.querySelectorAll('a.button, button.button').forEach(function (el) {
+    if (el.id === 'submitBtn') return;
+    el.addEventListener('click', function () {
+      var section = el.closest('section[id]');
+      trackEvent('cta_click', {
+        cta_label: (el.textContent || '').trim().replace(/\s+/g, ' '),
+        cta_href: el.getAttribute('href') || '',
+        cta_section: section ? section.id : 'header'
+      });
+    });
+  });
+
+  // Contact form result
+  if (form) {
+    form.addEventListener('submit', function () {
+      trackEvent('lead_form_submit', { form_id: 'contactForm' });
+    });
+  }
+  (function () {
+    if (!formMessage) return;
+    var msgObserver = new MutationObserver(function () {
+      if (formMessage.classList.contains('success')) {
+        trackEvent('lead_form_success', { form_id: 'contactForm' });
+      } else if (formMessage.classList.contains('error')) {
+        trackEvent('lead_form_error', { form_id: 'contactForm' });
+      }
+    });
+    msgObserver.observe(formMessage, { attributes: true, attributeFilter: ['class'] });
+  })();
+
+  // FAQ accordion
+  document.querySelectorAll('.accordion-item').forEach(function (item) {
+    var header = item.querySelector('.accordion-header');
+    if (!header) return;
+    header.addEventListener('click', function () {
+      if (item.classList.contains('active')) {
+        trackEvent('faq_open', { faq_question: header.textContent.replace('+', '').trim() });
+      }
+    });
+  });
+
+  // ROI calculator — fire once per "settled" interaction (debounced)
+  (function () {
+    var calcTimer = null;
+    document.querySelectorAll('.calc-field input[type=range]').forEach(function (s) {
+      s.addEventListener('input', function () {
+        clearTimeout(calcTimer);
+        calcTimer = setTimeout(function () {
+          trackEvent('calculator_used', {
+            checks: document.getElementById('calcChecks') ? document.getElementById('calcChecks').value : null,
+            hours: document.getElementById('calcHours') ? document.getElementById('calcHours').value : null,
+            rate: document.getElementById('calcRate') ? document.getElementById('calcRate').value : null
+          });
+        }, 800);
+      });
+    });
+  })();
+
+  // Exit-intent popup shown
+  (function () {
+    var exitOverlayEl = document.getElementById('exitOverlay');
+    if (!exitOverlayEl) return;
+    var exitObserver = new MutationObserver(function () {
+      if (exitOverlayEl.classList.contains('visible')) {
+        trackEvent('exit_intent_shown', {});
+      }
+    });
+    exitObserver.observe(exitOverlayEl, { attributes: true, attributeFilter: ['class'] });
+  })();
+
+  // Demo dashboard scrolled into view
+  (function () {
+    var demoSection = document.getElementById('demo');
+    if (!demoSection || !('IntersectionObserver' in window)) return;
+    var demoObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          trackEvent('demo_dashboard_viewed', {});
+          demoObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    demoObserver.observe(demoSection);
+  })();
 
   // ── Auto-hide header: scroll-linked (moves at scroll speed, snaps when stopped) ──
   (function() {
@@ -1505,95 +1609,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       snapTimer = setTimeout(snap, 160);
     }, { passive: true });
   })();
-
-  // ── Event tracking bindings: deferred to keep main thread free ──
-  setTimeout(function() {
-    // CTA buttons (everywhere except the contact form submit, tracked separately)
-    document.querySelectorAll('a.button, button.button').forEach(function (el) {
-      if (el.id === 'submitBtn') return;
-      el.addEventListener('click', function () {
-        var section = el.closest('section[id]');
-        trackEvent('cta_click', {
-          cta_label: (el.textContent || '').trim().replace(/\s+/g, ' '),
-          cta_href: el.getAttribute('href') || '',
-          cta_section: section ? section.id : 'header'
-        });
-      });
-    });
-
-    // Contact form result
-    if (form) {
-      form.addEventListener('submit', function () {
-        trackEvent('lead_form_submit', { form_id: 'contactForm' });
-      });
-    }
-    (function () {
-      if (!formMessage) return;
-      var msgObserver = new MutationObserver(function () {
-        if (formMessage.classList.contains('success')) {
-          trackEvent('lead_form_success', { form_id: 'contactForm' });
-        } else if (formMessage.classList.contains('error')) {
-          trackEvent('lead_form_error', { form_id: 'contactForm' });
-        }
-      });
-      msgObserver.observe(formMessage, { attributes: true, attributeFilter: ['class'] });
-    })();
-
-    // FAQ accordion
-    document.querySelectorAll('.accordion-item').forEach(function (item) {
-      var header = item.querySelector('.accordion-header');
-      if (!header) return;
-      header.addEventListener('click', function () {
-        if (item.classList.contains('active')) {
-          trackEvent('faq_open', { faq_question: header.textContent.replace('+', '').trim() });
-        }
-      });
-    });
-
-    // ROI calculator
-    (function () {
-      var calcTimer = null;
-      document.querySelectorAll('.calc-field input[type=range]').forEach(function (s) {
-        s.addEventListener('input', function () {
-          clearTimeout(calcTimer);
-          calcTimer = setTimeout(function () {
-            trackEvent('calculator_used', {
-              checks: document.getElementById('calcChecks') ? document.getElementById('calcChecks').value : null,
-              hours: document.getElementById('calcHours') ? document.getElementById('calcHours').value : null,
-              rate: document.getElementById('calcRate') ? document.getElementById('calcRate').value : null
-            });
-          }, 800);
-        });
-      });
-    })();
-
-    // Exit-intent popup shown
-    (function () {
-      var exitOverlayEl = document.getElementById('exitOverlay');
-      if (!exitOverlayEl) return;
-      var exitObserver = new MutationObserver(function () {
-        if (exitOverlayEl.classList.contains('visible')) {
-          trackEvent('exit_intent_shown', {});
-        }
-      });
-      exitObserver.observe(exitOverlayEl, { attributes: true, attributeFilter: ['class'] });
-    })();
-
-    // Demo dashboard scrolled into view
-    (function () {
-      var demoSection = document.getElementById('demo');
-      if (!demoSection || !('IntersectionObserver' in window)) return;
-      var demoObserver = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            trackEvent('demo_dashboard_viewed', {});
-            demoObserver.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.4 });
-      demoObserver.observe(demoSection);
-    })();
-  }, 0);
 </script>
 <script src="/assets/lenis.min.js" defer></script>
 <script src="animations.js" defer></script>
