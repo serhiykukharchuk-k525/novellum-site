@@ -1571,6 +1571,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }, { threshold: 0.4 });
     demoObserver.observe(demoSection);
   })();
+
+  // ── Auto-hide header on scroll (hide on down, show on up) ──
+  (function() {
+    var hdr = document.querySelector('body > header');
+    if (!hdr) return;
+    var lastY = window.scrollY, ticking = false;
+    window.addEventListener('scroll', function() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function() {
+        var y = window.scrollY;
+        if (y > 80) {
+          hdr.classList.toggle('header-hidden', y > lastY);
+        } else {
+          hdr.classList.remove('header-hidden');
+        }
+        lastY = y;
+        ticking = false;
+      });
+    }, { passive: true });
+  })();
 </script>
 <script src="/assets/lenis.min.js" defer></script>
 <script src="animations.js" defer></script>
