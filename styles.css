@@ -1338,7 +1338,6 @@
     .hs-sticky{
       position:sticky;top:0;height:100vh;
       overflow:hidden;display:flex;align-items:center;
-      background:var(--panel);
     }
     .hs-heading{
       position:absolute;top:clamp(36px,7vh,68px);
@@ -1351,7 +1350,7 @@
     .hs-heading p{color:var(--text-muted);font-size:.92rem;max-width:54ch;margin:0}
     .hs-heading .section-eyebrow{margin-bottom:8px}
     .hs-track{
-      display:flex;align-items:stretch;gap:32px;
+      display:flex;align-items:stretch;gap:24px;
       will-change:transform;
       padding-left:clamp(24px,8vw,120px);
       padding-right:clamp(24px,8vw,120px);
@@ -1359,7 +1358,7 @@
       padding-bottom:clamp(60px,8vh,80px);
     }
     .hs-panel{
-      flex:0 0 min(80vw,640px);
+      flex:0 0 min(68vw,520px);
       display:flex;flex-direction:column;justify-content:space-between;
       background:var(--glass);
       border:1px solid var(--border);
