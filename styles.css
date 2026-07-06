@@ -693,7 +693,7 @@
       overflow:visible;
       max-width:100%;
     }
-    section#products{ overflow:hidden; }
+    section#products{ overflow:visible; }
     @media (min-width:769px){
       section#products{ padding-top:110px; padding-bottom:110px; }
       .product-orbit-wrap .product{ max-width:600px; margin:0 auto; }
@@ -707,7 +707,7 @@
       background: var(--glass);
       border-radius:20px;
       border:1px solid rgba(255,255,255,.12);
-      box-shadow:0 22px 64px rgba(0,0,0,.62);
+      box-shadow:0 8px 28px rgba(0,0,0,.28);
       backdrop-filter:blur(14px);
       -webkit-backdrop-filter:blur(14px);
       position:relative;
