@@ -204,6 +204,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <header>
     <div class="container nav">
+      <!-- Desktop-only hamburger trigger -->
+      <button class="desk-ham-trigger" id="deskHamBtn" aria-label="Відкрити навігацію" aria-expanded="false">
+        <span class="desk-ham-lines"><span></span><span></span><span></span></span>
+        <span class="desk-ham-label">Меню</span>
+      </button>
+
       <a class="logo" href="#">
         <img class="logo-horizontal" src="assets/logo/novellum-horizontal.svg" alt="Nóvellum" width="130" height="40" />
         <img class="logo-mark" src="assets/logo/novellum-mark.svg" alt="Nóvellum" width="40" height="40" />
@@ -229,6 +235,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </button>
     </div>
   </header>
+
+  <!-- Desktop side nav drawer (desktop only) -->
+  <div class="desk-nav-drawer" id="deskNavDrawer" aria-hidden="true" aria-label="Навігація">
+    <div class="desk-nav-head">
+      <a href="#top" class="desk-nav-logo" onclick="document.getElementById('deskNavDrawer').classList.remove('open');document.getElementById('deskNavBackdrop').classList.remove('visible')">
+        <img src="assets/logo/novellum-mark.svg" alt="Nóvellum" width="32" height="32" />
+      </a>
+      <button class="desk-nav-close" id="deskNavClose" aria-label="Закрити меню">✕</button>
+    </div>
+    <nav class="desk-nav-links">
+      <a href="#value"><span class="desk-nav-num">01</span>Цінність</a>
+      <a href="#formats"><span class="desk-nav-num">02</span>Формати</a>
+      <a href="#products"><span class="desk-nav-num">03</span>Продукт</a>
+      <a href="#process"><span class="desk-nav-num">04</span>Процес</a>
+      <a href="#demo"><span class="desk-nav-num">05</span>Демо</a>
+      <a href="#pricing"><span class="desk-nav-num">06</span>Аналітика</a>
+      <a href="partners.html"><span class="desk-nav-num">07</span>Партнерство</a>
+      <a href="#contact"><span class="desk-nav-num">08</span>Контакти</a>
+    </nav>
+    <div class="desk-nav-footer">
+      <a class="button primary" href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener">Написати в LinkedIn →</a>
+      <a class="button secondary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener">Telegram</a>
+    </div>
+  </div>
+  <div class="desk-nav-backdrop" id="deskNavBackdrop"></div>
 
   <nav class="mobile-nav" id="mobileNav" aria-label="Мобільна навігація">
     <button class="mobile-nav-close" id="mobileNavClose" aria-label="Закрити меню">✕</button>
@@ -1665,6 +1696,41 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="animations.js" defer></script>
 
 <script>
+// ═══ Desktop side navigation drawer ═══
+(function() {
+  var trigger  = document.getElementById('deskHamBtn');
+  var drawer   = document.getElementById('deskNavDrawer');
+  var backdrop = document.getElementById('deskNavBackdrop');
+  var closeBtn = document.getElementById('deskNavClose');
+  if (!trigger || !drawer) return;
+
+  function openNav() {
+    drawer.classList.add('open');
+    drawer.setAttribute('aria-hidden', 'false');
+    backdrop.classList.add('visible');
+    trigger.setAttribute('aria-expanded', 'true');
+    // Focus first link for accessibility
+    var first = drawer.querySelector('a, button');
+    if (first) setTimeout(function() { first.focus(); }, 50);
+  }
+  function closeNav() {
+    drawer.classList.remove('open');
+    drawer.setAttribute('aria-hidden', 'true');
+    backdrop.classList.remove('visible');
+    trigger.setAttribute('aria-expanded', 'false');
+  }
+
+  trigger.addEventListener('click', openNav);
+  if (closeBtn) closeBtn.addEventListener('click', closeNav);
+  backdrop.addEventListener('click', closeNav);
+  drawer.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', closeNav);
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && drawer.classList.contains('open')) closeNav();
+  });
+})();
+
 // ═══ Horizontal Scroll Chapter ═══
 (function() {
   var outer   = document.getElementById('hscrollOuter');
@@ -1780,6 +1846,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       a.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
+        // Close desktop side nav if open
+        var dn = document.getElementById('deskNavDrawer');
+        var db = document.getElementById('deskNavBackdrop');
+        var dh = document.getElementById('deskHamBtn');
+        if (dn && dn.classList.contains('open')) {
+          dn.classList.remove('open');
+          dn.setAttribute('aria-hidden', 'true');
+          if (db) db.classList.remove('visible');
+          if (dh) dh.setAttribute('aria-expanded', 'false');
+        }
         goToSlide(slideMap[id]);
       }, true); // capture — fires before existing smooth-scroll handler
     }

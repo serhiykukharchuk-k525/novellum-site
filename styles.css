@@ -913,6 +913,130 @@
       .nav-links{display:none}
     }
 
+    /* ── Desktop hamburger trigger ── */
+    .desk-ham-trigger{
+      display:none; /* hidden on mobile — shown via desktop media query below */
+      align-items:center;gap:8px;
+      background:none;border:1px solid var(--border);
+      border-radius:var(--radius-pill);
+      padding:7px 14px 7px 10px;
+      cursor:pointer;
+      color:var(--text-muted);
+      font-family:inherit;font-size:13px;
+      transition:background .15s,border-color .15s,color .15s;
+      flex-shrink:0;
+    }
+    .desk-ham-trigger:hover{
+      background:var(--brand-soft);
+      border-color:var(--border-strong);
+      color:var(--text);
+    }
+    .desk-ham-lines{
+      display:flex;flex-direction:column;gap:4px;align-items:center;
+      width:16px;
+    }
+    .desk-ham-lines span{
+      display:block;width:14px;height:1.5px;
+      background:currentColor;border-radius:2px;
+      transition:transform .22s,opacity .22s;
+    }
+    .desk-ham-trigger[aria-expanded="true"] .desk-ham-lines span:nth-child(1){transform:translateY(5.5px) rotate(45deg)}
+    .desk-ham-trigger[aria-expanded="true"] .desk-ham-lines span:nth-child(2){opacity:0}
+    .desk-ham-trigger[aria-expanded="true"] .desk-ham-lines span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg)}
+    .desk-ham-label{font-weight:500;letter-spacing:.01em;font-size:13px}
+
+    @media(min-width:901px){
+      .desk-ham-trigger{display:flex}
+      .nav-links{display:none !important} /* replaced by side drawer on desktop */
+    }
+    @media(max-width:900px){
+      .desk-ham-trigger{display:none !important}
+    }
+
+    /* ── Desktop side nav drawer ── */
+    .desk-nav-drawer{
+      position:fixed;
+      left:0;top:0;bottom:0;
+      width:300px;
+      background:var(--bg);
+      border-right:1px solid var(--border);
+      z-index:200;
+      transform:translateX(-100%);
+      transition:transform .32s cubic-bezier(.4,0,.2,1);
+      display:flex;flex-direction:column;
+      box-shadow:4px 0 40px rgba(59,18,24,.10);
+    }
+    .desk-nav-drawer.open{transform:translateX(0)}
+
+    .desk-nav-head{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:20px 20px 16px;
+      border-bottom:1px solid var(--border);
+      flex-shrink:0;
+    }
+    .desk-nav-logo{display:flex;align-items:center}
+    .desk-nav-logo img{height:32px;width:auto}
+
+    .desk-nav-close{
+      width:32px;height:32px;
+      border:1px solid var(--border);border-radius:50%;
+      background:none;cursor:pointer;
+      font-size:13px;color:var(--text-muted);
+      display:flex;align-items:center;justify-content:center;
+      transition:background .15s,color .15s,border-color .15s;
+    }
+    .desk-nav-close:hover{background:var(--brand-soft);color:var(--brand-hi);border-color:var(--bronze)}
+
+    .desk-nav-links{
+      display:flex;flex-direction:column;
+      flex:1;overflow-y:auto;
+      padding:8px 0;
+    }
+    .desk-nav-links a{
+      display:flex;align-items:center;gap:14px;
+      padding:13px 24px;
+      font-size:15px;font-weight:400;
+      color:var(--text-muted);
+      border-bottom:1px solid var(--border);
+      transition:color .15s,background .15s,padding-left .15s;
+      text-decoration:none;
+    }
+    .desk-nav-links a:first-child{border-top:1px solid var(--border)}
+    .desk-nav-links a:hover,.desk-nav-links a.active{
+      color:var(--brand-hi);
+      background:var(--brand-soft);
+      padding-left:30px;
+    }
+    .desk-nav-num{
+      font-size:10px;font-weight:600;
+      color:var(--text-soft);
+      letter-spacing:.06em;
+      min-width:16px;
+      font-variant-numeric:tabular-nums;
+    }
+
+    .desk-nav-footer{
+      padding:20px 24px;
+      border-top:1px solid var(--border);
+      display:flex;flex-direction:column;gap:10px;
+      flex-shrink:0;
+    }
+
+    .desk-nav-backdrop{
+      position:fixed;inset:0;
+      background:rgba(34,26,23,.22);
+      backdrop-filter:blur(3px);
+      -webkit-backdrop-filter:blur(3px);
+      z-index:199;
+      opacity:0;pointer-events:none;
+      transition:opacity .3s;
+    }
+    .desk-nav-backdrop.visible{opacity:1;pointer-events:all}
+
+    @media(max-width:900px){
+      .desk-nav-drawer,.desk-nav-backdrop{display:none !important}
+    }
+
     /* ── Hamburger menu ── */
     .hamburger{
       display:none;
