@@ -1739,28 +1739,29 @@
 
       .vmarquee{
         position:absolute;top:0;bottom:0;
-        width:44px;
+        /* sit just outside the glass-panel container (~60px from its edge) */
+        width:22px;
         display:flex;
         align-items:flex-start;
         overflow:hidden;
         pointer-events:none;
         z-index:2;
       }
-      .vmarquee--left{left:0}
-      .vmarquee--right{right:0}
+      .vmarquee--left{left:max(8px, calc(50% - 660px))}
+      .vmarquee--right{right:max(8px, calc(50% - 660px))}
 
       .vmarquee-track{
         display:flex;
         flex-direction:column;
-        gap:18px;
-        padding:18px 0;
+        gap:28px;
+        padding:24px 0;
         will-change:transform;
       }
       .vmarquee-track span{
         writing-mode:vertical-rl;
-        text-orientation:mixed;
-        font-size:10px;
-        letter-spacing:.14em;
+        text-orientation:upright;
+        font-size:9px;
+        letter-spacing:.08em;
         text-transform:uppercase;
         color:var(--fg-faint);
         white-space:nowrap;
