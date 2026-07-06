@@ -1285,7 +1285,7 @@
     .hero-trust-item.vis{opacity:1;transform:none}
     #process{position:relative}
     .phone-v-wrap{position:relative;width:100%;max-width:290px;margin:0 auto;overflow:hidden;aspect-ratio:914/1565;border-radius:46px 46px 0 0}
-    .phone-v-frame{background:#100B0D;border-radius:48px 48px 0 0;overflow:hidden;position:relative;aspect-ratio:914/1612;box-shadow:none;-webkit-mask-image:linear-gradient(to bottom,black 0%,black 93%,transparent 95%);mask-image:linear-gradient(to bottom,black 0%,black 93%,transparent 95%)}
+    .phone-v-frame{background:#100B0D;border-radius:48px 48px 0 0;overflow:hidden;position:relative;aspect-ratio:914/1675;box-shadow:none;-webkit-mask-image:linear-gradient(to bottom,black 0%,black 93%,transparent 95%);mask-image:linear-gradient(to bottom,black 0%,black 93%,transparent 95%)}
     .phone-v-shell{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;z-index:5}
     .phone-v-fade{display:none}
     .hero-visual{padding:0!important;background:transparent!important;border:none!important;box-shadow:none!important;backdrop-filter:none!important;min-height:auto!important}
