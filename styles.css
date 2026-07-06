@@ -1745,23 +1745,22 @@
       .hero-scroll{display:none}
       /* hide CTA "Процес" button, keep LinkedIn */
       .hero-cta .button--anim{display:none}
-      /* phone: show top portion only, fade at bottom */
-      /* phone: same frame as desktop, mobile width + top-crop via wrap mask */
+      /* phone: same iphone.webp frame as desktop, fades out at bottom */
       .phone-v-wrap{
         display:block !important;
-        width:82%;
-        max-width:290px;
+        width:86%;
+        max-width:300px;
         margin:8px auto 0;
         aspect-ratio:914/1545;
         border-radius:46px 46px 10px 10px;
         overflow:hidden;
         position:relative;
-        -webkit-mask-image:linear-gradient(to bottom, black 0%, black 63%, transparent 100%);
-        mask-image:linear-gradient(to bottom, black 0%, black 63%, transparent 100%);
+        -webkit-mask-image:linear-gradient(to bottom, black 0%, black 68%, transparent 100%);
+        mask-image:linear-gradient(to bottom, black 0%, black 68%, transparent 100%);
       }
-      /* frame: identical to desktop except light background */
+      /* light screen — shell screen area is transparent so this shows through */
       .phone-v-frame{
-        background:#F0EBE3;
+        background:#F5F0E8;
         border-radius:48px 48px 0 0;
         overflow:hidden;
         position:relative;
@@ -1770,68 +1769,42 @@
         mask-image:none;
         box-shadow:none;
       }
-      /* shell image: exact same as desktop */
       .phone-v-shell{
-        display:block;
         position:absolute;inset:0;
         width:100%;height:100%;
         object-fit:contain;
         pointer-events:none;z-index:5;
       }
-      /* statusbar: light bg so it paints over the dark shell screen */
       .phone-v-statusbar{
         display:flex;
         position:relative;z-index:6;
         padding:13% 22px 4px;
-        font-size:11px;color:rgba(0,0,0,.5);
+        font-size:11px;color:rgba(0,0,0,.45);
         justify-content:space-between;align-items:center;
-        background:#F0EBE3;
+        background:#F5F0E8;
       }
-      /* notif-shade: light bg overlay on top of dark shell screen (z-index:6 > shell z-index:5) */
+      /* notification cards inside the phone screen */
       .notif-shade{
-        display:flex;flex-direction:column;gap:5px;
+        display:flex;flex-direction:column;gap:6px;
         position:relative;z-index:6;
-        padding:4px 10px 16px;
-        background:#F0EBE3;
-        min-height:60%;
+        padding:6px 12px 20px;
+        background:#F5F0E8;
+        min-height:65%;
       }
       .notif-card{
         display:flex;align-items:center;gap:8px;
-        padding:8px 10px;
-        background:rgba(30,18,12,.55);
-        backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-        border-radius:13px;
-        border:1px solid rgba(255,255,255,.10);
+        padding:9px 11px;
+        background:rgba(28,18,10,.72);
+        backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+        border-radius:14px;
+        border:1px solid rgba(255,255,255,.12);
       }
       .notif-card--warn .notif-title{color:#f5a54a}
-      .notif-icon{font-size:18px;flex-shrink:0;line-height:1}
-      .notif-title{font-size:11px;font-weight:600;color:#fff;line-height:1.25}
-      .notif-sub{font-size:10px;color:rgba(255,255,255,.55);margin-top:1px}
-      /* live-dash hidden on mobile */
+      .notif-icon{font-size:19px;flex-shrink:0;line-height:1}
+      .notif-title{font-size:12px;font-weight:600;color:#fff;line-height:1.25}
+      .notif-sub{font-size:10px;color:rgba(255,255,255,.5);margin-top:2px}
       .live-dash{display:none}
       .phone-v-fade{display:none}
-      /* live-dash as standalone card */
-      .live-dash{
-        position:static;
-        margin:0;
-        border-radius:14px;
-        padding:10px 12px 8px;
-        overflow:hidden;
-      }
-      .live-dash-header{margin-bottom:4px}
-      .live-dash-eyebrow{font-size:8px}
-      .live-dash-subtitle{font-size:12px}
-      .live-live-badge{font-size:8px;gap:3px}
-      .live-rev-label{font-size:8px;margin-top:4px}
-      .live-rev-val{font-size:20px}
-      .live-rev-delta{font-size:10px}
-      .live-sparkline{height:16px;margin:3px 0}
-      .live-metrics-row{margin-top:4px;gap:8px}
-      .live-metric-label{font-size:8px}
-      .live-metric-val{font-size:15px}
-      .live-metric-delta{font-size:9px}
-      .live-bars{margin-top:4px;gap:3px}
-      .live-bar-row-labels{font-size:8px}
       .live-focus{margin-top:4px}
       .live-focus-header{font-size:8px}
       .live-focus-item{font-size:9px;padding:2px 0}
