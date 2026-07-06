@@ -645,6 +645,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <p>Спочатку розбираємось у вашому бізнесі і будуємо дашборд. Далі підтримуємо його в актуальному стані.</p>
         </div>
 
+        <div class="formats-swipe-wrap">
         <div class="pricing-grid">
           <div class="pricing-card lift reveal">
             <span class="format-badge brass">Start</span>
@@ -690,6 +691,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <p class="terms">Обсяг змін плануємо окремо.</p>
           </div>
         </div>
+        </div><!-- /formats-swipe-wrap -->
+        <div class="formats-swipe-dots" aria-hidden="true"><i></i><i></i></div>
 
         <div class="urgency-strip reveal">
           <div class="urgency-dot"></div>
@@ -1854,6 +1857,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   // Initial state
   updateUI(0, 0);
+})();
+</script>
+<script>
+// Formats swipe dots (mobile)
+(function(){
+  var fw = document.querySelector('.formats-swipe-wrap');
+  if (!fw) return;
+  fw.addEventListener('scroll', function(){
+    var dots = document.querySelectorAll('.formats-swipe-dots i');
+    var idx = Math.round(fw.scrollLeft / fw.clientWidth);
+    dots.forEach(function(d,i){ d.style.background = i===idx ? 'var(--brand-hi)' : 'var(--border)'; });
+  }, { passive:true });
 })();
 </script>
 

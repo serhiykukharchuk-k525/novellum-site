@@ -1710,22 +1710,67 @@
         justify-content:center;
       }
 
-      /* hero: already centered, just ensure sizing */
+      /* ── Hero: show live dashboard below text ── */
       .hero{
         min-height:unset;
-        padding:60px 0 24px;
+        padding:52px 0 12px;
+        justify-content:flex-start;
       }
-      .hero-grid{gap:16px}
-      .hero h1{font-size:clamp(26px,7vw,36px)}
-      .hero-subtitle{font-size:14px}
-      .hero p{font-size:13px;margin-top:6px}
-      .hero-cta{gap:8px;margin-top:14px}
-      .hero-trust-strip{margin-top:12px;gap:0}
-      .hero-visual{display:none}
+      .hero-grid{
+        grid-template-columns:1fr;
+        gap:10px;
+        flex:1;
+        display:flex;
+        flex-direction:column;
+      }
+      .hero h1{font-size:clamp(22px,6vw,30px);margin-bottom:6px}
+      .hero-subtitle{font-size:13px;margin-top:0}
+      .hero > .container > .hero-grid > .hero-content > p{display:none}
+      .hero-cta{gap:7px;margin-top:10px;flex-wrap:nowrap}
+      .hero-cta .button{font-size:12px;padding:8px 14px}
+      .hero-trust-strip{margin-top:8px;gap:0}
+      .hero-trust-item span:first-child{font-size:10px}
+      .hero-trust-item span:last-child{font-size:10px}
+      /* show hero-visual but only the live-dash, not the phone */
+      .hero-visual{
+        display:block !important;
+        background:none !important;border:none !important;
+        box-shadow:none !important;backdrop-filter:none !important;
+        padding:0 !important;min-height:auto !important;
+        flex:1;
+      }
+      .phone-v-wrap{display:none}
       .hero-industries{display:none}
       .hero-scroll{display:none}
+      /* live-dash as standalone card */
+      .live-dash{
+        position:static !important;
+        margin:0;
+        border-radius:14px;
+        padding:12px 14px 10px;
+        max-height:calc(100svh - 320px);
+        overflow:hidden;
+      }
+      .live-dash-header{margin-bottom:6px}
+      .live-dash-eyebrow{font-size:9px}
+      .live-dash-subtitle{font-size:13px}
+      .live-live-badge{font-size:9px;gap:4px}
+      .live-rev-label{font-size:9px;margin-top:6px}
+      .live-rev-val{font-size:22px}
+      .live-rev-delta{font-size:11px}
+      .live-sparkline{height:20px;margin:4px 0}
+      .live-metrics-row{margin-top:6px;gap:8px}
+      .live-metric-label{font-size:8px}
+      .live-metric-val{font-size:16px}
+      .live-metric-delta{font-size:10px}
+      .live-bars{margin-top:6px;gap:4px}
+      .live-bar-row-labels{font-size:9px}
+      .live-focus{margin-top:6px}
+      .live-focus-header{font-size:8px}
+      .live-focus-item{font-size:10px;padding:3px 0}
+      .live-focus-num{font-size:9px}
 
-      /* hscroll slides: inner section fills the slide */
+      /* ── hscroll slides: inner section fills the slide ── */
       .hscroll-slide > section{
         height:100%;
         overflow:hidden;
@@ -1737,7 +1782,7 @@
 
       /* glass-panel inside slides */
       .hscroll-slide .glass-panel{
-        padding:20px 16px;
+        padding:18px 16px;
         overflow:hidden;
         max-height:100%;
         box-sizing:border-box;
@@ -1746,48 +1791,76 @@
       /* section titles compact */
       .hscroll-slide .section-title h2,
       .hscroll-slide h2.title-accent{
-        font-size:clamp(18px,5vw,24px);
-        margin-bottom:8px;
+        font-size:clamp(17px,4.5vw,22px);
+        margin-bottom:6px;
       }
       .hscroll-slide .section-eyebrow,
-      .hscroll-slide .pill{font-size:10px;margin-bottom:6px}
+      .hscroll-slide .pill{font-size:10px;margin-bottom:5px}
       .hscroll-slide .section-typewriter,
       .hscroll-slide .icon-badges{display:none}
 
-      /* narrative list: 1 column, compact */
+      /* ── Цінність: clean list, no numbers, no boxes ── */
       .hscroll-slide .narrative-list{
         display:grid;
         grid-template-columns:1fr 1fr;
-        gap:6px;
+        gap:0 12px;
         margin-top:10px;
       }
       .hscroll-slide .narrative-item{
-        padding:7px 8px;
-        border-bottom:none;
-        border:1px solid var(--border);
-        border-radius:8px;
+        display:block;
+        padding:8px 0 6px;
+        border:none;
+        border-radius:0;
+        border-top:1px solid var(--border);
       }
-      .hscroll-slide .narrative-item h3{font-size:11px;margin-bottom:2px}
-      .hscroll-slide .narrative-item p{font-size:10px;color:var(--text-muted)}
-      .hscroll-slide .narrative-num{font-size:10px}
+      .hscroll-slide .narrative-item::before{
+        content:"";
+        display:block;
+        width:5px;height:5px;border-radius:50%;
+        background:var(--brand-hi);
+        margin-bottom:4px;
+      }
+      .hscroll-slide .narrative-item h3{font-size:12px;margin:0 0 2px;font-weight:600}
+      .hscroll-slide .narrative-item p{font-size:10px;color:var(--text-muted);margin:0}
+      .hscroll-slide .narrative-num{display:none}
 
-      /* for-whom: hide CTA buttons, keep text + cards */
+      /* ── Для кого це: clean list rows, no bordered cards ── */
       #for-whom .reveal[style*="flex"]{display:none !important}
       #for-whom .for-whom-content p{font-size:13px;line-height:1.5}
       #for-whom .snapshot-grid{
-        grid-template-columns:1fr 1fr;
-        gap:6px;
-        margin-top:10px !important;
+        display:flex;
+        flex-direction:column;
+        gap:0;
+        margin-top:12px !important;
       }
-      #for-whom .snap-card{padding:8px 10px}
-      #for-whom .snap-card b{font-size:12px}
-      #for-whom .snap-card small{font-size:10px}
-      #for-whom .snap-card .accent{font-size:10px}
+      #for-whom .snap-card{
+        background:none;
+        border:none;
+        border-radius:0;
+        border-bottom:1px solid var(--border);
+        padding:9px 0;
+        display:flex;
+        align-items:center;
+        gap:10px;
+        box-shadow:none;
+        backdrop-filter:none;
+      }
+      #for-whom .snap-card::before{display:none}
+      #for-whom .snap-card small{display:none}
+      #for-whom .snap-card b{font-size:13px;flex:1}
+      #for-whom .snap-card .accent{
+        font-size:11px;
+        background:rgba(122,35,51,.07);
+        border-radius:99px;
+        padding:2px 8px;
+        white-space:nowrap;
+      }
+      #for-whom .snap-card .accent i{display:none}
 
       /* vertical marquees hidden on mobile */
       .vmarquee{display:none}
 
-      /* obstacles / perешкоди */
+      /* ── Obstacles ── */
       .hscroll-slide .obstacles-grid,
       .hscroll-slide .paragraph-grid{
         column-count:1;
@@ -1795,31 +1868,77 @@
         margin-top:10px;
       }
 
-      /* social proof */
+      /* ── Social proof ── */
       .hscroll-slide .testimonials-grid,
       .hscroll-slide .social-grid{
         grid-template-columns:1fr;
         gap:8px;
       }
 
-      /* formats */
-      .hscroll-slide .formats-grid{
-        grid-template-columns:1fr 1fr;
-        gap:8px;
+      /* ── Формати: horizontal swipe 1 card at a time ── */
+      .formats-swipe-wrap{
+        overflow-x:scroll;
+        scroll-snap-type:x mandatory;
+        scrollbar-width:none;
+        -webkit-overflow-scrolling:touch;
         margin-top:10px;
       }
-
-      /* calculator: hide on mobile snap (too complex) — show simple CTA */
-      #hslide-calculator .calc-grid{
-        grid-template-columns:1fr;
-        gap:10px;
+      .formats-swipe-wrap::-webkit-scrollbar{display:none}
+      .formats-swipe-wrap .pricing-grid{
+        display:flex;
+        flex-wrap:nowrap;
+        width:200%;
+        gap:0;
       }
+      .formats-swipe-wrap .pricing-card{
+        width:calc(50vw - 16px);
+        min-width:calc(100vw - 32px);
+        flex-shrink:0;
+        scroll-snap-align:start;
+        padding-right:16px;
+        box-sizing:border-box;
+      }
+      .formats-swipe-wrap .pricing-card:not(:first-child){
+        border-left:none;
+        padding-left:0;
+      }
+      /* hide urgency strip on mobile */
+      .hscroll-slide .urgency-strip{display:none}
+      /* dots */
+      .formats-swipe-dots{
+        display:flex;
+        justify-content:center;
+        gap:6px;
+        margin-top:8px;
+      }
+      .formats-swipe-dots i{
+        width:6px;height:6px;border-radius:50%;
+        background:var(--border);
+        display:block;
+        transition:background .2s;
+      }
+      .formats-swipe-dots i:first-child{background:var(--brand-hi)}
 
-      /* process timeline compact */
-      .hscroll-slide .process-timeline{gap:12px;margin-top:10px}
-      .hscroll-slide .process-step{padding:10px 12px}
+      /* ── Калькулятор: compact 1 column ── */
+      #hslide-calculator > div:first-child{display:none}
+      .hscroll-slide .calc-grid{
+        grid-template-columns:1fr;
+        gap:8px;
+      }
+      .hscroll-slide .calc-box{padding:10px 12px}
+      .hscroll-slide .calc-field{margin-bottom:6px;gap:3px}
+      .hscroll-slide .calc-field label{font-size:11px}
+      .hscroll-slide .calc-field input[type=range]{height:18px;margin:0}
+      .hscroll-slide .calc-hint{display:none}
+      .hscroll-slide .calc-result-num{font-size:26px}
+      .hscroll-slide .calc-result-sub{font-size:10px}
+      .hscroll-slide #calcDetailsBtn{margin-top:10px;padding:9px 14px;font-size:13px}
 
-      /* sections after hscroll */
+      /* ── Process timeline compact ── */
+      .hscroll-slide .process-timeline{gap:10px;margin-top:8px}
+      .hscroll-slide .process-step{padding:9px 12px}
+
+      /* ── Sections after hscroll ── */
       section#demo,section#pricing,section#not-for,section#faq,section#contact{
         padding:24px 0;
         justify-content:flex-start;
