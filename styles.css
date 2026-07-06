@@ -1732,6 +1732,8 @@
       .hero-trust-strip{margin-top:6px;gap:0}
       .hero-trust-item{padding:0 10px 0 0}
       .hero-trust-item span{font-size:9px}
+      /* pill in hero: smaller so it fits on one line */
+      .hero .pill{font-size:9px;letter-spacing:.05em;padding:5px 10px;gap:6px}
       /* show hero-visual with notification shade */
       .hero-visual{
         display:block !important;
@@ -1747,14 +1749,23 @@
       .phone-v-wrap{display:none !important}
       .notif-shade{
         display:flex;flex-direction:column;gap:0;
-        background:rgba(18,8,8,.88);
+        background:rgba(18,8,8,.90);
         backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-        border-radius:18px;overflow:hidden;
+        border-radius:36px 36px 18px 18px;overflow:hidden;
         margin:0 4px;
+        border:1.5px solid rgba(255,255,255,.08);
+      }
+      /* dynamic island pill at top of phone */
+      .notif-island{
+        width:76px;height:24px;
+        background:#000;
+        border-radius:0 0 14px 14px;
+        margin:0 auto;
+        flex-shrink:0;
       }
       .notif-bar{
         display:flex;justify-content:space-between;
-        padding:6px 14px;
+        padding:4px 16px 6px;
         font-size:11px;color:rgba(255,255,255,.45);
         border-bottom:1px solid rgba(255,255,255,.07);
         letter-spacing:.02em;
