@@ -1146,11 +1146,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       revealItems.forEach((item) => item.classList.add('in-view'));
     }
 
-    // Accordion
+    // Accordion — animate to actual scrollHeight for smooth transition
     const accordionItems = document.querySelectorAll('.accordion-item');
     accordionItems.forEach((item) => {
       const header = item.querySelector('.accordion-header');
-      header.addEventListener('click', () => item.classList.toggle('active'));
+      const body = item.querySelector('.accordion-body');
+      header.addEventListener('click', () => {
+        const opening = !item.classList.contains('active');
+        item.classList.toggle('active');
+        if (body) body.style.maxHeight = opening ? body.scrollHeight + 'px' : '0';
+      });
     });
 
     // Smooth anchor scroll
