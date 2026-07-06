@@ -204,6 +204,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <header>
     <div class="container nav">
+      <!-- Desktop-only hamburger trigger -->
+      <button class="desk-ham-trigger" id="deskHamBtn" aria-label="Відкрити навігацію" aria-expanded="false">
+        <span class="desk-ham-lines"><span></span><span></span><span></span></span>
+        <span class="desk-ham-label">Меню</span>
+      </button>
+
       <a class="logo" href="#">
         <img class="logo-horizontal" src="assets/logo/novellum-horizontal.svg" alt="Nóvellum" width="130" height="40" />
         <img class="logo-mark" src="assets/logo/novellum-mark.svg" alt="Nóvellum" width="40" height="40" />
@@ -229,6 +235,55 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </button>
     </div>
   </header>
+
+  <!-- Desktop side nav drawer (desktop only) -->
+  <div class="desk-nav-drawer" id="deskNavDrawer" aria-hidden="true" aria-label="Навігація">
+    <div class="desk-nav-head">
+      <a href="#top" class="desk-nav-logo" onclick="document.getElementById('deskNavDrawer').classList.remove('open');document.getElementById('deskNavBackdrop').classList.remove('visible')">
+        <img src="assets/logo/novellum-mark.svg" alt="Nóvellum" width="32" height="32" />
+      </a>
+      <button class="desk-nav-close" id="deskNavClose" aria-label="Закрити меню">✕</button>
+    </div>
+    <nav class="desk-nav-links">
+      <a href="#value">
+        <span class="desk-nav-icon" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="1" y="8" width="3" height="6" rx=".6" fill="currentColor"/><rect x="6" y="5" width="3" height="9" rx=".6" fill="currentColor"/><rect x="11" y="2" width="3" height="12" rx=".6" fill="currentColor"/></svg></span>
+        Цінність
+      </a>
+      <a href="#formats">
+        <span class="desk-nav-icon" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1.5" y="3.5" width="12" height="8" rx="1.5"/><line x1="1.5" y1="6.5" x2="13.5" y2="6.5"/></svg></span>
+        Формати
+      </a>
+      <a href="#products">
+        <span class="desk-nav-icon" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="7.5" cy="7.5" r="5.5"/><circle cx="7.5" cy="7.5" r="2" fill="currentColor" stroke="none"/></svg></span>
+        Продукт
+      </a>
+      <a href="#process">
+        <span class="desk-nav-icon" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><line x1="2" y1="4" x2="10" y2="4"/><polyline points="7,1.5 10,4 7,6.5"/><line x1="5" y1="11" x2="13" y2="11"/><polyline points="10,8.5 13,11 10,13.5"/></svg></span>
+        Процес
+      </a>
+      <a href="#demo">
+        <span class="desk-nav-icon" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="7.5" cy="7.5" r="5.5"/><polygon points="6,5.5 11,7.5 6,9.5" fill="currentColor" stroke="none"/></svg></span>
+        Демо
+      </a>
+      <a href="#pricing">
+        <span class="desk-nav-icon" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><polyline points="1,11 4.5,6 7.5,8.5 11,4 14,5"/></svg></span>
+        Аналітика
+      </a>
+      <a href="partners.html">
+        <span class="desk-nav-icon" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="4.5" cy="7.5" r="3.5"/><circle cx="10.5" cy="7.5" r="3.5"/></svg></span>
+        Партнерство
+      </a>
+      <a href="#contact">
+        <span class="desk-nav-icon" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1.5" y="3.5" width="12" height="8" rx="1.5"/><polyline points="1.5,4.5 7.5,9 13.5,4.5"/></svg></span>
+        Контакти
+      </a>
+    </nav>
+    <div class="desk-nav-footer">
+      <a class="button primary" href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener">Написати в LinkedIn →</a>
+      <a class="button secondary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener">Telegram</a>
+    </div>
+  </div>
+  <div class="desk-nav-backdrop" id="deskNavBackdrop"></div>
 
   <nav class="mobile-nav" id="mobileNav" aria-label="Мобільна навігація">
     <button class="mobile-nav-close" id="mobileNavClose" aria-label="Закрити меню">✕</button>
@@ -280,6 +335,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="phone-v-frame">
               <img class="phone-v-shell" src="/assets/iphone.webp" alt="" fetchpriority="high" width="580" height="984" />
               <div class="phone-v-statusbar"><span>9:41</span><span style="display:flex;gap:4px;align-items:center;font-size:10px">▶ ▶▶</span></div>
+              <!-- mobile-only: notification cards inside phone -->
+              <div class="notif-shade" aria-hidden="true">
+                <div class="notif-card">
+                  <span class="notif-icon">📊</span>
+                  <div>
+                    <div class="notif-title">Виручка ↑ +12.4%</div>
+                    <div class="notif-sub">₴1&nbsp;284&nbsp;560 · від плану</div>
+                  </div>
+                </div>
+                <div class="notif-card">
+                  <span class="notif-icon">✅</span>
+                  <div>
+                    <div class="notif-title">План перевиконано</div>
+                    <div class="notif-sub">+4% цього тижня</div>
+                  </div>
+                </div>
+                <div class="notif-card notif-card--warn">
+                  <span class="notif-icon">⚠️</span>
+                  <div>
+                    <div class="notif-title">Маржа знизилась</div>
+                    <div class="notif-sub">−1.2 pp · потребує уваги</div>
+                  </div>
+                </div>
+              </div>
           <div class="live-dash" aria-label="Live dashboard preview">
             <div class="live-dash-header">
               <div>
@@ -369,89 +448,84 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </section>
 
     <!-- СЕКЦІЯ: Для кого це — додано -->
-    <section id="for-whom" class="divider">
-      <div class="container glass-panel">
-        <p class="section-eyebrow reveal">Для кого це</p>
-        <h2 class="title-accent reveal">Наш клієнт — власник МСБ що масштабується.</h2>
-        <div class="for-whom-content reveal">
-          <p>
-            Є 1С або ERP, є Excel, є CRM. Але немає системи яка показує
-            реальну картину вчасно. Маржа по категоріях невідома. План
-            порівнюють з фактом в кінці місяця. Цифри в різних відділів різні.
-            Понеділок починається з дзвінків і уточнень.
-          </p>
-        </div>
-        <div class="reveal" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;align-items:center">
-          <a href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener" class="button primary">Написати в LinkedIn →</a>
-          <a href="https://t.me/serhiy_novellum" target="_blank" rel="noopener" class="button secondary">або Telegram</a>
-        </div>
-      </div>
-    </section>
+    <!-- ═══ Horizontal scroll chapter (desktop) · vertical snap (mobile) ═══ -->
+    <div class="hscroll-outer" id="hscrollOuter">
+      <div class="hscroll-sticky" id="hscrollSticky">
 
-    <section class="snapshot" id="snapshot">
-      <div class="container">
-        <div class="snapshot-grid reveal">
-          <div class="snap-card">
-            <b>Дашборд: 1 екран</b>
-            <div class="accent"><i></i>читабельно для C-level</div>
-            <small>Короткий екран замість набору звітів.</small>
+        <div class="hscroll-ui" aria-hidden="true">
+          <span class="hscroll-label" id="hscrollLabel">Для кого це</span>
+          <div class="hscroll-nav-row">
+            <div class="hscroll-dots" id="hscrollDots"></div>
+            <span class="hscroll-counter"><span id="hscrollCurr">01</span> / <span id="hscrollTot">08</span></span>
           </div>
-          <div class="snap-card">
-            <b>Фокус: 10–15 KPI</b>
-            <div class="accent"><i></i>без шуму</div>
-            <small>Тільки те, що впливає на рішення.</small>
-          </div>
-          <div class="snap-card">
-            <b>Процес: сервіс</b>
-            <div class="accent"><i></i>підтримка в часі</div>
-            <small>Дашборд залишається актуальним, а не застаріває через місяць.</small>
-          </div>
-          <div class="snap-card">
-            <b>Формат: NDA</b>
-            <div class="accent"><i></i>конфіденційність</div>
-            <small>Умови фіксуємо до старту.</small>
+          <div class="hscroll-arrows">
+            <button class="hscroll-arrow" id="hscrollPrev" aria-label="Попередня секція">←</button>
+            <button class="hscroll-arrow" id="hscrollNext" aria-label="Наступна секція">→</button>
           </div>
         </div>
-      </div>
-    </section>
+        <div class="hscroll-progress"><div class="hscroll-progress-fill" id="hscrollFill"></div></div>
+        <div class="hscroll-hint" id="hscrollHint">scroll →</div>
 
-    <section class="brand-strip">
-      <div class="brand-logos-wrap">
-        <div class="brand-logos-track">
-          <div class="logo-pill">E-commerce</div>
-          <div class="logo-pill">Логістика</div>
-          <div class="logo-pill">Retail</div>
-          <div class="logo-pill">Виробництво</div>
-          <div class="logo-pill">Медицина</div>
-          <div class="logo-pill">Фінанси</div>
-          <div class="logo-pill">HoReCa</div>
-          <div class="logo-pill">Агробізнес</div>
-          <div class="logo-pill">Будівництво</div>
-          <div class="logo-pill">SaaS</div>
-          <div class="logo-pill">Сервісні компанії</div>
-          <div class="logo-pill">Нерухомість</div>
-          <div class="logo-pill">Освіта</div>
-          <div class="logo-pill">Транспорт</div>
-          <div class="logo-pill">E-commerce</div>
-          <div class="logo-pill">Логістика</div>
-          <div class="logo-pill">Retail</div>
-          <div class="logo-pill">Виробництво</div>
-          <div class="logo-pill">Медицина</div>
-          <div class="logo-pill">Фінанси</div>
-          <div class="logo-pill">HoReCa</div>
-          <div class="logo-pill">Агробізнес</div>
-          <div class="logo-pill">Будівництво</div>
-          <div class="logo-pill">SaaS</div>
-          <div class="logo-pill">Сервісні компанії</div>
-          <div class="logo-pill">Нерухомість</div>
-          <div class="logo-pill">Освіта</div>
-          <div class="logo-pill">Транспорт</div>
-        </div>
-      </div>
-    </section>
+        <div class="hscroll-track" id="hscrollTrack">
 
-    <section id="value" class="divider">
-      <div class="container glass-panel">
+          <div class="hscroll-slide" id="hslide-for-whom">
+            <div class="vmarquee vmarquee--left" aria-hidden="true">
+              <div class="vmarquee-track vmarquee-track--up">
+                <span>E-commerce</span><span>Логістика</span><span>Retail</span><span>Виробництво</span><span>Медицина</span><span>Фінанси</span><span>HoReCa</span><span>Агробізнес</span><span>Будівництво</span><span>SaaS</span><span>Нерухомість</span><span>Освіта</span><span>Транспорт</span>
+                <span>E-commerce</span><span>Логістика</span><span>Retail</span><span>Виробництво</span><span>Медицина</span><span>Фінанси</span><span>HoReCa</span><span>Агробізнес</span><span>Будівництво</span><span>SaaS</span><span>Нерухомість</span><span>Освіта</span><span>Транспорт</span>
+              </div>
+            </div>
+            <div class="vmarquee vmarquee--right" aria-hidden="true">
+              <div class="vmarquee-track vmarquee-track--down">
+                <span>Сервісні компанії</span><span>Логістика</span><span>Фінанси</span><span>SaaS</span><span>HoReCa</span><span>Retail</span><span>Медицина</span><span>Будівництво</span><span>Агробізнес</span><span>Освіта</span><span>Транспорт</span><span>E-commerce</span><span>Нерухомість</span>
+                <span>Сервісні компанії</span><span>Логістика</span><span>Фінанси</span><span>SaaS</span><span>HoReCa</span><span>Retail</span><span>Медицина</span><span>Будівництво</span><span>Агробізнес</span><span>Освіта</span><span>Транспорт</span><span>E-commerce</span><span>Нерухомість</span>
+              </div>
+            </div>
+            <section id="for-whom" class="divider">
+              <div class="container glass-panel">
+                <p class="section-eyebrow reveal">Для кого це</p>
+                <h2 class="title-accent reveal">Наш клієнт — власник МСБ що масштабується.</h2>
+                <div class="for-whom-content reveal">
+                  <p>
+                    Є 1С або ERP, є Excel, є CRM. Але немає системи яка показує
+                    реальну картину вчасно. Маржа по категоріях невідома. План
+                    порівнюють з фактом в кінці місяця. Цифри в різних відділів різні.
+                    Понеділок починається з дзвінків і уточнень.
+                  </p>
+                </div>
+                <div class="snapshot-grid reveal" style="margin-top:28px">
+                  <div class="snap-card">
+                    <b>Дашборд: 1 екран</b>
+                    <div class="accent"><i></i>читабельно для C-level</div>
+                    <small>Короткий екран замість набору звітів.</small>
+                  </div>
+                  <div class="snap-card">
+                    <b>Фокус: 10–15 KPI</b>
+                    <div class="accent"><i></i>без шуму</div>
+                    <small>Тільки те, що впливає на рішення.</small>
+                  </div>
+                  <div class="snap-card">
+                    <b>Процес: сервіс</b>
+                    <div class="accent"><i></i>підтримка в часі</div>
+                    <small>Дашборд залишається актуальним, а не застаріває через місяць.</small>
+                  </div>
+                  <div class="snap-card">
+                    <b>Формат: NDA</b>
+                    <div class="accent"><i></i>конфіденційність</div>
+                    <small>Умови фіксуємо до старту.</small>
+                  </div>
+                </div>
+                <div class="reveal" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:20px;align-items:center">
+                  <a href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener" class="button primary">Написати в LinkedIn →</a>
+                  <a href="https://t.me/serhiy_novellum" target="_blank" rel="noopener" class="button secondary">або Telegram</a>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div class="hscroll-slide" id="hslide-value">
+            <section id="value" class="divider">
+              <div class="container glass-panel">
         <div class="section-title reveal">
           <div>
             <div class="pill">Цінність</div>
@@ -504,15 +578,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <p>Фінанси, продажі, операції — в одному місці.</p>
             </div>
           </div>
-          <div class="narrative-item reveal">
-            <span class="narrative-num">06</span>
-            <div>
-              <h3>Відповідальність видима</h3>
-              <p>Щоб не шукати відповідальних у чатах і на зустрічах.</p>
-            </div>
-          </div>
           <div class="narrative-item reveal" style="border-bottom:none">
-            <span class="narrative-num">07</span>
+            <span class="narrative-num">06</span>
             <div>
               <h3>Менше уточнень</h3>
               <p>Коли все видно в одному місці, не треба витрачати ранок на уточнення і дзвінки.</p>
@@ -522,6 +589,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </section>
 
+          </div><!-- /hslide-value -->
+
+          <div class="hscroll-slide" id="hslide-obstacles">
     <!-- СЕКЦІЯ: Що заважає — додано -->
     <section id="obstacles" class="divider">
       <div class="container glass-panel">
@@ -560,6 +630,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </section>
 
+          </div><!-- /hslide-obstacles -->
+
+          <div class="hscroll-slide" id="hslide-social-proof">
     <section id="social-proof" class="divider">
       <div class="container glass-panel">
         <div class="card lift reveal" style="max-width:760px;margin:0 auto;padding:36px 48px">
@@ -582,6 +655,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </section>
 
+          </div><!-- /hslide-social-proof -->
+
+          <div class="hscroll-slide" id="hslide-formats">
     <section id="formats" class="divider">
       <div class="container glass-panel">
         <div class="section-title reveal">
@@ -593,6 +669,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <p>Спочатку розбираємось у вашому бізнесі і будуємо дашборд. Далі підтримуємо його в актуальному стані.</p>
         </div>
 
+        <div class="formats-swipe-wrap">
         <div class="pricing-grid">
           <div class="pricing-card lift reveal">
             <span class="format-badge brass">Start</span>
@@ -638,6 +715,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <p class="terms">Обсяг змін плануємо окремо.</p>
           </div>
         </div>
+        </div><!-- /formats-swipe-wrap -->
+        <div class="formats-swipe-dots" aria-hidden="true"><i></i><i></i></div>
 
         <div class="urgency-strip reveal">
           <div class="urgency-dot"></div>
@@ -646,6 +725,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </section>
 
+          </div><!-- /hslide-formats -->
+
+          <div class="hscroll-slide" id="hslide-calculator">
     <!-- ЛОГІКА ЦІНИ — додано перед калькулятором -->
     <div style="padding:0 0 8px">
       <div class="container">
@@ -713,6 +795,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </section>
 
+          </div><!-- /hslide-calculator -->
+
+          <div class="hscroll-slide" id="hslide-products">
     <section id="products" class="divider">
       <div class="container glass-panel">
         <div class="section-title reveal">
@@ -765,6 +850,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </section>
 
+          </div><!-- /hslide-products -->
+
+          <div class="hscroll-slide" id="hslide-process">
     <section id="process" class="divider">
       <div class="container glass-panel">
         <div class="section-title reveal">
@@ -838,6 +926,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </div>
     </section>
+
+          </div><!-- /hslide-process -->
+
+        </div><!-- /hscroll-track -->
+      </div><!-- /hscroll-sticky -->
+    </div><!-- /hscroll-outer -->
 
     <!-- СЕКЦІЯ: Демо дашборд — додано -->
     <section id="demo" class="divider">
@@ -1618,6 +1712,189 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </script>
 <script src="/assets/lenis.min.js" defer></script>
 <script src="animations.js" defer></script>
+
+<script>
+// ═══ Desktop side navigation drawer ═══
+(function() {
+  var trigger  = document.getElementById('deskHamBtn');
+  var drawer   = document.getElementById('deskNavDrawer');
+  var backdrop = document.getElementById('deskNavBackdrop');
+  var closeBtn = document.getElementById('deskNavClose');
+  if (!trigger || !drawer) return;
+
+  function openNav() {
+    drawer.classList.add('open');
+    drawer.setAttribute('aria-hidden', 'false');
+    backdrop.classList.add('visible');
+    trigger.setAttribute('aria-expanded', 'true');
+    // Focus first link for accessibility
+    var first = drawer.querySelector('a, button');
+    if (first) setTimeout(function() { first.focus(); }, 50);
+  }
+  function closeNav() {
+    drawer.classList.remove('open');
+    drawer.setAttribute('aria-hidden', 'true');
+    backdrop.classList.remove('visible');
+    trigger.setAttribute('aria-expanded', 'false');
+  }
+
+  trigger.addEventListener('click', openNav);
+  if (closeBtn) closeBtn.addEventListener('click', closeNav);
+  backdrop.addEventListener('click', closeNav);
+  drawer.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', closeNav);
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && drawer.classList.contains('open')) closeNav();
+  });
+})();
+
+// ═══ Horizontal Scroll Chapter ═══
+(function() {
+  var outer   = document.getElementById('hscrollOuter');
+  var track   = document.getElementById('hscrollTrack');
+  var fill    = document.getElementById('hscrollFill');
+  var currEl  = document.getElementById('hscrollCurr');
+  var labelEl = document.getElementById('hscrollLabel');
+  var dotsEl  = document.getElementById('hscrollDots');
+  var prevBtn = document.getElementById('hscrollPrev');
+  var nextBtn = document.getElementById('hscrollNext');
+  var hintEl  = document.getElementById('hscrollHint');
+
+  if (!outer || !track) return;
+
+  // Desktop only — on mobile CSS already resets the layout
+  if (!window.matchMedia('(min-width:769px)').matches) return;
+
+  var slides = Array.from(track.querySelectorAll('.hscroll-slide'));
+  var N = slides.length;
+  var LABELS = ['Для кого це','Цінність','Перешкоди','Кейс','Формати','Калькулятор','Продукт','Процес'];
+
+  // Map section IDs → slide indices (for nav anchor override)
+  var slideMap = {};
+  slides.forEach(function(slide, i) {
+    var sec = slide.querySelector('section[id]');
+    if (sec) slideMap[sec.id] = i;
+  });
+
+  // Set outer height so there's enough scroll distance for N slides
+  function setHeight() {
+    outer.style.height = (N * window.innerHeight) + 'px';
+  }
+  setHeight();
+  window.addEventListener('resize', setHeight, { passive: true });
+
+  // Build dots
+  document.getElementById('hscrollTot').textContent = String(N).padStart(2,'0');
+  slides.forEach(function(_, i) {
+    var d = document.createElement('button');
+    d.className = 'hscroll-dot';
+    d.setAttribute('aria-label', 'Секція ' + (i + 1));
+    d.addEventListener('click', function() { goToSlide(i); });
+    dotsEl.appendChild(d);
+  });
+
+  var currentIdx = 0;
+
+  function goToSlide(idx) {
+    idx = Math.max(0, Math.min(N - 1, idx));
+    var outerTop = outer.getBoundingClientRect().top + window.scrollY;
+    var scrollable = N * window.innerHeight - window.innerHeight;
+    var dest = outerTop + (idx / (N - 1)) * scrollable;
+    window.scrollTo({ top: dest, behavior: 'smooth' });
+  }
+
+  function updateUI(progress, idx) {
+    currentIdx = idx;
+    if (fill)    fill.style.width = (progress * 100) + '%';
+    if (currEl)  currEl.textContent = String(idx + 1).padStart(2, '0');
+    if (labelEl && LABELS[idx]) labelEl.textContent = LABELS[idx];
+    var dots = dotsEl.querySelectorAll('.hscroll-dot');
+    dots.forEach(function(d, i) { d.classList.toggle('active', i === idx); });
+    if (prevBtn) prevBtn.disabled = (idx === 0);
+    if (nextBtn) nextBtn.disabled = (idx === N - 1);
+    if (idx > 0 && hintEl) hintEl.classList.add('hidden');
+  }
+
+  // Smooth animation via rAF
+  var rafPending = false;
+  var targetX = 0;
+  var animX   = 0;
+
+  function renderFrame() {
+    rafPending = false;
+    var diff = targetX - animX;
+    if (Math.abs(diff) > 0.0003) {
+      animX += diff * 0.10;
+      rafPending = true;
+      requestAnimationFrame(renderFrame);
+    } else {
+      animX = targetX;
+    }
+    track.style.transform = 'translateX(' + (-animX * (N - 1) * window.innerWidth) + 'px)';
+  }
+
+  window.addEventListener('scroll', function() {
+    var rect      = outer.getBoundingClientRect();
+    var scrollable = N * window.innerHeight - window.innerHeight;
+    targetX = Math.max(0, Math.min(1, -rect.top / scrollable));
+    var idx = Math.round(targetX * (N - 1));
+    updateUI(targetX, idx);
+    if (!rafPending) { rafPending = true; requestAnimationFrame(renderFrame); }
+  }, { passive: true });
+
+  // Arrow buttons
+  if (prevBtn) prevBtn.addEventListener('click', function() { goToSlide(currentIdx - 1); });
+  if (nextBtn) nextBtn.addEventListener('click', function() { goToSlide(currentIdx + 1); });
+
+  // Keyboard (only while sticky is engaged)
+  window.addEventListener('keydown', function(e) {
+    var rect = outer.getBoundingClientRect();
+    var scrollable = N * window.innerHeight - window.innerHeight;
+    var p = -rect.top / scrollable;
+    if (p <= 0 || p >= 1) return; // not in horizontal zone
+    if (e.key === 'ArrowRight') { goToSlide(currentIdx + 1); e.preventDefault(); }
+    else if (e.key === 'ArrowLeft') { goToSlide(currentIdx - 1); e.preventDefault(); }
+  });
+
+  // Override nav anchor clicks that point to sections inside the track
+  document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+    var id = (a.getAttribute('href') || '').slice(1);
+    if (id in slideMap) {
+      a.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        // Close desktop side nav if open
+        var dn = document.getElementById('deskNavDrawer');
+        var db = document.getElementById('deskNavBackdrop');
+        var dh = document.getElementById('deskHamBtn');
+        if (dn && dn.classList.contains('open')) {
+          dn.classList.remove('open');
+          dn.setAttribute('aria-hidden', 'true');
+          if (db) db.classList.remove('visible');
+          if (dh) dh.setAttribute('aria-expanded', 'false');
+        }
+        goToSlide(slideMap[id]);
+      }, true); // capture — fires before existing smooth-scroll handler
+    }
+  });
+
+  // Initial state
+  updateUI(0, 0);
+})();
+</script>
+<script>
+// Formats swipe dots (mobile)
+(function(){
+  var fw = document.querySelector('.formats-swipe-wrap');
+  if (!fw) return;
+  fw.addEventListener('scroll', function(){
+    var dots = document.querySelectorAll('.formats-swipe-dots i');
+    var idx = Math.round(fw.scrollLeft / fw.clientWidth);
+    dots.forEach(function(d,i){ d.style.background = i===idx ? 'var(--brand-hi)' : 'var(--border)'; });
+  }, { passive:true });
+})();
+</script>
 
 </body>
 </html>
