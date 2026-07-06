@@ -1757,8 +1757,8 @@
         border-radius:46px 46px 10px 10px;
         overflow:hidden;
         position:relative;
-        -webkit-mask-image:linear-gradient(to bottom, black 0%, black 52%, transparent 82%);
-        mask-image:linear-gradient(to bottom, black 0%, black 52%, transparent 82%);
+        -webkit-mask-image:linear-gradient(to bottom, black 0%, black 38%, transparent 68%);
+        mask-image:linear-gradient(to bottom, black 0%, black 38%, transparent 68%);
       }
       /* light screen — shell screen area is transparent so this shows through */
       .phone-v-frame{
