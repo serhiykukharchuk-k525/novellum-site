@@ -1706,3 +1706,24 @@
       #hslide-process .glass-panel{overflow:hidden}
     }
 
+
+    /* ── New slides inside hscroll: vertical centering ── */
+    @media(min-width:769px){
+      #hslide-for-whom section,
+      #hslide-snapshot section,
+      #hslide-brand section{
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        height:100%;
+        box-sizing:border-box;
+      }
+      #hslide-snapshot section{
+        background:rgba(122,35,51,.03);
+      }
+      #hslide-brand section{
+        background:rgba(59,18,24,.04);
+        justify-content:center;
+        align-items:center;
+      }
+    }
