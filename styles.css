@@ -498,8 +498,9 @@
 
     .hero-scroll{
       position:absolute;
-      left:50%;bottom:48px;
+      left:50%;bottom:100px;
       transform:translateX(-50%);
+      z-index:5;
       width:34px;height:34px;
       border-radius:999px;
       border:1px solid rgba(255,255,255,.12);
@@ -515,11 +516,7 @@
     section[id]{scroll-margin-top:68px}
     section.divider{position:relative}
     section.divider::after{
-      content:"";
-      position:absolute;left:50%;bottom:-20px;
-      width:1px;height:40px;
-      background:var(--border);
-      opacity:.5;
+      display:none;
     }
 
     .section-title{
@@ -823,9 +820,8 @@
 
     .cta{
       display:grid;gap:24px;
-      align-items:start;
-      grid-template-columns:1fr;
-      max-width:560px;
+      align-items:center;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
       position:relative;
     }
     .cta form{display:grid;gap:18px; position:relative}
