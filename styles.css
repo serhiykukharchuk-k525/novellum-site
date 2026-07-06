@@ -1014,6 +1014,20 @@
       min-width:16px;
       font-variant-numeric:tabular-nums;
     }
+    .desk-nav-icon{
+      display:flex;align-items:center;justify-content:center;
+      width:28px;height:28px;
+      border-radius:8px;
+      background:var(--bg-card);
+      color:var(--text-soft);
+      flex-shrink:0;
+      transition:background .15s,color .15s;
+    }
+    .desk-nav-links a:hover .desk-nav-icon,
+    .desk-nav-links a.active .desk-nav-icon{
+      background:rgba(122,35,51,.14);
+      color:var(--brand-hi);
+    }
 
     .desk-nav-footer{
       padding:20px 24px;
@@ -1496,12 +1510,60 @@
       /* section::after divider line off — doesn't make sense inside slides */
       .hscroll-slide > section.divider::after{display:none}
 
-      /* glass-panel inside slides: scrollable if overflow */
+      /* glass-panel inside slides: compact + scrollable fallback */
       .hscroll-slide .glass-panel{
-        max-height:calc(100vh - 100px);
+        max-height:calc(100vh - 96px);
         overflow-y:auto;
         overscroll-behavior:contain;
+        /* compact padding */
+        padding:22px clamp(16px,3vw,40px);
       }
+
+      /* compact section title inside slides */
+      .hscroll-slide .section-title{margin-bottom:12px}
+      .hscroll-slide .section-title::after{bottom:-8px}
+      .hscroll-slide .pill{margin-bottom:6px !important}
+
+      /* hide decorative/secondary elements that eat vertical space */
+      .hscroll-slide .section-typewriter{display:none}
+      .hscroll-slide .icon-badges{display:none}
+      .hscroll-slide .section-title > p{display:none}
+
+      /* narrative list → 2-column grid inside slides */
+      .hscroll-slide .narrative-list{
+        max-width:100%;
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        column-gap:40px;
+        margin-top:4px;
+      }
+      .hscroll-slide .narrative-item{padding:9px 0}
+      .hscroll-slide .narrative-item[style*="border-bottom:none"]{border-bottom:none}
+      .hscroll-slide .narrative-item:nth-child(n){border-bottom:1px solid rgba(255,255,255,.10)}
+      .hscroll-slide .narrative-item:last-child{border-bottom:none}
+
+      /* paragraph grid: 2 col already, just tighten */
+      .hscroll-slide .paragraph-grid{column-gap:24px;max-width:100%}
+      .hscroll-slide .paragraph-item{break-inside:avoid;padding-bottom:10px}
+
+      /* deliverables grid: tighten */
+      .hscroll-slide .deliverables-grid{margin-top:16px !important}
+      .hscroll-slide .deliverable-item{padding:10px 0}
+
+      /* process timeline: compact */
+      .hscroll-slide .process-timeline{gap:16px;margin-top:12px}
+      .hscroll-slide .process-step{padding:12px 16px}
+
+      /* pricing grid: tighten */
+      .hscroll-slide .pricing-grid{gap:16px}
+      .hscroll-slide .pricing-card{padding:24px}
+
+      /* urgency strip: less margin */
+      .hscroll-slide .urgency-strip{margin-top:12px !important}
+
+      /* calc: tighten */
+      .hscroll-slide .calc-box{padding:16px}
+      .hscroll-slide .calc-grid{gap:16px}
 
       /* calculator slide: has a text div + section, reduce spacing */
       #hslide-calculator{flex-direction:column;justify-content:center;gap:0}
