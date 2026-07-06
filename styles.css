@@ -1677,25 +1677,153 @@
       }
     }
 
-    /* ── Mobile: revert to vertical, add scroll-snap ── */
+    /* ── Mobile: 1 section = 1 screen ── */
     @media(max-width:768px){
+      /* hscroll → vertical stack */
       .hscroll-outer{height:auto !important}
       .hscroll-sticky{position:static;height:auto;overflow:visible}
       .hscroll-track{display:block;transform:none !important;will-change:auto}
-      .hscroll-slide{width:100%;height:auto}
+      .hscroll-slide{width:100%}
       .hscroll-ui,.hscroll-progress,.hscroll-hint{display:none !important}
 
-      /* scroll-snap: light / proximity — doesn't force 100vh */
-      html{scroll-snap-type:y proximity}
+      /* mandatory snap so each swipe = exactly 1 section */
+      html{
+        scroll-snap-type:y mandatory;
+        overflow-y:scroll;
+      }
+
+      /* every screen-sized section */
       .hero,
-      .hscroll-slide > section,
-      section#for-whom,
-      section#snapshot,
+      .hscroll-slide,
       section#demo,
       section#pricing,
+      section#not-for,
       section#faq,
       section#contact{
+        height:100svh;
         scroll-snap-align:start;
+        scroll-snap-stop:always;
+        overflow:hidden;
+        box-sizing:border-box;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+      }
+
+      /* hero: already centered, just ensure sizing */
+      .hero{
+        min-height:unset;
+        padding:60px 0 24px;
+      }
+      .hero-grid{gap:16px}
+      .hero h1{font-size:clamp(26px,7vw,36px)}
+      .hero-subtitle{font-size:14px}
+      .hero p{font-size:13px;margin-top:6px}
+      .hero-cta{gap:8px;margin-top:14px}
+      .hero-trust-strip{margin-top:12px;gap:0}
+      .hero-visual{display:none}
+      .hero-industries{display:none}
+      .hero-scroll{display:none}
+
+      /* hscroll slides: inner section fills the slide */
+      .hscroll-slide > section{
+        height:100%;
+        overflow:hidden;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        box-sizing:border-box;
+      }
+
+      /* glass-panel inside slides */
+      .hscroll-slide .glass-panel{
+        padding:20px 16px;
+        overflow:hidden;
+        max-height:100%;
+        box-sizing:border-box;
+      }
+
+      /* section titles compact */
+      .hscroll-slide .section-title h2,
+      .hscroll-slide h2.title-accent{
+        font-size:clamp(18px,5vw,24px);
+        margin-bottom:8px;
+      }
+      .hscroll-slide .section-eyebrow,
+      .hscroll-slide .pill{font-size:10px;margin-bottom:6px}
+      .hscroll-slide .section-typewriter,
+      .hscroll-slide .icon-badges{display:none}
+
+      /* narrative list: 1 column, compact */
+      .hscroll-slide .narrative-list{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:6px;
+        margin-top:10px;
+      }
+      .hscroll-slide .narrative-item{
+        padding:7px 8px;
+        border-bottom:none;
+        border:1px solid var(--border);
+        border-radius:8px;
+      }
+      .hscroll-slide .narrative-item h3{font-size:11px;margin-bottom:2px}
+      .hscroll-slide .narrative-item p{font-size:10px;color:var(--text-muted)}
+      .hscroll-slide .narrative-num{font-size:10px}
+
+      /* for-whom: hide CTA buttons, keep text + cards */
+      #for-whom .reveal[style*="flex"]{display:none !important}
+      #for-whom .for-whom-content p{font-size:13px;line-height:1.5}
+      #for-whom .snapshot-grid{
+        grid-template-columns:1fr 1fr;
+        gap:6px;
+        margin-top:10px !important;
+      }
+      #for-whom .snap-card{padding:8px 10px}
+      #for-whom .snap-card b{font-size:12px}
+      #for-whom .snap-card small{font-size:10px}
+      #for-whom .snap-card .accent{font-size:10px}
+
+      /* vertical marquees hidden on mobile */
+      .vmarquee{display:none}
+
+      /* obstacles / perешкоди */
+      .hscroll-slide .obstacles-grid,
+      .hscroll-slide .paragraph-grid{
+        column-count:1;
+        gap:8px;
+        margin-top:10px;
+      }
+
+      /* social proof */
+      .hscroll-slide .testimonials-grid,
+      .hscroll-slide .social-grid{
+        grid-template-columns:1fr;
+        gap:8px;
+      }
+
+      /* formats */
+      .hscroll-slide .formats-grid{
+        grid-template-columns:1fr 1fr;
+        gap:8px;
+        margin-top:10px;
+      }
+
+      /* calculator: hide on mobile snap (too complex) — show simple CTA */
+      #hslide-calculator .calc-grid{
+        grid-template-columns:1fr;
+        gap:10px;
+      }
+
+      /* process timeline compact */
+      .hscroll-slide .process-timeline{gap:12px;margin-top:10px}
+      .hscroll-slide .process-step{padding:10px 12px}
+
+      /* sections after hscroll */
+      section#demo,section#pricing,section#not-for,section#faq,section#contact{
+        padding:24px 0;
+        justify-content:flex-start;
+        overflow-y:auto;
       }
     }
 
