@@ -1284,8 +1284,8 @@
     .hero-trust-item{opacity:0;transform:translateY(8px);transition:opacity .5s ease,transform .5s ease}
     .hero-trust-item.vis{opacity:1;transform:none}
     #process{position:relative}
-    .phone-v-wrap{position:relative;width:100%;max-width:290px;margin:0 auto;overflow:hidden;aspect-ratio:914/1490;border-radius:0 0 46px 46px}
-    .phone-v-frame{background:#100B0D;border-radius:48px;overflow:hidden;position:relative;aspect-ratio:914/1550;box-shadow:none;-webkit-mask-image:linear-gradient(to bottom,black 0%,black 87%,transparent 94%);mask-image:linear-gradient(to bottom,black 0%,black 87%,transparent 94%)}
+    .phone-v-wrap{position:relative;width:100%;max-width:290px;margin:0 auto;overflow:hidden;aspect-ratio:914/1530;border-radius:0 0 46px 46px}
+    .phone-v-frame{background:#100B0D;border-radius:48px;overflow:hidden;position:relative;aspect-ratio:914/1550;box-shadow:none;-webkit-mask-image:linear-gradient(to bottom,black 0%,black 91%,transparent 98%);mask-image:linear-gradient(to bottom,black 0%,black 91%,transparent 98%)}
     .phone-v-shell{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;z-index:5}
     .phone-v-fade{display:none}
     .hero-visual{padding:0!important;background:transparent!important;border:none!important;box-shadow:none!important;backdrop-filter:none!important;min-height:auto!important}
