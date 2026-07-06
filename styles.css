@@ -1320,3 +1320,191 @@
       .nav-cta{display:none}
     }
 
+    /* ═══════════════════════════════════════════════
+       HORIZONTAL SCROLL CHAPTER (desktop ≥ 769px)
+       + VERTICAL SCROLL-SNAP (mobile < 769px)
+    ═══════════════════════════════════════════════ */
+
+    /* ── Shared base ── */
+    .hscroll-outer{position:relative}
+
+    /* ── Desktop horizontal scroll ── */
+    @media(min-width:769px){
+      .hscroll-outer{
+        /* height injected by JS: N * 100vh */
+      }
+
+      .hscroll-sticky{
+        position:sticky;
+        top:0;
+        height:100vh;
+        overflow:hidden;
+        will-change:transform;
+      }
+
+      .hscroll-track{
+        display:flex;
+        height:calc(100% - 3px); /* room for progress bar */
+        will-change:transform;
+      }
+
+      .hscroll-slide{
+        flex:0 0 100vw;
+        width:100vw;
+        height:100%;
+        overflow-y:auto;
+        overscroll-behavior:contain;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+      }
+
+      /* sections inside slides: vertically centered, capped */
+      .hscroll-slide > section{
+        flex:1;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        padding-top:24px;
+        padding-bottom:24px;
+      }
+
+      /* section::after divider line off — doesn't make sense inside slides */
+      .hscroll-slide > section.divider::after{display:none}
+
+      /* glass-panel inside slides: scrollable if overflow */
+      .hscroll-slide .glass-panel{
+        max-height:calc(100vh - 100px);
+        overflow-y:auto;
+        overscroll-behavior:contain;
+      }
+
+      /* calculator slide: has a text div + section, reduce spacing */
+      #hslide-calculator{flex-direction:column;justify-content:center;gap:0}
+      #hslide-calculator > div{padding-top:16px}
+      #hslide-calculator > section{flex:unset}
+
+      /* ── UI chrome ── */
+      .hscroll-ui{
+        position:absolute;
+        top:14px;right:20px;
+        display:flex;align-items:center;gap:14px;
+        z-index:20;
+        background:rgba(251,248,243,.85);
+        backdrop-filter:blur(10px);
+        -webkit-backdrop-filter:blur(10px);
+        border:1px solid var(--border);
+        border-radius:var(--radius-pill);
+        padding:6px 12px 6px 16px;
+      }
+
+      .hscroll-label{
+        font-size:11px;font-weight:600;
+        text-transform:uppercase;letter-spacing:.09em;
+        color:var(--text-muted);
+        white-space:nowrap;
+      }
+
+      .hscroll-nav-row{
+        display:flex;align-items:center;gap:10px;
+      }
+
+      .hscroll-dots{display:flex;gap:5px}
+
+      .hscroll-dot{
+        width:6px;height:6px;
+        border-radius:50%;border:none;
+        background:var(--border-strong);
+        cursor:pointer;padding:0;
+        transition:background .2s,transform .2s,width .2s;
+        flex-shrink:0;
+      }
+      .hscroll-dot.active{
+        background:var(--brand-hi);
+        width:16px;border-radius:3px;
+      }
+      .hscroll-dot:hover:not(.active){background:var(--bronze)}
+
+      .hscroll-counter{
+        font-size:11px;color:var(--text-soft);
+        font-variant-numeric:tabular-nums;
+        letter-spacing:.04em;
+        white-space:nowrap;
+      }
+
+      .hscroll-arrows{display:flex;gap:4px}
+
+      .hscroll-arrow{
+        width:28px;height:28px;
+        border-radius:50%;
+        border:1px solid var(--border-strong);
+        background:transparent;
+        color:var(--text);
+        cursor:pointer;
+        font-size:14px;
+        display:flex;align-items:center;justify-content:center;
+        transition:background .15s,border-color .15s,color .15s;
+        line-height:1;
+      }
+      .hscroll-arrow:hover:not(:disabled){
+        background:var(--brand-soft);
+        border-color:var(--bronze);
+        color:var(--bronze);
+      }
+      .hscroll-arrow:disabled{opacity:.25;cursor:default}
+
+      /* ── Progress bar ── */
+      .hscroll-progress{
+        position:absolute;bottom:0;left:0;right:0;
+        height:3px;
+        background:var(--border);
+        z-index:20;
+      }
+      .hscroll-progress-fill{
+        height:100%;width:0%;
+        background:linear-gradient(90deg,var(--brand-hi),var(--bronze-bright));
+        transition:width .08s linear;
+        border-radius:0 2px 2px 0;
+      }
+
+      /* ── Scroll hint ── */
+      .hscroll-hint{
+        position:absolute;
+        bottom:14px;left:50%;
+        transform:translateX(-50%);
+        font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+        color:var(--text-soft);
+        pointer-events:none;
+        animation:hscroll-hint 1.8s ease-in-out infinite;
+        z-index:20;
+        white-space:nowrap;
+      }
+      .hscroll-hint.hidden{opacity:0;pointer-events:none;animation:none}
+      @keyframes hscroll-hint{
+        0%,100%{opacity:.35;transform:translateX(-50%) translateY(0)}
+        50%{opacity:.8;transform:translateX(-46%) translateY(0)}
+      }
+    }
+
+    /* ── Mobile: revert to vertical, add scroll-snap ── */
+    @media(max-width:768px){
+      .hscroll-outer{height:auto !important}
+      .hscroll-sticky{position:static;height:auto;overflow:visible}
+      .hscroll-track{display:block;transform:none !important;will-change:auto}
+      .hscroll-slide{width:100%;height:auto}
+      .hscroll-ui,.hscroll-progress,.hscroll-hint{display:none !important}
+
+      /* scroll-snap: light / proximity — doesn't force 100vh */
+      html{scroll-snap-type:y proximity}
+      .hero,
+      .hscroll-slide > section,
+      section#for-whom,
+      section#snapshot,
+      section#demo,
+      section#pricing,
+      section#faq,
+      section#contact{
+        scroll-snap-align:start;
+      }
+    }
+

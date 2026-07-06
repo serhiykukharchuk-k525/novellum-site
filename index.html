@@ -450,8 +450,29 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </section>
 
-    <section id="value" class="divider">
-      <div class="container glass-panel">
+    <!-- ═══ Horizontal scroll chapter (desktop) · vertical snap (mobile) ═══ -->
+    <div class="hscroll-outer" id="hscrollOuter">
+      <div class="hscroll-sticky" id="hscrollSticky">
+
+        <div class="hscroll-ui" aria-hidden="true">
+          <span class="hscroll-label" id="hscrollLabel">Цінність</span>
+          <div class="hscroll-nav-row">
+            <div class="hscroll-dots" id="hscrollDots"></div>
+            <span class="hscroll-counter"><span id="hscrollCurr">01</span> / <span id="hscrollTot">07</span></span>
+          </div>
+          <div class="hscroll-arrows">
+            <button class="hscroll-arrow" id="hscrollPrev" aria-label="Попередня секція">←</button>
+            <button class="hscroll-arrow" id="hscrollNext" aria-label="Наступна секція">→</button>
+          </div>
+        </div>
+        <div class="hscroll-progress"><div class="hscroll-progress-fill" id="hscrollFill"></div></div>
+        <div class="hscroll-hint" id="hscrollHint">scroll →</div>
+
+        <div class="hscroll-track" id="hscrollTrack">
+
+          <div class="hscroll-slide" id="hslide-value">
+            <section id="value" class="divider">
+              <div class="container glass-panel">
         <div class="section-title reveal">
           <div>
             <div class="pill">Цінність</div>
@@ -522,6 +543,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </section>
 
+          </div><!-- /hslide-value -->
+
+          <div class="hscroll-slide" id="hslide-obstacles">
     <!-- СЕКЦІЯ: Що заважає — додано -->
     <section id="obstacles" class="divider">
       <div class="container glass-panel">
@@ -560,6 +584,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </section>
 
+          </div><!-- /hslide-obstacles -->
+
+          <div class="hscroll-slide" id="hslide-social-proof">
     <section id="social-proof" class="divider">
       <div class="container glass-panel">
         <div class="card lift reveal" style="max-width:760px;margin:0 auto;padding:36px 48px">
@@ -582,6 +609,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </section>
 
+          </div><!-- /hslide-social-proof -->
+
+          <div class="hscroll-slide" id="hslide-formats">
     <section id="formats" class="divider">
       <div class="container glass-panel">
         <div class="section-title reveal">
@@ -646,6 +676,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </section>
 
+          </div><!-- /hslide-formats -->
+
+          <div class="hscroll-slide" id="hslide-calculator">
     <!-- ЛОГІКА ЦІНИ — додано перед калькулятором -->
     <div style="padding:0 0 8px">
       <div class="container">
@@ -713,6 +746,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </section>
 
+          </div><!-- /hslide-calculator -->
+
+          <div class="hscroll-slide" id="hslide-products">
     <section id="products" class="divider">
       <div class="container glass-panel">
         <div class="section-title reveal">
@@ -765,6 +801,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </section>
 
+          </div><!-- /hslide-products -->
+
+          <div class="hscroll-slide" id="hslide-process">
     <section id="process" class="divider">
       <div class="container glass-panel">
         <div class="section-title reveal">
@@ -838,6 +877,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </div>
     </section>
+
+          </div><!-- /hslide-process -->
+
+        </div><!-- /hscroll-track -->
+      </div><!-- /hscroll-sticky -->
+    </div><!-- /hscroll-outer -->
 
     <!-- СЕКЦІЯ: Демо дашборд — додано -->
     <section id="demo" class="divider">
@@ -1618,6 +1663,132 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </script>
 <script src="/assets/lenis.min.js" defer></script>
 <script src="animations.js" defer></script>
+
+<script>
+// ═══ Horizontal Scroll Chapter ═══
+(function() {
+  var outer   = document.getElementById('hscrollOuter');
+  var track   = document.getElementById('hscrollTrack');
+  var fill    = document.getElementById('hscrollFill');
+  var currEl  = document.getElementById('hscrollCurr');
+  var labelEl = document.getElementById('hscrollLabel');
+  var dotsEl  = document.getElementById('hscrollDots');
+  var prevBtn = document.getElementById('hscrollPrev');
+  var nextBtn = document.getElementById('hscrollNext');
+  var hintEl  = document.getElementById('hscrollHint');
+
+  if (!outer || !track) return;
+
+  // Desktop only — on mobile CSS already resets the layout
+  if (!window.matchMedia('(min-width:769px)').matches) return;
+
+  var slides = Array.from(track.querySelectorAll('.hscroll-slide'));
+  var N = slides.length;
+  var LABELS = ['Цінність','Перешкоди','Кейс','Формати','Калькулятор','Продукт','Процес'];
+
+  // Map section IDs → slide indices (for nav anchor override)
+  var slideMap = {};
+  slides.forEach(function(slide, i) {
+    var sec = slide.querySelector('section[id]');
+    if (sec) slideMap[sec.id] = i;
+  });
+
+  // Set outer height so there's enough scroll distance for N slides
+  function setHeight() {
+    outer.style.height = (N * window.innerHeight) + 'px';
+  }
+  setHeight();
+  window.addEventListener('resize', setHeight, { passive: true });
+
+  // Build dots
+  document.getElementById('hscrollTot').textContent = String(N).padStart(2,'0');
+  slides.forEach(function(_, i) {
+    var d = document.createElement('button');
+    d.className = 'hscroll-dot';
+    d.setAttribute('aria-label', 'Секція ' + (i + 1));
+    d.addEventListener('click', function() { goToSlide(i); });
+    dotsEl.appendChild(d);
+  });
+
+  var currentIdx = 0;
+
+  function goToSlide(idx) {
+    idx = Math.max(0, Math.min(N - 1, idx));
+    var outerTop = outer.getBoundingClientRect().top + window.scrollY;
+    var scrollable = N * window.innerHeight - window.innerHeight;
+    var dest = outerTop + (idx / (N - 1)) * scrollable;
+    window.scrollTo({ top: dest, behavior: 'smooth' });
+  }
+
+  function updateUI(progress, idx) {
+    currentIdx = idx;
+    if (fill)    fill.style.width = (progress * 100) + '%';
+    if (currEl)  currEl.textContent = String(idx + 1).padStart(2, '0');
+    if (labelEl && LABELS[idx]) labelEl.textContent = LABELS[idx];
+    var dots = dotsEl.querySelectorAll('.hscroll-dot');
+    dots.forEach(function(d, i) { d.classList.toggle('active', i === idx); });
+    if (prevBtn) prevBtn.disabled = (idx === 0);
+    if (nextBtn) nextBtn.disabled = (idx === N - 1);
+    if (idx > 0 && hintEl) hintEl.classList.add('hidden');
+  }
+
+  // Smooth animation via rAF
+  var rafPending = false;
+  var targetX = 0;
+  var animX   = 0;
+
+  function renderFrame() {
+    rafPending = false;
+    var diff = targetX - animX;
+    if (Math.abs(diff) > 0.0003) {
+      animX += diff * 0.10;
+      rafPending = true;
+      requestAnimationFrame(renderFrame);
+    } else {
+      animX = targetX;
+    }
+    track.style.transform = 'translateX(' + (-animX * (N - 1) * window.innerWidth) + 'px)';
+  }
+
+  window.addEventListener('scroll', function() {
+    var rect      = outer.getBoundingClientRect();
+    var scrollable = N * window.innerHeight - window.innerHeight;
+    targetX = Math.max(0, Math.min(1, -rect.top / scrollable));
+    var idx = Math.round(targetX * (N - 1));
+    updateUI(targetX, idx);
+    if (!rafPending) { rafPending = true; requestAnimationFrame(renderFrame); }
+  }, { passive: true });
+
+  // Arrow buttons
+  if (prevBtn) prevBtn.addEventListener('click', function() { goToSlide(currentIdx - 1); });
+  if (nextBtn) nextBtn.addEventListener('click', function() { goToSlide(currentIdx + 1); });
+
+  // Keyboard (only while sticky is engaged)
+  window.addEventListener('keydown', function(e) {
+    var rect = outer.getBoundingClientRect();
+    var scrollable = N * window.innerHeight - window.innerHeight;
+    var p = -rect.top / scrollable;
+    if (p <= 0 || p >= 1) return; // not in horizontal zone
+    if (e.key === 'ArrowRight') { goToSlide(currentIdx + 1); e.preventDefault(); }
+    else if (e.key === 'ArrowLeft') { goToSlide(currentIdx - 1); e.preventDefault(); }
+  });
+
+  // Override nav anchor clicks that point to sections inside the track
+  document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+    var id = (a.getAttribute('href') || '').slice(1);
+    if (id in slideMap) {
+      a.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        goToSlide(slideMap[id]);
+      }, true); // capture — fires before existing smooth-scroll handler
+    }
+  });
+
+  // Initial state
+  updateUI(0, 0);
+})();
+</script>
 
 </body>
 </html>
