@@ -1760,14 +1760,14 @@
       }
       /* light screen — shell screen area is transparent so this shows through */
       .phone-v-frame{
-        background:#F5F0E8;
+        background:#F5F0E8 !important;
         border-radius:48px 48px 0 0;
         overflow:hidden;
         position:relative;
         aspect-ratio:914/1550;
-        -webkit-mask-image:none;
-        mask-image:none;
-        box-shadow:none;
+        -webkit-mask-image:none !important;
+        mask-image:none !important;
+        box-shadow:none !important;
       }
       .phone-v-shell{
         position:absolute;inset:0;
@@ -1777,24 +1777,21 @@
       }
       .phone-v-statusbar{
         display:flex;
-        position:relative;z-index:6;
+        position:relative;z-index:6 !important;
         padding:13% 22px 4px;
-        font-size:11px;color:rgba(0,0,0,.45);
+        font-size:11px;color:rgba(0,0,0,.45) !important;
         justify-content:space-between;align-items:center;
-        background:#F5F0E8;
       }
       /* notification cards inside the phone screen */
       .notif-shade{
-        display:flex;flex-direction:column;gap:6px;
-        position:relative;z-index:6;
-        padding:6px 12px 20px;
-        background:#F5F0E8;
-        min-height:65%;
+        display:flex;flex-direction:column;gap:7px;
+        position:relative;z-index:6 !important;
+        padding:18px 14px 24px;
       }
       .notif-card{
         display:flex;align-items:center;gap:8px;
         padding:9px 11px;
-        background:rgba(28,18,10,.72);
+        background:rgba(28,18,10,.78);
         backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
         border-radius:14px;
         border:1px solid rgba(255,255,255,.12);
