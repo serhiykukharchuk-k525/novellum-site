@@ -1732,3 +1732,57 @@
         align-items:center;
       }
     }
+
+    /* ── Vertical industry marquees (left/right of for-whom slide) ── */
+    @media(min-width:769px){
+      #hslide-for-whom{position:relative;overflow:hidden}
+
+      .vmarquee{
+        position:absolute;top:0;bottom:0;
+        width:44px;
+        display:flex;
+        align-items:flex-start;
+        overflow:hidden;
+        pointer-events:none;
+        z-index:2;
+      }
+      .vmarquee--left{left:0}
+      .vmarquee--right{right:0}
+
+      .vmarquee-track{
+        display:flex;
+        flex-direction:column;
+        gap:18px;
+        padding:18px 0;
+        will-change:transform;
+      }
+      .vmarquee-track span{
+        writing-mode:vertical-rl;
+        text-orientation:mixed;
+        font-size:10px;
+        letter-spacing:.14em;
+        text-transform:uppercase;
+        color:var(--fg-faint);
+        white-space:nowrap;
+        user-select:none;
+      }
+
+      .vmarquee-track--up{
+        animation:vmarq-up 28s linear infinite;
+      }
+      .vmarquee-track--down{
+        animation:vmarq-down 32s linear infinite;
+      }
+
+      @keyframes vmarq-up{
+        0%{transform:translateY(0)}
+        100%{transform:translateY(-50%)}
+      }
+      @keyframes vmarq-down{
+        0%{transform:translateY(-50%)}
+        100%{transform:translateY(0)}
+      }
+    }
+    @media(max-width:768px){
+      .vmarquee{display:none}
+    }

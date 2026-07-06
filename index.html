@@ -432,7 +432,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <span class="hscroll-label" id="hscrollLabel">Для кого це</span>
           <div class="hscroll-nav-row">
             <div class="hscroll-dots" id="hscrollDots"></div>
-            <span class="hscroll-counter"><span id="hscrollCurr">01</span> / <span id="hscrollTot">09</span></span>
+            <span class="hscroll-counter"><span id="hscrollCurr">01</span> / <span id="hscrollTot">08</span></span>
           </div>
           <div class="hscroll-arrows">
             <button class="hscroll-arrow" id="hscrollPrev" aria-label="Попередня секція">←</button>
@@ -445,6 +445,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="hscroll-track" id="hscrollTrack">
 
           <div class="hscroll-slide" id="hslide-for-whom">
+            <div class="vmarquee vmarquee--left" aria-hidden="true">
+              <div class="vmarquee-track vmarquee-track--up">
+                <span>E-commerce</span><span>Логістика</span><span>Retail</span><span>Виробництво</span><span>Медицина</span><span>Фінанси</span><span>HoReCa</span><span>Агробізнес</span><span>Будівництво</span><span>SaaS</span><span>Нерухомість</span><span>Освіта</span><span>Транспорт</span>
+                <span>E-commerce</span><span>Логістика</span><span>Retail</span><span>Виробництво</span><span>Медицина</span><span>Фінанси</span><span>HoReCa</span><span>Агробізнес</span><span>Будівництво</span><span>SaaS</span><span>Нерухомість</span><span>Освіта</span><span>Транспорт</span>
+              </div>
+            </div>
+            <div class="vmarquee vmarquee--right" aria-hidden="true">
+              <div class="vmarquee-track vmarquee-track--down">
+                <span>Сервісні компанії</span><span>Логістика</span><span>Фінанси</span><span>SaaS</span><span>HoReCa</span><span>Retail</span><span>Медицина</span><span>Будівництво</span><span>Агробізнес</span><span>Освіта</span><span>Транспорт</span><span>E-commerce</span><span>Нерухомість</span>
+                <span>Сервісні компанії</span><span>Логістика</span><span>Фінанси</span><span>SaaS</span><span>HoReCa</span><span>Retail</span><span>Медицина</span><span>Будівництво</span><span>Агробізнес</span><span>Освіта</span><span>Транспорт</span><span>E-commerce</span><span>Нерухомість</span>
+              </div>
+            </div>
             <section id="for-whom" class="divider">
               <div class="container glass-panel">
                 <p class="section-eyebrow reveal">Для кого це</p>
@@ -482,43 +494,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <div class="reveal" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:20px;align-items:center">
                   <a href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener" class="button primary">Написати в LinkedIn →</a>
                   <a href="https://t.me/serhiy_novellum" target="_blank" rel="noopener" class="button secondary">або Telegram</a>
-                </div>
-              </div>
-            </section>
-          </div>
-
-          <div class="hscroll-slide" id="hslide-brand">
-            <section class="brand-strip" id="brand-strip">
-              <div class="brand-logos-wrap">
-                <div class="brand-logos-track">
-                  <div class="logo-pill">E-commerce</div>
-                  <div class="logo-pill">Логістика</div>
-                  <div class="logo-pill">Retail</div>
-                  <div class="logo-pill">Виробництво</div>
-                  <div class="logo-pill">Медицина</div>
-                  <div class="logo-pill">Фінанси</div>
-                  <div class="logo-pill">HoReCa</div>
-                  <div class="logo-pill">Агробізнес</div>
-                  <div class="logo-pill">Будівництво</div>
-                  <div class="logo-pill">SaaS</div>
-                  <div class="logo-pill">Сервісні компанії</div>
-                  <div class="logo-pill">Нерухомість</div>
-                  <div class="logo-pill">Освіта</div>
-                  <div class="logo-pill">Транспорт</div>
-                  <div class="logo-pill">E-commerce</div>
-                  <div class="logo-pill">Логістика</div>
-                  <div class="logo-pill">Retail</div>
-                  <div class="logo-pill">Виробництво</div>
-                  <div class="logo-pill">Медицина</div>
-                  <div class="logo-pill">Фінанси</div>
-                  <div class="logo-pill">HoReCa</div>
-                  <div class="logo-pill">Агробізнес</div>
-                  <div class="logo-pill">Будівництво</div>
-                  <div class="logo-pill">SaaS</div>
-                  <div class="logo-pill">Сервісні компанії</div>
-                  <div class="logo-pill">Нерухомість</div>
-                  <div class="logo-pill">Освіта</div>
-                  <div class="logo-pill">Транспорт</div>
                 </div>
               </div>
             </section>
@@ -1766,7 +1741,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   var slides = Array.from(track.querySelectorAll('.hscroll-slide'));
   var N = slides.length;
-  var LABELS = ['Для кого це','Галузі','Цінність','Перешкоди','Кейс','Формати','Калькулятор','Продукт','Процес'];
+  var LABELS = ['Для кого це','Цінність','Перешкоди','Кейс','Формати','Калькулятор','Продукт','Процес'];
 
   // Map section IDs → slide indices (for nav anchor override)
   var slideMap = {};
