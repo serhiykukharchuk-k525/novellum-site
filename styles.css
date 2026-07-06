@@ -1706,26 +1706,3 @@
       #hslide-process .glass-panel{overflow:hidden}
     }
 
-    /* ── Replace dots with section label as primary indicator ── */
-    @media(min-width:769px){
-      .hscroll-dots{display:none !important}
-      .hscroll-label{
-        position:absolute;
-        top:18px;left:50%;
-        transform:translateX(-50%);
-        font-size:13px;
-        font-weight:600;
-        letter-spacing:.12em;
-        text-transform:uppercase;
-        color:var(--brand-hi);
-        background:rgba(251,248,243,.82);
-        backdrop-filter:blur(6px);
-        padding:6px 20px;
-        border-radius:99px;
-        border:1px solid var(--border);
-        pointer-events:none;
-        z-index:25;
-        white-space:nowrap;
-        transition:opacity .25s;
-      }
-    }
