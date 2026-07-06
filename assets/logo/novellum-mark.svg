@@ -58,7 +58,7 @@
     <g
        id="g1">
       <circle
-         style="fill:#f4efe6;fill-opacity:0;fill-rule:nonzero;stroke:#f4efe6;stroke-width:3.77953;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:#221A17;fill-opacity:0;fill-rule:nonzero;stroke:#3B1218;stroke-width:3.77953;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
          id="path1"
          cx="426.41599"
          cy="488.08459"
@@ -66,7 +66,7 @@
          clip-path="url(#clipPath84)"
          transform="matrix(0.26458333,0,0,0.26458333,-7.1837752,16.501134)" />
       <circle
-         style="fill:#8a7b5a;fill-opacity:1;stroke:#1e3a2f;stroke-width:2.27185;stroke-dasharray:none;stroke-opacity:0"
+         style="fill:#7A2333;fill-opacity:1;stroke:#3B1218;stroke-width:2.27185;stroke-dasharray:none;stroke-opacity:0"
          id="path2"
          cx="136.86235"
          cy="124.62047"
@@ -74,7 +74,7 @@
       <path
          d="m 90.113434,158.26426 v -31.76423 l 1.481902,0.12886 v 31.63537 q 0,3.35039 1.159749,4.83229 1.159749,1.41747 3.86583,1.41747 0.193291,0 0.193291,0.38658 0,0.38659 -0.193291,0.38659 -1.28861,0 -2.641651,-0.0644 -1.35304,-0.0644 -3.028233,-0.0644 -1.610763,0 -3.092664,0.0644 -1.481901,0.0644 -2.834942,0.0644 -0.128861,0 -0.128861,-0.38659 0,-0.38658 0.128861,-0.38658 2.834942,0 3.930261,-1.41747 1.159748,-1.4819 1.159748,-4.83229 z m 32.472966,7.79609 q 0,0.12886 -0.32215,0.12886 -0.32215,0.0644 -0.45101,0 L 92.17521,130.30143 q -2.190637,-2.64165 -3.93026,-3.54368 -1.675193,-0.96646 -3.221525,-0.96646 -0.193291,0 -0.193291,-0.38658 0,-0.38658 0.193291,-0.38658 1.159749,0 2.319498,0.0644 1.22418,0.0644 2.190637,0.0644 1.159749,0 2.190637,-0.0644 1.030888,-0.0644 1.546332,-0.0644 0.837596,0 1.159749,0.77316 0.322152,0.70874 1.868484,2.57722 l 25.772198,31.63537 z m 0,-33.95487 v 33.95487 l -1.4819,-1.99734 v -31.95753 q 0,-3.35039 -1.15975,-4.83229 -1.09531,-1.4819 -3.73696,-1.4819 -0.12887,0 -0.12887,-0.38658 0,-0.38658 0.12887,-0.38658 1.28861,0 2.64165,0.12886 1.41747,0.0644 3.02823,0.0644 1.54633,0 3.02823,-0.0644 1.54633,-0.12886 2.83494,-0.12886 0.1933,0 0.1933,0.38658 0,0.38658 -0.1933,0.38658 -2.77051,0 -3.99469,1.4819 -1.15975,1.4819 -1.15975,4.83229 z"
          id="text1"
-         style="font-size:64.4305px;line-height:1.25;font-family:'Cormorant Garamond';-inkscape-font-specification:'Cormorant Garamond, Normal';font-variant-ligatures:none;fill:#f4efe6;stroke-width:2.68462"
+         style="font-size:64.4305px;line-height:1.25;font-family:'Cormorant Garamond';-inkscape-font-specification:'Cormorant Garamond, Normal';font-variant-ligatures:none;fill:#221A17;stroke-width:2.68462"
          aria-label="N" />
     </g>
   </g>
