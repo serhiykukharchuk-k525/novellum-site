@@ -335,6 +335,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="phone-v-frame">
               <img class="phone-v-shell" src="/assets/iphone.webp" alt="" fetchpriority="high" width="580" height="984" />
               <div class="phone-v-statusbar"><span>9:41</span><span style="display:flex;gap:4px;align-items:center;font-size:10px">▶ ▶▶</span></div>
+              <!-- mobile-only: notification cards inside phone -->
+              <div class="notif-shade" aria-hidden="true">
+                <div class="notif-card">
+                  <span class="notif-icon">📊</span>
+                  <div>
+                    <div class="notif-title">Виручка ↑ +12.4%</div>
+                    <div class="notif-sub">₴1&nbsp;284&nbsp;560 · від плану</div>
+                  </div>
+                </div>
+                <div class="notif-card">
+                  <span class="notif-icon">✅</span>
+                  <div>
+                    <div class="notif-title">План перевиконано</div>
+                    <div class="notif-sub">+4% цього тижня</div>
+                  </div>
+                </div>
+                <div class="notif-card notif-card--warn">
+                  <span class="notif-icon">⚠️</span>
+                  <div>
+                    <div class="notif-title">Маржа знизилась</div>
+                    <div class="notif-sub">−1.2 pp · потребує уваги</div>
+                  </div>
+                </div>
+              </div>
           <div class="live-dash" aria-label="Live dashboard preview">
             <div class="live-dash-header">
               <div>
@@ -410,33 +434,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div><!-- /phone-v-frame -->
             <div class="phone-v-fade"></div>
           </div><!-- /phone-v-wrap -->
-
-          <!-- mobile-only notification shade (replaces live-dash on small screens) -->
-          <div class="notif-shade" aria-hidden="true">
-            <div class="notif-island"></div>
-            <div class="notif-bar"><span>9:41</span><span>▶ ◼ ◼</span></div>
-            <div class="notif-card">
-              <span class="notif-icon">📊</span>
-              <div>
-                <div class="notif-title">Виручка ↑ +12.4%</div>
-                <div class="notif-sub">₴1&nbsp;284&nbsp;560 · від плану</div>
-              </div>
-            </div>
-            <div class="notif-card">
-              <span class="notif-icon">✅</span>
-              <div>
-                <div class="notif-title">План перевиконано</div>
-                <div class="notif-sub">+4% цього тижня</div>
-              </div>
-            </div>
-            <div class="notif-card notif-card--warn">
-              <span class="notif-icon">⚠️</span>
-              <div>
-                <div class="notif-title">Маржа знизилась</div>
-                <div class="notif-sub">−1.2 pp · потребує уваги</div>
-              </div>
-            </div>
-          </div>
 
           <div class="hero-industries reveal" aria-hidden="false">E-COMMERCE · RETAIL · SAAS · LOGISTICS</div>
         </div>
