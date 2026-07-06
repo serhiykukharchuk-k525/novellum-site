@@ -380,8 +380,9 @@
     .cta{
       padding:0;
       display:grid;gap:24px;
-      align-items:center;
-      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      align-items:start;
+      grid-template-columns:1fr;
+      max-width:560px;
       position:relative;
     }
     .cta form{display:grid;gap:18px;position:relative}
@@ -439,12 +440,7 @@
     .footer a:hover{color:var(--text)}
 
     .lift{transition:transform .35s ease,box-shadow .35s ease,border-color .35s ease, filter .35s ease}
-    .lift:hover{
-      transform:translateY(-7px);
-      box-shadow:0 40px 90px rgba(0,0,0,.62);
-      border-color:rgba(122,35,51,.20);
-      filter:saturate(1.04);
-    }
+    /* no card hovers on partners page — buttons only */
     .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
     .reveal.in-view{opacity:1;transform:translateY(0)}
     @media (prefers-reduced-motion:reduce){.reveal,.lift{transition:none}}
@@ -663,7 +659,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <footer class="footer">
     <div class="container footer-grid">
       <div>
-        <a class="logo" href="#top">
+        <a class="logo" href="/">
           <img class="logo-horizontal" src="assets/logo/novellum-horizontal.svg" alt="Nóvellum" />
           <img class="logo-mark" src="assets/logo/novellum-mark.svg" alt="Nóvellum" />
         </a>
