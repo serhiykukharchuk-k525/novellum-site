@@ -283,7 +283,6 @@
     .hero{
       padding:22px 0 32px;
       background:linear-gradient(180deg,var(--bg-deep),var(--bg));
-      border-bottom:1px solid var(--border);
       position:relative;
       overflow:hidden;
     }
@@ -389,7 +388,7 @@
       border:1px solid rgba(255,255,255,.07);
       margin:0 14px;
       padding:14px 14px 10px;
-      box-shadow:0 28px 70px rgba(0,0,0,.75),0 0 0 1px rgba(212,184,134,.06);
+      box-shadow:0 12px 28px rgba(0,0,0,.38),0 0 0 1px rgba(255,255,255,.07);
       font-family:inherit;
       position:relative;
     }
@@ -1312,6 +1311,7 @@
     .phone-v-wrap{position:relative;width:100%;max-width:290px;margin:0 auto}
     .phone-v-frame{background:#0d0d0d;border-radius:48px;overflow:hidden;position:relative;aspect-ratio:914/1550}
     .phone-v-shell{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;z-index:5}
+    .phone-v-fade{position:absolute;bottom:0;left:0;right:0;height:32%;background:linear-gradient(to bottom,transparent,var(--bg));pointer-events:none;z-index:10;border-radius:0 0 48px 48px}
     .hero-visual{padding:0!important;background:transparent!important;border:none!important;box-shadow:none!important;backdrop-filter:none!important;min-height:auto!important}
     .phone-3d-outer{transition:opacity .6s ease .2s}
     .phone-3d-outer.on{opacity:1}
