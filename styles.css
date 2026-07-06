@@ -1746,62 +1746,68 @@
       /* hide CTA "Процес" button, keep LinkedIn */
       .hero-cta .button--anim{display:none}
       /* phone: show top portion only, fade at bottom */
-      /* phone: exact desktop frame, cropped top portion, light theme inside */
+      /* phone: same frame as desktop, mobile width + top-crop via wrap mask */
       .phone-v-wrap{
         display:block !important;
-        width:68%;
-        max-width:240px;
+        width:82%;
+        max-width:290px;
+        margin:8px auto 0;
         aspect-ratio:914/1545;
-        height:auto;
         border-radius:46px 46px 10px 10px;
         overflow:hidden;
         position:relative;
-        margin:8px auto 0;
-        -webkit-mask-image:linear-gradient(to bottom, black 0%, black 58%, transparent 100%);
-        mask-image:linear-gradient(to bottom, black 0%, black 58%, transparent 100%);
+        -webkit-mask-image:linear-gradient(to bottom, black 0%, black 63%, transparent 100%);
+        mask-image:linear-gradient(to bottom, black 0%, black 63%, transparent 100%);
       }
+      /* frame: identical to desktop except light background */
       .phone-v-frame{
-        background:#EDE9E2;
+        background:#F0EBE3;
         border-radius:48px 48px 0 0;
         overflow:hidden;
+        position:relative;
         aspect-ratio:914/1550;
         -webkit-mask-image:none;
         mask-image:none;
         box-shadow:none;
       }
+      /* shell image: exact same as desktop */
       .phone-v-shell{
+        display:block;
         position:absolute;inset:0;
         width:100%;height:100%;
         object-fit:contain;
         pointer-events:none;z-index:5;
       }
-      /* statusbar: dark text for light theme */
+      /* statusbar: light bg so it paints over the dark shell screen */
       .phone-v-statusbar{
         display:flex;
         position:relative;z-index:6;
-        padding:14% 20px 4px;
-        font-size:11px;color:rgba(0,0,0,.55);
+        padding:13% 22px 4px;
+        font-size:11px;color:rgba(0,0,0,.5);
         justify-content:space-between;align-items:center;
+        background:#F0EBE3;
       }
-      /* notif cards: iOS light mode — white cards, dark text */
+      /* notif-shade: light bg overlay on top of dark shell screen (z-index:6 > shell z-index:5) */
       .notif-shade{
         display:flex;flex-direction:column;gap:5px;
         position:relative;z-index:6;
-        padding:2px 10px 0;
+        padding:4px 10px 16px;
+        background:#F0EBE3;
+        min-height:60%;
       }
       .notif-card{
         display:flex;align-items:center;gap:8px;
         padding:8px 10px;
-        background:rgba(255,255,255,.82);
+        background:rgba(30,18,12,.55);
         backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
         border-radius:13px;
-        border:none;
+        border:1px solid rgba(255,255,255,.10);
       }
-      .notif-card--warn .notif-title{color:#b85c00}
+      .notif-card--warn .notif-title{color:#f5a54a}
       .notif-icon{font-size:18px;flex-shrink:0;line-height:1}
-      .notif-title{font-size:11px;font-weight:600;color:#1a1a1a;line-height:1.25}
-      .notif-sub{font-size:10px;color:rgba(0,0,0,.45);margin-top:1px}
-      /* live-dash hidden on mobile — notifications shown instead */
+      .notif-title{font-size:11px;font-weight:600;color:#fff;line-height:1.25}
+      .notif-sub{font-size:10px;color:rgba(255,255,255,.55);margin-top:1px}
+      /* live-dash hidden on mobile */
       .live-dash{display:none}
       .phone-v-fade{display:none}
       /* live-dash as standalone card */
