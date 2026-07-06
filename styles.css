@@ -531,7 +531,7 @@
       line-height:1.12;
       letter-spacing:-.015em;
     }
-    .section-title p{color:var(--text-muted);max-width:520px;text-shadow:0 1px 14px rgba(0,0,0,.4)}
+    .section-title p{color:var(--text-muted);max-width:520px}
 
     .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--gap)}
     .grid-4{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:22px}
@@ -1209,11 +1209,10 @@
     .section-eyebrow{
       font-size:12px;letter-spacing:.24em;text-transform:uppercase;
       color:var(--bronze);font-weight:700;margin-bottom:10px;
-      text-shadow:0 1px 12px rgba(0,0,0,.4);
     }
     .for-whom-content{max-width:680px;margin-top:18px}
-    .for-whom-content p{color:var(--text-muted);line-height:1.75;text-shadow:0 1px 14px rgba(0,0,0,.4)}
-    .section-typewriter{text-shadow:0 1px 12px rgba(0,0,0,.4)}
+    .for-whom-content p{color:var(--text-muted);line-height:1.75}
+    .section-typewriter{}
 
     /* ── Obstacles grid — always 3 cols on desktop ── */
     #obstacles .grid-3 {
@@ -1284,7 +1283,7 @@
     .hero-trust-item{opacity:0;transform:translateY(8px);transition:opacity .5s ease,transform .5s ease}
     .hero-trust-item.vis{opacity:1;transform:none}
     #process{position:relative}
-    .phone-v-wrap{position:relative;width:100%;max-width:290px;margin:0 auto;overflow:hidden;aspect-ratio:914/1545;border-radius:46px 46px 0 0;clip-path:inset(0 5px 0 5px round 46px 46px 0 0)}
+    .phone-v-wrap{position:relative;width:100%;max-width:290px;margin:0 auto;overflow:hidden;aspect-ratio:914/1545;border-radius:46px 46px 10px 10px}
     .phone-v-frame{background:#100B0D;border-radius:48px 48px 0 0;overflow:hidden;position:relative;aspect-ratio:914/1550;box-shadow:none;-webkit-mask-image:linear-gradient(to bottom,black 0%,black 92.5%,transparent 95%);mask-image:linear-gradient(to bottom,black 0%,black 92.5%,transparent 95%)}
     .phone-v-shell{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;z-index:5}
     .phone-v-fade{display:none}
