@@ -1723,11 +1723,11 @@
         gap:16px;
       }
       .hero h1{font-size:clamp(20px,5.5vw,26px);margin-bottom:4px;line-height:1.25;text-align:left}
-      .hero-subtitle{font-size:12px;margin-top:0;line-height:1.4;text-align:left}
+      .hero-subtitle{font-size:12px;margin-top:0;line-height:1.65;text-align:left}
       /* fix: container and hero-grid are same element, use shorter selector */
       .hero .hero-content > p{display:none}
       /* fix: nav-cta is hidden globally on mobile; re-show the hero's copy */
-      .hero-cta{display:flex !important;gap:6px;margin-top:8px;flex-wrap:nowrap}
+      .hero-cta{display:flex !important;gap:6px;margin-top:18px;flex-wrap:nowrap}
       .hero-cta .button{font-size:12px;padding:7px 12px}
       .hero-trust-strip{margin-top:4px;display:grid;grid-template-columns:repeat(3,1fr);gap:0}
       .hero-trust-item{padding:0;gap:1px}
@@ -1757,8 +1757,8 @@
         border-radius:46px 46px 10px 10px;
         overflow:hidden;
         position:relative;
-        -webkit-mask-image:linear-gradient(to bottom, black 0%, black 68%, transparent 100%);
-        mask-image:linear-gradient(to bottom, black 0%, black 68%, transparent 100%);
+        -webkit-mask-image:linear-gradient(to bottom, black 0%, black 52%, transparent 82%);
+        mask-image:linear-gradient(to bottom, black 0%, black 52%, transparent 82%);
       }
       /* light screen — shell screen area is transparent so this shows through */
       .phone-v-frame{
