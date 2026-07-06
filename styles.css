@@ -432,7 +432,7 @@
     .live-focus{border-top:1px solid rgba(255,255,255,.06);margin-top:6px;padding:6px 10px;background:rgba(255,255,255,.025);border-radius:8px}
     .live-focus-header{font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:rgba(244,239,229,.3);margin-bottom:4px}
     .live-focus-item{display:flex;align-items:center;gap:8px;font-size:10px;color:rgba(244,239,229,.68);padding:2px 0;border-bottom:1px solid rgba(255,255,255,.04)}
-    .live-focus-item:last-child{border-bottom:none;padding-bottom:20px}
+    .live-focus-item:last-child{border-bottom:none}
     .live-focus-item span:not(.live-focus-num):not(.live-focus-alert){overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
     .live-focus-num{font-size:9px;font-weight:700;color:rgba(244,239,229,.3);min-width:16px;flex-shrink:0}
     .live-focus-alert{width:5px;height:5px;border-radius:50%;background:#e05c50;flex-shrink:0;margin-left:auto}
@@ -1284,8 +1284,8 @@
     .hero-trust-item{opacity:0;transform:translateY(8px);transition:opacity .5s ease,transform .5s ease}
     .hero-trust-item.vis{opacity:1;transform:none}
     #process{position:relative}
-    .phone-v-wrap{position:relative;width:100%;max-width:290px;margin:0 auto;overflow:hidden;aspect-ratio:914/1565;border-radius:46px 46px 0 0}
-    .phone-v-frame{background:#100B0D;border-radius:48px 48px 0 0;overflow:hidden;position:relative;aspect-ratio:914/1550;box-shadow:none;-webkit-mask-image:linear-gradient(to bottom,black 0%,black 88%,transparent 92%);mask-image:linear-gradient(to bottom,black 0%,black 88%,transparent 92%)}
+    .phone-v-wrap{position:relative;width:100%;max-width:290px;margin:0 auto;overflow:hidden;aspect-ratio:914/1545;border-radius:46px 46px 0 0}
+    .phone-v-frame{background:#100B0D;border-radius:48px 48px 0 0;overflow:hidden;position:relative;aspect-ratio:914/1550;box-shadow:none;-webkit-mask-image:linear-gradient(to bottom,black 0%,black 90%,transparent 93%);mask-image:linear-gradient(to bottom,black 0%,black 90%,transparent 93%)}
     .phone-v-shell{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;z-index:5}
     .phone-v-fade{display:none}
     .hero-visual{padding:0!important;background:transparent!important;border:none!important;box-shadow:none!important;backdrop-filter:none!important;min-height:auto!important}
