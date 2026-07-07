@@ -1797,8 +1797,8 @@
       .hero-trust-item{padding:0;gap:1px}
       .hero-trust-item span:first-child{font-size:8px}
       .hero-trust-item span:last-child{font-size:10px}
-      /* pill in hero: smaller so it fits on one line */
-      .hero .pill{font-size:9px;letter-spacing:.05em;padding:5px 10px;gap:6px}
+      /* pill in hero: smaller so it fits on one line, not stretched to full width */
+      .hero .pill{font-size:9px;letter-spacing:.05em;padding:5px 10px;gap:6px;align-self:flex-start}
       .hero .pill .dot{width:5px;height:5px}
       /* show hero-visual with notification shade */
       .hero-visual{
