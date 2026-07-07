@@ -656,8 +656,18 @@
     .phscroll-btn:disabled{opacity:.3;cursor:default}
     @media (max-width:768px){
       .phscroll-sticky{height:auto;position:relative}
-      .phscroll-slide{height:auto;padding:40px 0}
+      .phscroll-slide{height:auto;padding:40px 0;justify-content:flex-start}
       .phscroll-track{flex-wrap:wrap}
+      /* hide pagination on mobile */
+      .phscroll-nav{display:none !important}
+      /* hamburger before logo */
+      .hamburger{order:-1}
+      /* slide entrance animation */
+      .phscroll-slide{
+        opacity:0;transform:translateY(32px);
+        transition:opacity .45s cubic-bezier(.22,.9,.36,1), transform .45s cubic-bezier(.22,.9,.36,1);
+      }
+      .phscroll-slide.ph-in-view{opacity:1;transform:translateY(0)}
     }
 
     /* ── Contact form vertical layout ── */
@@ -1189,6 +1199,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   var closeBtn = document.getElementById('deskNavClose');
   if (!trigger || !drawer) return;
   function openNav(){
+    if (window.innerWidth <= 900) {
+      var mn = document.getElementById('mobileNav');
+      if (mn) { mn.classList.add('open'); document.body.style.overflow = 'hidden'; }
+      trigger.setAttribute('aria-expanded','true');
+      return;
+    }
     drawer.classList.add('open');
     drawer.setAttribute('aria-hidden','false');
     backdrop.classList.add('visible');
@@ -1215,12 +1231,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   var nav   = document.getElementById('mobileNav');
   var close = document.getElementById('mobileNavClose');
   if (!btn || !nav) return;
-  function open(){ nav.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
-  function shut(){ nav.classList.remove('open'); btn.setAttribute('aria-expanded','false'); }
+  function open(){ nav.classList.add('open'); document.body.style.overflow='hidden'; btn.setAttribute('aria-expanded','true'); }
+  function shut(){
+    nav.classList.remove('open'); document.body.style.overflow='';
+    btn.setAttribute('aria-expanded','false');
+    var dht = document.getElementById('deskHamBtn');
+    if (dht) dht.setAttribute('aria-expanded','false');
+  }
   btn.addEventListener('click', open);
   if (close) close.addEventListener('click', shut);
   nav.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', shut); });
   document.addEventListener('keydown', function(e){ if (e.key==='Escape') shut(); });
+})();
+
+// ── Mobile: phscroll slide entrance animation ──
+(function(){
+  if (!window.matchMedia('(max-width:768px)').matches) return;
+  if (!('IntersectionObserver' in window)) return;
+  var slides = document.querySelectorAll('.phscroll-slide');
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting) { e.target.classList.add('ph-in-view'); }
+    });
+  }, { threshold: 0.12 });
+  slides.forEach(function(s){ obs.observe(s); });
 })();
 </script>
 
