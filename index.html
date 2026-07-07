@@ -1482,20 +1482,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     var twEl = document.querySelector('.typewriter-word');
     if (twEl) {
       var twWrap = twEl.closest('.tw-wrap');
-      // Reserve width of the longest word so h1 never reflows between words
-      if (twWrap) {
+      // Measure minWidth and start interval only after fonts are loaded
+      (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(function() {
+        var prev = twEl.textContent;
         twEl.textContent = twWords.reduce(function(a, b) { return a.length >= b.length ? a : b; });
-        twWrap.style.minWidth = twEl.offsetWidth + 'px';
-        twEl.textContent = twWords[0];
-      }
-      setInterval(function() {
-        twIdx = (twIdx + 1) % twWords.length;
-        twEl.style.opacity = '0';
-        setTimeout(function() {
-          twEl.textContent = twWords[twIdx];
-          twEl.style.opacity = '1';
-        }, 230);
-      }, 2800);
+        if (twWrap) twWrap.style.minWidth = twEl.offsetWidth + 'px';
+        twEl.textContent = prev;
+        setInterval(function() {
+          twIdx = (twIdx + 1) % twWords.length;
+          (twWrap || twEl).style.opacity = '0';
+          setTimeout(function() {
+            twEl.textContent = twWords[twIdx];
+            (twWrap || twEl).style.opacity = '1';
+          }, 230);
+        }, 2800);
+      });
     }
 
     // ── Live dashboard animation ──
