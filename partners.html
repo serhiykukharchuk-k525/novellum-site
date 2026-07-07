@@ -662,14 +662,7 @@
       .phscroll-nav{display:none !important}
       /* hamburger before logo */
       .hamburger{order:-1}
-      /* printer-paper entry animation */
-      .phscroll-slide.ph-snap-in{
-        animation:mob-printer-in .32s cubic-bezier(.22,.9,.36,1) both;
-      }
-      @keyframes mob-printer-in{
-        from{ clip-path:inset(100% 0 0 0); }
-        to{ clip-path:inset(0% 0 0 0); }
-      }
+
     }
 
     /* ── Contact form vertical layout ── */
@@ -1244,23 +1237,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   if (close) close.addEventListener('click', shut);
   nav.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', shut); });
   document.addEventListener('keydown', function(e){ if (e.key==='Escape') shut(); });
-})();
-
-// ── Mobile: phscroll printer-paper entry animation ──
-(function(){
-  if (!window.matchMedia('(max-width:768px)').matches) return;
-  if (!('IntersectionObserver' in window)) return;
-  var slides = document.querySelectorAll('.phscroll-slide');
-  var obs = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if (e.isIntersecting) {
-        e.target.classList.remove('ph-snap-in');
-        void e.target.offsetWidth;
-        e.target.classList.add('ph-snap-in');
-      }
-    });
-  }, { threshold: 0.3 });
-  slides.forEach(function(s){ obs.observe(s); });
 })();
 </script>
 
