@@ -1608,7 +1608,7 @@
       /* ── UI chrome ── */
       .hscroll-ui{
         position:absolute;
-        top:14px;right:16px;
+        top:80px;right:16px;
         display:flex;flex-direction:column;gap:6px;
         z-index:20;
         white-space:nowrap;
