@@ -707,25 +707,28 @@
       .phscroll-slide .section-title{margin-bottom:16px;gap:10px;flex-direction:column;align-items:flex-start}
       .phscroll-slide .section-title h2{font-size:26px;line-height:1.2;margin-bottom:2px}
       .phscroll-slide .section-title > p{font-size:14px;line-height:1.5;max-width:none}
-      /* Цінність: 3 cards stacked in 1 col so they fill height evenly */
-      #phslide-value .grid-3{grid-template-columns:1fr;gap:10px}
-      #phslide-value .card{padding:10px 12px;border-bottom:none;border-radius:10px;background:rgba(122,35,51,.05);border:1px solid var(--border)}
-      /* Кому підходить: keep 2 col */
+      /* Цінність: 3 cards stacked in 1 col, line separators */
+      #phslide-value .grid-3{grid-template-columns:1fr;gap:0}
+      #phslide-value .card{padding:12px 0;border-bottom:1px solid rgba(122,35,51,.15);border-radius:0;background:none;border-top:none;border-left:none;border-right:none}
+      #phslide-value .card:last-child{border-bottom:none}
+      /* Кому підходить: keep 2-col, leave as is */
       #phslide-for-whom .grid-3{grid-template-columns:1fr 1fr;gap:10px}
-      #phslide-for-whom .card{padding:8px 10px;border-bottom:none;border-radius:10px;background:rgba(122,35,51,.05);border:1px solid var(--border)}
+      #phslide-for-whom .card{padding:8px 0 8px;border-bottom:1px solid rgba(122,35,51,.15);border-radius:0;background:none}
       .phscroll-slide .card h3{font-size:16px;margin-bottom:4px}
       .phscroll-slide .card p{font-size:13px;line-height:1.5}
-      /* Formats: card-style redesign */
-      .phscroll-slide .pricing-grid{grid-template-columns:1fr;gap:10px}
+      /* Formats: 1-col with line separators */
+      .phscroll-slide .pricing-grid{grid-template-columns:1fr;gap:0}
       .phscroll-slide .pricing-card{
         border-left:none !important;padding-left:0 !important;
         border-top:none !important;padding-top:0 !important;
-        border-radius:12px;
-        background:rgba(122,35,51,.06);
-        border:1px solid var(--border) !important;
-        padding:12px 14px !important;
-        gap:6px;
+        border-bottom:1px solid rgba(122,35,51,.15) !important;
+        border-right:none !important;
+        border-radius:0 !important;
+        background:none !important;
+        padding:12px 0 !important;
+        gap:4px;
       }
+      .phscroll-slide .pricing-card:last-child{border-bottom:none !important}
       .phscroll-slide .pricing-card h3{font-size:17px;margin-bottom:2px}
       .phscroll-slide .pricing-card p,.phscroll-slide .pricing-card .terms{font-size:13px;line-height:1.5}
       .phscroll-slide .price{font-size:12px;font-weight:600;color:var(--accent);opacity:.8}
