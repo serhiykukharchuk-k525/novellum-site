@@ -1922,8 +1922,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
 })();
 
-// ── Header auto-hide: sticky during hero+hscroll, hide-on-down after hscroll ──
+// ── Header auto-hide: sticky during hero+hscroll, hide-on-down after hscroll (desktop only) ──
 (function() {
+  if (window.matchMedia('(max-width:768px)').matches) return;
   var hdr = document.querySelector('body > header');
   var hscrollOuter = document.getElementById('hscrollOuter');
   if (!hdr || !hscrollOuter) return;

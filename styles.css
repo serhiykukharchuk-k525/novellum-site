@@ -1750,10 +1750,16 @@
       /* mobile-only slide visible */
       .mob-only-slide{display:block !important}
 
+      /* header never hides on mobile */
+      body > header{
+        transition:none;
+      }
+
       /* mandatory snap so each swipe = exactly 1 section */
       html{
         scroll-snap-type:y mandatory;
         overflow-y:scroll;
+        scroll-padding-top:68px;
       }
 
       /* every screen-sized section */
