@@ -2087,19 +2087,9 @@
       /* ── Sections after hscroll: exact visible-viewport height so no gap under header ── */
       section#demo,section#pricing,section#not-for,section#faq,section#contact{
         height:calc(100svh - 68px);
-        padding:24px 0;
-        justify-content:flex-start;
+        padding:16px 0;
+        justify-content:center;
         overflow:hidden;
-      }
-      /* center the glass-panel inside; margin:auto is safe — collapses to 0 if content overflows
-         (unlike justify-content:center which clips the top) */
-      section#demo > .container,
-      section#pricing > .container,
-      section#not-for > .container,
-      section#faq > .container,
-      section#contact > .container{
-        margin-top:auto;
-        margin-bottom:auto;
       }
 
       /* ── Анонімний кейс: compact ── */
@@ -2131,7 +2121,7 @@
       /* ── Analytics (pricing) section: fit on one screen ── */
       section#pricing{overflow:hidden}
       section#pricing .glass-panel{padding:12px 14px;overflow:hidden}
-      section#pricing .section-title{margin-bottom:10px !important}
+      section#pricing .section-title{margin-bottom:22px !important}
       section#pricing .section-title h2{font-size:26px !important;margin-bottom:2px}
       section#pricing .section-title > p{font-size:13px;line-height:1.5}
       section#pricing .paragraph-grid{
@@ -2148,13 +2138,13 @@
 
       /* ── Demo section: spacing above description text ── */
       section#demo .glass-panel{padding:14px 16px}
-      section#demo .section-title{margin-bottom:14px}
+      section#demo .section-title{margin-bottom:22px}
       section#demo > .container > p.reveal{margin-top:0 !important;margin-bottom:10px !important;font-size:15px !important;line-height:1.6 !important}
 
       /* ── FAQ: compact, fits all items ── */
       section#faq{overflow:hidden}
       section#faq .glass-panel{padding:12px 14px;overflow:hidden}
-      section#faq .section-title{margin-bottom:6px !important}
+      section#faq .section-title{margin-bottom:22px !important}
       section#faq .section-title h2{font-size:26px !important}
       section#faq .accordion{margin-top:6px !important}
       section#faq .accordion-item{border-bottom:1px solid var(--border)}
