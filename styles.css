@@ -1616,14 +1616,11 @@
 
       .hscroll-row-top{
         display:flex;align-items:center;gap:10px;
-        justify-content:flex-end;
       }
 
       .hscroll-row-bottom{
-        display:flex;align-items:center;justify-content:space-between;gap:10px;
+        display:flex;align-items:center;justify-content:center;gap:6px;
       }
-
-      .hscroll-arrows{display:flex;gap:4px}
 
       .hscroll-label{
         font-size:11px;font-weight:600;
