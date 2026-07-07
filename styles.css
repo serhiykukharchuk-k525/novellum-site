@@ -127,6 +127,7 @@
     /* Sticky only top header */
     body > header{
       position:sticky;top:0;
+      border-top:2px solid #7A2333;
       background:rgba(251,248,243,.95);
       backdrop-filter:blur(14px);
       -webkit-backdrop-filter:blur(14px);
@@ -263,11 +264,11 @@
 
     /* Typographic accents */
     .title-accent{
-      background:none;
-      -webkit-background-clip:initial;
-      background-clip:initial;
-      color:var(--text);
-      text-shadow:0 2px 22px rgba(34,26,23,.15);
+      background:linear-gradient(135deg,#221A17 0%,#7A2333 100%);
+      -webkit-background-clip:text;
+      background-clip:text;
+      -webkit-text-fill-color:transparent;
+      color:transparent;
       position:relative;
     }
     .accent-word{
@@ -548,6 +549,11 @@
       font-size:clamp(24px,3vw,38px);
       line-height:1.12;
       letter-spacing:-.015em;
+      background:linear-gradient(135deg,#221A17 20%,#7A2333 100%);
+      -webkit-background-clip:text;
+      background-clip:text;
+      -webkit-text-fill-color:transparent;
+      color:transparent;
     }
     .section-title p{color:var(--text-muted);max-width:520px}
 
