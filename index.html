@@ -1392,24 +1392,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
 });
 
-    // ── Mobile: printer-paper entry animation via IntersectionObserver ──
-    if (window.matchMedia('(max-width:768px)').matches && 'IntersectionObserver' in window) {
-      var printerSections = document.querySelectorAll(
-        '.hero, .hscroll-slide, section#demo, section#pricing, section#faq, section#contact'
-      );
-      var printerObs = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) {
-            var el = entry.target;
-            el.classList.remove('mob-snap-in');
-            void el.offsetWidth;
-            el.classList.add('mob-snap-in');
-          }
-        });
-      }, { threshold: 0.3 });
-      printerSections.forEach(function(s) { printerObs.observe(s); });
-    }
-
     // ── Hamburger menu ──
     var hamburgerBtn = document.getElementById('hamburgerBtn');
     var mobileNav = document.getElementById('mobileNav');
