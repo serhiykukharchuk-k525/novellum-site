@@ -1763,7 +1763,6 @@
         overflow-y:scroll;
         scroll-padding-top:68px;
         scroll-behavior:auto;
-        overscroll-behavior-y:none;
       }
 
       /* every screen-sized section */
@@ -1805,7 +1804,7 @@
         gap:16px;
       }
       .hero h1{font-size:clamp(20px,5.5vw,26px);margin-bottom:4px;line-height:1.25;text-align:left}
-      .hero-subtitle{font-size:12px;margin-top:0;line-height:1.9;text-align:left}
+      .hero-subtitle{font-size:15px;margin-top:0;line-height:1.7;text-align:left}
       /* fix: container and hero-grid are same element, use shorter selector */
       .hero .hero-content > p{display:none}
       /* hero-content as flex column so CTA is vertically centered between subtitle and trust strip */
@@ -2091,6 +2090,8 @@
         justify-content:center;
         overflow:hidden;
       }
+      /* shift flex-center up to compensate for 64px sticky bar → content visually centered in usable viewport */
+      section#demo,section#faq{padding-bottom:80px}
 
       /* ── Анонімний кейс: compact ── */
       #hslide-social-proof .card{padding:18px 20px !important}
@@ -2152,6 +2153,14 @@
       section#faq .accordion-body p{font-size:13px !important;line-height:1.5 !important;padding:0 0 6px !important}
 
       section#contact .glass-panel{padding:20px 16px}
+      section#contact .container{padding:16px !important}
+      section#contact h2{font-size:22px !important;margin-bottom:6px !important;line-height:1.25}
+      section#contact > .container > p{font-size:13px !important;margin-bottom:10px !important}
+      section#contact input,section#contact textarea{padding:8px 12px !important;margin-bottom:6px !important;font-size:13px !important}
+      section#contact textarea{min-height:54px !important}
+      section#contact #submitBtn{padding:10px !important;font-size:13px !important;margin-top:2px !important}
+      section#contact .terms{font-size:10px !important;margin-top:4px !important}
+      section#contact{padding-bottom:80px}
 
       /* ── Process slide mobile: hide divider+deliverables (they're in #hslide-results) ── */
       #hslide-process .process-divider{display:none !important}
