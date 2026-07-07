@@ -594,27 +594,40 @@
       .logo .logo-mark{display:block;height:24px}
     }
 
-    /* ── Partner horizontal scroll ── */
+    /* ── Partner horizontal scroll (scroll-driven, like main hscroll) ── */
     .phscroll-outer{
       position:relative;
       border-top:1px solid rgba(122,35,51,.15);
       background:var(--bg);
+      /* height set by JS: N × 100vh */
+    }
+    .phscroll-sticky{
+      position:sticky;
+      top:0;
+      height:100vh;
       overflow:hidden;
+      display:flex;
+      flex-direction:column;
     }
     .phscroll-track{
+      flex:1;
       display:flex;
-      transition:transform .45s cubic-bezier(.4,0,.2,1);
       will-change:transform;
+      min-height:0;
     }
     .phscroll-slide{
       flex:0 0 100%;
       width:100%;
+      height:100%;
+      overflow-y:auto;
       padding:var(--section-pad) 0;
+      box-sizing:border-box;
     }
     .phscroll-nav{
       display:flex;align-items:center;justify-content:center;
       gap:12px;
-      padding:18px 0 0;
+      padding:14px 0 0;
+      flex-shrink:0;
     }
     .phscroll-dots{display:flex;gap:6px;align-items:center}
     .phscroll-dot{
@@ -639,7 +652,9 @@
     .phscroll-btn:hover{background:rgba(122,35,51,.08)}
     .phscroll-btn:disabled{opacity:.3;cursor:default}
     @media (max-width:768px){
-      .phscroll-slide{padding:40px 0}
+      .phscroll-sticky{height:auto;position:relative}
+      .phscroll-slide{height:auto;padding:40px 0}
+      .phscroll-track{flex-wrap:wrap}
     }
 
     /* ── Contact form vertical layout ── */
@@ -758,45 +773,46 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </section>
 
-    <section class="divider">
-      <div class="container glass-panel">
-        <div class="section-title reveal">
-          <div>
-            <div class="pill">Кому підходить</div>
-            <h2 class="title-accent">Для тих, хто вже працює з першими особами бізнесу.</h2>
-          </div>
-          <p>Коли власник або CEO — ваш клієнт, і йому потрібна чітка картина по бізнесу.</p>
-        </div>
-
-        <div class="grid-3">
-          <div class="card lift reveal">
-            <h3>Стратегічні консультанти</h3>
-            <p>Потрібен чіткий дашборд як основа для розмови з власником.</p>
-          </div>
-          <div class="card lift reveal">
-            <h3>Фінансові радники</h3>
-            <p>Коли клієнту потрібна єдина картина фінансів і динаміки — без різних версій цифр.</p>
-          </div>
-          <div class="card lift reveal">
-            <h3>Операційні практики</h3>
-            <p>Коли важливо бачити не лише фінанси, а й дедлайни і статуси в реальному часі.</p>
-          </div>
-          <div class="card lift reveal">
-            <h3>Аналітичні агенції</h3>
-            <p>Коли потрібен структурований дашборд і сервісна підтримка в часі.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══ Horizontal scroll: Цінність · Формати · Синергія ═══ -->
+    <!-- ═══ Horizontal scroll: Кому підходить · Цінність · Формати · Синергія ═══ -->
     <div class="phscroll-outer" id="partnerHscroll">
-      <div class="phscroll-nav" aria-label="Навігація по секціях">
-        <button class="phscroll-btn" id="phPrev" aria-label="Попередня секція">←</button>
-        <div class="phscroll-dots" id="phDots"></div>
-        <button class="phscroll-btn" id="phNext" aria-label="Наступна секція">→</button>
-      </div>
-      <div class="phscroll-track" id="phTrack">
+      <div class="phscroll-sticky" id="phSticky">
+        <div class="phscroll-nav" aria-label="Навігація по секціях">
+          <button class="phscroll-btn" id="phPrev" aria-label="Попередня секція">←</button>
+          <div class="phscroll-dots" id="phDots"></div>
+          <button class="phscroll-btn" id="phNext" aria-label="Наступна секція">→</button>
+        </div>
+        <div class="phscroll-track" id="phTrack">
+
+        <div class="phscroll-slide" id="phslide-for-whom">
+          <div class="container glass-panel">
+            <div class="section-title reveal">
+              <div>
+                <div class="pill">Кому підходить</div>
+                <h2 class="title-accent">Для тих, хто вже працює з першими особами бізнесу.</h2>
+              </div>
+              <p>Коли власник або CEO — ваш клієнт, і йому потрібна чітка картина по бізнесу.</p>
+            </div>
+
+            <div class="grid-3">
+              <div class="card lift reveal">
+                <h3>Стратегічні консультанти</h3>
+                <p>Потрібен чіткий дашборд як основа для розмови з власником.</p>
+              </div>
+              <div class="card lift reveal">
+                <h3>Фінансові радники</h3>
+                <p>Коли клієнту потрібна єдина картина фінансів і динаміки — без різних версій цифр.</p>
+              </div>
+              <div class="card lift reveal">
+                <h3>Операційні практики</h3>
+                <p>Коли важливо бачити не лише фінанси, а й дедлайни і статуси в реальному часі.</p>
+              </div>
+              <div class="card lift reveal">
+                <h3>Аналітичні агенції</h3>
+                <p>Коли потрібен структурований дашборд і сервісна підтримка в часі.</p>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div class="phscroll-slide" id="phslide-value">
           <div class="container glass-panel">
@@ -888,6 +904,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
 
       </div><!-- /phscroll-track -->
+      </div><!-- /phscroll-sticky -->
     </div><!-- /phscroll-outer -->
 
     <section id="contact">
@@ -1042,31 +1059,32 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="animations.js" defer></script>
 
 <script>
+// ── Partners phscroll: scroll-driven horizontal navigation ──
 (function(){
-  var track = document.getElementById('phTrack');
-  var slides = track ? Array.from(track.querySelectorAll('.phscroll-slide')) : [];
+  var outer  = document.getElementById('partnerHscroll');
+  var track  = document.getElementById('phTrack');
   var dotsEl = document.getElementById('phDots');
   var prevBtn = document.getElementById('phPrev');
   var nextBtn = document.getElementById('phNext');
-  if(!track || !slides.length) return;
+  if(!outer || !track) return;
 
+  var slides = Array.from(track.querySelectorAll('.phscroll-slide'));
   var N = slides.length;
   var cur = 0;
-  var outer = document.getElementById('partnerHscroll');
 
+  // On mobile: keep simple click-only navigation, no sticky scroll
+  var isMobile = window.matchMedia('(max-width:768px)').matches;
+
+  // Build dots
   slides.forEach(function(_,i){
     var d = document.createElement('button');
     d.className = 'phscroll-dot' + (i===0?' active':'');
     d.setAttribute('aria-label','Секція '+(i+1));
-    d.addEventListener('click',function(){ goTo(i); });
+    d.addEventListener('click', function(){ goTo(i); });
     dotsEl.appendChild(d);
   });
 
-  function goTo(idx){
-    idx = Math.max(0, Math.min(N-1, idx));
-    cur = idx;
-    var slideW = outer ? outer.offsetWidth : slides[0].offsetWidth;
-    track.style.transform = 'translateX(' + (-idx * slideW) + 'px)';
+  function updateDots(idx){
     Array.from(dotsEl.querySelectorAll('.phscroll-dot')).forEach(function(d,i){
       d.classList.toggle('active', i===idx);
     });
@@ -1074,30 +1092,88 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     if(nextBtn) nextBtn.disabled = idx===N-1;
   }
 
-  if(prevBtn) prevBtn.addEventListener('click', function(){ goTo(cur-1); resetAuto(); });
-  if(nextBtn) nextBtn.addEventListener('click', function(){ goTo(cur+1); resetAuto(); });
-
-  // Dot clicks also reset timer
-  Array.from(dotsEl.querySelectorAll('.phscroll-dot')).forEach(function(d,i){
-    d.addEventListener('click', resetAuto);
-  });
-
-  // Auto-advance every 5 seconds, pause on hover
-  var autoTimer;
-  function startAuto(){
-    autoTimer = setInterval(function(){
-      goTo(cur < N-1 ? cur+1 : 0);
-    }, 5000);
-  }
-  function resetAuto(){ clearInterval(autoTimer); startAuto(); }
-  var el = document.getElementById('partnerHscroll');
-  if(el){
-    el.addEventListener('mouseenter', function(){ clearInterval(autoTimer); });
-    el.addEventListener('mouseleave', startAuto);
+  function goTo(idx){
+    idx = Math.max(0, Math.min(N-1, idx));
+    cur = idx;
+    if(isMobile){
+      // On mobile just translate track directly
+      var slideW = outer.offsetWidth;
+      track.style.transition = 'transform .45s cubic-bezier(.4,0,.2,1)';
+      track.style.transform = 'translateX(' + (-idx * slideW) + 'px)';
+      updateDots(idx);
+      return;
+    }
+    // On desktop: scroll to the correct position in the sticky zone
+    var outerTop = outer.getBoundingClientRect().top + window.scrollY;
+    var scrollable = N * window.innerHeight - window.innerHeight;
+    var dest = outerTop + (idx / (N - 1)) * scrollable;
+    window.scrollTo({ top: dest, behavior: 'smooth' });
   }
 
-  goTo(0);
-  startAuto();
+  if(prevBtn) prevBtn.addEventListener('click', function(){ goTo(cur-1); });
+  if(nextBtn) nextBtn.addEventListener('click', function(){ goTo(cur+1); });
+
+  if(isMobile){
+    goTo(0);
+    return; // mobile: no scroll driver
+  }
+
+  // ── Desktop: scroll-driven ──
+  var LINGER = 0.5; // extra scroll at end before vertical continues
+  function setHeight(){
+    outer.style.height = ((N + LINGER) * window.innerHeight) + 'px';
+  }
+  setHeight();
+  window.addEventListener('resize', setHeight, { passive:true });
+
+  var rafPending = false;
+  var targetX = 0;
+  var animX   = 0;
+
+  function renderFrame(){
+    rafPending = false;
+    var diff = targetX - animX;
+    if(Math.abs(diff) > 0.0003){
+      animX += diff * 0.10;
+      rafPending = true;
+      requestAnimationFrame(renderFrame);
+    } else {
+      animX = targetX;
+    }
+    var slideW = outer.offsetWidth;
+    track.style.transform = 'translateX(' + (-animX * (N-1) * slideW) + 'px)';
+  }
+
+  window.addEventListener('scroll', function(){
+    var rect = outer.getBoundingClientRect();
+    var scrollable = N * window.innerHeight - window.innerHeight;
+    targetX = Math.max(0, Math.min(1, -rect.top / scrollable));
+    var idx = Math.round(targetX * (N-1));
+    if(idx !== cur){ cur = idx; updateDots(idx); }
+    if(!rafPending){ rafPending = true; requestAnimationFrame(renderFrame); }
+  }, { passive:true });
+
+  // Touch support on sticky area
+  var sticky = document.getElementById('phSticky');
+  if(sticky){
+    var tStartY = 0, tStartScrollY = 0;
+    sticky.addEventListener('touchstart', function(e){
+      tStartY = e.touches[0].clientY;
+      tStartScrollY = window.scrollY;
+    }, { passive:true });
+    sticky.addEventListener('touchmove', function(e){
+      var dy = tStartY - e.touches[0].clientY;
+      var rect = outer.getBoundingClientRect();
+      var scrollable = N * window.innerHeight - window.innerHeight;
+      var p = -rect.top / scrollable;
+      if(p >= 0 && p <= 1){
+        window.scrollTo(0, tStartScrollY + dy * 1.5);
+        e.preventDefault();
+      }
+    }, { passive:false });
+  }
+
+  updateDots(0);
 })();
 </script>
 
