@@ -457,6 +457,35 @@
     @media (max-width:900px){
       .nav-links{display:none}
     }
+    /* ── Desktop hamburger trigger ── */
+    .desk-ham-trigger{
+      display:flex;align-items:center;gap:8px;
+      background:none;border:1px solid var(--border);
+      border-radius:var(--radius-pill);
+      padding:8px 14px;cursor:pointer;
+      color:var(--text-muted);font-size:13px;font-weight:500;
+      flex-shrink:0;transition:background .2s,border-color .2s;
+    }
+    .desk-ham-trigger:hover{background:rgba(59,18,24,.04);border-color:rgba(59,18,24,.22);color:var(--text)}
+    .desk-ham-lines{display:flex;flex-direction:column;gap:3.5px;width:14px}
+    .desk-ham-lines span{display:block;height:1.5px;background:currentColor;border-radius:2px;transition:transform .2s,opacity .2s}
+    @media (max-width:900px){.desk-ham-trigger{display:none}}
+
+    /* ── Mobile hamburger ── */
+    .hamburger{
+      display:none;
+      background:none;border:none;cursor:pointer;padding:6px;
+      flex-direction:column;gap:5px;align-items:center;justify-content:center;
+    }
+    .hamburger span{
+      display:block;width:22px;height:2px;background:var(--text);
+      border-radius:2px;transition:transform .25s,opacity .25s;
+    }
+    @media (max-width:840px){
+      .hamburger{display:flex}
+      .nav-cta{display:none}
+    }
+
     @media (max-width:840px){
       .nav{flex-wrap:wrap}
       .cta{padding:30px}
@@ -473,14 +502,12 @@
     }
     .phscroll-track{
       display:flex;
-      overflow-x:hidden;
-      scroll-snap-type:x mandatory;
-      -webkit-overflow-scrolling:touch;
+      transition:transform .45s cubic-bezier(.4,0,.2,1);
+      will-change:transform;
     }
     .phscroll-slide{
       flex:0 0 100%;
       width:100%;
-      scroll-snap-align:start;
       padding:var(--section-pad) 0;
     }
     .phscroll-nav{
@@ -533,6 +560,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
   <header>
     <div class="container nav">
+      <button class="desk-ham-trigger" id="deskHamBtn" aria-label="Відкрити навігацію" aria-expanded="false">
+        <span class="desk-ham-lines"><span></span><span></span><span></span></span>
+        <span class="desk-ham-label">Меню</span>
+      </button>
+
       <a class="logo" href="/">
         <img class="logo-horizontal" src="assets/logo/novellum-horizontal.svg" alt="Nóvellum" width="130" height="40" />
         <img class="logo-mark" src="assets/logo/novellum-mark.svg" alt="Nóvellum" width="40" height="40" />
@@ -544,8 +576,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <a href="/#products">Продукт</a>
         <a href="/#process">Процес</a>
         <a href="/#pricing">Аналітика</a>
-        <!-- <a href="/#reminder">Reminder</a> -->
-        <a href="partners.html">Партнерство</a>
+        <a href="partners.html" class="active">Партнерство</a>
         <a href="/#contact">Контакти</a>
       </nav>
 
@@ -553,6 +584,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <a class="button secondary button--anim" href="#contact">Написати</a>
         <a class="button primary" href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener">LinkedIn →</a>
       </div>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Відкрити меню" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </header>
 
@@ -871,7 +905,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   function goTo(idx){
     idx = Math.max(0, Math.min(N-1, idx));
     cur = idx;
-    track.scrollTo({left: idx * track.offsetWidth, behavior:'smooth'});
+    track.style.transform = 'translateX(' + (-idx * 100) + '%)';
     Array.from(dotsEl.querySelectorAll('.phscroll-dot')).forEach(function(d,i){
       d.classList.toggle('active', i===idx);
     });
@@ -883,12 +917,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   if(nextBtn) nextBtn.addEventListener('click', function(){ goTo(cur+1); });
 
   goTo(0);
-
-  // sync dots on native swipe
-  track.addEventListener('scroll', function(){
-    var idx = Math.round(track.scrollLeft / track.offsetWidth);
-    if(idx !== cur) goTo(idx);
-  }, {passive:true});
 })();
 </script>
 
