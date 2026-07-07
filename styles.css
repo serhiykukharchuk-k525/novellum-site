@@ -127,7 +127,6 @@
     /* Sticky only top header */
     body > header{
       position:sticky;top:0;
-      border-top:2px solid #7A2333;
       background:rgba(251,248,243,.95);
       backdrop-filter:blur(14px);
       -webkit-backdrop-filter:blur(14px);
@@ -267,8 +266,8 @@
       background:none;
       -webkit-background-clip:initial;
       background-clip:initial;
-      -webkit-text-fill-color:initial;
       color:var(--text);
+      text-shadow:0 2px 22px rgba(34,26,23,.15);
       position:relative;
     }
     .accent-word{
@@ -549,11 +548,6 @@
       font-size:clamp(24px,3vw,38px);
       line-height:1.12;
       letter-spacing:-.015em;
-      background:linear-gradient(135deg,#221A17 20%,#7A2333 100%);
-      -webkit-background-clip:text;
-      background-clip:text;
-      -webkit-text-fill-color:transparent;
-      color:transparent;
     }
     .section-title p{color:var(--text-muted);max-width:520px}
 
@@ -1476,7 +1470,7 @@
     @media(max-width:768px){
       .hero h1{font-size:clamp(22px,6.2vw,28px);min-height:2.24em}
       .typewriter-word{display:inline-block;white-space:nowrap}
-      .section-typewriter,[data-typewriter]{display:block;width:100%;max-width:100%;white-space:normal;overflow-wrap:break-word;font-size:9px!important;line-height:1.35;min-height:4.2em;overflow:hidden;margin-top:12px}
+      .section-typewriter,[data-typewriter]{display:block;width:100%;max-width:100%;white-space:normal;overflow-wrap:break-word;font-size:9px!important;line-height:1.35;min-height:2.7em;overflow:hidden;margin-top:12px}
       .tools-orbit{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
     }
 
@@ -1569,7 +1563,7 @@
       .hscroll-slide .pill{margin-bottom:6px !important}
 
       /* hide decorative/secondary elements that eat vertical space */
-      /* .hscroll-slide .section-typewriter — shown (SEO keywords) */
+      .hscroll-slide .section-typewriter{display:none}
       .hscroll-slide .icon-badges{display:none}
       .hscroll-slide .section-title > p{display:none}
 
@@ -1599,7 +1593,7 @@
       .hscroll-slide .process-step{padding:8px 14px}
       .hscroll-slide .process-step span{margin-bottom:1px}
       .hscroll-slide .process-step h3{margin-bottom:2px;font-size:15px}
-      .hscroll-slide .process-step p{font-size:14px;line-height:1.4}
+      .hscroll-slide .process-step p{font-size:13px;line-height:1.4}
 
       /* pricing grid: tighten */
       .hscroll-slide .pricing-grid{gap:12px}
@@ -1607,7 +1601,7 @@
       .hscroll-slide .pricing-card h3{font-size:15px;margin-bottom:4px}
       .hscroll-slide .pricing-card .price{font-size:22px;line-height:1.1}
       .hscroll-slide .pricing-card ul{margin-top:4px}
-      .hscroll-slide .pricing-card ul li{font-size:14px;padding:2px 0}
+      .hscroll-slide .pricing-card ul li{font-size:13px;padding:2px 0}
       .hscroll-slide .pricing-card p[style*="margin-top:16px"]{margin-top:8px !important;padding:8px 10px !important;font-size:.82rem !important}
       .hscroll-slide .pricing-card .terms{font-size:11px}
       .hscroll-slide .format-track{margin:4px 0}
@@ -1619,7 +1613,7 @@
       .hscroll-slide .calc-box{padding:12px 16px}
       .hscroll-slide .calc-grid{gap:12px}
       .hscroll-slide .calc-field{margin-bottom:10px}
-      .hscroll-slide .calc-field label{font-size:14px}
+      .hscroll-slide .calc-field label{font-size:13px}
       .hscroll-slide .calc-result-num{font-size:32px !important}
       .hscroll-slide #calcDetailsBtn{margin-top:10px;padding:9px 14px}
 
@@ -1915,15 +1909,14 @@
         box-sizing:border-box;
       }
 
-      /* section titles: bump to 26px to match post-hscroll sections */
+      /* section titles: keep natural size, just tighten margin */
       .hscroll-slide .section-title h2,
       .hscroll-slide h2.title-accent{
-        font-size:26px;
-        line-height:1.15;
         margin-bottom:6px;
       }
       .hscroll-slide .section-eyebrow,
       .hscroll-slide .pill{font-size:10px;margin-bottom:5px}
+      .hscroll-slide .section-typewriter,
       .hscroll-slide .icon-badges{display:none}
 
       /* ── Цінність: clean list, no numbers, no boxes ── */
@@ -1940,13 +1933,13 @@
         border-radius:0;
       }
       .hscroll-slide .narrative-item::before{content:none}
-      .hscroll-slide .narrative-item h3{font-size:14px;margin:0 0 2px;font-weight:600}
-      .hscroll-slide .narrative-item p{font-size:12px;color:var(--text-muted);margin:0}
+      .hscroll-slide .narrative-item h3{font-size:12px;margin:0 0 2px;font-weight:600}
+      .hscroll-slide .narrative-item p{font-size:10px;color:var(--text-muted);margin:0}
       .hscroll-slide .narrative-num{display:none}
 
       /* ── Для кого це: clean list rows, no bordered cards ── */
       #for-whom .reveal[style*="flex"]{display:none !important}
-      #for-whom .for-whom-content p{font-size:14px;line-height:1.5}
+      #for-whom .for-whom-content p{font-size:13px;line-height:1.5}
       #for-whom .snapshot-grid{
         display:flex;
         flex-direction:column;
@@ -1967,7 +1960,7 @@
       }
       #for-whom .snap-card::before{display:none}
       #for-whom .snap-card small{display:none}
-      #for-whom .snap-card b{font-size:14px;flex:1}
+      #for-whom .snap-card b{font-size:13px;flex:1}
       #for-whom .snap-card .accent{
         font-size:11px;
         background:rgba(122,35,51,.07);
@@ -2130,38 +2123,38 @@
       section#demo .section-title{margin-bottom:8px}
       section#demo .demo-frame-wrap{margin-bottom:12px !important}
 
-      /* ── Analytics (pricing) section ── */
+      /* ── Analytics (pricing) section: fit on one screen ── */
       section#pricing{overflow:hidden}
       section#pricing .glass-panel{padding:12px 14px;overflow:hidden}
-      section#pricing .section-title{margin-bottom:10px !important}
-      section#pricing .section-title h2{font-size:26px !important;margin-bottom:2px;line-height:1.15}
-      section#pricing .section-title > p{font-size:13px;line-height:1.5}
+      section#pricing .section-title{margin-bottom:28px !important}
+      section#pricing .section-title h2{font-size:clamp(16px,5vw,20px) !important;margin-bottom:2px}
+      section#pricing .section-title > p{font-size:11px;line-height:1.5}
       section#pricing .paragraph-grid{
-        margin-top:6px !important;
+        margin-top:8px !important;
         column-count:2 !important;
         gap:0 !important;
       }
       section#pricing .paragraph-item{
-        padding:4px 0 !important;
+        padding:5px 0 !important;
         break-inside:avoid;
       }
-      section#pricing .paragraph-item h3{font-size:14px !important;margin-bottom:1px !important}
-      section#pricing .paragraph-item p{font-size:12px !important;line-height:1.4 !important}
+      section#pricing .paragraph-item h3{font-size:12px !important;margin-bottom:2px !important}
+      section#pricing .paragraph-item p{font-size:11px !important;line-height:1.4 !important}
 
       /* ── Demo section: spacing above description text ── */
       section#demo .glass-panel{padding:14px 16px}
       section#demo .section-title{margin-bottom:14px}
       section#demo > .container > p.reveal{margin-top:0 !important;margin-bottom:10px !important;font-size:13px !important;line-height:1.6 !important}
 
-      /* ── FAQ ── */
+      /* ── FAQ: compact, fits all items ── */
       section#faq{overflow:hidden}
       section#faq .glass-panel{padding:12px 14px;overflow:hidden}
       section#faq .section-title{margin-bottom:6px !important}
-      section#faq .section-title h2{font-size:26px !important;line-height:1.15}
+      section#faq .section-title h2{font-size:clamp(16px,5vw,20px) !important}
       section#faq .accordion{margin-top:6px !important}
       section#faq .accordion-item{border-bottom:1px solid var(--border)}
-      section#faq .accordion-header{font-size:15px !important;padding:7px 0 !important;font-weight:600}
-      section#faq .accordion-body p{font-size:13px !important;line-height:1.5 !important;padding:0 0 6px !important}
+      section#faq .accordion-header{font-size:12px !important;padding:7px 0 !important;font-weight:600}
+      section#faq .accordion-body p{font-size:11px !important;line-height:1.5 !important;padding:0 0 6px !important}
 
       section#contact .glass-panel{padding:20px 16px}
 
