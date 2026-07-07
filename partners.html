@@ -555,7 +555,7 @@
 
     /* ── Desktop hamburger trigger ── */
     .desk-ham-trigger{
-      display:flex;align-items:center;gap:8px;
+      display:none;align-items:center;gap:8px;
       background:none;border:1px solid var(--border);
       border-radius:var(--radius-pill);
       padding:8px 14px;cursor:pointer;
@@ -565,7 +565,11 @@
     .desk-ham-trigger:hover{background:rgba(59,18,24,.04);border-color:rgba(59,18,24,.22);color:var(--text)}
     .desk-ham-lines{display:flex;flex-direction:column;gap:3.5px;width:14px}
     .desk-ham-lines span{display:block;height:1.5px;background:currentColor;border-radius:2px;transition:transform .2s,opacity .2s}
-    @media (max-width:900px){.desk-ham-trigger{display:none}}
+    @media (min-width:901px){
+      .desk-ham-trigger{display:flex}
+      .nav-links{display:none !important}
+    }
+    @media (max-width:900px){.desk-ham-trigger{display:none !important}}
 
     /* ── Mobile hamburger ── */
     .hamburger{
