@@ -1757,11 +1757,13 @@
         transition:none;
       }
 
-      /* mandatory snap so each swipe = exactly 1 section */
+      /* mandatory snap so each swipe = exactly 1 section — reels-like */
       html{
         scroll-snap-type:y mandatory;
         overflow-y:scroll;
         scroll-padding-top:68px;
+        scroll-behavior:auto;
+        overscroll-behavior-y:none;
       }
 
       /* every screen-sized section */
@@ -2065,7 +2067,7 @@
       }
       .hscroll-slide .calc-box{padding:8px 10px;gap:0}
       .hscroll-slide .calc-field{margin-bottom:4px;gap:2px}
-      .hscroll-slide .calc-field label{font-size:10px;line-height:1.2}
+      .hscroll-slide .calc-field label{font-size:12px;line-height:1.2}
       .hscroll-slide .calc-field input[type=range]{height:16px;margin:0}
       .hscroll-slide .calc-hint{display:none}
       .hscroll-slide .calc-result-box{padding:8px 10px}
@@ -2113,10 +2115,10 @@
         overflow-y:auto;
         border-left:none !important;
       }
-      .formats-swipe-wrap .pricing-card h3{font-size:15px;margin-bottom:4px}
-      .formats-swipe-wrap .pricing-card .price{font-size:20px;margin:6px 0}
+      .formats-swipe-wrap .pricing-card h3{font-size:18px;margin-bottom:4px}
+      .formats-swipe-wrap .pricing-card .price{font-size:22px;margin:6px 0}
       .formats-swipe-wrap .pricing-card ul{margin-top:8px}
-      .formats-swipe-wrap .pricing-card li{font-size:13px;padding:4px 0}
+      .formats-swipe-wrap .pricing-card li{font-size:15px;padding:4px 0}
       .formats-swipe-wrap .pricing-card [style*="border-left"]{margin-top:8px;padding:8px 10px;font-size:.82rem}
       .formats-swipe-dots{margin-top:8px}
       .formats-swipe-dots::before{content:"← свайп →";font-size:10px;color:var(--text-muted)}
@@ -2203,17 +2205,17 @@
       .hscroll-slide .calc-grid{grid-template-columns:1fr;gap:6px}
       .hscroll-slide .calc-box{padding:8px 10px;gap:0}
       .hscroll-slide .calc-field{margin-bottom:3px;gap:1px}
-      .hscroll-slide .calc-field label{font-size:10px;line-height:1.2}
+      .hscroll-slide .calc-field label{font-size:12px;line-height:1.2}
       .hscroll-slide .calc-field input[type=range]{height:14px;margin:0}
       .hscroll-slide .calc-hint{display:none}
       .hscroll-slide .calc-result-box{padding:6px 10px}
-      .hscroll-slide .calc-result-num{font-size:20px}
-      .hscroll-slide .calc-result-sub{font-size:9px}
+      .hscroll-slide .calc-result-num{font-size:24px}
+      .hscroll-slide .calc-result-sub{font-size:11px}
       #hslide-calculator [style*="grid-template-columns:1fr 1fr"]{gap:5px;margin-top:5px !important}
       #hslide-calculator [style*="grid-template-columns:1fr 1fr"] > div{padding:6px 8px !important}
-      #hslide-calculator [style*="grid-template-columns:1fr 1fr"] > div > div:first-child{font-size:8px !important;margin-bottom:1px !important}
-      #hslide-calculator [style*="grid-template-columns:1fr 1fr"] > div > div:last-child{font-size:15px !important}
-      .hscroll-slide #calcDetailsBtn{margin-top:5px;padding:6px 12px;font-size:12px}
+      #hslide-calculator [style*="grid-template-columns:1fr 1fr"] > div > div:first-child{font-size:11px !important;margin-bottom:1px !important}
+      #hslide-calculator [style*="grid-template-columns:1fr 1fr"] > div > div:last-child{font-size:18px !important}
+      .hscroll-slide #calcDetailsBtn{margin-top:5px;padding:6px 12px;font-size:13px}
 
       /* printer-paper stack uses natural sticky z-index — no extra animation needed */
     }
