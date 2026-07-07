@@ -457,6 +457,102 @@
     @media (max-width:900px){
       .nav-links{display:none}
     }
+    /* ── Desktop side nav drawer ── */
+    .desk-nav-drawer{
+      position:fixed;left:0;top:0;bottom:0;
+      width:260px;
+      background:var(--bg);
+      border-right:1px solid var(--border);
+      z-index:200;
+      display:flex;flex-direction:column;
+      transform:translateX(-100%);
+      transition:transform .35s cubic-bezier(.4,0,.2,1);
+      box-shadow:4px 0 32px rgba(59,18,24,.08);
+    }
+    .desk-nav-drawer.open{transform:translateX(0)}
+    .desk-nav-head{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:18px 20px;border-bottom:1px solid var(--border);
+    }
+    .desk-nav-logo{display:flex;align-items:center}
+    .desk-nav-logo img{height:32px;width:auto}
+    .desk-nav-close{
+      background:none;border:1px solid var(--border);
+      color:var(--text-muted);border-radius:50%;
+      width:30px;height:30px;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;
+      font-size:14px;transition:background .2s,color .2s,border-color .2s;
+    }
+    .desk-nav-close:hover{background:var(--brand-soft);color:var(--bronze);border-color:var(--bronze)}
+    .desk-nav-links{
+      flex:1;overflow-y:auto;
+      display:flex;flex-direction:column;
+      padding:8px 0;
+    }
+    .desk-nav-links a{
+      display:flex;align-items:center;gap:12px;
+      padding:11px 20px;
+      font-size:14px;color:var(--text-muted);
+      border-bottom:1px solid var(--border);
+      transition:background .18s,color .18s;
+      text-decoration:none;
+    }
+    .desk-nav-links a:first-child{border-top:1px solid var(--border)}
+    .desk-nav-links a:hover,.desk-nav-links a.active{
+      background:rgba(59,18,24,.04);
+      color:var(--text);
+    }
+    .desk-nav-icon{
+      width:22px;height:22px;
+      display:flex;align-items:center;justify-content:center;
+      color:var(--text-soft);flex-shrink:0;
+    }
+    .desk-nav-links a:hover .desk-nav-icon,
+    .desk-nav-links a.active .desk-nav-icon{color:var(--bronze)}
+    .desk-nav-footer{
+      padding:16px 20px;
+      display:flex;flex-direction:column;gap:8px;
+      border-top:1px solid var(--border);
+    }
+    .desk-nav-backdrop{
+      position:fixed;inset:0;z-index:199;
+      background:rgba(34,26,23,.35);
+      backdrop-filter:blur(2px);
+      opacity:0;pointer-events:none;
+      transition:opacity .3s ease;
+    }
+    .desk-nav-backdrop.visible{opacity:1;pointer-events:all}
+    @media(max-width:768px){
+      .desk-nav-drawer,.desk-nav-backdrop{display:none !important}
+    }
+
+    /* ── Mobile nav ── */
+    .mobile-nav{
+      position:fixed;inset:0;z-index:300;
+      background:var(--bg);
+      display:flex;flex-direction:column;
+      padding:56px 32px 32px;
+      gap:4px;
+      transform:translateX(100%);
+      transition:transform .35s cubic-bezier(.4,0,.2,1);
+    }
+    .mobile-nav.open{transform:translateX(0)}
+    .mobile-nav a{
+      padding:14px 0;font-size:18px;font-weight:300;
+      color:var(--text);border-bottom:1px solid var(--border);
+      text-decoration:none;
+    }
+    .mobile-nav a:hover{color:var(--bronze)}
+    .mobile-nav-close{
+      position:absolute;top:16px;right:20px;
+      background:none;border:1px solid var(--border);
+      border-radius:50%;width:36px;height:36px;
+      display:flex;align-items:center;justify-content:center;
+      cursor:pointer;font-size:16px;color:var(--text-muted);
+    }
+    .mobile-nav-tg{margin-top:16px;text-align:center;justify-content:center}
+    @media(min-width:769px){.mobile-nav{display:none !important}}
+
     /* ── Desktop hamburger trigger ── */
     .desk-ham-trigger{
       display:flex;align-items:center;gap:8px;
@@ -589,6 +685,64 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </button>
     </div>
   </header>
+
+  <!-- Desktop side nav drawer -->
+  <div class="desk-nav-drawer" id="deskNavDrawer" aria-hidden="true" aria-label="Навігація">
+    <div class="desk-nav-head">
+      <a href="/" class="desk-nav-logo" onclick="document.getElementById('deskNavDrawer').classList.remove('open');document.getElementById('deskNavBackdrop').classList.remove('visible')">
+        <img src="assets/logo/novellum-mark.svg" alt="Nóvellum" width="32" height="32" />
+      </a>
+      <button class="desk-nav-close" id="deskNavClose" aria-label="Закрити меню">✕</button>
+    </div>
+    <nav class="desk-nav-links">
+      <a href="/#value">
+        <span class="desk-nav-icon" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="1" y="8" width="3" height="6" rx=".6" fill="currentColor"/><rect x="6" y="5" width="3" height="9" rx=".6" fill="currentColor"/><rect x="11" y="2" width="3" height="12" rx=".6" fill="currentColor"/></svg></span>
+        Цінність
+      </a>
+      <a href="/#formats">
+        <span class="desk-nav-icon" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1.5" y="3.5" width="12" height="8" rx="1.5"/><line x1="1.5" y1="6.5" x2="13.5" y2="6.5"/></svg></span>
+        Формати
+      </a>
+      <a href="/#products">
+        <span class="desk-nav-icon" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="7.5" cy="7.5" r="5.5"/><circle cx="7.5" cy="7.5" r="2" fill="currentColor" stroke="none"/></svg></span>
+        Продукт
+      </a>
+      <a href="/#process">
+        <span class="desk-nav-icon" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><line x1="2" y1="4" x2="10" y2="4"/><polyline points="7,1.5 10,4 7,6.5"/><line x1="5" y1="11" x2="13" y2="11"/><polyline points="10,8.5 13,11 10,13.5"/></svg></span>
+        Процес
+      </a>
+      <a href="/#pricing">
+        <span class="desk-nav-icon" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><polyline points="1,11 4.5,6 7.5,8.5 11,4 14,5"/></svg></span>
+        Аналітика
+      </a>
+      <a href="partners.html" class="active">
+        <span class="desk-nav-icon" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="4.5" cy="7.5" r="3.5"/><circle cx="10.5" cy="7.5" r="3.5"/></svg></span>
+        Партнерство
+      </a>
+      <a href="#contact">
+        <span class="desk-nav-icon" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1.5" y="3.5" width="12" height="8" rx="1.5"/><polyline points="1.5,4.5 7.5,9 13.5,4.5"/></svg></span>
+        Контакти
+      </a>
+    </nav>
+    <div class="desk-nav-footer">
+      <a class="button primary" href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener">Написати в LinkedIn →</a>
+      <a class="button secondary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener">Telegram</a>
+    </div>
+  </div>
+  <div class="desk-nav-backdrop" id="deskNavBackdrop"></div>
+
+  <!-- Mobile nav -->
+  <nav class="mobile-nav" id="mobileNav" aria-label="Мобільна навігація">
+    <button class="mobile-nav-close" id="mobileNavClose" aria-label="Закрити меню">✕</button>
+    <a href="/#value">Цінність</a>
+    <a href="/#formats">Формати</a>
+    <a href="/#products">Продукт</a>
+    <a href="/#process">Процес</a>
+    <a href="/#pricing">Аналітика</a>
+    <a href="partners.html" class="active">Партнерство</a>
+    <a href="#contact">Контакти</a>
+    <a class="button primary mobile-nav-tg" href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener noreferrer">Написати в LinkedIn</a>
+  </nav>
 
   <main>
     <section class="hero" id="top">
@@ -917,6 +1071,50 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   if(nextBtn) nextBtn.addEventListener('click', function(){ goTo(cur+1); });
 
   goTo(0);
+})();
+</script>
+
+<script>
+// ── Desktop nav drawer ──
+(function(){
+  var trigger  = document.getElementById('deskHamBtn');
+  var drawer   = document.getElementById('deskNavDrawer');
+  var backdrop = document.getElementById('deskNavBackdrop');
+  var closeBtn = document.getElementById('deskNavClose');
+  if (!trigger || !drawer) return;
+  function openNav(){
+    drawer.classList.add('open');
+    drawer.setAttribute('aria-hidden','false');
+    backdrop.classList.add('visible');
+    trigger.setAttribute('aria-expanded','true');
+    var first = drawer.querySelector('a,button');
+    if (first) setTimeout(function(){ first.focus(); }, 50);
+  }
+  function closeNav(){
+    drawer.classList.remove('open');
+    drawer.setAttribute('aria-hidden','true');
+    backdrop.classList.remove('visible');
+    trigger.setAttribute('aria-expanded','false');
+  }
+  trigger.addEventListener('click', openNav);
+  if (closeBtn) closeBtn.addEventListener('click', closeNav);
+  backdrop.addEventListener('click', closeNav);
+  drawer.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeNav); });
+  document.addEventListener('keydown', function(e){ if (e.key==='Escape') closeNav(); });
+})();
+
+// ── Mobile nav ──
+(function(){
+  var btn   = document.getElementById('hamburgerBtn');
+  var nav   = document.getElementById('mobileNav');
+  var close = document.getElementById('mobileNavClose');
+  if (!btn || !nav) return;
+  function open(){ nav.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
+  function shut(){ nav.classList.remove('open'); btn.setAttribute('aria-expanded','false'); }
+  btn.addEventListener('click', open);
+  if (close) close.addEventListener('click', shut);
+  nav.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', shut); });
+  document.addEventListener('keydown', function(e){ if (e.key==='Escape') shut(); });
 })();
 </script>
 
