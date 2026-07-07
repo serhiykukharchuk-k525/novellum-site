@@ -1750,17 +1750,13 @@
       /* mobile-only slide visible */
       .mob-only-slide{display:block !important}
 
-      /* printer-paper stack: sections sticky at top, z-index set via JS */
-      html{ scroll-snap-type:none; overflow-y:scroll; }
-
-      /* fixed header so it floats above all sticky sections */
-      body > header{
-        position:fixed !important;
-        top:0; left:0; right:0;
-        z-index:950;
+      /* mandatory snap so each swipe = exactly 1 section */
+      html{
+        scroll-snap-type:y mandatory;
+        overflow-y:scroll;
       }
 
-      /* every screen-sized section: sticky stack */
+      /* every screen-sized section */
       .hero,
       .hscroll-slide,
       section#demo,
@@ -1768,9 +1764,9 @@
       section#not-for,
       section#faq,
       section#contact{
-        position:sticky;
-        top:0;
         height:100svh;
+        scroll-snap-align:start;
+        scroll-snap-stop:always;
         overflow:hidden;
         box-sizing:border-box;
         display:flex;
@@ -1778,10 +1774,19 @@
         justify-content:center;
       }
 
+      /* printer-paper entry animation */
+      .mob-snap-in{
+        animation:mob-printer-in .32s cubic-bezier(.22,.9,.36,1) both;
+      }
+      @keyframes mob-printer-in{
+        from{ clip-path:inset(100% 0 0 0); }
+        to{ clip-path:inset(0% 0 0 0); }
+      }
+
       /* ── Hero: text top half, live-dash bottom half ── */
       .hero{
         min-height:unset;
-        padding:64px 0 10px;   /* 64px clears the fixed header */
+        padding:52px 0 10px;
         justify-content:flex-start;
       }
       .hero-grid{
@@ -1886,7 +1891,7 @@
         flex-direction:column;
         justify-content:center;
         box-sizing:border-box;
-        padding-top:60px;   /* clear fixed header */
+        padding-top:0;
       }
 
       /* glass-panel inside slides */
@@ -2069,7 +2074,7 @@
 
       /* ── Sections after hscroll ── */
       section#demo,section#pricing,section#not-for,section#faq,section#contact{
-        padding:68px 0 24px;   /* 68px top clears fixed header */
+        padding:24px 0;
         justify-content:flex-start;
         overflow-y:auto;
       }

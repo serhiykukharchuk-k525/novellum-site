@@ -1392,22 +1392,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
 });
 
-    // ── Mobile: printer-paper stack — assign z-index in DOM order ──
-    if (window.matchMedia('(max-width:768px)').matches) {
-      var mobileSections = Array.from(document.querySelectorAll(
+    // ── Mobile: printer-paper entry animation via IntersectionObserver ──
+    if (window.matchMedia('(max-width:768px)').matches && 'IntersectionObserver' in window) {
+      var printerSections = document.querySelectorAll(
         '.hero, .hscroll-slide, section#demo, section#pricing, section#faq, section#contact'
-      ));
-      mobileSections.forEach(function(s, i) { s.style.zIndex = i + 1; });
-
-      // Simplified auto-hide for mobile (fixed header)
-      var mHdr = document.querySelector('body > header');
-      var mLastY = window.scrollY;
-      window.addEventListener('scroll', function(){
-        var y = window.scrollY;
-        if (y > mLastY + 6) mHdr.classList.add('header-hidden');
-        else if (y < mLastY - 6) mHdr.classList.remove('header-hidden');
-        mLastY = y;
-      }, { passive: true });
+      );
+      var printerObs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            var el = entry.target;
+            el.classList.remove('mob-snap-in');
+            void el.offsetWidth;
+            el.classList.add('mob-snap-in');
+          }
+        });
+      }, { threshold: 0.3 });
+      printerSections.forEach(function(s) { printerObs.observe(s); });
     }
 
     // ── Hamburger menu ──
@@ -1940,9 +1940,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
 })();
 
-// ── Header auto-hide: desktop only (mobile has its own handler above) ──
+// ── Header auto-hide: sticky during hero+hscroll, hide-on-down after hscroll ──
 (function() {
-  if (window.matchMedia('(max-width:768px)').matches) return;
   var hdr = document.querySelector('body > header');
   var hscrollOuter = document.getElementById('hscrollOuter');
   if (!hdr || !hscrollOuter) return;
