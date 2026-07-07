@@ -278,6 +278,22 @@
       background:linear-gradient(90deg, rgba(59,18,24,.0), rgba(59,18,24,.55), rgba(122,35,51,.45), rgba(59,18,24,.0));
       opacity:.9;
     }
+    /* Hero typewriter wrapper — underline lives here so it stays visible during word fade */
+    .tw-wrap{
+      position:relative;
+      display:inline-block;
+    }
+    .tw-wrap::after{
+      content:"";
+      position:absolute;left:0;right:0;bottom:-6px;height:2px;
+      border-radius:99px;
+      background:linear-gradient(90deg, rgba(59,18,24,.0), rgba(59,18,24,.55), rgba(122,35,51,.45), rgba(59,18,24,.0));
+      opacity:.9;
+      pointer-events:none;
+    }
+    .typewriter-word{
+      transition:opacity .22s ease;
+    }
 
     /* HERO */
     .hero{
@@ -1144,7 +1160,7 @@
     }
     .brand-logos-track{
       display:flex;gap:16px;width:max-content;
-      animation:marquee-scroll 60s linear infinite;
+      animation:marquee-scroll 110s linear infinite;
       will-change:transform;
     }
     .brand-logos-track:hover{animation-play-state:paused}
@@ -1560,18 +1576,29 @@
 
       /* pricing grid: tighten */
       .hscroll-slide .pricing-grid{gap:12px}
-      .hscroll-slide .pricing-card{padding:18px 24px}
+      .hscroll-slide .pricing-card{padding:14px 20px;gap:8px}
+      .hscroll-slide .pricing-card h3{font-size:15px;margin-bottom:4px}
+      .hscroll-slide .pricing-card .price{font-size:22px;line-height:1.1}
+      .hscroll-slide .pricing-card ul{margin-top:4px}
+      .hscroll-slide .pricing-card ul li{font-size:13px;padding:2px 0}
+      .hscroll-slide .pricing-card p[style*="margin-top:16px"]{margin-top:8px !important;padding:8px 10px !important;font-size:.82rem !important}
+      .hscroll-slide .pricing-card .terms{font-size:11px}
+      .hscroll-slide .format-track{margin:4px 0}
 
       /* urgency strip: less margin */
-      .hscroll-slide .urgency-strip{margin-top:12px !important}
+      .hscroll-slide .urgency-strip{margin-top:8px !important;padding:10px 14px}
 
       /* calc: tighten */
-      .hscroll-slide .calc-box{padding:16px}
-      .hscroll-slide .calc-grid{gap:16px}
+      .hscroll-slide .calc-box{padding:12px 16px}
+      .hscroll-slide .calc-grid{gap:12px}
+      .hscroll-slide .calc-field{margin-bottom:10px}
+      .hscroll-slide .calc-field label{font-size:13px}
+      .hscroll-slide .calc-result-num{font-size:32px !important}
+      .hscroll-slide #calcDetailsBtn{margin-top:10px;padding:9px 14px}
 
-      /* calculator slide: has a text div + section, reduce spacing */
+      /* calculator slide: hide preamble text, reduce spacing */
       #hslide-calculator{flex-direction:column;justify-content:center;gap:0}
-      #hslide-calculator > div{padding-top:16px}
+      #hslide-calculator > div{display:none}
       #hslide-calculator > section{flex:unset}
 
       /* ── UI chrome ── */
