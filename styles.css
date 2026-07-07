@@ -528,8 +528,6 @@
       display:none;
     }
 
-    /* Tighter top padding for the first section after hscroll */
-    section#demo{padding-top:24px}
 
     .section-title{
       display:flex;align-items:flex-end;justify-content:space-between;
@@ -1610,13 +1608,9 @@
       /* ── UI chrome ── */
       .hscroll-ui{
         position:absolute;
-        bottom:52px;left:50%;
-        transform:translateX(-50%);
-        display:flex;flex-direction:column;align-items:center;gap:6px;
+        top:14px;right:16px;
+        display:flex;flex-direction:column;align-items:flex-end;gap:4px;
         z-index:20;
-        background:none;
-        border:none;
-        padding:0;
         white-space:nowrap;
       }
 
@@ -1628,13 +1622,13 @@
       }
 
       .hscroll-nav-row{
-        display:flex;align-items:center;gap:10px;
+        display:flex;align-items:center;gap:8px;
         background:rgba(251,248,243,.88);
         backdrop-filter:blur(10px);
         -webkit-backdrop-filter:blur(10px);
         border:1px solid var(--border);
         border-radius:var(--radius-pill);
-        padding:5px 10px 5px 14px;
+        padding:4px 6px;
       }
 
       .hscroll-dots{display:flex;gap:5px}
@@ -1660,19 +1654,18 @@
         white-space:nowrap;
       }
 
-      .hscroll-arrows{display:flex;gap:4px}
-
       .hscroll-arrow{
-        width:28px;height:28px;
+        width:24px;height:24px;
         border-radius:50%;
         border:1px solid var(--border-strong);
         background:transparent;
         color:var(--text);
         cursor:pointer;
-        font-size:14px;
+        font-size:13px;
         display:flex;align-items:center;justify-content:center;
         transition:background .15s,border-color .15s,color .15s;
         line-height:1;
+        flex-shrink:0;
       }
       .hscroll-arrow:hover:not(:disabled){
         background:var(--brand-soft);
@@ -1681,19 +1674,8 @@
       }
       .hscroll-arrow:disabled{opacity:.25;cursor:default}
 
-      /* ── Progress bar ── */
-      .hscroll-progress{
-        position:absolute;bottom:0;left:0;right:0;
-        height:3px;
-        background:var(--border);
-        z-index:20;
-      }
-      .hscroll-progress-fill{
-        height:100%;width:0%;
-        background:linear-gradient(90deg,var(--brand-hi),var(--bronze-bright));
-        transition:width .08s linear;
-        border-radius:0 2px 2px 0;
-      }
+      /* ── Progress bar — hidden (was thick red line at hscroll/demo boundary) ── */
+      .hscroll-progress{display:none}
 
       /* ── Scroll hint ── */
       .hscroll-hint{
@@ -2086,8 +2068,10 @@
 
     /* narrative: 7 items → 2-col grid handles odd row naturally */
 
-    /* ── Process slide: hide bottom CTA, no overflow ── */
+    /* ── Process slide: hide deliverables + divider + CTA so timeline fits ── */
     @media(min-width:769px){
+      #hslide-process .process-divider{display:none}
+      #hslide-process .deliverables-grid{display:none}
       #hslide-process .glass-panel > div:last-child{display:none}
       #hslide-process .glass-panel{overflow:hidden}
     }
