@@ -127,7 +127,6 @@
     /* Sticky only top header */
     body > header{
       position:sticky;top:0;
-      border-top:2px solid #7A2333;
       background:rgba(251,248,243,.95);
       backdrop-filter:blur(14px);
       -webkit-backdrop-filter:blur(14px);
@@ -549,11 +548,6 @@
       font-size:clamp(24px,3vw,38px);
       line-height:1.12;
       letter-spacing:-.015em;
-      background:linear-gradient(135deg,#221A17 20%,#7A2333 100%);
-      -webkit-background-clip:text;
-      background-clip:text;
-      -webkit-text-fill-color:transparent;
-      color:transparent;
     }
     .section-title p{color:var(--text-muted);max-width:520px}
 
