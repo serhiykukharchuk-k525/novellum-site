@@ -1609,17 +1609,21 @@
       .hscroll-ui{
         position:absolute;
         top:14px;right:16px;
-        display:flex;flex-direction:column;align-items:flex-end;gap:4px;
+        display:flex;flex-direction:column;gap:6px;
         z-index:20;
         white-space:nowrap;
       }
 
-      .hscroll-arrows{
-        position:absolute;
-        bottom:20px;right:16px;
-        display:flex;gap:6px;
-        z-index:20;
+      .hscroll-row-top{
+        display:flex;align-items:center;gap:10px;
+        justify-content:flex-end;
       }
+
+      .hscroll-row-bottom{
+        display:flex;align-items:center;justify-content:space-between;gap:10px;
+      }
+
+      .hscroll-arrows{display:flex;gap:4px}
 
       .hscroll-label{
         font-size:11px;font-weight:600;
@@ -1710,7 +1714,7 @@
       .hscroll-sticky{position:static;height:auto;overflow:visible}
       .hscroll-track{display:block;transform:none !important;will-change:auto}
       .hscroll-slide{width:100%}
-      .hscroll-ui,.hscroll-arrows,.hscroll-progress,.hscroll-hint{display:none !important}
+      .hscroll-ui,.hscroll-progress,.hscroll-hint{display:none !important}
 
       /* mandatory snap so each swipe = exactly 1 section */
       html{
