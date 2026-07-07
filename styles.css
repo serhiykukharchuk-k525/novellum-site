@@ -1561,6 +1561,12 @@
       .hscroll-slide .section-title{margin-bottom:28px}
       .hscroll-slide .section-title::after{bottom:-8px}
       .hscroll-slide .pill{margin-bottom:6px !important}
+      /* hide decorative title line on all full-screen mobile sections */
+      section#demo .section-title::after,
+      section#pricing .section-title::after,
+      section#not-for .section-title::after,
+      section#faq .section-title::after,
+      section#contact .section-title::after{display:none}
 
       /* hide decorative/secondary elements that eat vertical space */
       .hscroll-slide .section-typewriter{display:none}
