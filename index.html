@@ -1348,12 +1348,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     var mobileNavClose = document.getElementById('mobileNavClose');
     function openMobileNav() {
       mobileNav.classList.add('open');
-      hamburgerBtn.setAttribute('aria-expanded', 'true');
+      if (hamburgerBtn) hamburgerBtn.setAttribute('aria-expanded', 'true');
       document.body.style.overflow = 'hidden';
     }
     function closeMobileNav() {
       mobileNav.classList.remove('open');
-      hamburgerBtn.setAttribute('aria-expanded', 'false');
+      if (hamburgerBtn) hamburgerBtn.setAttribute('aria-expanded', 'false');
+      // Also reset desk-ham-trigger if it opened this menu
+      var dht = document.getElementById('deskHamBtn');
+      if (dht) dht.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
     }
     if (hamburgerBtn) hamburgerBtn.addEventListener('click', openMobileNav);
@@ -1682,6 +1685,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   if (!trigger || !drawer) return;
 
   function openNav() {
+    // At ≤900px the desk drawer is hidden; open mobile nav instead
+    if (window.innerWidth <= 900) {
+      var mn = document.getElementById('mobileNav');
+      if (mn) { mn.classList.add('open'); document.body.style.overflow = 'hidden'; }
+      trigger.setAttribute('aria-expanded', 'true');
+      return;
+    }
     drawer.classList.add('open');
     drawer.setAttribute('aria-hidden', 'false');
     backdrop.classList.add('visible');
