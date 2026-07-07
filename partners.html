@@ -704,18 +704,35 @@
         justify-content:center;
       }
       .phscroll-slide .glass-panel{padding:14px 16px}
-      .phscroll-slide .section-title{margin-bottom:20px;gap:12px;flex-direction:column;align-items:flex-start}
-      .phscroll-slide .section-title h2{font-size:22px;line-height:1.2;margin-bottom:2px}
-      .phscroll-slide .section-title > p{font-size:13px;line-height:1.5;max-width:none}
-      .phscroll-slide .grid-3{grid-template-columns:1fr 1fr;gap:10px}
-      .phscroll-slide .card{padding:0 0 10px}
-      .phscroll-slide .card h3,.phscroll-slide .pricing-card h3{font-size:14px;margin-bottom:4px}
-      .phscroll-slide .card p,.phscroll-slide .pricing-card p,.phscroll-slide .pricing-card .terms{font-size:12px;line-height:1.5}
-      .phscroll-slide .pricing-grid{grid-template-columns:1fr;gap:8px}
-      .phscroll-slide .pricing-card:not(:first-child){border-left:none;padding-left:0;border-top:1px solid var(--border);padding-top:8px}
-      .phscroll-slide .price{font-size:12px}
+      .phscroll-slide .section-title{margin-bottom:16px;gap:10px;flex-direction:column;align-items:flex-start}
+      .phscroll-slide .section-title h2{font-size:26px;line-height:1.2;margin-bottom:2px}
+      .phscroll-slide .section-title > p{font-size:14px;line-height:1.5;max-width:none}
+      /* Цінність: 3 cards stacked in 1 col so they fill height evenly */
+      #phslide-value .grid-3{grid-template-columns:1fr;gap:10px}
+      #phslide-value .card{padding:10px 12px;border-bottom:none;border-radius:10px;background:rgba(122,35,51,.05);border:1px solid var(--border)}
+      /* Кому підходить: keep 2 col */
+      #phslide-for-whom .grid-3{grid-template-columns:1fr 1fr;gap:10px}
+      #phslide-for-whom .card{padding:8px 10px;border-bottom:none;border-radius:10px;background:rgba(122,35,51,.05);border:1px solid var(--border)}
+      .phscroll-slide .card h3{font-size:16px;margin-bottom:4px}
+      .phscroll-slide .card p{font-size:13px;line-height:1.5}
+      /* Formats: card-style redesign */
+      .phscroll-slide .pricing-grid{grid-template-columns:1fr;gap:10px}
+      .phscroll-slide .pricing-card{
+        border-left:none !important;padding-left:0 !important;
+        border-top:none !important;padding-top:0 !important;
+        border-radius:12px;
+        background:rgba(122,35,51,.06);
+        border:1px solid var(--border) !important;
+        padding:12px 14px !important;
+        gap:6px;
+      }
+      .phscroll-slide .pricing-card h3{font-size:17px;margin-bottom:2px}
+      .phscroll-slide .pricing-card p,.phscroll-slide .pricing-card .terms{font-size:13px;line-height:1.5}
+      .phscroll-slide .price{font-size:12px;font-weight:600;color:var(--accent);opacity:.8}
+      /* Synergy: hide subtitle to prevent overflow */
+      #phslide-synergy .section-title > p{display:none}
       #phslide-synergy [style*="margin-top:32px"]{margin-top:12px !important;gap:8px}
-      #phslide-synergy .button{font-size:12px;padding:8px 14px}
+      #phslide-synergy .button{font-size:13px;padding:9px 16px}
 
       /* contact: shrink to fit one screen */
       section#contact{justify-content:center}
