@@ -2079,9 +2079,10 @@
       .hscroll-slide .process-timeline{gap:10px;margin-top:8px}
       .hscroll-slide .process-step{padding:9px 12px}
 
-      /* ── Sections after hscroll: offset by header height so center = visual center ── */
+      /* ── Sections after hscroll: exact visible-viewport height so no gap under header ── */
       section#demo,section#pricing,section#not-for,section#faq,section#contact{
-        padding:68px 0 24px;
+        height:calc(100svh - 68px);
+        padding:24px 0;
         justify-content:center;
         overflow:hidden;
       }
@@ -2367,17 +2368,3 @@
       .vmarquee{display:none}
     }
 
-    /* ── Mobile: slide-in section transition ── */
-    @media(max-width:768px){
-      /* sections after hscroll slide up over the previous with a shadow */
-      section#demo,section#pricing,section#faq,section#contact,section#not-for{
-        position:relative;
-        z-index:1;
-        border-radius:20px 20px 0 0;
-        margin-top:-20px;
-        box-shadow:0 -8px 32px rgba(59,18,24,.10);
-        background:var(--bg);
-      }
-      section#faq{z-index:2}
-      section#contact{z-index:3}
-    }
