@@ -1489,10 +1489,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         twEl.textContent = prev;
         setInterval(function() {
           twIdx = (twIdx + 1) % twWords.length;
-          (twWrap || twEl).style.opacity = '0';
+          twEl.style.opacity = '0';
           setTimeout(function() {
             twEl.textContent = twWords[twIdx];
-            (twWrap || twEl).style.opacity = '1';
+            twEl.style.opacity = '1';
           }, 230);
         }, 2800);
       });
