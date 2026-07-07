@@ -1104,9 +1104,15 @@
       flex-direction:column;align-items:center;justify-content:center;
       gap:6px;
       padding:80px 24px 40px;
+      overflow-y:auto;
       visibility:hidden;opacity:0;
       transform:translateY(-10px) scale(0.98);
       transition:opacity .42s ease,transform .42s ease,visibility 0s .42s;
+    }
+    @media(max-height:640px){
+      .mobile-nav{justify-content:flex-start;padding-top:64px;gap:2px}
+      .mobile-nav a{font-size:15px;padding:8px 20px}
+      .mobile-nav-tg{margin-top:8px}
     }
     .mobile-nav.open{
       visibility:visible;opacity:1;transform:none;
