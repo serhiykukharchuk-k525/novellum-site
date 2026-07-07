@@ -306,7 +306,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="pill"><span class="dot"></span>Power BI · Управлінська аналітика · МСБ</div>
 
           <h1 class="title-accent">
-            Бізнес має бути <span class="tw-wrap"><span class="accent-word typewriter-word">зрозумілим</span><span class="tw-cursor" aria-hidden="true"></span></span> без додаткових пояснень.
+            Бізнес має бути <span class="tw-wrap"><span class="accent-word typewriter-word">зрозумілим</span><span class="tw-cursor" aria-hidden="true"></span></span><br class="hero-br-mobile"> без додаткових пояснень.
           </h1>
 
           <div class="hero-subtitle">
@@ -1485,7 +1485,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(function() {
         var prev = twEl.textContent;
         twEl.textContent = twWords.reduce(function(a, b) { return a.length >= b.length ? a : b; });
-        if (twWrap) twWrap.style.minWidth = twEl.offsetWidth + 'px';
+        if (twWrap) twWrap.style.minWidth = twWrap.offsetWidth + 'px';
         twEl.textContent = prev;
         setInterval(function() {
           twIdx = (twIdx + 1) % twWords.length;
