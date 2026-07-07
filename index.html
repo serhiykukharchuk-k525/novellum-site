@@ -1846,6 +1846,54 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   // Initial state
   updateUI(0, 0);
+
+  // ── Touch-to-scroll: vertical drag → horizontal progress (touch screens on desktop layout) ──
+  var sticky = document.getElementById('hscrollSticky');
+  if (sticky) {
+    var touchStartY = 0, touchStartScrollY = 0;
+    sticky.addEventListener('touchstart', function(e) {
+      touchStartY = e.touches[0].clientY;
+      touchStartScrollY = window.scrollY;
+    }, { passive: true });
+    sticky.addEventListener('touchmove', function(e) {
+      var dy = touchStartY - e.touches[0].clientY;
+      // Only intercept vertical drag while within hscroll zone
+      var rect = outer.getBoundingClientRect();
+      var scrollable = N * window.innerHeight - window.innerHeight;
+      var p = -rect.top / scrollable;
+      if (p >= 0 && p <= 1) {
+        window.scrollTo(0, touchStartScrollY + dy * 1.5);
+        e.preventDefault();
+      }
+    }, { passive: false });
+  }
+})();
+
+// ── Header auto-hide: sticky during hero+hscroll, hide-on-down after hscroll ──
+(function() {
+  var hdr = document.querySelector('body > header');
+  var hscrollOuter = document.getElementById('hscrollOuter');
+  if (!hdr || !hscrollOuter) return;
+
+  var lastY = window.scrollY;
+
+  window.addEventListener('scroll', function() {
+    var y = window.scrollY;
+    var hscrollEnd = hscrollOuter.offsetTop + hscrollOuter.offsetHeight;
+
+    if (y < hscrollEnd) {
+      // Before / during hscroll — always visible
+      hdr.classList.remove('header-hidden');
+    } else {
+      // After hscroll — hide on scroll down, show on scroll up
+      if (y > lastY + 4) {
+        hdr.classList.add('header-hidden');
+      } else if (y < lastY - 4) {
+        hdr.classList.remove('header-hidden');
+      }
+    }
+    lastY = y;
+  }, { passive: true });
 })();
 </script>
 <script>
