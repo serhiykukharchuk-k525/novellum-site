@@ -614,7 +614,6 @@
       display:flex;
       will-change:transform;
       min-height:0;
-      order:1;
     }
     .phscroll-slide{
       flex:0 0 100%;
@@ -629,7 +628,6 @@
       gap:12px;
       padding:0 0 14px;
       flex-shrink:0;
-      order:2;
     }
     .phscroll-dots{display:flex;gap:6px;align-items:center}
     .phscroll-dot{
@@ -778,11 +776,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- ═══ Horizontal scroll: Кому підходить · Цінність · Формати · Синергія ═══ -->
     <div class="phscroll-outer" id="partnerHscroll">
       <div class="phscroll-sticky" id="phSticky">
-        <div class="phscroll-nav" aria-label="Навігація по секціях">
-          <button class="phscroll-btn" id="phPrev" aria-label="Попередня секція">←</button>
-          <div class="phscroll-dots" id="phDots"></div>
-          <button class="phscroll-btn" id="phNext" aria-label="Наступна секція">→</button>
-        </div>
         <div class="phscroll-track" id="phTrack">
 
         <div class="phscroll-slide" id="phslide-for-whom">
@@ -906,6 +899,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
 
       </div><!-- /phscroll-track -->
+        <div class="phscroll-nav" aria-label="Навігація по секціях">
+          <button class="phscroll-btn" id="phPrev" aria-label="Попередня секція">←</button>
+          <div class="phscroll-dots" id="phDots"></div>
+          <button class="phscroll-btn" id="phNext" aria-label="Наступна секція">→</button>
+        </div>
       </div><!-- /phscroll-sticky -->
     </div><!-- /phscroll-outer -->
 

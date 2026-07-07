@@ -1532,14 +1532,16 @@
       /* section::after divider line off — doesn't make sense inside slides */
       .hscroll-slide > section.divider::after{display:none}
 
-      /* glass-panel inside slides: compact + scrollable fallback */
+      /* glass-panel inside slides: compact + scrollable fallback (scrollbar hidden) */
       .hscroll-slide .glass-panel{
         max-height:calc(100vh - 96px);
         overflow-y:auto;
         overscroll-behavior:contain;
+        scrollbar-width:none;
         /* compact padding */
         padding:22px clamp(16px,3vw,40px);
       }
+      .hscroll-slide .glass-panel::-webkit-scrollbar{display:none}
 
       /* products slide: allow orbit icons to extend beyond glass-panel */
       #hslide-products .glass-panel{
@@ -1607,6 +1609,22 @@
       .hscroll-slide .calc-field label{font-size:13px}
       .hscroll-slide .calc-result-num{font-size:32px !important}
       .hscroll-slide #calcDetailsBtn{margin-top:10px;padding:9px 14px}
+
+      /* social proof slide: vertically centered large card */
+      #hslide-social-proof section{
+        display:flex;align-items:center;justify-content:center;
+        height:100%;box-sizing:border-box;
+      }
+      #hslide-social-proof .glass-panel{
+        display:flex;align-items:center;justify-content:center;
+        overflow:hidden !important;
+      }
+      #hslide-social-proof .card{
+        max-width:860px !important;
+        padding:44px 56px !important;
+        font-size:1rem;
+      }
+      #hslide-social-proof .card p:first-of-type{font-size:1.12rem !important;line-height:1.8 !important}
 
       /* calculator slide: hide preamble text, reduce spacing */
       #hslide-calculator{flex-direction:column;justify-content:center;gap:0}
