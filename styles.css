@@ -2147,10 +2147,16 @@
       section#pricing .paragraph-item h3{font-size:12px !important;margin-bottom:2px !important}
       section#pricing .paragraph-item p{font-size:11px !important;line-height:1.4 !important}
 
-      /* ── Demo section: spacing above description text ── */
+      /* ── Demo section ── */
       section#demo .glass-panel{padding:14px 16px}
       section#demo .section-title{margin-bottom:14px}
-      section#demo > .container > p.reveal{margin-top:0 !important;margin-bottom:10px !important;font-size:13px !important;line-height:1.6 !important}
+      section#demo .section-title h2{font-size:26px}
+      section#demo > .container > p.reveal{margin-top:0 !important;margin-bottom:10px !important;font-size:14px !important;line-height:1.6 !important}
+
+      /* ── Contact section ── */
+      section#contact h2{font-size:26px}
+      section#contact p.readability{font-size:14px}
+      section#contact input,section#contact textarea{font-size:15px}
 
       /* ── FAQ: compact, fits all items ── */
       section#faq{overflow:hidden}
