@@ -1736,10 +1736,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     if (sec) slideMap[sec.id] = i;
   });
 
-  // Set outer height: N slides + 0.5vh linger on the last slide
-  var LINGER = 0.5;
   function setHeight() {
-    outer.style.height = ((N + LINGER) * window.innerHeight) + 'px';
+    outer.style.height = (N * window.innerHeight) + 'px';
   }
   setHeight();
   window.addEventListener('resize', setHeight, { passive: true });
