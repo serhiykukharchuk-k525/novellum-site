@@ -277,13 +277,11 @@
       -webkit-background-clip:initial;
       background-clip:initial;
       color:var(--text);
-      text-shadow:0 2px 22px rgba(0,0,0,.45);
       position:relative;
     }
     .accent-word{
       color:rgba(34,26,23,1);
       position:relative;
-      text-shadow:0 0 22px rgba(122,35,51,.18);
     }
     .accent-word::after{
       content:"";
@@ -350,7 +348,7 @@
       line-height:1.12;
       letter-spacing:-.015em;
     }
-    .section-title p{color:var(--text-muted);max-width:520px;text-shadow:0 1px 14px rgba(0,0,0,.4)}
+    .section-title p{color:var(--text-muted);max-width:520px;}
 
     .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--gap)}
     .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--gap)}
@@ -439,12 +437,7 @@
     .footer a:hover{color:var(--text)}
 
     .lift{transition:transform .35s ease,box-shadow .35s ease,border-color .35s ease, filter .35s ease}
-    .lift:hover{
-      transform:translateY(-7px);
-      box-shadow:0 40px 90px rgba(0,0,0,.62);
-      border-color:rgba(122,35,51,.20);
-      filter:saturate(1.04);
-    }
+    /* no card hovers on partners page — buttons only */
     .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
     .reveal.in-view{opacity:1;transform:translateY(0)}
     @media (prefers-reduced-motion:reduce){.reveal,.lift{transition:none}}
@@ -469,6 +462,64 @@
       .cta{padding:30px}
       .logo .logo-horizontal{display:none}
       .logo .logo-mark{display:block;height:24px}
+    }
+
+    /* ── Partner horizontal scroll ── */
+    .phscroll-outer{
+      position:relative;
+      border-top:1px solid rgba(122,35,51,.15);
+      background:var(--bg);
+      overflow:hidden;
+    }
+    .phscroll-track{
+      display:flex;
+      overflow-x:hidden;
+      scroll-snap-type:x mandatory;
+      -webkit-overflow-scrolling:touch;
+    }
+    .phscroll-slide{
+      flex:0 0 100%;
+      width:100%;
+      scroll-snap-align:start;
+      padding:var(--section-pad) 0;
+    }
+    .phscroll-nav{
+      display:flex;align-items:center;justify-content:center;
+      gap:12px;
+      padding:18px 0 0;
+    }
+    .phscroll-dots{display:flex;gap:6px;align-items:center}
+    .phscroll-dot{
+      width:7px;height:7px;border-radius:50%;
+      background:rgba(122,35,51,.2);
+      border:none;cursor:pointer;padding:0;
+      transition:background .25s,transform .25s;
+    }
+    .phscroll-dot.active{
+      background:var(--bronze);
+      transform:scale(1.35);
+    }
+    .phscroll-btn{
+      background:none;border:1px solid rgba(122,35,51,.18);
+      color:var(--bronze);
+      border-radius:50%;width:32px;height:32px;
+      display:flex;align-items:center;justify-content:center;
+      cursor:pointer;font-size:14px;
+      transition:background .2s,opacity .2s;
+      padding:0;
+    }
+    .phscroll-btn:hover{background:rgba(122,35,51,.08)}
+    .phscroll-btn:disabled{opacity:.3;cursor:default}
+    @media (max-width:768px){
+      .phscroll-slide{padding:40px 0}
+    }
+
+    /* ── Contact form vertical layout ── */
+    .cta{
+      display:grid;gap:24px;
+      align-items:start;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      position:relative;
     }
   </style>
   <link rel="preload" href="animations.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -545,95 +596,106 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </section>
 
-    <section class="divider">
-      <div class="container glass-panel">
-        <div class="section-title reveal">
-          <div>
-            <div class="pill">Цінність</div>
-            <h2 class="title-accent">Що отримує партнер</h2>
-          </div>
-          <p>Ви залишаєтесь основним контактом для клієнта. Ми закриваємо аналітичну частину.</p>
-        </div>
-
-        <div class="grid-3">
-          <div class="card lift reveal">
-            <h3>Executive-аналітика</h3>
-            <p>Дашборд на Power BI, зручний для розмови з клієнтом про рішення.</p>
-          </div>
-          <div class="card lift reveal">
-            <h3>Сервісний режим</h3>
-            <p>Дашборд оновлюється і підтримується — не здається клієнту і забувається.</p>
-          </div>
-          <div class="card lift reveal">
-            <h3>Прозорі домовленості</h3>
-            <p>Хто що робить, хто за що відповідає — фіксуємо письмово до початку роботи.</p>
-          </div>
-        </div>
+    <!-- ═══ Horizontal scroll: Цінність · Формати · Синергія ═══ -->
+    <div class="phscroll-outer" id="partnerHscroll">
+      <div class="phscroll-nav" aria-label="Навігація по секціях">
+        <button class="phscroll-btn" id="phPrev" aria-label="Попередня секція">←</button>
+        <div class="phscroll-dots" id="phDots"></div>
+        <button class="phscroll-btn" id="phNext" aria-label="Наступна секція">→</button>
       </div>
-    </section>
+      <div class="phscroll-track" id="phTrack">
 
-    <section class="divider">
-      <div class="container glass-panel">
-        <div class="section-title reveal">
-          <div>
-            <div class="pill">Формати</div>
-            <h2 class="title-accent">Три моделі співпраці</h2>
-          </div>
-          <p>Вибір залежить від вашої ролі та способу роботи з клієнтом.</p>
-        </div>
+        <div class="phscroll-slide" id="phslide-value">
+          <div class="container glass-panel">
+            <div class="section-title reveal">
+              <div>
+                <div class="pill">Цінність</div>
+                <h2 class="title-accent">Що отримує партнер</h2>
+              </div>
+              <p>Ви залишаєтесь основним контактом для клієнта. Ми закриваємо аналітичну частину.</p>
+            </div>
 
-        <div class="pricing-grid">
-          <div class="pricing-card lift reveal">
-            <h3>Referral</h3>
-            <div class="price">Передача контакту</div>
-            <p class="terms">Ви передаєте контакт. Ми беремо на себе всю аналітичну роботу.</p>
-          </div>
-          <div class="pricing-card lift reveal">
-            <h3>Co-delivery</h3>
-            <div class="price">Спільна робота</div>
-            <p class="terms">Ви ведете свою частину проєкту, ми — аналітику і підтримку дашборду.</p>
-          </div>
-          <div class="pricing-card lift reveal">
-            <h3>White-label</h3>
-            <div class="price">Під вашим брендом</div>
-            <p class="terms">Ми працюємо у фоні під вашим брендом. Клієнт бачить вас — ми забезпечуємо аналітику.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- БЛОК: Повний ланцюг — додано -->
-    <section style="padding:var(--section-pad,72px) 0;border-top:1px solid rgba(122,35,51,.12)">
-      <div class="container glass-panel">
-        <div class="section-title reveal">
-          <div>
-            <div class="pill">Синергія</div>
-            <h2 class="title-accent">Ми закриваємо останній крок — від даних до картини.</h2>
-          </div>
-          <p>Наші партнери наводять порядок у системах і процесах. Ми будуємо аналітику поверх. Клієнт отримує повний ланцюг під ключ.</p>
-        </div>
-
-        <div class="grid-3" style="margin-top:8px">
-          <div class="card lift reveal">
-            <h3>Фінансовий консультант або CFO</h3>
-            <p>Навів порядок у фінансовій моделі і показниках — Nóvellum будує управлінський дашборд щоб власник бачив результат щотижня.</p>
-          </div>
-          <div class="card lift reveal">
-            <h3>RevOps або CRM спеціаліст</h3>
-            <p>Налаштував систему і очистив дані — Nóvellum підключається і будує аналітику поверх без доступу до самої CRM.</p>
-          </div>
-          <div class="card lift reveal">
-            <h3>ERP або 1С впроваджувач</h3>
-            <p>Запустив облік — Nóvellum підключається до джерела і робить зрозумілу картину для власника.</p>
+            <div class="grid-3">
+              <div class="card lift reveal">
+                <h3>Executive-аналітика</h3>
+                <p>Дашборд на Power BI, зручний для розмови з клієнтом про рішення.</p>
+              </div>
+              <div class="card lift reveal">
+                <h3>Сервісний режим</h3>
+                <p>Дашборд оновлюється і підтримується — не здається клієнту і забувається.</p>
+              </div>
+              <div class="card lift reveal">
+                <h3>Прозорі домовленості</h3>
+                <p>Хто що робить, хто за що відповідає — фіксуємо письмово до початку роботи.</p>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div style="margin-top:32px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
-          <a href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener" class="button primary">Обговорити партнерство в LinkedIn →</a>
-          <a href="https://t.me/serhiy_novellum" target="_blank" rel="noopener" class="button secondary">або Telegram</a>
+        <div class="phscroll-slide" id="phslide-formats">
+          <div class="container glass-panel">
+            <div class="section-title reveal">
+              <div>
+                <div class="pill">Формати</div>
+                <h2 class="title-accent">Три моделі співпраці</h2>
+              </div>
+              <p>Вибір залежить від вашої ролі та способу роботи з клієнтом.</p>
+            </div>
+
+            <div class="pricing-grid">
+              <div class="pricing-card lift reveal">
+                <h3>Referral</h3>
+                <div class="price">Передача контакту</div>
+                <p class="terms">Ви передаєте контакт. Ми беремо на себе всю аналітичну роботу.</p>
+              </div>
+              <div class="pricing-card lift reveal">
+                <h3>Co-delivery</h3>
+                <div class="price">Спільна робота</div>
+                <p class="terms">Ви ведете свою частину проєкту, ми — аналітику і підтримку дашборду.</p>
+              </div>
+              <div class="pricing-card lift reveal">
+                <h3>White-label</h3>
+                <div class="price">Під вашим брендом</div>
+                <p class="terms">Ми працюємо у фоні під вашим брендом. Клієнт бачить вас — ми забезпечуємо аналітику.</p>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </section>
+
+        <div class="phscroll-slide" id="phslide-synergy">
+          <div class="container glass-panel">
+            <div class="section-title reveal">
+              <div>
+                <div class="pill">Синергія</div>
+                <h2 class="title-accent">Ми закриваємо останній крок — від даних до картини.</h2>
+              </div>
+              <p>Наші партнери наводять порядок у системах і процесах. Ми будуємо аналітику поверх. Клієнт отримує повний ланцюг під ключ.</p>
+            </div>
+
+            <div class="grid-3" style="margin-top:8px">
+              <div class="card lift reveal">
+                <h3>Фінансовий консультант або CFO</h3>
+                <p>Навів порядок у фінансовій моделі і показниках — Nóvellum будує управлінський дашборд щоб власник бачив результат щотижня.</p>
+              </div>
+              <div class="card lift reveal">
+                <h3>RevOps або CRM спеціаліст</h3>
+                <p>Налаштував систему і очистив дані — Nóvellum підключається і будує аналітику поверх без доступу до самої CRM.</p>
+              </div>
+              <div class="card lift reveal">
+                <h3>ERP або 1С впроваджувач</h3>
+                <p>Запустив облік — Nóvellum підключається до джерела і робить зрозумілу картину для власника.</p>
+              </div>
+            </div>
+
+            <div style="margin-top:32px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+              <a href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener" class="button primary">Обговорити партнерство в LinkedIn →</a>
+              <a href="https://t.me/serhiy_novellum" target="_blank" rel="noopener" class="button secondary">або Telegram</a>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /phscroll-track -->
+    </div><!-- /phscroll-outer -->
 
     <section id="contact">
       <div class="container" style="padding:48px clamp(24px,4vw,56px)">
@@ -663,7 +725,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <footer class="footer">
     <div class="container footer-grid">
       <div>
-        <a class="logo" href="#top">
+        <a class="logo" href="/">
           <img class="logo-horizontal" src="assets/logo/novellum-horizontal.svg" alt="Nóvellum" />
           <img class="logo-mark" src="assets/logo/novellum-mark.svg" alt="Nóvellum" />
         </a>
@@ -785,6 +847,50 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </script>
 
 <script src="animations.js" defer></script>
+
+<script>
+(function(){
+  var track = document.getElementById('phTrack');
+  var slides = track ? Array.from(track.querySelectorAll('.phscroll-slide')) : [];
+  var dotsEl = document.getElementById('phDots');
+  var prevBtn = document.getElementById('phPrev');
+  var nextBtn = document.getElementById('phNext');
+  if(!track || !slides.length) return;
+
+  var N = slides.length;
+  var cur = 0;
+
+  slides.forEach(function(_,i){
+    var d = document.createElement('button');
+    d.className = 'phscroll-dot' + (i===0?' active':'');
+    d.setAttribute('aria-label','Секція '+(i+1));
+    d.addEventListener('click',function(){ goTo(i); });
+    dotsEl.appendChild(d);
+  });
+
+  function goTo(idx){
+    idx = Math.max(0, Math.min(N-1, idx));
+    cur = idx;
+    track.scrollTo({left: idx * track.offsetWidth, behavior:'smooth'});
+    Array.from(dotsEl.querySelectorAll('.phscroll-dot')).forEach(function(d,i){
+      d.classList.toggle('active', i===idx);
+    });
+    if(prevBtn) prevBtn.disabled = idx===0;
+    if(nextBtn) nextBtn.disabled = idx===N-1;
+  }
+
+  if(prevBtn) prevBtn.addEventListener('click', function(){ goTo(cur-1); });
+  if(nextBtn) nextBtn.addEventListener('click', function(){ goTo(cur+1); });
+
+  goTo(0);
+
+  // sync dots on native swipe
+  track.addEventListener('scroll', function(){
+    var idx = Math.round(track.scrollLeft / track.offsetWidth);
+    if(idx !== cur) goTo(idx);
+  }, {passive:true});
+})();
+</script>
 
 </body>
 </html>
