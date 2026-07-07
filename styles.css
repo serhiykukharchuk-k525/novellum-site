@@ -2098,7 +2098,7 @@
       /* ── Analytics (pricing) section: fit on one screen ── */
       section#pricing{overflow:hidden}
       section#pricing .glass-panel{padding:12px 14px;overflow:hidden}
-      section#pricing .section-title{margin-bottom:8px !important}
+      section#pricing .section-title{margin-bottom:28px !important}
       section#pricing .section-title h2{font-size:clamp(16px,5vw,20px) !important;margin-bottom:2px}
       section#pricing .section-title > p{font-size:11px;line-height:1.5}
       section#pricing .paragraph-grid{
