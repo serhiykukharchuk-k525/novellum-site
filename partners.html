@@ -655,14 +655,77 @@
     .phscroll-btn:hover{background:rgba(122,35,51,.08)}
     .phscroll-btn:disabled{opacity:.3;cursor:default}
     @media (max-width:768px){
-      .phscroll-sticky{height:auto;position:relative}
-      .phscroll-slide{height:auto;padding:40px 0;justify-content:flex-start}
-      .phscroll-track{flex-wrap:wrap}
-      /* hide pagination on mobile */
-      .phscroll-nav{display:none !important}
       /* hamburger before logo */
       .hamburger{order:-1}
+      /* hide pagination on mobile */
+      .phscroll-nav{display:none !important}
 
+      /* ── Snap scroll: reels-like, 1 section per screen ── */
+      html{
+        scroll-snap-type:y mandatory;
+        overflow-y:scroll;
+        scroll-padding-top:68px;
+        scroll-behavior:auto;
+      }
+      /* hero + each partner slide + contact → full-screen snap sections */
+      .hero,section#contact{
+        height:calc(100svh - 68px);
+        scroll-snap-align:start;
+        scroll-snap-stop:always;
+        overflow:hidden;
+        box-sizing:border-box;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+      }
+      .hero{
+        min-height:unset;
+        padding:40px 0 20px;
+        background:var(--surface);
+      }
+      .hero h1{font-size:clamp(22px,6vw,28px);line-height:1.2;margin:10px 0 8px;letter-spacing:-.01em}
+      .hero p{font-size:15px;line-height:1.6}
+      .hero .pill{font-size:10px;padding:5px 12px}
+
+      /* phscroll → vertical snap stack */
+      .phscroll-outer{height:auto !important}
+      .phscroll-sticky{position:static !important;height:auto !important;overflow:visible !important}
+      .phscroll-track{display:block !important;transform:none !important;flex-wrap:initial}
+      .phscroll-slide{
+        width:100%;
+        height:calc(100svh - 68px);
+        padding:16px 0;
+        box-sizing:border-box;
+        overflow:hidden;
+        scroll-snap-align:start;
+        scroll-snap-stop:always;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+      }
+      .phscroll-slide .glass-panel{padding:14px 16px}
+      .phscroll-slide .section-title{margin-bottom:20px;gap:12px;flex-direction:column;align-items:flex-start}
+      .phscroll-slide .section-title h2{font-size:22px;line-height:1.2;margin-bottom:2px}
+      .phscroll-slide .section-title > p{font-size:13px;line-height:1.5;max-width:none}
+      .phscroll-slide .grid-3{grid-template-columns:1fr 1fr;gap:10px}
+      .phscroll-slide .card{padding:0 0 10px}
+      .phscroll-slide .card h3,.phscroll-slide .pricing-card h3{font-size:14px;margin-bottom:4px}
+      .phscroll-slide .card p,.phscroll-slide .pricing-card p,.phscroll-slide .pricing-card .terms{font-size:12px;line-height:1.5}
+      .phscroll-slide .pricing-grid{grid-template-columns:1fr;gap:8px}
+      .phscroll-slide .pricing-card:not(:first-child){border-left:none;padding-left:0;border-top:1px solid var(--border);padding-top:8px}
+      .phscroll-slide .price{font-size:12px}
+      #phslide-synergy [style*="margin-top:32px"]{margin-top:12px !important;gap:8px}
+      #phslide-synergy .button{font-size:12px;padding:8px 14px}
+
+      /* contact: shrink to fit one screen */
+      section#contact{justify-content:center}
+      section#contact .container{padding:16px !important}
+      section#contact h2.title-accent{font-size:22px !important;margin-bottom:6px !important}
+      section#contact p{font-size:13px !important;margin-bottom:8px !important}
+      section#contact input,section#contact textarea{padding:7px 10px !important;margin-bottom:5px !important;font-size:13px !important}
+      section#contact textarea{min-height:50px !important}
+      section#contact #submitBtn{padding:9px !important;font-size:13px !important;margin-top:2px !important}
+      section#contact .terms{font-size:10px !important;margin-top:4px !important}
     }
 
     /* ── Contact form vertical layout ── */
