@@ -752,6 +752,7 @@
 
     .format-badge{
       display:inline-flex;align-items:center;justify-content:center;
+      justify-self:start;
       margin-bottom:6px;
       font-size:11px;letter-spacing:.06em;text-transform:uppercase;
       padding:5px 10px;border-radius:999px;
@@ -1883,10 +1884,9 @@
         box-sizing:border-box;
       }
 
-      /* section titles compact */
+      /* section titles: keep natural size, just tighten margin */
       .hscroll-slide .section-title h2,
       .hscroll-slide h2.title-accent{
-        font-size:clamp(17px,4.5vw,22px);
         margin-bottom:6px;
       }
       .hscroll-slide .section-eyebrow,
@@ -2107,7 +2107,7 @@
     /* ── Formats slide: compact so cards fit without internal scroll ── */
     @media(min-width:769px){
       #hslide-formats .section-title{margin-bottom:10px !important}
-      #hslide-formats .section-title h2{font-size:clamp(17px,1.5vw,22px) !important;margin-bottom:4px !important}
+      #hslide-formats .section-title h2{margin-bottom:4px !important}
       #hslide-formats .urgency-strip{margin-top:10px !important;padding:8px 12px !important}
       #hslide-formats .pricing-grid{gap:10px !important}
       #hslide-formats .pricing-card{padding:12px 16px !important;gap:6px !important}
@@ -2124,7 +2124,7 @@
     @media(min-width:769px){
       #hslide-process .glass-panel{overflow-x:hidden;overflow-y:auto}
       #hslide-process .section-title{margin-bottom:10px !important}
-      #hslide-process .section-title h2{font-size:clamp(16px,1.4vw,21px) !important;margin-bottom:4px !important}
+      #hslide-process .section-title h2{margin-bottom:4px !important}
       #hslide-process .process-timeline{gap:5px !important;margin-top:6px !important}
       #hslide-process .process-step{padding:6px 12px !important}
       #hslide-process .process-step h3{font-size:13px !important;margin-bottom:1px !important}
@@ -2158,7 +2158,6 @@
       }
       .hscroll-slide .section-title{margin-bottom:12px !important}
       .hscroll-slide .section-title h2{
-        font-size:clamp(14px,1.6vw,20px) !important;
         margin-bottom:3px !important;
       }
       .hscroll-slide .section-title > p{font-size:.82rem !important}
