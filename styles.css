@@ -1750,11 +1750,6 @@
       /* mobile-only slide visible */
       .mob-only-slide{display:block !important}
 
-      /* ── Global mobile typography — unified scale ── */
-      p,li{font-size:13px}
-      h2{font-size:clamp(20px,5.5vw,24px) !important}
-      h3{font-size:14px !important}
-
       /* header never hides on mobile */
       body > header{
         transition:none;
@@ -1805,8 +1800,8 @@
         grid-template-columns:1fr;
         gap:16px;
       }
-      .hero h1{font-size:clamp(20px,5.5vw,26px) !important;margin-bottom:4px;line-height:1.2;text-align:left}
-      .hero-subtitle{margin-top:0;text-align:left}
+      .hero h1{font-size:clamp(20px,5.5vw,26px);margin-bottom:4px;line-height:1.25;text-align:left}
+      .hero-subtitle{font-size:12px;margin-top:0;line-height:1.9;text-align:left}
       /* fix: container and hero-grid are same element, use shorter selector */
       .hero .hero-content > p{display:none}
       /* hero-content as flex column so CTA is vertically centered between subtitle and trust strip */
@@ -2121,7 +2116,8 @@
       section#pricing{overflow:hidden}
       section#pricing .glass-panel{padding:12px 14px;overflow:hidden}
       section#pricing .section-title{margin-bottom:28px !important}
-      section#pricing .section-title h2{margin-bottom:2px}
+      section#pricing .section-title h2{font-size:clamp(16px,5vw,20px) !important;margin-bottom:2px}
+      section#pricing .section-title > p{font-size:11px;line-height:1.5}
       section#pricing .paragraph-grid{
         margin-top:8px !important;
         column-count:2 !important;
@@ -2131,21 +2127,23 @@
         padding:5px 0 !important;
         break-inside:avoid;
       }
-      section#pricing .paragraph-item h3{margin-bottom:2px !important}
+      section#pricing .paragraph-item h3{font-size:12px !important;margin-bottom:2px !important}
+      section#pricing .paragraph-item p{font-size:11px !important;line-height:1.4 !important}
 
       /* ── Demo section: spacing above description text ── */
       section#demo .glass-panel{padding:14px 16px}
       section#demo .section-title{margin-bottom:14px}
-      section#demo > .container > p.reveal{margin-top:0 !important;margin-bottom:10px !important}
+      section#demo > .container > p.reveal{margin-top:0 !important;margin-bottom:10px !important;font-size:13px !important;line-height:1.6 !important}
 
       /* ── FAQ: compact, fits all items ── */
       section#faq{overflow:hidden}
       section#faq .glass-panel{padding:12px 14px;overflow:hidden}
       section#faq .section-title{margin-bottom:6px !important}
-      section#faq .accordion{margin-top:4px !important}
+      section#faq .section-title h2{font-size:clamp(16px,5vw,20px) !important}
+      section#faq .accordion{margin-top:6px !important}
       section#faq .accordion-item{border-bottom:1px solid var(--border)}
-      section#faq .accordion-header{font-size:13px !important;padding:7px 0 !important;font-weight:600}
-      section#faq .accordion-body p{padding:0 0 6px !important}
+      section#faq .accordion-header{font-size:12px !important;padding:7px 0 !important;font-weight:600}
+      section#faq .accordion-body p{font-size:11px !important;line-height:1.5 !important;padding:0 0 6px !important}
 
       /* ── Process slide mobile: hide divider+deliverables (they're in #hslide-results) ── */
       #hslide-process .process-divider{display:none !important}
@@ -2170,15 +2168,16 @@
         border-radius:12px;
       }
       #hslide-results .del-icon{font-size:20px}
-      #hslide-results .deliverable-item p{color:var(--text-muted);margin-top:2px}
+      #hslide-results .deliverable-item strong{font-size:12px}
+      #hslide-results .deliverable-item p{font-size:11px;color:var(--text-muted);margin-top:2px;line-height:1.4}
       #hslide-results > section > .glass-panel > div[style*="text-align:center"]{margin-top:16px !important}
       #hslide-results > section > .glass-panel > div[style*="text-align:center"] .button{font-size:12px;padding:8px 14px}
 
       /* ── Formats swipe: instant (no smooth), card content compact ── */
       .formats-swipe-wrap{scroll-behavior:auto !important}
       .formats-swipe-wrap .pricing-card .format-badge-wrap{margin-bottom:4px}
-      .formats-swipe-wrap .pricing-card ul li{padding:3px 0 !important}
-      .formats-swipe-wrap .pricing-card .terms{margin-top:5px !important}
+      .formats-swipe-wrap .pricing-card ul li{font-size:12px !important;padding:3px 0 !important}
+      .formats-swipe-wrap .pricing-card .terms{font-size:10px !important;margin-top:6px !important}
       /* hide description footer box in format card on mobile */
       .formats-swipe-wrap .pricing-card [style*="border-left"]{display:none !important}
 
@@ -2188,14 +2187,17 @@
       .hscroll-slide .calc-grid{grid-template-columns:1fr;gap:6px}
       .hscroll-slide .calc-box{padding:8px 10px;gap:0}
       .hscroll-slide .calc-field{margin-bottom:3px;gap:1px}
+      .hscroll-slide .calc-field label{font-size:10px;line-height:1.2}
       .hscroll-slide .calc-field input[type=range]{height:14px;margin:0}
       .hscroll-slide .calc-hint{display:none}
       .hscroll-slide .calc-result-box{padding:6px 10px}
-      .hscroll-slide .calc-result-num{font-size:22px}
+      .hscroll-slide .calc-result-num{font-size:20px}
+      .hscroll-slide .calc-result-sub{font-size:9px}
       #hslide-calculator [style*="grid-template-columns:1fr 1fr"]{gap:5px;margin-top:5px !important}
       #hslide-calculator [style*="grid-template-columns:1fr 1fr"] > div{padding:6px 8px !important}
-      #hslide-calculator [style*="grid-template-columns:1fr 1fr"] > div > div:last-child{font-size:16px !important}
-      .hscroll-slide #calcDetailsBtn{margin-top:5px;padding:6px 12px}
+      #hslide-calculator [style*="grid-template-columns:1fr 1fr"] > div > div:first-child{font-size:8px !important;margin-bottom:1px !important}
+      #hslide-calculator [style*="grid-template-columns:1fr 1fr"] > div > div:last-child{font-size:15px !important}
+      .hscroll-slide #calcDetailsBtn{margin-top:5px;padding:6px 12px;font-size:12px}
 
       /* printer-paper stack uses natural sticky z-index — no extra animation needed */
     }
