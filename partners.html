@@ -565,11 +565,12 @@
     .desk-ham-trigger:hover{background:rgba(59,18,24,.04);border-color:rgba(59,18,24,.22);color:var(--text)}
     .desk-ham-lines{display:flex;flex-direction:column;gap:3.5px;width:14px}
     .desk-ham-lines span{display:block;height:1.5px;background:currentColor;border-radius:2px;transition:transform .2s,opacity .2s}
-    @media (min-width:901px){
+    @media (min-width:769px){
       .desk-ham-trigger{display:flex}
       .nav-links{display:none !important}
+      .hamburger{display:none !important}
     }
-    @media (max-width:900px){.desk-ham-trigger{display:none !important}}
+    @media (max-width:768px){.desk-ham-trigger{display:none !important}}
 
     /* ── Mobile hamburger ── */
     .hamburger{
@@ -1073,10 +1074,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     if(nextBtn) nextBtn.disabled = idx===N-1;
   }
 
-  if(prevBtn) prevBtn.addEventListener('click', function(){ goTo(cur-1); });
-  if(nextBtn) nextBtn.addEventListener('click', function(){ goTo(cur+1); });
+  if(prevBtn) prevBtn.addEventListener('click', function(){ goTo(cur-1); resetAuto(); });
+  if(nextBtn) nextBtn.addEventListener('click', function(){ goTo(cur+1); resetAuto(); });
+
+  // Dot clicks also reset timer
+  Array.from(dotsEl.querySelectorAll('.phscroll-dot')).forEach(function(d,i){
+    d.addEventListener('click', resetAuto);
+  });
+
+  // Auto-advance every 5 seconds, pause on hover
+  var autoTimer;
+  function startAuto(){
+    autoTimer = setInterval(function(){
+      goTo(cur < N-1 ? cur+1 : 0);
+    }, 5000);
+  }
+  function resetAuto(){ clearInterval(autoTimer); startAuto(); }
+  var el = document.getElementById('partnerHscroll');
+  if(el){
+    el.addEventListener('mouseenter', function(){ clearInterval(autoTimer); });
+    el.addEventListener('mouseleave', startAuto);
+  }
 
   goTo(0);
+  startAuto();
 })();
 </script>
 

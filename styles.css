@@ -132,6 +132,10 @@
       -webkit-backdrop-filter:blur(14px);
       z-index:50;
       border-bottom:1px solid var(--border);
+      transition:transform .28s cubic-bezier(.4,0,.2,1);
+    }
+    body > header.header-hidden{
+      transform:translateY(-100%);
     }
     body > header::after{
       content:"";
@@ -959,11 +963,13 @@
     .desk-ham-trigger[aria-expanded="true"] .desk-ham-lines span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg)}
     .desk-ham-label{font-weight:500;letter-spacing:.01em;font-size:13px}
 
-    @media(min-width:901px){
+    /* Always hamburger: desk-ham at ≥769px, mobile hamburger at <769px */
+    @media(min-width:769px){
       .desk-ham-trigger{display:flex}
-      .nav-links{display:none !important} /* replaced by side drawer on desktop */
+      .nav-links{display:none !important}
+      .hamburger{display:none !important}
     }
-    @media(max-width:900px){
+    @media(max-width:768px){
       .desk-ham-trigger{display:none !important}
     }
 
@@ -1541,7 +1547,7 @@
       #hslide-products{overflow:visible}
 
       /* compact section title inside slides */
-      .hscroll-slide .section-title{margin-bottom:12px}
+      .hscroll-slide .section-title{margin-bottom:28px}
       .hscroll-slide .section-title::after{bottom:-8px}
       .hscroll-slide .pill{margin-bottom:6px !important}
 
@@ -2078,10 +2084,19 @@
 
     /* narrative: 7 items → 2-col grid handles odd row naturally */
 
-    /* ── Process slide: hide deliverables + divider + CTA so timeline fits ── */
+    /* ── Process slide: compact deliverables in one row, hide CTA ── */
     @media(min-width:769px){
-      #hslide-process .process-divider{display:none}
-      #hslide-process .deliverables-grid{display:none}
+      #hslide-process .process-divider{margin-top:16px !important}
+      #hslide-process .process-divider > span{font-size:.72rem !important}
+      #hslide-process .deliverables-grid{
+        margin-top:12px !important;
+        grid-template-columns:repeat(4,1fr) !important;
+        gap:8px !important;
+      }
+      #hslide-process .deliverable-item{padding:6px 0 !important;gap:8px !important}
+      #hslide-process .del-icon{font-size:18px}
+      #hslide-process .deliverable-item strong{font-size:12px}
+      #hslide-process .deliverable-item p{display:none}
       #hslide-process .glass-panel > div:last-child{display:none}
       #hslide-process .glass-panel{overflow:hidden}
     }
