@@ -2079,9 +2079,9 @@
       .hscroll-slide .process-timeline{gap:10px;margin-top:8px}
       .hscroll-slide .process-step{padding:9px 12px}
 
-      /* ── Sections after hscroll: same snap behaviour as hscroll slides ── */
+      /* ── Sections after hscroll: offset by header height so center = visual center ── */
       section#demo,section#pricing,section#not-for,section#faq,section#contact{
-        padding:24px 0;
+        padding:68px 0 24px;
         justify-content:center;
         overflow:hidden;
       }
@@ -2144,6 +2144,8 @@
       section#faq .accordion-item{border-bottom:1px solid var(--border)}
       section#faq .accordion-header{font-size:12px !important;padding:7px 0 !important;font-weight:600}
       section#faq .accordion-body p{font-size:11px !important;line-height:1.5 !important;padding:0 0 6px !important}
+
+      section#contact .glass-panel{padding:20px 16px}
 
       /* ── Process slide mobile: hide divider+deliverables (they're in #hslide-results) ── */
       #hslide-process .process-divider{display:none !important}
