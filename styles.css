@@ -2079,11 +2079,11 @@
       .hscroll-slide .process-timeline{gap:10px;margin-top:8px}
       .hscroll-slide .process-step{padding:9px 12px}
 
-      /* ── Sections after hscroll ── */
+      /* ── Sections after hscroll: same snap behaviour as hscroll slides ── */
       section#demo,section#pricing,section#not-for,section#faq,section#contact{
         padding:24px 0;
-        justify-content:flex-start;
-        overflow-y:auto;
+        justify-content:center;
+        overflow:hidden;
       }
 
       /* ── Анонімний кейс: compact ── */
