@@ -655,19 +655,39 @@
     .phscroll-btn:hover{background:rgba(122,35,51,.08)}
     .phscroll-btn:disabled{opacity:.3;cursor:default}
     @media (max-width:768px){
-      .phscroll-sticky{height:auto;position:relative}
-      .phscroll-slide{height:auto;padding:40px 0;justify-content:flex-start}
+      /* printer-paper stack */
+      html{ scroll-snap-type:none; overflow-y:scroll; }
+
+      body > header{
+        position:fixed !important;
+        top:0; left:0; right:0;
+        z-index:950;
+      }
+
+      .phscroll-sticky{height:auto;position:static}
       .phscroll-track{flex-wrap:wrap}
       /* hide pagination on mobile */
       .phscroll-nav{display:none !important}
       /* hamburger before logo */
       .hamburger{order:-1}
-      /* slide entrance animation */
-      .phscroll-slide{
-        opacity:0;transform:translateY(32px);
-        transition:opacity .45s cubic-bezier(.22,.9,.36,1), transform .45s cubic-bezier(.22,.9,.36,1);
+
+      /* sticky sections (z-index set via JS) */
+      .hero,
+      .phscroll-slide,
+      section#contact{
+        position:sticky;
+        top:0;
+        height:100svh;
+        overflow:hidden;
+        box-sizing:border-box;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
       }
-      .phscroll-slide.ph-in-view{opacity:1;transform:translateY(0)}
+
+      .hero{ padding-top:64px; justify-content:flex-start; }
+      .phscroll-slide{ padding-top:64px; }
+      section#contact{ padding-top:64px; }
     }
 
     /* ── Contact form vertical layout ── */
@@ -1244,17 +1264,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   document.addEventListener('keydown', function(e){ if (e.key==='Escape') shut(); });
 })();
 
-// ── Mobile: phscroll slide entrance animation ──
+// ── Mobile: printer-paper stack — z-index + fixed header auto-hide ──
 (function(){
   if (!window.matchMedia('(max-width:768px)').matches) return;
-  if (!('IntersectionObserver' in window)) return;
-  var slides = document.querySelectorAll('.phscroll-slide');
-  var obs = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if (e.isIntersecting) { e.target.classList.add('ph-in-view'); }
-    });
-  }, { threshold: 0.12 });
-  slides.forEach(function(s){ obs.observe(s); });
+  var sects = Array.from(document.querySelectorAll('.hero, .phscroll-slide, section#contact'));
+  sects.forEach(function(s, i){ s.style.zIndex = i + 1; });
+
+  var hdr = document.querySelector('body > header');
+  var lastY = window.scrollY;
+  window.addEventListener('scroll', function(){
+    var y = window.scrollY;
+    if (y > lastY + 6) hdr.classList.add('header-hidden');
+    else if (y < lastY - 6) hdr.classList.remove('header-hidden');
+    lastY = y;
+  }, { passive: true });
 })();
 </script>
 
