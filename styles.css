@@ -1757,11 +1757,13 @@
         transition:none;
       }
 
-      /* mandatory snap so each swipe = exactly 1 section */
+      /* mandatory snap so each swipe = exactly 1 section — reels-like */
       html{
         scroll-snap-type:y mandatory;
         overflow-y:scroll;
         scroll-padding-top:68px;
+        scroll-behavior:auto;
+        overscroll-behavior-y:none;
       }
 
       /* every screen-sized section */
@@ -2065,7 +2067,7 @@
       }
       .hscroll-slide .calc-box{padding:8px 10px;gap:0}
       .hscroll-slide .calc-field{margin-bottom:4px;gap:2px}
-      .hscroll-slide .calc-field label{font-size:10px;line-height:1.2}
+      .hscroll-slide .calc-field label{font-size:12px;line-height:1.2}
       .hscroll-slide .calc-field input[type=range]{height:16px;margin:0}
       .hscroll-slide .calc-hint{display:none}
       .hscroll-slide .calc-result-box{padding:8px 10px}
@@ -2085,19 +2087,9 @@
       /* ── Sections after hscroll: exact visible-viewport height so no gap under header ── */
       section#demo,section#pricing,section#not-for,section#faq,section#contact{
         height:calc(100svh - 68px);
-        padding:24px 0;
-        justify-content:flex-start;
+        padding:16px 0;
+        justify-content:center;
         overflow:hidden;
-      }
-      /* center the glass-panel inside; margin:auto is safe — collapses to 0 if content overflows
-         (unlike justify-content:center which clips the top) */
-      section#demo > .container,
-      section#pricing > .container,
-      section#not-for > .container,
-      section#faq > .container,
-      section#contact > .container{
-        margin-top:auto;
-        margin-bottom:auto;
       }
 
       /* ── Анонімний кейс: compact ── */
@@ -2113,10 +2105,10 @@
         overflow-y:auto;
         border-left:none !important;
       }
-      .formats-swipe-wrap .pricing-card h3{font-size:15px;margin-bottom:4px}
-      .formats-swipe-wrap .pricing-card .price{font-size:20px;margin:6px 0}
+      .formats-swipe-wrap .pricing-card h3{font-size:18px;margin-bottom:4px}
+      .formats-swipe-wrap .pricing-card .price{font-size:22px;margin:6px 0}
       .formats-swipe-wrap .pricing-card ul{margin-top:8px}
-      .formats-swipe-wrap .pricing-card li{font-size:13px;padding:4px 0}
+      .formats-swipe-wrap .pricing-card li{font-size:15px;padding:4px 0}
       .formats-swipe-wrap .pricing-card [style*="border-left"]{margin-top:8px;padding:8px 10px;font-size:.82rem}
       .formats-swipe-dots{margin-top:8px}
       .formats-swipe-dots::before{content:"← свайп →";font-size:10px;color:var(--text-muted)}
@@ -2129,7 +2121,7 @@
       /* ── Analytics (pricing) section: fit on one screen ── */
       section#pricing{overflow:hidden}
       section#pricing .glass-panel{padding:12px 14px;overflow:hidden}
-      section#pricing .section-title{margin-bottom:10px !important}
+      section#pricing .section-title{margin-bottom:22px !important}
       section#pricing .section-title h2{font-size:26px !important;margin-bottom:2px}
       section#pricing .section-title > p{font-size:13px;line-height:1.5}
       section#pricing .paragraph-grid{
@@ -2146,13 +2138,13 @@
 
       /* ── Demo section: spacing above description text ── */
       section#demo .glass-panel{padding:14px 16px}
-      section#demo .section-title{margin-bottom:14px}
+      section#demo .section-title{margin-bottom:22px}
       section#demo > .container > p.reveal{margin-top:0 !important;margin-bottom:10px !important;font-size:15px !important;line-height:1.6 !important}
 
       /* ── FAQ: compact, fits all items ── */
       section#faq{overflow:hidden}
       section#faq .glass-panel{padding:12px 14px;overflow:hidden}
-      section#faq .section-title{margin-bottom:6px !important}
+      section#faq .section-title{margin-bottom:22px !important}
       section#faq .section-title h2{font-size:26px !important}
       section#faq .accordion{margin-top:6px !important}
       section#faq .accordion-item{border-bottom:1px solid var(--border)}
@@ -2203,17 +2195,17 @@
       .hscroll-slide .calc-grid{grid-template-columns:1fr;gap:6px}
       .hscroll-slide .calc-box{padding:8px 10px;gap:0}
       .hscroll-slide .calc-field{margin-bottom:3px;gap:1px}
-      .hscroll-slide .calc-field label{font-size:10px;line-height:1.2}
+      .hscroll-slide .calc-field label{font-size:12px;line-height:1.2}
       .hscroll-slide .calc-field input[type=range]{height:14px;margin:0}
       .hscroll-slide .calc-hint{display:none}
       .hscroll-slide .calc-result-box{padding:6px 10px}
-      .hscroll-slide .calc-result-num{font-size:20px}
-      .hscroll-slide .calc-result-sub{font-size:9px}
+      .hscroll-slide .calc-result-num{font-size:24px}
+      .hscroll-slide .calc-result-sub{font-size:11px}
       #hslide-calculator [style*="grid-template-columns:1fr 1fr"]{gap:5px;margin-top:5px !important}
       #hslide-calculator [style*="grid-template-columns:1fr 1fr"] > div{padding:6px 8px !important}
-      #hslide-calculator [style*="grid-template-columns:1fr 1fr"] > div > div:first-child{font-size:8px !important;margin-bottom:1px !important}
-      #hslide-calculator [style*="grid-template-columns:1fr 1fr"] > div > div:last-child{font-size:15px !important}
-      .hscroll-slide #calcDetailsBtn{margin-top:5px;padding:6px 12px;font-size:12px}
+      #hslide-calculator [style*="grid-template-columns:1fr 1fr"] > div > div:first-child{font-size:11px !important;margin-bottom:1px !important}
+      #hslide-calculator [style*="grid-template-columns:1fr 1fr"] > div > div:last-child{font-size:18px !important}
+      .hscroll-slide #calcDetailsBtn{margin-top:5px;padding:6px 12px;font-size:13px}
 
       /* printer-paper stack uses natural sticky z-index — no extra animation needed */
     }
