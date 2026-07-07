@@ -1468,7 +1468,8 @@
     .demo-text{flex:1 1 280px}
     .tools-orbit{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 32px}
     @media(max-width:768px){
-      .hero h1{font-size:clamp(22px,6.2vw,28px);min-height:2.24em}
+      .hero h1{font-size:clamp(22px,6.2vw,28px);min-height:auto}
+      .tw-wrap{display:block;min-width:0!important}
       .typewriter-word{display:inline-block;white-space:nowrap}
       .section-typewriter,[data-typewriter]{display:block;width:100%;max-width:100%;white-space:normal;overflow-wrap:break-word;font-size:9px!important;line-height:1.35;min-height:2.7em;overflow:hidden;margin-top:12px}
       .tools-orbit{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
