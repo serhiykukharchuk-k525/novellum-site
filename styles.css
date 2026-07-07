@@ -1780,6 +1780,14 @@
         justify-content:center;
       }
 
+      /* footer as snap section on mobile */
+      footer.footer{
+        scroll-snap-align:start;
+        scroll-snap-stop:always;
+        box-sizing:border-box;
+        overflow:hidden;
+      }
+
 
 
       /* ── Hero: text top half, live-dash bottom half ── */
