@@ -853,7 +853,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="container glass-panel">
         <div class="section-title reveal">
           <div>
-            <div class="pill">Процес і результат</div>
+            <div class="pill">Процес</div>
             <h2 class="title-accent">Аудит управлінської звітності — 7 днів до першого дашборду</h2>
           </div>
           <p>За перший тиждень проводимо аудит: визначаємо показники, розбираємось у даних і фіксуємо правила роботи. Дашборд будуємо після.</p>
@@ -1392,20 +1392,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
 });
 
-    // ── Mobile: page-stack transition (sections slide in from below) ──
-    if (window.matchMedia('(max-width:768px)').matches && 'IntersectionObserver' in window) {
-      var stackSections = document.querySelectorAll('.hero, .hscroll-slide, section#demo, section#pricing, section#faq, section#contact');
-      var stackObserver = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) {
-            var el = entry.target;
-            el.classList.remove('mob-entering');
-            void el.offsetWidth; // reflow
-            el.classList.add('mob-entering');
-          }
-        });
-      }, { threshold: 0.15 });
-      stackSections.forEach(function(s) { stackObserver.observe(s); });
+    // ── Mobile: printer-paper stack — assign z-index in DOM order ──
+    if (window.matchMedia('(max-width:768px)').matches) {
+      var mobileSections = Array.from(document.querySelectorAll(
+        '.hero, .hscroll-slide, section#demo, section#pricing, section#faq, section#contact'
+      ));
+      mobileSections.forEach(function(s, i) { s.style.zIndex = i + 1; });
+
+      // Simplified auto-hide for mobile (fixed header)
+      var mHdr = document.querySelector('body > header');
+      var mLastY = window.scrollY;
+      window.addEventListener('scroll', function(){
+        var y = window.scrollY;
+        if (y > mLastY + 6) mHdr.classList.add('header-hidden');
+        else if (y < mLastY - 6) mHdr.classList.remove('header-hidden');
+        mLastY = y;
+      }, { passive: true });
     }
 
     // ── Hamburger menu ──
@@ -1938,8 +1940,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
 })();
 
-// ── Header auto-hide: sticky during hero+hscroll, hide-on-down after hscroll ──
+// ── Header auto-hide: desktop only (mobile has its own handler above) ──
 (function() {
+  if (window.matchMedia('(max-width:768px)').matches) return;
   var hdr = document.querySelector('body > header');
   var hscrollOuter = document.getElementById('hscrollOuter');
   if (!hdr || !hscrollOuter) return;

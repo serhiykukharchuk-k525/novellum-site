@@ -1750,13 +1750,17 @@
       /* mobile-only slide visible */
       .mob-only-slide{display:block !important}
 
-      /* mandatory snap so each swipe = exactly 1 section */
-      html{
-        scroll-snap-type:y mandatory;
-        overflow-y:scroll;
+      /* printer-paper stack: sections sticky at top, z-index set via JS */
+      html{ scroll-snap-type:none; overflow-y:scroll; }
+
+      /* fixed header so it floats above all sticky sections */
+      body > header{
+        position:fixed !important;
+        top:0; left:0; right:0;
+        z-index:950;
       }
 
-      /* every screen-sized section */
+      /* every screen-sized section: sticky stack */
       .hero,
       .hscroll-slide,
       section#demo,
@@ -1764,9 +1768,9 @@
       section#not-for,
       section#faq,
       section#contact{
+        position:sticky;
+        top:0;
         height:100svh;
-        scroll-snap-align:start;
-        scroll-snap-stop:always;
         overflow:hidden;
         box-sizing:border-box;
         display:flex;
@@ -1777,7 +1781,7 @@
       /* ── Hero: text top half, live-dash bottom half ── */
       .hero{
         min-height:unset;
-        padding:52px 0 10px;
+        padding:64px 0 10px;   /* 64px clears the fixed header */
         justify-content:flex-start;
       }
       .hero-grid{
@@ -1882,6 +1886,7 @@
         flex-direction:column;
         justify-content:center;
         box-sizing:border-box;
+        padding-top:60px;   /* clear fixed header */
       }
 
       /* glass-panel inside slides */
@@ -2064,7 +2069,7 @@
 
       /* ── Sections after hscroll ── */
       section#demo,section#pricing,section#not-for,section#faq,section#contact{
-        padding:24px 0;
+        padding:68px 0 24px;   /* 68px top clears fixed header */
         justify-content:flex-start;
         overflow-y:auto;
       }
@@ -2098,7 +2103,7 @@
       /* ── Analytics (pricing) section: fit on one screen ── */
       section#pricing{overflow:hidden}
       section#pricing .glass-panel{padding:12px 14px;overflow:hidden}
-      section#pricing .section-title{margin-bottom:8px !important}
+      section#pricing .section-title{margin-bottom:28px !important}
       section#pricing .section-title h2{font-size:clamp(16px,5vw,20px) !important;margin-bottom:2px}
       section#pricing .section-title > p{font-size:11px;line-height:1.5}
       section#pricing .paragraph-grid{
@@ -2182,17 +2187,7 @@
       #hslide-calculator [style*="grid-template-columns:1fr 1fr"] > div > div:last-child{font-size:15px !important}
       .hscroll-slide #calcDetailsBtn{margin-top:5px;padding:6px 12px;font-size:12px}
 
-      /* ── Page-stack transition: sections slide in from below ── */
-      .snap-section{
-        transform:translateY(0);
-      }
-      .snap-section.mob-entering{
-        animation:mob-stack-in .35s cubic-bezier(.22,.9,.36,1) both;
-      }
-      @keyframes mob-stack-in{
-        from{transform:translateY(40px);opacity:.7}
-        to{transform:translateY(0);opacity:1}
-      }
+      /* printer-paper stack uses natural sticky z-index — no extra animation needed */
     }
 
 
