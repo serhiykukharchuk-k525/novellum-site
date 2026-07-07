@@ -925,6 +925,56 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           </div><!-- /hslide-process -->
 
+          <!-- Mobile-only: Results slide (desktop shows them inside #hslide-process above) -->
+          <div class="hscroll-slide mob-only-slide" id="hslide-results">
+    <section class="divider">
+      <div class="container glass-panel">
+        <div class="section-title reveal">
+          <div>
+            <div class="pill">Результат</div>
+            <h2 class="title-accent">Що ви отримуєте, працюючи з нами</h2>
+          </div>
+        </div>
+
+        <div class="deliverables-grid" style="margin-top:20px;">
+          <div class="deliverable-item reveal">
+            <div class="del-icon">📊</div>
+            <div>
+              <strong>Дашборд Power BI</strong>
+              <p>Один екран з 10–15 KPI під ваш бізнес. Актуальний щотижня без вашої участі.</p>
+            </div>
+          </div>
+          <div class="deliverable-item reveal">
+            <div class="del-icon">📋</div>
+            <div>
+              <strong>Перелік KPI</strong>
+              <p>Узгоджений список показників з формулами та джерелами — зафіксовано документально.</p>
+            </div>
+          </div>
+          <div class="deliverable-item reveal">
+            <div class="del-icon">📖</div>
+            <div>
+              <strong>Зрозуміла документація</strong>
+              <p>Опис логіки розрахунків і правил оновлення, яким може скористатись будь-хто з команди.</p>
+            </div>
+          </div>
+          <div class="deliverable-item reveal">
+            <div class="del-icon">🗂</div>
+            <div>
+              <strong>Backlog змін</strong>
+              <p>Прозора черга доопрацювань — видно, що в роботі, що заплановано, що зроблено.</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:24px;text-align:center;display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
+          <a class="button primary" href="https://www.linkedin.com/in/serhiy-kukharchuk/" target="_blank" rel="noopener">Написати в LinkedIn →</a>
+          <a class="button secondary" href="https://t.me/serhiy_novellum" target="_blank" rel="noopener noreferrer">або Telegram</a>
+        </div>
+      </div>
+    </section>
+          </div><!-- /hslide-results -->
+
         </div><!-- /hscroll-track -->
       </div><!-- /hscroll-sticky -->
     </div><!-- /hscroll-outer -->
@@ -1342,6 +1392,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
 });
 
+    // ── Mobile: page-stack transition (sections slide in from below) ──
+    if (window.matchMedia('(max-width:768px)').matches && 'IntersectionObserver' in window) {
+      var stackSections = document.querySelectorAll('.hero, .hscroll-slide, section#demo, section#pricing, section#faq, section#contact');
+      var stackObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            var el = entry.target;
+            el.classList.remove('mob-entering');
+            void el.offsetWidth; // reflow
+            el.classList.add('mob-entering');
+          }
+        });
+      }, { threshold: 0.15 });
+      stackSections.forEach(function(s) { stackObserver.observe(s); });
+    }
+
     // ── Hamburger menu ──
     var hamburgerBtn = document.getElementById('hamburgerBtn');
     var mobileNav = document.getElementById('mobileNav');
@@ -1735,7 +1801,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   // Desktop only — on mobile CSS already resets the layout
   if (!window.matchMedia('(min-width:769px)').matches) return;
 
-  var slides = Array.from(track.querySelectorAll('.hscroll-slide'));
+  var slides = Array.from(track.querySelectorAll('.hscroll-slide:not(.mob-only-slide)'));
   var N = slides.length;
   var LABELS = ['Для кого це','Цінність','Перешкоди','Кейс','Формати','Калькулятор','Продукт','Процес'];
 
