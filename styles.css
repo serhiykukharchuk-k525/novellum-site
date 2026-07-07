@@ -1569,7 +1569,7 @@
       .hscroll-slide .pill{margin-bottom:6px !important}
 
       /* hide decorative/secondary elements that eat vertical space */
-      .hscroll-slide .section-typewriter{display:none}
+      /* .hscroll-slide .section-typewriter — shown (SEO keywords) */
       .hscroll-slide .icon-badges{display:none}
       .hscroll-slide .section-title > p{display:none}
 
@@ -1922,7 +1922,6 @@
       }
       .hscroll-slide .section-eyebrow,
       .hscroll-slide .pill{font-size:10px;margin-bottom:5px}
-      .hscroll-slide .section-typewriter,
       .hscroll-slide .icon-badges{display:none}
 
       /* ── Цінність: clean list, no numbers, no boxes ── */
