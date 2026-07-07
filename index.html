@@ -477,12 +477,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <span>E-commerce</span><span>Логістика</span><span>Retail</span><span>Виробництво</span><span>Медицина</span><span>Фінанси</span><span>HoReCa</span><span>Агробізнес</span><span>Будівництво</span><span>SaaS</span><span>Нерухомість</span><span>Освіта</span><span>Транспорт</span>
               </div>
             </div>
-            <div class="vmarquee vmarquee--right" aria-hidden="true">
-              <div class="vmarquee-track vmarquee-track--down">
-                <span>Сервісні компанії</span><span>Логістика</span><span>Фінанси</span><span>SaaS</span><span>HoReCa</span><span>Retail</span><span>Медицина</span><span>Будівництво</span><span>Агробізнес</span><span>Освіта</span><span>Транспорт</span><span>E-commerce</span><span>Нерухомість</span>
-                <span>Сервісні компанії</span><span>Логістика</span><span>Фінанси</span><span>SaaS</span><span>HoReCa</span><span>Retail</span><span>Медицина</span><span>Будівництво</span><span>Агробізнес</span><span>Освіта</span><span>Транспорт</span><span>E-commerce</span><span>Нерухомість</span>
-              </div>
-            </div>
             <section id="for-whom" class="divider">
               <div class="container glass-panel">
                 <p class="section-eyebrow reveal">Для кого це</p>
@@ -1742,9 +1736,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     if (sec) slideMap[sec.id] = i;
   });
 
-  // Set outer height so there's enough scroll distance for N slides
+  // Set outer height: N slides + 0.6vh linger on the last slide
+  var LINGER = 0.6;
   function setHeight() {
-    outer.style.height = (N * window.innerHeight) + 'px';
+    outer.style.height = ((N + LINGER) * window.innerHeight) + 'px';
   }
   setHeight();
   window.addEventListener('resize', setHeight, { passive: true });

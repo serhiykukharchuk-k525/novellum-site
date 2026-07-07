@@ -132,7 +132,7 @@
       -webkit-backdrop-filter:blur(14px);
       z-index:50;
       border-bottom:1px solid var(--border);
-      transition:transform .28s cubic-bezier(.4,0,.2,1);
+      transition:transform .5s cubic-bezier(.4,0,.2,1);
     }
     body > header.header-hidden{
       transform:translateY(-100%);
@@ -2084,21 +2084,49 @@
 
     /* narrative: 7 items → 2-col grid handles odd row naturally */
 
-    /* ── Process slide: compact deliverables in one row, hide CTA ── */
+    /* ── Formats slide: compact so cards fit without internal scroll ── */
     @media(min-width:769px){
-      #hslide-process .process-divider{margin-top:16px !important}
-      #hslide-process .process-divider > span{font-size:.72rem !important}
-      #hslide-process .deliverables-grid{
-        margin-top:12px !important;
-        grid-template-columns:repeat(4,1fr) !important;
-        gap:8px !important;
-      }
-      #hslide-process .deliverable-item{padding:6px 0 !important;gap:8px !important}
-      #hslide-process .del-icon{font-size:18px}
-      #hslide-process .deliverable-item strong{font-size:12px}
-      #hslide-process .deliverable-item p{display:none}
-      #hslide-process .glass-panel > div:last-child{display:none}
+      #hslide-formats .section-title{margin-bottom:10px !important}
+      #hslide-formats .section-title h2{font-size:clamp(17px,1.5vw,22px) !important;margin-bottom:4px !important}
+      #hslide-formats .urgency-strip{margin-top:10px !important;padding:8px 12px !important}
+      #hslide-formats .pricing-grid{gap:10px !important}
+      #hslide-formats .pricing-card{padding:12px 16px !important;gap:6px !important}
+      #hslide-formats .pricing-card h3{font-size:14px !important;margin-bottom:3px !important}
+      #hslide-formats .pricing-card .price{font-size:20px !important;margin:4px 0 !important}
+      #hslide-formats .pricing-card .format-track{margin:4px 0 !important}
+      #hslide-formats .pricing-card ul{margin-top:6px !important}
+      #hslide-formats .pricing-card li{font-size:13px !important;padding:3px 0 !important}
+      #hslide-formats .pricing-card [style*="border-left"]{margin-top:6px !important;padding:7px 10px !important;font-size:.8rem !important}
+      #hslide-formats .pricing-card .terms{margin-top:4px !important;font-size:.78rem !important}
+    }
+
+    /* ── Process slide: compact, show deliverables in icon row, hide CTA ── */
+    @media(min-width:769px){
       #hslide-process .glass-panel{overflow:hidden}
+      #hslide-process .section-title{margin-bottom:10px !important}
+      #hslide-process .section-title h2{font-size:clamp(16px,1.4vw,21px) !important;margin-bottom:4px !important}
+      #hslide-process .process-timeline{gap:5px !important;margin-top:6px !important}
+      #hslide-process .process-step{padding:6px 12px !important}
+      #hslide-process .process-step h3{font-size:13px !important;margin-bottom:1px !important}
+      #hslide-process .process-step p{font-size:12px !important}
+      #hslide-process .terms{margin-top:8px !important;font-size:.78rem !important}
+      #hslide-process .process-divider{margin-top:10px !important}
+      #hslide-process .process-divider > span{font-size:.7rem !important}
+      #hslide-process .deliverables-grid{
+        margin-top:8px !important;
+        grid-template-columns:repeat(4,1fr) !important;
+        gap:6px !important;
+      }
+      #hslide-process .deliverable-item{
+        padding:8px 10px !important;
+        gap:8px !important;
+        background:rgba(255,255,255,.04) !important;
+        border-radius:10px !important;
+      }
+      #hslide-process .del-icon{font-size:16px !important}
+      #hslide-process .deliverable-item strong{font-size:11px !important;line-height:1.3 !important}
+      #hslide-process .deliverable-item p{font-size:11px !important;line-height:1.4 !important;display:none}
+      #hslide-process .glass-panel > div:last-child{display:none}
     }
 
 
