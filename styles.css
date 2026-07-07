@@ -1614,6 +1614,13 @@
         white-space:nowrap;
       }
 
+      .hscroll-arrows{
+        position:absolute;
+        bottom:20px;right:16px;
+        display:flex;gap:6px;
+        z-index:20;
+      }
+
       .hscroll-label{
         font-size:11px;font-weight:600;
         text-transform:uppercase;letter-spacing:.09em;
@@ -1703,7 +1710,7 @@
       .hscroll-sticky{position:static;height:auto;overflow:visible}
       .hscroll-track{display:block;transform:none !important;will-change:auto}
       .hscroll-slide{width:100%}
-      .hscroll-ui,.hscroll-progress,.hscroll-hint{display:none !important}
+      .hscroll-ui,.hscroll-arrows,.hscroll-progress,.hscroll-hint{display:none !important}
 
       /* mandatory snap so each swipe = exactly 1 section */
       html{
