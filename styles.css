@@ -1923,7 +1923,9 @@
       .hscroll-slide .pill{font-size:11px;margin-bottom:4px}
       .hscroll-slide .icon-badges{display:none}
 
-      /* ── Цінність: clean list, no numbers, no boxes ── */
+      /* ── Цінність: compact list on mobile ── */
+      #hslide-value .section-typewriter{display:none !important}
+      #hslide-value .section-title > p{display:none}
       .hscroll-slide .narrative-list{
         display:grid;
         grid-template-columns:1fr 1fr;
@@ -1931,15 +1933,18 @@
         margin-top:6px;
       }
       .hscroll-slide .narrative-item{
-        display:block;
-        padding:5px 0 4px;
+        display:flex;
+        align-items:baseline;
+        gap:7px;
+        padding:6px 0;
         border:none;
+        border-bottom:1px solid rgba(0,0,0,.06);
         border-radius:0;
       }
       .hscroll-slide .narrative-item::before{content:none}
-      .hscroll-slide .narrative-item h3{font-size:15px;margin:0 0 2px;font-weight:600}
-      .hscroll-slide .narrative-item p{font-size:13px;color:var(--text-muted);margin:0}
-      .hscroll-slide .narrative-num{display:none}
+      .hscroll-slide .narrative-item h3{font-size:14px;margin:0;font-weight:600;line-height:1.3}
+      .hscroll-slide .narrative-item p{display:none}
+      .hscroll-slide .narrative-num{font-size:10px;color:var(--text-soft);font-weight:700;flex-shrink:0;display:block}
 
       /* ── Для кого це: clean list rows, no bordered cards ── */
       #for-whom .reveal[style*="flex"]{display:none !important}
