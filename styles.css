@@ -1974,9 +1974,10 @@
 
       /* ── Кейс: результати в 1 колонку ── */
       /* ── Кейс: весь блок на 1 екран ── */
+      #hslide-social-proof > section{padding-top:68px}
       #hslide-social-proof .card{padding:16px !important}
       #hslide-social-proof .card > div:first-child{margin-bottom:10px !important}
-      #hslide-social-proof .card > p{margin-top:6px !important;font-size:.88rem !important;line-height:1.5 !important}
+      #hslide-social-proof .card > p{margin-top:6px !important;line-height:1.5 !important}
       .case-results{grid-template-columns:1fr !important;margin-top:10px !important}
       .case-result-item{
         display:grid;
@@ -1996,11 +1997,11 @@
         letter-spacing:0;align-self:center;
       }
       .case-result-title{
-        font-size:.82rem;font-weight:700;margin-bottom:1px;
+        font-size:.85rem;font-weight:700;margin-bottom:1px;
         text-transform:none;letter-spacing:0;
       }
       .case-result-desc{display:none}
-      .case-result-desc-short{display:block;font-size:.78rem;line-height:1.35;color:var(--text-muted);margin:0}
+      .case-result-desc-short{display:block;font-size:.82rem;line-height:1.4;color:var(--text-muted);margin:0}
       .case-cta-row{flex-direction:row;align-items:center;gap:10px !important;margin-top:10px !important;flex-wrap:wrap}
       .case-cta-btn + .case-cta-btn{display:none}
       .case-cta-row > span{display:none}
