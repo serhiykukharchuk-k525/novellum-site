@@ -1974,7 +1974,7 @@
 
       /* ── Кейс: результати в 1 колонку ── */
       /* ── Кейс: весь блок на 1 екран ── */
-      #hslide-social-proof > section{padding-top:68px}
+      #hslide-social-proof > section{padding-top:67px;padding-bottom:65px}
       #hslide-social-proof .card{padding:16px !important}
       #hslide-social-proof .card > div:first-child{margin-bottom:10px !important}
       #hslide-social-proof .card > p{margin-top:6px !important;line-height:1.5 !important}
