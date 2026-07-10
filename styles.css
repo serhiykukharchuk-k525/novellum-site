@@ -1924,7 +1924,6 @@
       .hscroll-slide .icon-badges{display:none}
 
       /* ── Цінність: compact list on mobile ── */
-      #hslide-value .section-typewriter{display:none !important}
       #hslide-value .section-title > p{display:none}
       .hscroll-slide .narrative-list{
         display:grid;
