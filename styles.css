@@ -594,6 +594,7 @@
     .case-result-desc{
       font-size:.87rem;line-height:1.55;color:var(--text-muted);margin:0;
     }
+    .case-result-desc-short{display:none}
 
     .signature{
       padding:22px;display:grid;gap:10px;
@@ -1994,7 +1995,8 @@
         font-size:.85rem;font-weight:700;margin-bottom:2px;
         text-transform:none;letter-spacing:0;
       }
-      .case-result-desc{font-size:.82rem;line-height:1.5}
+      .case-result-desc{display:none}
+      .case-result-desc-short{display:block;font-size:.82rem;line-height:1.5;color:var(--text-muted);margin:0}
       .case-cta-row{flex-direction:column;align-items:flex-start;gap:10px !important;margin-top:16px !important}
       .case-cta-btn{width:100%;text-align:center;justify-content:center}
 
