@@ -2085,16 +2085,17 @@
         gap:0;
       }
       .formats-swipe-wrap .pricing-card{
-        min-width:calc(100% - 24px);
-        flex-shrink:0;
+        flex:0 0 calc(100% - 24px);
         scroll-snap-align:start;
-        padding-right:0;
+        padding:0 16px 0 0;
         box-sizing:border-box;
+        overflow-x:hidden;
         overflow-y:auto;
       }
       .formats-swipe-wrap .pricing-card:not(:first-child){
         border-left:none;
-        padding-left:16px;
+        padding-left:12px;
+        padding-right:0;
       }
       /* hide urgency strip on mobile */
       .hscroll-slide .urgency-strip{display:none}
@@ -2261,8 +2262,8 @@
       .formats-swipe-wrap .pricing-card .format-badge-wrap{margin-bottom:4px}
       .formats-swipe-wrap .pricing-card ul li{font-size:12px !important;padding:3px 0 !important}
       .formats-swipe-wrap .pricing-card .terms{font-size:10px !important;margin-top:6px !important}
-      /* hide description footer box in format card on mobile */
-      .formats-swipe-wrap .pricing-card [style*="border-left"]{display:none !important}
+      /* compact note box in format card */
+      .formats-swipe-wrap .pricing-card [style*="border-left"]{margin-top:8px !important;padding:8px 10px !important;font-size:.8rem !important}
 
       /* ── Calculator: more compact ── */
       #hslide-calculator > div:first-child{display:none}
