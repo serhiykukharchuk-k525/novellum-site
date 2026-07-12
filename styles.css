@@ -1667,8 +1667,10 @@
         overflow:hidden !important;
       }
       #hslide-social-proof .card{
-        max-width:860px !important;
-        padding:44px 56px !important;
+        max-width:680px !important;
+        max-height:76vh !important;
+        overflow:auto !important;
+        padding:36px 48px !important;
         font-size:1rem;
       }
       #hslide-social-proof .card p:first-of-type{font-size:1.12rem !important;line-height:1.8 !important}
