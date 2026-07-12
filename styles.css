@@ -844,6 +844,7 @@
     .accordion-item:first-child{border-top:1px solid var(--border)}
     #faq .accordion-item:first-child{border-top:none}
     #faq .section-title::after{display:none}
+    @media(min-width:769px){.faq-cta{display:none}}
     .accordion-header{
       display:flex;justify-content:space-between;align-items:center;
       cursor:pointer;font-weight:700;
