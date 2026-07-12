@@ -1514,8 +1514,8 @@
     .author-photo-col{flex:0 0 auto}
     .author-photo{
       display:block;
-      width:260px;
-      height:320px;
+      width:340px;
+      height:420px;
       object-fit:cover;
       object-position:top center;
       border-radius:16px;
@@ -2180,7 +2180,7 @@
 
       /* ── Author section: stacked layout on mobile ── */
       section#author .author-layout{flex-direction:column;gap:20px;align-items:center;text-align:center}
-      section#author .author-photo{width:140px;height:170px;border-radius:12px}
+      section#author .author-photo{width:180px;height:220px;border-radius:12px}
       section#author .author-text-col p{font-size:15px !important;line-height:1.6}
 
       /* ── Анонімний кейс: compact ── */
