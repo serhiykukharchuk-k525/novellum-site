@@ -1746,11 +1746,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   var currentIdx = 0;
 
+  // Smooth assist scroll: visual directly follows scrollY; snap animates scrollY with JS easing
   function goToSlide(idx) {
     idx = Math.max(0, Math.min(N - 1, idx));
-    isSnapping = true;
-    targetX    = idx / (N - 1);
-    if (!rafPending) { rafPending = true; requestAnimationFrame(renderFrame); }
+    var outerTop   = outer.getBoundingClientRect().top + window.scrollY;
+    var scrollable = N * window.innerHeight - window.innerHeight;
+    smoothSnapTo(outerTop + (idx / (N - 1)) * scrollable, 620);
   }
 
   function updateUI(progress, idx) {
@@ -1765,71 +1766,67 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     if (idx > 0 && hintEl) hintEl.classList.add('hidden');
   }
 
-  // Spring animation — smooth pull-to-snap (no browser smooth-scroll)
-  var rafPending   = false;
-  var targetX      = 0;
-  var animX        = 0;
-  var velocity     = 0;
-  var SPRING_K     = 0.09;  // stiffness
-  var SPRING_D     = 0.78;  // damping (higher = less overshoot)
-
-  var isSnapping   = false;  // true while spring is driving the snap
-  var syncingScroll = false; // true for one scroll event after scroll-sync
+  // Direct follow: no spring lag, transform stays in sync with scrollY
+  var rafPending = false;
+  var targetX    = 0;
 
   function renderFrame() {
-    rafPending    = false;
-    var force     = (targetX - animX) * SPRING_K;
-    velocity      = (velocity + force) * SPRING_D;
-    animX        += velocity;
-    var stillMoving = Math.abs(velocity) > 0.000005 || Math.abs(targetX - animX) > 0.00005;
-    if (stillMoving) { rafPending = true; requestAnimationFrame(renderFrame); }
-    else {
-      animX = targetX; velocity = 0;
-      if (isSnapping) {
-        isSnapping = false;
-        // Silently sync scrollY to match the visual position (no visual jump)
-        var outerTop   = outer.getBoundingClientRect().top + window.scrollY;
-        var scrollable = N * window.innerHeight - window.innerHeight;
-        syncingScroll  = true;
-        window.scrollTo(0, outerTop + targetX * scrollable);
-      }
-    }
-    track.style.transform = 'translateX(' + (-animX * (N - 1) * window.innerWidth) + 'px)';
+    rafPending = false;
+    track.style.transform = 'translateX(' + (-targetX * (N - 1) * window.innerWidth) + 'px)';
   }
 
-  // Snap-on-scroll-stop: if between slides, spring-snap to nearest (with momentum bias)
-  var snapTimer = null;
-  var scrollVel = 0;
+  // JS-eased scroll animation — moves the page, visual follows via scroll events
+  function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+
+  var snapScrolling = false;
+  var snapRAF       = null;
+  var snapTimer     = null;
+  var scrollVel     = 0;
+  var prevTargetX   = 0;
+
+  function smoothSnapTo(dest, duration) {
+    if (snapRAF) cancelAnimationFrame(snapRAF);
+    snapScrolling = true;
+    var start     = window.scrollY;
+    var startTime = null;
+    function step(ts) {
+      if (!startTime) startTime = ts;
+      var t = Math.min(1, (ts - startTime) / duration);
+      window.scrollTo(0, start + (dest - start) * easeOutCubic(t));
+      if (t < 1) { snapRAF = requestAnimationFrame(step); }
+      else        { window.scrollTo(0, dest); snapScrolling = false; snapRAF = null; }
+    }
+    snapRAF = requestAnimationFrame(step);
+  }
 
   window.addEventListener('scroll', function() {
-    if (isSnapping) return;           // spring is driving — ignore scroll events
-    if (syncingScroll) { syncingScroll = false; return; } // skip the sync-teleport event
-
     var rect       = outer.getBoundingClientRect();
     var scrollable = N * window.innerHeight - window.innerHeight;
     var newTarget  = Math.max(0, Math.min(1, -rect.top / scrollable));
-    scrollVel = newTarget - targetX;
-    targetX   = newTarget;
-    var idx = Math.round(targetX * (N - 1));
+    scrollVel  = newTarget - prevTargetX;
+    prevTargetX = targetX;
+    targetX     = newTarget;
+    var idx    = Math.round(targetX * (N - 1));
     updateUI(targetX, idx);
     if (!rafPending) { rafPending = true; requestAnimationFrame(renderFrame); }
 
-    clearTimeout(snapTimer);
-    snapTimer = setTimeout(function() {
-      if (isSnapping) return;
-      var r2 = outer.getBoundingClientRect();
-      var p  = -r2.top / scrollable;
-      if (p <= 0.0001 || p >= 0.9999) return; // already at edge
-      var fracIdx = targetX * (N - 1);
-      var nearest = Math.round(fracIdx);
-      if (scrollVel >  0.004) nearest = Math.min(N - 1, Math.ceil(fracIdx));
-      if (scrollVel < -0.004) nearest = Math.max(0,     Math.floor(fracIdx));
-      if (Math.abs(fracIdx - nearest) > 0.02) {
-        isSnapping = true;
-        targetX    = nearest / (N - 1);
-        if (!rafPending) { rafPending = true; requestAnimationFrame(renderFrame); }
-      }
-    }, 200);
+    if (!snapScrolling) {
+      clearTimeout(snapTimer);
+      snapTimer = setTimeout(function() {
+        if (snapScrolling) return;
+        var r2 = outer.getBoundingClientRect();
+        var p  = -r2.top / scrollable;
+        if (p <= 0.0001 || p >= 0.9999) return;
+        var fracIdx = targetX * (N - 1);
+        var nearest = Math.round(fracIdx);
+        if (scrollVel >  0.004) nearest = Math.min(N - 1, Math.ceil(fracIdx));
+        if (scrollVel < -0.004) nearest = Math.max(0,     Math.floor(fracIdx));
+        if (Math.abs(fracIdx - nearest) > 0.02) {
+          var outerTop = outer.getBoundingClientRect().top + window.scrollY;
+          smoothSnapTo(outerTop + (nearest / (N - 1)) * scrollable, 650);
+        }
+      }, 220);
+    }
   }, { passive: true });
 
   // Arrow buttons
