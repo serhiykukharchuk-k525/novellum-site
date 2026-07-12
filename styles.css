@@ -438,8 +438,8 @@
     .live-metrics-row{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(255,255,255,.06);padding-top:8px;gap:0}
     .live-metric-col{padding:0}
     .live-metric-col+.live-metric-col{border-left:1px solid rgba(255,255,255,.06);padding-left:18px}
-    .live-metric-label{font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:rgba(244,239,229,.3);margin-bottom:3px}
-    .live-metric-val{font-size:18px;font-weight:800;color:#F4EFE5;letter-spacing:-.02em;transition:opacity .35s}
+    .live-metric-label{font-size:8px;letter-spacing:.13em;text-transform:uppercase;color:rgba(244,239,229,.3);margin-bottom:3px}
+    .live-metric-val{font-size:15px;font-weight:800;color:#F4EFE5;letter-spacing:-.02em;transition:opacity .35s}
     .live-metric-delta{font-size:11px;font-weight:600;margin-top:2px}
     .live-delta-pos{color:#4caf6e}
     .live-delta-neg{color:#e05c50}
@@ -575,6 +575,26 @@
     .card{padding:22px}
     .card h3{margin-bottom:10px}
     .card p{color:var(--text-muted)}
+
+    /* ── Case study result cards ── */
+    .case-result-item{
+      padding:16px;
+      background:var(--glass-bg);
+      border:1px solid var(--glass-border);
+      border-radius:10px;
+    }
+    .case-result-num{
+      font-size:.75rem;font-weight:800;color:var(--brass);
+      letter-spacing:.1em;margin-bottom:4px;
+    }
+    .case-result-title{
+      font-size:.85rem;font-weight:700;color:var(--text);
+      letter-spacing:.04em;text-transform:uppercase;margin-bottom:6px;
+    }
+    .case-result-desc{
+      font-size:.87rem;line-height:1.55;color:var(--text-muted);margin:0;
+    }
+    .case-result-desc-short{display:none}
 
     .signature{
       padding:22px;display:grid;gap:10px;
@@ -818,10 +838,14 @@
     .accordion{display:grid}
     .accordion-item{
       border-bottom:1px solid var(--border);
-      padding:18px 0;
+      padding:14px 0;
       position:relative;
     }
     .accordion-item:first-child{border-top:1px solid var(--border)}
+    #faq .accordion-item:first-child{border-top:none}
+    #faq .section-title::after{display:none}
+    @media(min-width:769px){.faq-cta{display:none}}
+    @media(max-width:768px){.faq-cta p{font-size:12px !important;white-space:nowrap}}
     .accordion-header{
       display:flex;justify-content:space-between;align-items:center;
       cursor:pointer;font-weight:700;
@@ -1489,6 +1513,20 @@
       .nav-cta{display:none}
     }
 
+    /* ── Author section ── */
+    .author-layout{display:flex;gap:0;align-items:stretch;min-height:560px}
+    .author-photo-col{flex:0 0 48%;position:relative;overflow:hidden;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.18)}
+    .author-photo{
+      display:block;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      object-position:top center;
+    }
+    .author-text-col{flex:1 1 0;min-width:0;padding-left:52px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start}
+    .author-text-col h2{margin-top:12px;margin-bottom:16px}
+    .author-text-col p{font-size:17px;line-height:1.65;color:var(--text)}
+
     /* ═══════════════════════════════════════════════
        HORIZONTAL SCROLL CHAPTER (desktop ≥ 769px)
        + VERTICAL SCROLL-SNAP (mobile < 769px)
@@ -1771,6 +1809,7 @@
       section#demo,
       section#pricing,
       section#not-for,
+      section#author,
       section#faq,
       section#contact{
         height:100svh;
@@ -1902,6 +1941,7 @@
         justify-content:center;
         box-sizing:border-box;
         padding-top:0;
+        padding-bottom:134px;
       }
 
       /* glass-panel inside slides */
@@ -1923,23 +1963,69 @@
       .hscroll-slide .pill{font-size:11px;margin-bottom:4px}
       .hscroll-slide .icon-badges{display:none}
 
-      /* ── Цінність: clean list, no numbers, no boxes ── */
+      /* ── Цінність: compact list on mobile ── */
+      #hslide-value .section-title{display:block}
+      #hslide-value .section-typewriter{white-space:nowrap !important;overflow:hidden !important;min-height:auto !important;width:100%}
+      #hslide-value .section-title > p{display:none}
       .hscroll-slide .narrative-list{
         display:grid;
-        grid-template-columns:1fr 1fr;
-        gap:0 12px;
-        margin-top:6px;
+        grid-template-columns:1fr;
+        gap:0;
+        margin-top:8px;
       }
       .hscroll-slide .narrative-item{
-        display:block;
-        padding:5px 0 4px;
+        display:grid;
+        grid-template-columns:28px 1fr;
+        gap:10px;
+        align-items:center;
+        padding:11px 0;
         border:none;
         border-radius:0;
+        background-image:linear-gradient(to right,rgba(0,0,0,.15) 0%,rgba(0,0,0,.15) 55%,rgba(0,0,0,0) 100%);
+        background-position:0 100%;
+        background-size:100% 1px;
+        background-repeat:no-repeat;
       }
+      .hscroll-slide .narrative-item:last-child{background-image:none}
       .hscroll-slide .narrative-item::before{content:none}
-      .hscroll-slide .narrative-item h3{font-size:15px;margin:0 0 2px;font-weight:600}
-      .hscroll-slide .narrative-item p{font-size:13px;color:var(--text-muted);margin:0}
-      .hscroll-slide .narrative-num{display:none}
+      .hscroll-slide .narrative-item h3{font-size:14px;margin:0;font-weight:600;line-height:1.3}
+      .hscroll-slide .narrative-item p{display:none}
+      .hscroll-slide .narrative-num{font-size:12px;color:var(--brass);font-weight:700;display:block}
+
+      /* ── Кейс: результати в 1 колонку ── */
+      /* ── Кейс: весь блок на 1 екран ── */
+      #hslide-social-proof > section{padding-top:0;padding-bottom:132px}
+      #hslide-social-proof .card{padding:16px !important}
+      #hslide-social-proof .card > div:first-child{margin-bottom:10px !important}
+      #hslide-social-proof .card > p{margin-top:6px !important;line-height:1.5 !important}
+      .case-results{grid-template-columns:1fr !important;margin-top:10px !important}
+      .case-result-item{
+        display:grid;
+        grid-template-columns:26px 1fr;
+        grid-template-rows:auto auto;
+        column-gap:8px;
+        padding:5px 0;
+        min-height:59px;
+        background:none;
+        border:none;
+        border-radius:0;
+        border-bottom:1px solid var(--glass-border);
+      }
+      .case-result-item:last-child{border-bottom:none}
+      .case-result-num{
+        grid-row:1 / 3;
+        font-size:.9rem;font-weight:800;color:var(--brass);
+        letter-spacing:0;align-self:center;
+      }
+      .case-result-title{
+        font-size:.85rem;font-weight:700;margin-bottom:1px;
+        text-transform:none;letter-spacing:0;
+      }
+      .case-result-desc{display:none}
+      .case-result-desc-short{display:block;font-size:.82rem;line-height:1.4;color:var(--text-muted);margin:0}
+      .case-cta-row{flex-direction:row;align-items:center;gap:10px !important;margin-top:10px !important;flex-wrap:wrap}
+      .case-cta-btn + .case-cta-btn{display:none}
+      .case-cta-row > span{display:none}
 
       /* ── Для кого це: clean list rows, no bordered cards ── */
       #for-whom .reveal[style*="flex"]{display:none !important}
@@ -2019,16 +2105,17 @@
         gap:0;
       }
       .formats-swipe-wrap .pricing-card{
-        min-width:calc(100% - 24px);
-        flex-shrink:0;
+        flex:0 0 calc(100% - 24px);
         scroll-snap-align:start;
-        padding-right:0;
+        padding:0 16px 0 0;
         box-sizing:border-box;
+        overflow-x:hidden;
         overflow-y:auto;
       }
       .formats-swipe-wrap .pricing-card:not(:first-child){
         border-left:none;
-        padding-left:16px;
+        padding-left:12px;
+        padding-right:0;
       }
       /* hide urgency strip on mobile */
       .hscroll-slide .urgency-strip{display:none}
@@ -2084,14 +2171,21 @@
       .hscroll-slide .process-step{padding:7px 12px}
 
       /* ── Sections after hscroll: exact visible-viewport height so no gap under header ── */
-      section#demo,section#pricing,section#not-for,section#faq,section#contact{
+      section#demo,section#pricing,section#not-for,section#author,section#faq,section#contact{
         height:calc(100svh - 68px);
         padding:16px 0;
         justify-content:center;
         overflow:hidden;
       }
       /* shift flex-center up to compensate for 64px sticky bar → content visually centered in usable viewport */
-      section#demo,section#faq{padding-bottom:80px}
+      section#demo,section#author,section#faq{padding-bottom:80px}
+
+      /* ── Author section: stacked layout on mobile ── */
+      section#author .author-layout{flex-direction:column;gap:20px;align-items:center;text-align:center;min-height:unset}
+      section#author .author-text-col{align-items:center;padding-left:0}
+      section#author .author-photo-col{width:min(300px,82vw);border-radius:12px;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,.18)}
+      section#author .author-photo{width:100%;height:340px;border-radius:0}
+      section#author .author-text-col p{font-size:15px !important;line-height:1.6}
 
       /* ── Анонімний кейс: compact ── */
       #hslide-social-proof .card{padding:18px 20px !important}
@@ -2147,10 +2241,10 @@
       section#faq .glass-panel{padding:12px 14px;overflow:hidden}
       section#faq .section-title{margin-bottom:22px !important}
       section#faq .section-title h2{font-size:26px !important}
-      section#faq .accordion{margin-top:6px !important}
-      section#faq .accordion-item{border-bottom:1px solid var(--border)}
-      section#faq .accordion-header{font-size:15px !important;padding:7px 0 !important;font-weight:600}
-      section#faq .accordion-body p{font-size:13px !important;line-height:1.5 !important;padding:0 0 6px !important}
+      section#faq .accordion{margin-top:4px !important}
+      section#faq .accordion-item{border-bottom:1px solid var(--border);padding:9px 0 !important}
+      section#faq .accordion-header{font-size:14px !important;padding:0 !important;font-weight:600}
+      section#faq .accordion-body p{font-size:13px !important;line-height:1.5 !important;padding:0 0 4px !important}
 
       section#contact .glass-panel{padding:20px 16px}
       section#contact .container{padding:16px !important}
@@ -2195,8 +2289,8 @@
       .formats-swipe-wrap .pricing-card .format-badge-wrap{margin-bottom:4px}
       .formats-swipe-wrap .pricing-card ul li{font-size:12px !important;padding:3px 0 !important}
       .formats-swipe-wrap .pricing-card .terms{font-size:10px !important;margin-top:6px !important}
-      /* hide description footer box in format card on mobile */
-      .formats-swipe-wrap .pricing-card [style*="border-left"]{display:none !important}
+      /* compact note box in format card */
+      .formats-swipe-wrap .pricing-card [style*="border-left"]{margin-top:8px !important;padding:8px 10px !important;font-size:.8rem !important}
 
       /* ── Calculator: more compact ── */
       #hslide-calculator > div:first-child{display:none}
