@@ -838,10 +838,12 @@
     .accordion{display:grid}
     .accordion-item{
       border-bottom:1px solid var(--border);
-      padding:18px 0;
+      padding:14px 0;
       position:relative;
     }
     .accordion-item:first-child{border-top:1px solid var(--border)}
+    #faq .accordion-item:first-child{border-top:none}
+    #faq .section-title::after{display:none}
     .accordion-header{
       display:flex;justify-content:space-between;align-items:center;
       cursor:pointer;font-weight:700;
@@ -2237,10 +2239,10 @@
       section#faq .glass-panel{padding:12px 14px;overflow:hidden}
       section#faq .section-title{margin-bottom:22px !important}
       section#faq .section-title h2{font-size:26px !important}
-      section#faq .accordion{margin-top:6px !important}
-      section#faq .accordion-item{border-bottom:1px solid var(--border)}
-      section#faq .accordion-header{font-size:15px !important;padding:7px 0 !important;font-weight:600}
-      section#faq .accordion-body p{font-size:13px !important;line-height:1.5 !important;padding:0 0 6px !important}
+      section#faq .accordion{margin-top:4px !important}
+      section#faq .accordion-item{border-bottom:1px solid var(--border);padding:9px 0 !important}
+      section#faq .accordion-header{font-size:14px !important;padding:0 !important;font-weight:600}
+      section#faq .accordion-body p{font-size:13px !important;line-height:1.5 !important;padding:0 0 4px !important}
 
       section#contact .glass-panel{padding:20px 16px}
       section#contact .container{padding:16px !important}
