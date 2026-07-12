@@ -1751,7 +1751,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     idx = Math.max(0, Math.min(N - 1, idx));
     var outerTop   = outer.getBoundingClientRect().top + window.scrollY;
     var scrollable = N * window.innerHeight - window.innerHeight;
-    smoothSnapTo(outerTop + (idx / (N - 1)) * scrollable, 620);
+    smoothSnapTo(outerTop + (idx / (N - 1)) * scrollable, 900);
   }
 
   function updateUI(progress, idx) {
@@ -1776,7 +1776,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
 
   // JS-eased scroll animation — moves the page, visual follows via scroll events
-  function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+  function easeInOutCubic(t) { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2; }
 
   var snapScrolling = false;
   var snapRAF       = null;
@@ -1792,7 +1792,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     function step(ts) {
       if (!startTime) startTime = ts;
       var t = Math.min(1, (ts - startTime) / duration);
-      window.scrollTo(0, start + (dest - start) * easeOutCubic(t));
+      window.scrollTo(0, start + (dest - start) * easeInOutCubic(t));
       if (t < 1) { snapRAF = requestAnimationFrame(step); }
       else        { window.scrollTo(0, dest); snapScrolling = false; snapRAF = null; }
     }
@@ -1823,7 +1823,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         if (scrollVel < -0.004) nearest = Math.max(0,     Math.floor(fracIdx));
         if (Math.abs(fracIdx - nearest) > 0.02) {
           var outerTop = outer.getBoundingClientRect().top + window.scrollY;
-          smoothSnapTo(outerTop + (nearest / (N - 1)) * scrollable, 650);
+          smoothSnapTo(outerTop + (nearest / (N - 1)) * scrollable, 900);
         }
       }, 220);
     }
