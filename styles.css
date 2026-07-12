@@ -2179,7 +2179,8 @@
       /* ── Author section: stacked layout on mobile ── */
       section#author .author-layout{flex-direction:column;gap:20px;align-items:center;text-align:center;min-height:unset}
       section#author .author-text-col{align-items:center;padding-left:0}
-      section#author .author-photo{width:220px;height:270px;border-radius:12px}
+      section#author .author-photo-col{width:min(300px,82vw);border-radius:12px;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,.18)}
+      section#author .author-photo{width:100%;height:340px;border-radius:0}
       section#author .author-text-col p{font-size:15px !important;line-height:1.6}
 
       /* ── Анонімний кейс: compact ── */
