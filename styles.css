@@ -1657,11 +1657,11 @@
       .hscroll-slide .calc-result-num{font-size:32px !important}
       .hscroll-slide #calcDetailsBtn{margin-top:10px;padding:9px 14px}
 
-      /* social proof slide: card with visible frame above/below */
+      /* social proof slide: compact card, frame visible above/below */
       #hslide-social-proof section{
         display:flex;align-items:center;justify-content:center;
         height:100%;box-sizing:border-box;
-        padding:44px 0;
+        padding:40px 0;
       }
       #hslide-social-proof .glass-panel{
         display:flex;align-items:center;justify-content:center;
@@ -1672,15 +1672,16 @@
         max-width:700px !important;
         max-height:none !important;
         overflow:visible !important;
-        padding:28px 40px !important;
-        font-size:1rem;
+        padding:24px 36px !important;
       }
-      #hslide-social-proof .card p:first-of-type{font-size:1.05rem !important;line-height:1.7 !important}
-      /* tighten internal card spacing to fit in viewport */
-      #hslide-social-proof .card > div:first-child{margin-bottom:14px !important}
-      #hslide-social-proof .card > p:nth-of-type(2){margin-top:8px !important}
-      #hslide-social-proof .case-results{margin-top:16px !important;gap:12px !important}
-      #hslide-social-proof .case-cta-row{margin-top:16px !important}
+      #hslide-social-proof .card > div:first-child{margin-bottom:12px !important}
+      #hslide-social-proof .card p:first-of-type{font-size:1rem !important;line-height:1.65 !important}
+      #hslide-social-proof .card > p:nth-of-type(2){margin-top:6px !important;font-size:.9rem !important;line-height:1.55 !important}
+      #hslide-social-proof .case-results{margin-top:14px !important;gap:10px !important}
+      /* use short result descriptions to keep card height in check */
+      #hslide-social-proof .case-result-desc{display:none !important}
+      #hslide-social-proof .case-result-desc-short{display:block !important;font-size:.82rem;line-height:1.4;color:var(--text-muted);margin:2px 0 0}
+      #hslide-social-proof .case-cta-row{margin-top:14px !important}
 
       /* calculator slide: hide preamble text, reduce spacing */
       #hslide-calculator{flex-direction:column;justify-content:center;gap:0}
