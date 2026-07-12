@@ -1183,22 +1183,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     if(nextBtn) nextBtn.disabled = idx===N-1;
   }
 
+  // Smooth snap helpers (same mechanic as main page)
+  function easeInOutQuint(t){ return t < 0.5 ? 16*t*t*t*t*t : 1 - Math.pow(-2*t+2, 5)/2; }
+
+  var snapScrolling = false;
+  var snapRAF       = null;
+
+  function smoothSnapTo(dest, duration){
+    if(snapRAF) cancelAnimationFrame(snapRAF);
+    snapScrolling = true;
+    var start = window.scrollY, startTime = null;
+    function step(ts){
+      if(!startTime) startTime = ts;
+      var t = Math.min(1, (ts - startTime) / duration);
+      window.scrollTo(0, start + (dest - start) * easeInOutQuint(t));
+      if(t < 1){ snapRAF = requestAnimationFrame(step); }
+      else{ window.scrollTo(0, dest); snapScrolling = false; snapRAF = null; }
+    }
+    snapRAF = requestAnimationFrame(step);
+  }
+
   function goTo(idx){
     idx = Math.max(0, Math.min(N-1, idx));
     cur = idx;
     if(isMobile){
-      // On mobile just translate track directly
       var slideW = outer.offsetWidth;
       track.style.transition = 'transform .45s cubic-bezier(.4,0,.2,1)';
       track.style.transform = 'translateX(' + (-idx * slideW) + 'px)';
       updateDots(idx);
       return;
     }
-    // On desktop: scroll to the correct position in the sticky zone
     var outerTop = outer.getBoundingClientRect().top + window.scrollY;
     var scrollable = N * window.innerHeight - window.innerHeight;
-    var dest = outerTop + (idx / (N - 1)) * scrollable;
-    window.scrollTo({ top: dest, behavior: 'smooth' });
+    smoothSnapTo(outerTop + (idx / (N - 1)) * scrollable, 1600);
   }
 
   if(prevBtn) prevBtn.addEventListener('click', function(){ goTo(cur-1); });
@@ -1210,7 +1227,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
 
   // ── Desktop: scroll-driven ──
-  var LINGER = 0.5; // extra scroll at end before vertical continues
+  var LINGER = 0.5;
   function setHeight(){
     outer.style.height = ((N + LINGER) * window.innerHeight) + 'px';
   }
@@ -1218,30 +1235,45 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   window.addEventListener('resize', setHeight, { passive:true });
 
   var rafPending = false;
-  var targetX = 0;
-  var animX   = 0;
+  var targetX    = 0;
+  var prevTargetX = 0;
+  var scrollVel  = 0;
+  var snapTimer  = null;
 
   function renderFrame(){
     rafPending = false;
-    var diff = targetX - animX;
-    if(Math.abs(diff) > 0.0003){
-      animX += diff * 0.10;
-      rafPending = true;
-      requestAnimationFrame(renderFrame);
-    } else {
-      animX = targetX;
-    }
     var slideW = outer.offsetWidth;
-    track.style.transform = 'translateX(' + (-animX * (N-1) * slideW) + 'px)';
+    track.style.transform = 'translateX(' + (-targetX * (N-1) * slideW) + 'px)';
   }
 
   window.addEventListener('scroll', function(){
     var rect = outer.getBoundingClientRect();
     var scrollable = N * window.innerHeight - window.innerHeight;
-    targetX = Math.max(0, Math.min(1, -rect.top / scrollable));
+    var newTarget = Math.max(0, Math.min(1, -rect.top / scrollable));
+    scrollVel   = newTarget - prevTargetX;
+    prevTargetX = targetX;
+    targetX     = newTarget;
     var idx = Math.round(targetX * (N-1));
     if(idx !== cur){ cur = idx; updateDots(idx); }
     if(!rafPending){ rafPending = true; requestAnimationFrame(renderFrame); }
+
+    if(!snapScrolling){
+      clearTimeout(snapTimer);
+      snapTimer = setTimeout(function(){
+        if(snapScrolling) return;
+        var r2 = outer.getBoundingClientRect();
+        var p  = -r2.top / scrollable;
+        if(p <= 0.0001 || p >= 0.9999) return;
+        var fracIdx = targetX * (N-1);
+        var nearest = Math.round(fracIdx);
+        if(scrollVel >  0.004) nearest = Math.min(N-1, Math.ceil(fracIdx));
+        if(scrollVel < -0.004) nearest = Math.max(0,   Math.floor(fracIdx));
+        if(Math.abs(fracIdx - nearest) > 0.02){
+          var outerTop = outer.getBoundingClientRect().top + window.scrollY;
+          smoothSnapTo(outerTop + (nearest / (N-1)) * scrollable, 1600);
+        }
+      }, 220);
+    }
   }, { passive:true });
 
   // Touch support on sticky area
