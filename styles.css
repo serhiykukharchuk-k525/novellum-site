@@ -2180,12 +2180,12 @@
       .hscroll-slide .process-timeline{gap:6px;margin-top:6px}
       .hscroll-slide .process-step{padding:7px 12px}
 
-      /* ── Sections after hscroll: exact visible-viewport height so no gap under header ── */
+      /* ── Sections after hscroll: at least full viewport height, grow to fit content on small screens ── */
       section#demo,section#pricing,section#not-for,section#author,section#faq,section#contact{
-        height:calc(100svh - 68px);
+        height:auto;
+        min-height:calc(100svh - 68px);
         padding:16px 0;
         justify-content:center;
-        overflow:hidden;
       }
       /* shift flex-center up to compensate for 64px sticky bar → content visually centered in usable viewport */
       section#demo,section#author,section#faq{padding-bottom:80px}
@@ -2223,9 +2223,8 @@
       section#demo .section-title{margin-bottom:8px}
       section#demo .demo-frame-wrap{margin-bottom:12px !important}
 
-      /* ── Analytics (pricing) section: fit on one screen ── */
-      section#pricing{overflow:hidden}
-      section#pricing .glass-panel{padding:12px 14px;overflow:hidden}
+      /* ── Analytics (pricing) section ── */
+      section#pricing .glass-panel{padding:12px 14px}
       section#pricing .section-title{margin-bottom:22px !important}
       section#pricing .section-title h2{font-size:26px !important;margin-bottom:2px}
       section#pricing .section-title > p{font-size:13px;line-height:1.5}
@@ -2246,9 +2245,8 @@
       section#demo .section-title{margin-bottom:22px}
       section#demo > .container > p.reveal{margin-top:0 !important;margin-bottom:10px !important;font-size:15px !important;line-height:1.6 !important}
 
-      /* ── FAQ: compact, fits all items ── */
-      section#faq{overflow:hidden}
-      section#faq .glass-panel{padding:12px 14px;overflow:hidden}
+      /* ── FAQ ── */
+      section#faq .glass-panel{padding:12px 14px}
       section#faq .section-title{margin-bottom:22px !important}
       section#faq .section-title h2{font-size:26px !important}
       section#faq .accordion{margin-top:4px !important}
