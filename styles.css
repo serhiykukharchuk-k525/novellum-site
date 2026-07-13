@@ -2320,6 +2320,28 @@
       #hslide-calculator [style*="grid-template-columns:1fr 1fr"] > div > div:last-child{font-size:18px !important}
       .hscroll-slide #calcDetailsBtn{margin-top:5px;padding:6px 12px;font-size:13px}
 
+      /* ── Process slide: hide description + NDA, show only pill/h2 + timeline ── */
+      #hslide-process .section-title{display:block}
+      #hslide-process .section-title > p{display:none !important}
+      #hslide-process p.terms{display:none !important}
+
+      /* ── Mobile centering: glass fills section content area, content centered within ── */
+      #hslide-process .glass-panel,
+      section#demo .glass-panel,
+      section#author .glass-panel,
+      section#faq .glass-panel{
+        flex:1;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+      }
+
+      /* ── Demo: reduce iframe height so content is not too tall ── */
+      .demo-frame-wrap{height:200px !important}
+
+      /* ── Author: reduce photo height ── */
+      section#author .author-photo{height:200px !important}
+
       /* printer-paper stack uses natural sticky z-index — no extra animation needed */
     }
 
