@@ -453,6 +453,7 @@
 
   // ── 5. TYPEWRITERS ([data-typewriter]) ───────────────────────
   function initTypewriters() {
+    if (isMobile) return;
     document.querySelectorAll('[data-typewriter]').forEach(function (el) {
       var texts;
       try { texts = JSON.parse(el.dataset.typewriter); } catch (e) { return; }
@@ -553,6 +554,7 @@
 
   // ── 7. FLYING TOOL PILLS (#pricing) ──────────────────────────
   function initFlyingIcons() {
+    if (isMobile) return;
     var sec = document.querySelector('#pricing .container');
     if (!sec) return;
 
