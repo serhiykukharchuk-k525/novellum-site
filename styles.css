@@ -1805,46 +1805,29 @@
         transition:none;
       }
 
-      /* mandatory snap so each swipe = exactly 1 section — reels-like */
+      /* natural vertical scroll (no snap) */
       html{
-        scroll-snap-type:y mandatory;
         overflow-y:scroll;
-        scroll-padding-top:68px;
-        scroll-behavior:auto;
       }
 
-      /* every screen-sized section */
-      .hero,
-      .hscroll-slide,
+      /* sections: natural height, no clipping */
       section#demo,
       section#pricing,
       section#not-for,
       section#author,
       section#faq,
       section#contact{
-        height:100svh;
-        scroll-snap-align:start;
-        scroll-snap-stop:always;
-        overflow:hidden;
         box-sizing:border-box;
         display:flex;
         flex-direction:column;
-        justify-content:center;
-      }
-
-      /* footer as snap section on mobile */
-      footer.footer{
-        scroll-snap-align:start;
-        scroll-snap-stop:always;
-        box-sizing:border-box;
-        overflow:hidden;
+        justify-content:flex-start;
       }
 
 
 
       /* ── Hero: text top half, live-dash bottom half ── */
       .hero{
-        min-height:unset;
+        min-height:100svh;
         padding:52px 0 10px;
         justify-content:flex-start;
       }
@@ -1942,23 +1925,23 @@
       .live-focus-item{font-size:9px;padding:2px 0}
       .live-focus-num{font-size:8px}
 
-      /* ── hscroll slides: inner section fills the slide ── */
+      /* ── hscroll slides: natural height, no clipping ── */
       .hscroll-slide > section{
-        height:100%;
-        overflow:hidden;
+        height:auto;
+        overflow:visible;
         display:flex;
         flex-direction:column;
-        justify-content:center;
+        justify-content:flex-start;
         box-sizing:border-box;
         padding-top:0;
-        padding-bottom:134px;
+        padding-bottom:32px;
       }
 
       /* glass-panel inside slides */
       .hscroll-slide .glass-panel{
         padding:14px 16px;
-        overflow:hidden;
-        max-height:100%;
+        overflow:visible;
+        max-height:none;
         box-sizing:border-box;
       }
 
@@ -2004,7 +1987,7 @@
 
       /* ── Кейс: результати в 1 колонку ── */
       /* ── Кейс: весь блок на 1 екран ── */
-      #hslide-social-proof > section{padding-top:0;padding-bottom:132px}
+      #hslide-social-proof > section{padding-top:0;padding-bottom:24px}
       #hslide-social-proof .card{padding:16px !important}
       #hslide-social-proof .card > div:first-child{margin-bottom:10px !important}
       #hslide-social-proof .card > p{margin-top:6px !important;line-height:1.5 !important}
@@ -2180,15 +2163,14 @@
       .hscroll-slide .process-timeline{gap:6px;margin-top:6px}
       .hscroll-slide .process-step{padding:7px 12px}
 
-      /* ── Sections after hscroll: at least full viewport height, grow to fit content on small screens ── */
+      /* ── Sections after hscroll: natural height ── */
       section#demo,section#pricing,section#not-for,section#author,section#faq,section#contact{
         height:auto;
-        min-height:calc(100svh - 68px);
-        padding:16px 0;
-        justify-content:center;
+        min-height:auto;
+        padding:24px 0;
+        justify-content:flex-start;
       }
-      /* shift flex-center up to compensate for 64px sticky bar → content visually centered in usable viewport */
-      section#demo,section#author,section#faq{padding-bottom:80px}
+      section#demo,section#author,section#faq{padding-bottom:32px}
 
       /* ── Author section: stacked layout on mobile ── */
       section#author .author-layout{flex-direction:column;gap:20px;align-items:center;text-align:center;min-height:unset}
