@@ -1,6 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /legal/
 
 # AI assistants / answer engines — explicitly allowed to crawl and cite this site
 User-agent: GPTBot
