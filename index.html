@@ -161,15 +161,25 @@
   'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
   })(window,document,'script','dataLayer','GTM-M32PB2ML');</script>
   <!-- End Google Tag Manager -->
-  <!-- BEGIN PLERDY CODE -->
-  <script type="text/javascript" defer data-plerdy_code='1'>
-    var _protocol="https:"==document.location.protocol?"https://":"http://";
-    _site_hash_code = "9d9e118cd5dfa635baee25aafb95c633",_suid=78066, plerdyScript=document.createElement("script");
-    plerdyScript.setAttribute("defer",""),plerdyScript.dataset.plerdymainscript="plerdymainscript",
-    plerdyScript.src="https://a.plerdy.com/public/js/click/main.js?v="+Math.random();
-    var plerdymainscript=document.querySelector("[data-plerdymainscript='plerdymainscript']");
-    plerdymainscript&&plerdymainscript.parentNode.removeChild(plerdymainscript);
-    try{document.head.appendChild(plerdyScript)}catch(t){console.log(t,"unable add script tag")}
+  <!-- BEGIN PLERDY CODE — deferred until interaction or 3s after load -->
+  <script data-plerdy_code='1'>
+  (function(){
+    var loaded=false;
+    function loadPlerdy(){
+      if(loaded)return;loaded=true;
+      _site_hash_code="9d9e118cd5dfa635baee25aafb95c633";_suid=78066;
+      var s=document.createElement('script');
+      s.dataset.plerdymainscript='plerdymainscript';
+      s.src='https://a.plerdy.com/public/js/click/main.js?v='+Math.random();
+      var ex=document.querySelector("[data-plerdymainscript='plerdymainscript']");
+      if(ex)ex.parentNode.removeChild(ex);
+      try{document.head.appendChild(s);}catch(e){}
+    }
+    window.addEventListener('load',function(){setTimeout(loadPlerdy,3000);});
+    ['mousedown','touchstart','scroll','keydown'].forEach(function(ev){
+      window.addEventListener(ev,loadPlerdy,{once:true,passive:true});
+    });
+  })();
   </script>
   <!-- END PLERDY CODE -->
 </head>
