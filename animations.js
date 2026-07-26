@@ -6,7 +6,7 @@
   var typewriterCanvas = null;
 
   window.addEventListener('DOMContentLoaded', function () {
-    // initSmoothScroll — disabled: removes inertial scroll "pull" effect
+    if (!prefersReduced) initSmoothScroll();
     // Temporarily disabled — heavy on main thread, hurts page weight/perf.
     // Re-enable once optimized: if (!prefersReduced) initParticleField();
     if (!prefersReduced) {
