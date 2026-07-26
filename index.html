@@ -1775,16 +1775,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     if (!rafPending) { rafPending = true; requestAnimationFrame(renderFrame); }
   }, { passive: true });
 
-  // Wheel proxy: route all wheel events inside the hscroll zone to page scroll.
-  // Without Lenis, hscroll-slide (overflow-y:auto) absorbs wheel events;
-  // this intercepts them and re-fires as a plain scrollBy so the page moves.
+  // Wheel proxy: whenever the outer div overlaps the viewport (user is hovering
+  // over the hscroll zone), intercept the wheel event and route it to the page.
+  // Without this, hscroll-slide (overflow-y:auto) absorbs wheel events and the
+  // page never scrolls, so translateX never updates. Always using scrollBy means
+  // the page scrolls through AND past the zone with no hang at boundaries.
   outer.addEventListener('wheel', function(e) {
     var rect = outer.getBoundingClientRect();
-    var scrollable = N * window.innerHeight - window.innerHeight;
-    var p = -rect.top / scrollable;
-    if (p < 0 || p > 1) return;           // not in zone — let browser handle
-    if (p <= 0 && e.deltaY < 0) return;   // at start, scrolling up — let go
-    if (p >= 1 && e.deltaY > 0) return;   // at end, scrolling down — let go
+    if (rect.bottom <= 0 || rect.top >= window.innerHeight) return; // outer offscreen
     e.preventDefault();
     var delta = e.deltaMode === 1 ? e.deltaY * 40
               : e.deltaMode === 2 ? e.deltaY * window.innerHeight
