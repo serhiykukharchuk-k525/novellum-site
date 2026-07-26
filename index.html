@@ -1775,6 +1775,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     if (!rafPending) { rafPending = true; requestAnimationFrame(renderFrame); }
   }, { passive: true });
 
+  // Wheel proxy: route all wheel events inside the hscroll zone to page scroll.
+  // Without Lenis, hscroll-slide (overflow-y:auto) absorbs wheel events;
+  // this intercepts them and re-fires as a plain scrollBy so the page moves.
+  outer.addEventListener('wheel', function(e) {
+    var rect = outer.getBoundingClientRect();
+    var scrollable = N * window.innerHeight - window.innerHeight;
+    var p = -rect.top / scrollable;
+    if (p < 0 || p > 1) return;           // not in zone — let browser handle
+    if (p <= 0 && e.deltaY < 0) return;   // at start, scrolling up — let go
+    if (p >= 1 && e.deltaY > 0) return;   // at end, scrolling down — let go
+    e.preventDefault();
+    var delta = e.deltaMode === 1 ? e.deltaY * 40
+              : e.deltaMode === 2 ? e.deltaY * window.innerHeight
+              : e.deltaY;
+    window.scrollBy(0, delta);
+  }, { passive: false });
+
   // Arrow buttons
   if (prevBtn) prevBtn.addEventListener('click', function() { goToSlide(currentIdx - 1); });
   if (nextBtn) nextBtn.addEventListener('click', function() { goToSlide(currentIdx + 1); });
