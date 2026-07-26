@@ -1765,22 +1765,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     if (!rafPending) { rafPending = true; requestAnimationFrame(renderFrame); }
   }, { passive: true });
 
-  // Wheel-to-slide: one gesture = one slide, no page scroll while in hscroll zone
-  outer.addEventListener('wheel', function(e) {
-    var rect = outer.getBoundingClientRect();
-    var scrollable = N * window.innerHeight - window.innerHeight;
-    var p = -rect.top / scrollable;
-    if (p < 0 || p > 1) return;
-
-    var direction  = e.deltaY > 0 ? 1 : -1;
-    var nextSlide  = Math.max(0, Math.min(N - 1, Math.round(targetX * (N - 1)) + direction));
-    var curSlide   = Math.round(targetX * (N - 1));
-    if (nextSlide === curSlide) return; // at boundary — let page scroll
-
-    e.preventDefault();
-    if (!snapScrolling) goToSlide(nextSlide);
-  }, { passive: false });
-
   // Arrow buttons
   if (prevBtn) prevBtn.addEventListener('click', function() { goToSlide(currentIdx - 1); });
   if (nextBtn) nextBtn.addEventListener('click', function() { goToSlide(currentIdx + 1); });
