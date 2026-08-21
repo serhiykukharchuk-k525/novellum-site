@@ -660,27 +660,20 @@
       /* hide pagination on mobile */
       .phscroll-nav{display:none !important}
 
-      /* ── Snap scroll: reels-like, 1 section per screen ── */
-      html{
-        scroll-snap-type:y mandatory;
-        overflow-y:scroll;
-        scroll-padding-top:68px;
-        scroll-behavior:auto;
-      }
-      /* hero + each partner slide + contact → full-screen snap sections */
+      /* No scroll snap on mobile — content must be fully visible */
       .hero,section#contact{
-        height:calc(100svh - 68px);
-        scroll-snap-align:start;
-        scroll-snap-stop:always;
-        overflow:hidden;
+        height:auto;
+        min-height:auto;
+        overflow:visible;
         box-sizing:border-box;
         display:flex;
         flex-direction:column;
-        justify-content:center;
+        justify-content:flex-start;
+        padding-bottom:32px;
       }
       .hero{
-        min-height:unset;
-        padding:40px 0 20px;
+        min-height:100svh;
+        padding:40px 0 32px;
         background:var(--surface);
       }
       .hero h1{font-size:clamp(22px,6vw,28px);line-height:1.2;margin:10px 0 8px;letter-spacing:-.01em}
@@ -693,15 +686,14 @@
       .phscroll-track{display:block !important;transform:none !important;flex-wrap:initial}
       .phscroll-slide{
         width:100%;
-        height:calc(100svh - 68px);
-        padding:16px 0;
+        height:auto;
+        min-height:auto;
+        padding:24px 0 32px;
         box-sizing:border-box;
-        overflow:hidden;
-        scroll-snap-align:start;
-        scroll-snap-stop:always;
+        overflow:visible;
         display:flex;
         flex-direction:column;
-        justify-content:center;
+        justify-content:flex-start;
       }
       .phscroll-slide .glass-panel{padding:14px 16px}
       .phscroll-slide .section-title{margin-bottom:16px;gap:10px;flex-direction:column;align-items:flex-start}
@@ -1268,24 +1260,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     if(idx !== cur){ cur = idx; updateDots(idx); }
     if(!rafPending){ rafPending = true; requestAnimationFrame(renderFrame); }
 
-    if(!snapScrolling){
-      clearTimeout(snapTimer);
-      snapTimer = setTimeout(function(){
-        if(snapScrolling) return;
-        var r2 = outer.getBoundingClientRect();
-        var p  = -r2.top / scrollable;
-        if(p <= 0.0001 || p >= 0.9999) return;
-        var fracIdx = targetX * (N-1);
-        var nearest = Math.round(fracIdx);
-        if(scrollVel >  0.004) nearest = Math.min(N-1, Math.ceil(fracIdx));
-        if(scrollVel < -0.004) nearest = Math.max(0,   Math.floor(fracIdx));
-        if(Math.abs(fracIdx - nearest) > 0.02){
-          var outerTop = outer.getBoundingClientRect().top + window.scrollY;
-          smoothSnapTo(outerTop + (nearest / (N-1)) * scrollable, 1600);
-        }
-      }, 220);
-    }
   }, { passive:true });
+
+  // Wheel proxy: route scroll to page while outer is in view (prevents
+  // phscroll-slide overflow-y:auto from absorbing wheel events on desktop)
+  outer.addEventListener('wheel', function(e){
+    var rect = outer.getBoundingClientRect();
+    if(rect.bottom <= 0 || rect.top >= window.innerHeight) return;
+    e.preventDefault();
+    var delta = e.deltaMode === 1 ? e.deltaY * 40
+              : e.deltaMode === 2 ? e.deltaY * window.innerHeight
+              : e.deltaY;
+    window.scrollBy(0, delta);
+  }, { passive:false });
 
   // Touch support on sticky area
   var sticky = document.getElementById('phSticky');

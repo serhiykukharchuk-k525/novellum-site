@@ -1795,7 +1795,7 @@
       .hscroll-outer{height:auto !important}
       .hscroll-sticky{position:static;height:auto;overflow:visible}
       .hscroll-track{display:block;transform:none !important;will-change:auto}
-      .hscroll-slide{width:100%}
+      .hscroll-slide{width:100%;height:auto !important;overflow:visible !important;overscroll-behavior:auto}
       .hscroll-ui,.hscroll-progress,.hscroll-hint{display:none !important}
       /* mobile-only slide visible */
       .mob-only-slide{display:block !important}
